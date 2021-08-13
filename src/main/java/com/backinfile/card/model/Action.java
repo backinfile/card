@@ -6,7 +6,7 @@ import com.backinfile.card.support.IDisposable;
 public abstract class Action implements IAlive, IDisposable {
 
 	public Board board; // 当前棋盘（自动设置）
-	public Human hero; // 当前hero
+	public Human human; // 当前正在执行这个动作的human
 	public Card card; // 当前卡
 	public Card targetCard; // 如果需要，目标卡
 

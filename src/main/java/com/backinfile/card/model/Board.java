@@ -8,7 +8,6 @@ import com.backinfile.card.support.IAlive;
 public abstract class Board implements IAlive {
 	public List<Human> heros = new ArrayList<>();
 	public Human curTurnHero;
-	public Human curActionHero;
 	public ActionQueue actionQueue;
 
 	@Override
