@@ -10,6 +10,24 @@ public abstract class Action implements IAlive, IDisposable {
 	public Card card; // 当前卡
 	public Card targetCard; // 如果需要，目标卡
 
+	public Action() {
+	}
+
+	public Action(Human human) {
+		this.human = human;
+	}
+
+	public Action(Human human, Card card) {
+		this.human = human;
+		this.card = card;
+	}
+
+	public Action(Human human, Card card, Card targetCard) {
+		this.human = human;
+		this.card = card;
+		this.targetCard = targetCard;
+	}
+
 	public void init() {
 	}
 
@@ -31,5 +49,13 @@ public abstract class Action implements IAlive, IDisposable {
 
 	public Card getTargetCard() {
 		return targetCard;
+	}
+
+	public final void addLast(Action action) {
+		board.getActionQueue().addLast(action);
+	}
+
+	public final void addFirst(Action action) {
+		board.getActionQueue().addFirst(action);
 	}
 }

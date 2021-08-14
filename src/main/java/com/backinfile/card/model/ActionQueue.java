@@ -6,19 +6,19 @@ import com.backinfile.card.Log;
 import com.backinfile.card.support.IAlive;
 
 public class ActionQueue implements IAlive {
-	public LinkedList<Action> actions = new LinkedList<>();
-	public Action curAction = null;
 	public Board board;
+	public Action curAction = null;
+	public LinkedList<Action> actions = new LinkedList<>(); // 当前执行队列
 
 	public ActionQueue(Board board) {
 		this.board = board;
 	}
 
-	public void add(Action action) {
+	public void addLast(Action action) {
 		actions.addLast(action);
 	}
 
-	public void addTop(Action action) {
+	public void addFirst(Action action) {
 		actions.addFirst(action);
 	}
 
@@ -28,6 +28,10 @@ public class ActionQueue implements IAlive {
 
 	@Override
 	public void pulse() {
+		pulseCurAction();
+	}
+
+	private void pulseCurAction() {
 		if (curAction == null) {
 			if (actions.isEmpty()) {
 				return;
@@ -50,6 +54,7 @@ public class ActionQueue implements IAlive {
 			curAction.dispose();
 			curAction = null;
 		}
+
 	}
 
 	public boolean isEmpty() {

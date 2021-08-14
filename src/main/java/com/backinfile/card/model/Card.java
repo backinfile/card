@@ -1,18 +1,29 @@
 package com.backinfile.card.model;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
-public abstract class Card {
-	public final int id;
-	public final int sn;
+public abstract class Card extends SkillCaster {
+	public final long id;
+	public final String name;
+	public CardType mainType = CardType.STORE;
+	public CardSubType subType = CardSubType.NONE;
 
-	private Map<String, Skill> skillMap = new HashMap<>();
+	public static enum CardType {
+		HERO, // 角色卡
+		STORE, // 储备卡
+		ACTION, // 行动卡
+		NONE
+	}
 
-	public Card(int id, int sn) {
+	public static enum CardSubType {
+		NONE, // 空
+		ACTION_MAGIC, // 第一章魔法卡
+		ACTION_ORDER, // 指令
+	}
+
+	public Card(int id, String name) {
 		this.id = id;
-		this.sn = sn;
+		this.name = name;
 	}
 
 	@Override

@@ -6,6 +6,7 @@ public abstract class TriggerOnceAction extends Action {
 
 	@Override
 	public void pulse() {
+		run();
 	}
 
 	@Override

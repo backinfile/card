@@ -1,5 +1,6 @@
 package com.backinfile.card.model;
 
+// 储备位
 public class CardSlot {
 	public Card storeCard = null; // 储备卡
 	public Card sealCard = null; // 封印卡
@@ -9,7 +10,7 @@ public class CardSlot {
 
 	public boolean ready = false;
 
-	public CardPile getAll() {
+	public CardPile getAllCards() {
 		CardPile cardPile = new CardPile();
 		cardPile.add(storeCard);
 		cardPile.add(sealCard);

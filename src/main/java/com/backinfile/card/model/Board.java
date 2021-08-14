@@ -6,9 +6,9 @@ import java.util.List;
 import com.backinfile.card.support.IAlive;
 
 public abstract class Board implements IAlive {
-	public List<Human> heros = new ArrayList<>();
-	public Human curTurnHero;
-	public ActionQueue actionQueue;
+	public List<Human> humans = new ArrayList<>();
+	public Human curTurnHuman;
+	private ActionQueue actionQueue;
 
 	@Override
 	public void init() {
@@ -21,6 +21,13 @@ public abstract class Board implements IAlive {
 		while (!actionQueue.isEmpty()) {
 			actionQueue.pulse();
 		}
+	}
+
+	public void castSkill(int cardId) {
+	}
+
+	public ActionQueue getActionQueue() {
+		return actionQueue;
 	}
 
 }

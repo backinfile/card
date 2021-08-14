@@ -4,8 +4,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.backinfile.card.support.Utils;
+
 public class CardPile implements Iterable<Card> {
 	private LinkedList<Card> cards = new LinkedList<Card>();
+
+	public CardPile() {
+	}
+
+	public CardPile(CardPile cardPile) {
+		this.addAll(cardPile);
+	}
 
 	public void add(Card card) {
 		if (card != null) {
@@ -19,8 +28,8 @@ public class CardPile implements Iterable<Card> {
 		}
 	}
 
-	public void addAll(CardPile cardPile) {
-		for (Card card : cardPile) {
+	public void addAll(Iterable<Card> cards) {
+		for (Card card : cards) {
 			add(card);
 		}
 	}
@@ -67,6 +76,17 @@ public class CardPile implements Iterable<Card> {
 	@Override
 	public Iterator<Card> iterator() {
 		return new ArrayList<>(cards).iterator();
+	}
+
+	public void shuffle() {
+		CardPile newCardPile = new CardPile(this);
+		this.clear();
+		while (!newCardPile.isEmpty()) {
+			int rnd = Utils.nextInt(0, newCardPile.size() - 1);
+			Card card = newCardPile.get(rnd);
+			newCardPile.remove(card);
+			this.add(card);
+		}
 	}
 
 }

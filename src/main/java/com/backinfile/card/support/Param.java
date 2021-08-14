@@ -32,4 +32,8 @@ public class Param {
 	public void put(String key, Object value) {
 		valueMap.put(key, value);
 	}
+
+	public void clear() {
+		valueMap.clear();
+	}
 }
