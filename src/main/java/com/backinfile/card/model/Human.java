@@ -3,8 +3,16 @@ package com.backinfile.card.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.backinfile.card.model.actions.DrawCardAction;
+
 public class Human extends SkillCaster {
+	// 固有属性
 	public long id;
+
+	// 被赋值属性
+	public Board board;
+
+	// 可变属性
 	public Card heroCard;
 	public CardPile handPile = new CardPile();
 	public Map<Integer, CardSlot> cardSlotMap = new HashMap<>();
@@ -13,8 +21,16 @@ public class Human extends SkillCaster {
 	public CardPile discardPile = new CardPile();
 	public CardPile trashPile = new CardPile();
 
+	// 可被远程使用的属性
 	public CardPile selectedPile = new CardPile(); // 当前已确认选择的卡
 	public TargetInfo targetInfo = null; // 当前正在进行的选择
+
+	public final void onTurnStart() {
+		addLast(new DrawCardAction(this, 3, true));
+	}
+
+	public final void onTurnEnd() {
+	}
 
 	public void init() {
 	}
@@ -50,5 +66,13 @@ public class Human extends SkillCaster {
 			cardPile.add(slot.storeCard);
 		}
 		return cardPile;
+	}
+
+	public final void addLast(Action action) {
+		board.getActionQueue().addLast(action);
+	}
+
+	public final void addFirst(Action action) {
+		board.getActionQueue().addFirst(action);
 	}
 }

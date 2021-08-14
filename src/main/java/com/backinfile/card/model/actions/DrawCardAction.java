@@ -4,10 +4,16 @@ import com.backinfile.card.model.Human;
 
 public class DrawCardAction extends TriggerOnceAction {
 	public int number;
+	public boolean asTurnStart;
 
 	public DrawCardAction(Human human, int number) {
+		this(human, number, false);
+	}
+
+	public DrawCardAction(Human human, int number, boolean asTurnStart) {
 		this.human = human;
 		this.number = number;
+		this.asTurnStart = asTurnStart;
 	}
 
 	@Override

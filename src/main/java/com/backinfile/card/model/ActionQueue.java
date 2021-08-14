@@ -14,6 +14,9 @@ public class ActionQueue implements IAlive {
 		this.board = board;
 	}
 
+	/**
+	 * 一般情况下使用这个
+	 */
 	public void addLast(Action action) {
 		actions.addLast(action);
 	}
