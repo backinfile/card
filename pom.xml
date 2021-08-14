@@ -13,7 +13,9 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <gdx.version>1.9.13</gdx.version>
 	</properties>
+
 
 	<dependencies>
 		<dependency>
@@ -57,6 +59,47 @@
 			<artifactId>javassist</artifactId>
 			<version>3.25.0-GA</version>
 		</dependency>
+		
+		
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-box2d-platform</artifactId>
+            <classifier>natives-desktop</classifier>
+            <version>${gdx.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-platform</artifactId>
+            <classifier>natives-desktop</classifier>
+            <version>${gdx.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx</artifactId>
+            <version>${gdx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-backend-lwjgl3</artifactId>
+            <version>${gdx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-box2d-platform</artifactId>
+            <version>${gdx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.badlogicgames.box2dlights</groupId>
+            <artifactId>box2dlights</artifactId>
+            <version>1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-openal</artifactId>
+            <version>0.9.9</version>
+        </dependency>
 	</dependencies>
 
 	<build>
