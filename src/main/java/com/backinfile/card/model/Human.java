@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.backinfile.card.model.actions.DrawCardAction;
+import com.backinfile.card.model.actions.SaveThreatenAction;
+import com.backinfile.card.model.actions.TurnEndAction;
+import com.backinfile.card.model.actions.TurnStartAction;
 
 public class Human extends SkillCaster {
 	// 固有属性
@@ -20,19 +23,34 @@ public class Human extends SkillCaster {
 	public CardPile drawPile = new CardPile();
 	public CardPile discardPile = new CardPile();
 	public CardPile trashPile = new CardPile();
+	public int actionNumber = 0;
+	public boolean turnEndMark = false;// 回合标记结束, 所有行动执行结束后，回合真正结束
 
 	// 可被远程使用的属性
 	public CardPile selectedPile = new CardPile(); // 当前已确认选择的卡
 	public TargetInfo targetInfo = null; // 当前正在进行的选择
 
+	public void clearSelectInfo() {
+		selectedPile.clear();
+		targetInfo = null;
+	}
+
 	public final void onTurnStart() {
+		turnEndMark = false;
+		actionNumber = 2;
 		addLast(new DrawCardAction(this, 3, true));
+		addLast(new TurnStartAction());
 	}
 
 	public final void onTurnEnd() {
+		turnEndMark = true;
+		addLast(new SaveThreatenAction());
+		addLast(new TurnEndAction());
 	}
 
-	public void init() {
+	public void init(CardPile drawPile) {
+		this.drawPile.addAll(drawPile);
+		this.drawPile.shuffle();
 	}
 
 	public CardPile getAllCards() {

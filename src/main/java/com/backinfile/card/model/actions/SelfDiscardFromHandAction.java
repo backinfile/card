@@ -31,6 +31,12 @@ public class SelfDiscardFromHandAction extends WaitAction {
 
 		isDone = true;
 		addLast(new DiscardCardAction(human, new CardPile(human.selectedPile)));
+
+	}
+
+	@Override
+	public void dispose() {
+		human.clearSelectInfo();
 	}
 
 }

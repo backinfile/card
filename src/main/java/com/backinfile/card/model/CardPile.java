@@ -41,6 +41,12 @@ public class CardPile implements Iterable<Card> {
 		return false;
 	}
 
+	public void removeAll(CardPile cardPile) {
+		for (var card : cardPile) {
+			remove(card);
+		}
+	}
+
 	public void clear() {
 		cards.clear();
 	}

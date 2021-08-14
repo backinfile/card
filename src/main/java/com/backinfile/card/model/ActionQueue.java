@@ -25,7 +25,6 @@ public class ActionQueue implements IAlive {
 		actions.addFirst(action);
 	}
 
-	@Override
 	public void init() {
 	}
 

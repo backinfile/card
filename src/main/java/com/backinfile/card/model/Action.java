@@ -55,6 +55,9 @@ public abstract class Action implements IAlive, IDisposable {
 		board.getActionQueue().addLast(action);
 	}
 
+	/**
+	 * Action中紧急的动作用addFirst，不紧急的用addLast
+	 */
 	public final void addFirst(Action action) {
 		board.getActionQueue().addFirst(action);
 	}

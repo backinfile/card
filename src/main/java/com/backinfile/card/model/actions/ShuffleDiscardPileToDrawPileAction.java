@@ -12,7 +12,7 @@ public class ShuffleDiscardPileToDrawPileAction extends TriggerOnceAction {
 	public void run() {
 		human.drawPile.addAll(human.discardPile);
 		human.discardPile.clear();
-		human.drawPile.shuffle();
+		addFirst(new ShuffleAction(human));
 	}
 
 }
