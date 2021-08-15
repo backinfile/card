@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.backinfile.card.model.actions.DrawCardAction;
+import com.backinfile.card.model.actions.RestoreActionNumberAction;
 import com.backinfile.card.model.actions.SaveThreatenAction;
-import com.backinfile.card.model.actions.TurnEndAction;
-import com.backinfile.card.model.actions.TurnStartAction;
-import com.backinfile.card.model.actions.DrawCardAction.Type;
 
 public class Human extends SkillCaster {
 	// 固有属性
@@ -27,7 +25,6 @@ public class Human extends SkillCaster {
 	public CardPile discardPile = new CardPile();
 	public CardPile trashPile = new CardPile();
 	public int actionNumber = 0;
-	public boolean turnEndMark = false;// 回合标记结束, 所有行动执行结束后，回合真正结束
 
 	// 可被远程使用的属性
 	public CardPile selectedPile = new CardPile(); // 当前已确认选择的卡, 不是真正的牌库
@@ -47,20 +44,37 @@ public class Human extends SkillCaster {
 	}
 
 	public final void onGameStart() {
-		addLast(new DrawCardAction(this, 5, Type.GameStart));
+		addLast(new DrawCardAction(this, 5));
 	}
 
 	public final void onTurnStart() {
-		turnEndMark = false;
-		actionNumber = 2;
-		addLast(new DrawCardAction(this, 3, Type.TurnStart));
-		addLast(new TurnStartAction());
+		addLast(new RestoreActionNumberAction(this, 2));
+		addLast(new DrawCardAction(this, 3));
 	}
 
 	public final void onTurnEnd() {
-		turnEndMark = true;
 		addLast(new SaveThreatenAction());
-		addLast(new TurnEndAction());
+	}
+
+	public boolean removeCard(Card card) {
+		if (markPile.remove(card)) {
+			return true;
+		}
+		if (drawPile.remove(card)) {
+			return true;
+		}
+		if (discardPile.remove(card)) {
+			return true;
+		}
+		if (trashPile.remove(card)) {
+			return true;
+		}
+		for (var slot : cardSlotMap.values()) {
+			if (slot.removeCard(card)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public CardPile getAllCards() {
@@ -121,4 +135,5 @@ public class Human extends SkillCaster {
 	public final void addFirst(Action action) {
 		board.getActionQueue().addFirst(action);
 	}
+
 }

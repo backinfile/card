@@ -7,19 +7,12 @@ import com.backinfile.card.Res;
 import com.backinfile.card.model.Human;
 import com.backinfile.card.model.TargetInfo;
 import com.backinfile.card.model.TargetInfo.TargetType;
-import com.backinfile.card.model.actions.DrawCardAction.Type;
 
 public class DispatchAction extends WaitAction {
 	private List<Human> humans = new ArrayList<>();
-	private boolean asGameStart = false;
 
 	public DispatchAction(List<Human> humans) {
-		this(humans, false);
-	}
-
-	public DispatchAction(List<Human> humans, boolean asGameStart) {
 		this.humans.addAll(humans);
-		this.asGameStart = asGameStart;
 	}
 
 	@Override
@@ -39,8 +32,7 @@ public class DispatchAction extends WaitAction {
 	public void pulse() {
 		for (var human : new ArrayList<>(humans)) {
 			if (!human.selectedPile.isEmpty()) {
-				addFirst(new DrawCardAction(human, human.selectedPile.size(),
-						asGameStart ? Type.GameStart : Type.Normal));
+				addFirst(new DrawCardAction(human, human.selectedPile.size()));
 				addFirst(new PutbackHandCardAction(human, human.selectedPile));
 				human.clearSelectInfo();
 			}

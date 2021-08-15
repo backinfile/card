@@ -18,8 +18,36 @@ public class CardSlot {
 		cardPile.add(storeCard);
 		cardPile.add(sealCard);
 		cardPile.add(rideCard);
+		cardPile.add(harassCard);
 		cardPile.addAll(chargeCards);
 		cardPile.add(planCard);
 		return cardPile;
+	}
+
+	public boolean removeCard(Card card) {
+		if (card.equals(storeCard)) {
+			storeCard = null;
+			return true;
+		}
+		if (card.equals(sealCard)) {
+			sealCard = null;
+			return true;
+		}
+		if (card.equals(rideCard)) {
+			rideCard = null;
+			return true;
+		}
+		if (card.equals(harassCard)) {
+			harassCard = null;
+			return true;
+		}
+		if (chargeCards.remove(card)) {
+			return true;
+		}
+		if (card.equals(planCard)) {
+			planCard = null;
+			return true;
+		}
+		return false;
 	}
 }

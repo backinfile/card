@@ -9,6 +9,8 @@ public abstract class Card extends SkillCaster {
 	public CardSubType subType = CardSubType.NONE;
 	public String mainImage;
 	public String backImage;
+	
+	public long oriHumanId = 0; // 最初归属于谁
 
 	public static enum CardType {
 		HERO, // 角色卡

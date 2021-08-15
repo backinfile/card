@@ -20,6 +20,10 @@ public class Res {
 
 	public static final String SKILL_D2D2 = "过牌2";
 	public static final String SKILL_PLAY = "打出";
+	public static final String CARD_AID_OCCUPY = "侵占";
+	public static final String CARD_AID_STORE = "储备";
+	public static final String CARD_AID_CHARGE = "充能";
+	public static final String TARGET_SELECT_TO_OCCUPY = "选择一处位置侵占";
 
 	public static BitmapFont DefaultFontSmallSamll;
 	public static BitmapFont DefaultFontSmall;
