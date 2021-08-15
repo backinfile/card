@@ -1,7 +1,7 @@
 package com.backinfile.card.model;
 
-import com.backinfile.card.support.IAlive;
-import com.backinfile.card.support.IDisposable;
+import com.backinfile.support.IAlive;
+import com.backinfile.support.IDisposable;
 
 public abstract class Action implements IAlive, IDisposable {
 

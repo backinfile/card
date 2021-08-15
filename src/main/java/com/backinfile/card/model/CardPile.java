@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.backinfile.card.support.Utils;
+import com.backinfile.support.Utils;
 
 public class CardPile implements Iterable<Card> {
 	private LinkedList<Card> cards = new LinkedList<Card>();

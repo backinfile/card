@@ -135,5 +135,4 @@ public class Human extends SkillCaster {
 	public final void addFirst(Action action) {
 		board.getActionQueue().addFirst(action);
 	}
-
 }

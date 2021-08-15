@@ -10,7 +10,8 @@ public abstract class Skill {
 	// 自身属性
 	public long id;
 	public String name;
-	public boolean passive = true; // 默认是被动技能
+	public TargetInfo targetInfo = null; // 触发条件
+	public boolean passive = true; // 被动技能
 
 	// 联动效果
 	public List<IOperable> operables = new ArrayList<>();
@@ -39,7 +40,10 @@ public abstract class Skill {
 
 	// 若是主动技能，检查是否可以启用
 	public boolean canActive() {
-		return false;
+		if (targetInfo == null) {
+			return true;
+		}
+		return targetInfo.test(board);
 	}
 
 	public void apply() {

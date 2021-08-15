@@ -18,7 +18,7 @@ public class UIView extends Group {
 		LabelStyle labelStyle = new LabelStyle(Res.DefaultFont, Color.WHITE);
 		label = new Label("[label]", labelStyle);
 		label.setAlignment(Align.center);
-		label.setPosition(getWidth(), getHeight(), Align.center);
+		label.setPosition(getWidth() / 2f, getHeight() / 2f, Align.center);
 		addActor(label);
 	}
 }

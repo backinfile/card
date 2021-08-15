@@ -1,6 +1,5 @@
 package com.backinfile.card.model;
 
-import java.util.Objects;
 
 public abstract class Card extends SkillCaster {
 	public final long id;
@@ -9,7 +8,7 @@ public abstract class Card extends SkillCaster {
 	public CardSubType subType = CardSubType.NONE;
 	public String mainImage;
 	public String backImage;
-	
+
 	public long oriHumanId = 0; // 最初归属于谁
 
 	public static enum CardType {
@@ -28,22 +27,6 @@ public abstract class Card extends SkillCaster {
 	public Card(int id, String name) {
 		this.id = id;
 		this.name = name;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj instanceof Card) {
-			return ((Card) obj).id == this.id;
-		}
-		return false;
 	}
 
 }

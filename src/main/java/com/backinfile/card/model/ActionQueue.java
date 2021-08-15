@@ -2,8 +2,8 @@ package com.backinfile.card.model;
 
 import java.util.LinkedList;
 
-import com.backinfile.card.Log;
-import com.backinfile.card.support.IAlive;
+import com.backinfile.support.IAlive;
+import com.backinfile.support.Log;
 
 public class ActionQueue implements IAlive {
 	public Board board;

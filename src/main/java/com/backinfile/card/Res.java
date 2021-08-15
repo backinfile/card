@@ -3,15 +3,19 @@ package com.backinfile.card;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.backinfile.card.support.FontCharacterCollection;
-import com.backinfile.card.support.Timing;
+import com.backinfile.support.FontCharacterCollection;
+import com.backinfile.support.Timing;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class Res {
+
+	public static final String PATH_IMAGE_BACKGROUND = "image/background1.jpg";
+	public static final String PATH_IMAGE_CARD1 = "image/background1.jpg";
 
 	public static final String ACTION_DispatchActionString = "调度手牌";
 	public static final String ACTION_SaveThreatenAction = "选择一张手牌加入威慑";
@@ -33,8 +37,17 @@ public class Res {
 	private static Map<String, TextureRegionDrawable> textureMap = new HashMap<>();
 
 	public static void init() {
+		initImage();
 		initText();
 		initFont();
+	}
+
+	public static TextureRegionDrawable getTexture(String path) {
+		return textureMap.getOrDefault(path, new TextureRegionDrawable());
+	}
+
+	private static void initImage() {
+		textureMap.put(PATH_IMAGE_BACKGROUND, new TextureRegionDrawable(new Texture(PATH_IMAGE_BACKGROUND)));
 	}
 
 	public static void dispose() {

@@ -6,8 +6,8 @@ import java.util.List;
 
 import com.backinfile.card.model.actions.ChangeBoardStateAction;
 import com.backinfile.card.model.actions.DispatchAction;
-import com.backinfile.card.support.IAlive;
-import com.backinfile.card.support.Utils;
+import com.backinfile.support.IAlive;
+import com.backinfile.support.Utils;
 
 public abstract class Board implements IAlive {
 	public List<Human> humans = new ArrayList<>();
@@ -94,6 +94,11 @@ public abstract class Board implements IAlive {
 			}
 		}
 		return null;
+	}
+
+	public Human getOpponent(Human human) {
+		int index = humans.indexOf(human);
+		return humans.get((index + 1) % humans.size());
 	}
 
 }
