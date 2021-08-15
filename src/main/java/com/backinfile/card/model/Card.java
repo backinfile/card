@@ -7,6 +7,8 @@ public abstract class Card extends SkillCaster {
 	public final String name;
 	public CardType mainType = CardType.STORE;
 	public CardSubType subType = CardSubType.NONE;
+	public String mainImage;
+	public String backImage;
 
 	public static enum CardType {
 		HERO, // 角色卡

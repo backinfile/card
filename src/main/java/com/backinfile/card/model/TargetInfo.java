@@ -34,5 +34,7 @@ public class TargetInfo {
 		Hand, // 自己手牌里选
 		Store, // 储备卡
 		ReadyStore, // 储备完成的储备
+		EmptySlotExceptPlan, // 空白储备位
+		StoreSlotExceptPlan, // 有储备的槽
 	}
 }

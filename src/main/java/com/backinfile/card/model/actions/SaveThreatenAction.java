@@ -13,7 +13,7 @@ public class SaveThreatenAction extends WaitAction {
 		var targetInfo = new TargetInfo(TargetType.Hand);
 		targetInfo.number = 1;
 		targetInfo.optional = false;
-		targetInfo.tip = Res.SaveThreatenAction;
+		targetInfo.tip = Res.ACTION_SaveThreatenAction;
 		human.targetInfo = targetInfo;
 	}
 

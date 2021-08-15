@@ -47,7 +47,7 @@ public class ReflectionUtils {
 					String loggerName = Utils.isNullOrEmpty(timing.value()) ? ctMethod.getName() : timing.value();
 					ctMethod.addLocalVariable("$timeLogger", timeLoggerCtClass);
 					ctMethod.insertBefore(
-							"$timeLogger = new com.backinfile.cube.support.TimeLogger(\"" + loggerName + "\");");
+							"$timeLogger = new " + TimeLogger.class.getName() + "(\"" + loggerName + "\");");
 					ctMethod.insertAfter("$timeLogger.log();");
 					needRewrite = true;
 				}

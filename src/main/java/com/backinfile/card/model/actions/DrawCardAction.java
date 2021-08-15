@@ -4,16 +4,20 @@ import com.backinfile.card.model.Human;
 
 public class DrawCardAction extends TriggerOnceAction {
 	public int number;
-	public boolean asTurnStart;
+	public Type type;
 
-	public DrawCardAction(Human human, int number) {
-		this(human, number, false);
+	public static enum Type {
+		Normal, TurnStart, GameStart,
 	}
 
-	public DrawCardAction(Human human, int number, boolean asTurnStart) {
+	public DrawCardAction(Human human, int number) {
+		this(human, number, Type.Normal);
+	}
+
+	public DrawCardAction(Human human, int number, Type type) {
 		this.human = human;
 		this.number = number;
-		this.asTurnStart = asTurnStart;
+		this.type = type;
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.backinfile.card.model.actions.IOperable;
 
+// 技能 主动触发，或在Action中有交互
 public abstract class Skill {
 	// 自身属性
 	public long id;

@@ -29,6 +29,10 @@ public abstract class Board implements IAlive {
 		if (turnCount == 0) {
 			turnCount = 1;
 			playerTurnCount = 0;
+
+			for (var human : humans) {
+				human.onGameStart();
+			}
 		}
 
 		// 找到当前回合的玩家
