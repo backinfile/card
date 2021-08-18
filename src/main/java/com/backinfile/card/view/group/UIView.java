@@ -1,19 +1,17 @@
-package com.backinfile.card.view.actor;
+package com.backinfile.card.view.group;
 
 import com.backinfile.card.Res;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.utils.Align;
 
-public class UIView extends Group {
+public class UIView extends BaseView {
 
 	private Label label;
 
 	public UIView(float width, float height) {
-
-		setSize(width, height);
+		super(width, height);
 
 		LabelStyle labelStyle = new LabelStyle(Res.DefaultFont, Color.WHITE);
 		label = new Label("[label]", labelStyle);

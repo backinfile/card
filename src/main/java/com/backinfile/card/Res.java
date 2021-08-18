@@ -33,6 +33,8 @@ public class Res {
 	public static TextureRegionDrawable TEX_BLACK;
 	public static TextureRegionDrawable TEX_WHITE;
 	public static TextureRegionDrawable TEX_GRAY;
+	public static TextureRegionDrawable TEX_DARK_GRAY;
+	public static TextureRegionDrawable TEX_LIGHT_GRAY;
 	public static TextureRegionDrawable TEX_HALF_BLACK;
 	public static final String PATH_IMAGE_BACKGROUND = "image/background1.jpg";
 
@@ -82,6 +84,8 @@ public class Res {
 		TEX_WHITE = getDrawable(newColorPixmap(8, 8, Color.WHITE));
 		TEX_BLACK = getDrawable(newColorPixmap(8, 8, Color.BLACK));
 		TEX_GRAY = getDrawable(newColorPixmap(8, 8, Color.GRAY));
+		TEX_DARK_GRAY = getDrawable(newColorPixmap(8, 8, Color.DARK_GRAY));
+		TEX_LIGHT_GRAY = getDrawable(newColorPixmap(8, 8, Color.LIGHT_GRAY));
 		TEX_HALF_BLACK = getDrawable(newColorPixmap(8, 8, new Color(0, 0, 0, 0.5f)));
 
 		textureMap.put(PATH_IMAGE_BACKGROUND, new Texture(PATH_IMAGE_BACKGROUND));

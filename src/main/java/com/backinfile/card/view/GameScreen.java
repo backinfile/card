@@ -2,7 +2,7 @@ package com.backinfile.card.view;
 
 import com.backinfile.card.Res;
 import com.backinfile.card.manager.CardManager;
-import com.backinfile.card.view.stage.CardStage;
+import com.backinfile.card.view.stage.GameStage;
 import com.backinfile.support.TimerQueue;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 public class GameScreen extends ScreenAdapter {
 	private boolean inited = false;
-	private CardStage cardStage;
+	private GameStage cardStage;
 	private TimerQueue timerQueue;
 
 	@Override
@@ -30,7 +30,7 @@ public class GameScreen extends ScreenAdapter {
 
 		timerQueue = new TimerQueue();
 
-		cardStage = new CardStage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+		cardStage = new GameStage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		Gdx.input.setInputProcessor(cardStage);
 	}
 

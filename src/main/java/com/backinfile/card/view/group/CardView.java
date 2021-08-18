@@ -1,4 +1,4 @@
-package com.backinfile.card.view.actor;
+package com.backinfile.card.view.group;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;

@@ -2,23 +2,26 @@ package com.backinfile.card.view.stage;
 
 import java.util.HashMap;
 
-import com.backinfile.card.view.actor.CardView;
-import com.backinfile.card.view.actor.ShowCardView;
-import com.backinfile.card.view.actor.UIView;
+import com.backinfile.card.model.LocalString;
+import com.backinfile.card.view.group.CardGroupView;
+import com.backinfile.card.view.group.CardView;
+import com.backinfile.card.view.group.ShowCardView;
+import com.backinfile.card.view.group.UIView;
+import com.backinfile.card.view.group.UseCardSkillView;
 import com.backinfile.support.ObjectPool;
-import com.backinfile.card.view.actor.CardGroupView;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class CardStage extends Stage {
+public class GameStage extends Stage {
 
 	private ObjectPool<CardView> cardActorPool;
 	private HashMap<Long, CardView> showingCardActors = new HashMap<>();
 	private CardGroupView cardGroupView;
 	private UIView uiView;
 	private ShowCardView showCardView;
+	private UseCardSkillView useCardSkillView;
 
-	public CardStage(Viewport viewport) {
+	public GameStage(Viewport viewport) {
 		super(viewport);
 
 		init();
@@ -32,10 +35,14 @@ public class CardStage extends Stage {
 		uiView = new UIView(getWidth(), getHeight());
 
 		showCardView = new ShowCardView(getWidth(), getHeight());
+		useCardSkillView = new UseCardSkillView(getWidth(), getHeight());
 
 		addActor(cardGroupView);
 		addActor(uiView);
 		addActor(showCardView);
+		addActor(useCardSkillView);
+
+		useCardSkillView.show(LocalString.getCardString("attack").frontImages[0]);
 	}
 
 	public void updateCard(CardInfo lastCardInfo, CardInfo cardInfo) {
