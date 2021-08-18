@@ -2,12 +2,15 @@ package com.backinfile.card.view.group;
 
 import com.backinfile.card.Res;
 import com.backinfile.card.model.LocalString.LocalImagePathString;
+import com.backinfile.card.view.actor.DefaultButton;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 public class UseCardSkillView extends BaseView {
 	private Image maskImage;
 	private Image mainCardImage;
+	private Table buttonTable;
 
 	public UseCardSkillView(float width, float height) {
 		super(width, height);
@@ -16,8 +19,16 @@ public class UseCardSkillView extends BaseView {
 		maskImage = new Image(Res.TEX_HALF_BLACK);
 		maskImage.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
+		buttonTable = new Table();
+		buttonTable.setPosition(getWidth() * 2 / 3, 0);
+		buttonTable.setSize(getWidth() / 3, getHeight());
+		DefaultButton button = new DefaultButton();
+		button.setText("abcd");
+		buttonTable.add(button).expand().fill();
+
 		addActor(maskImage);
 		addActor(mainCardImage);
+		addActor(buttonTable);
 
 		hide();
 	}

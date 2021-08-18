@@ -45,7 +45,7 @@ public class Res {
 	private static FontCharacterCollection fontCharacterCollection = new FontCharacterCollection();
 	private static Map<String, Texture> textureMap = new HashMap<>(); // path->image
 	private static Map<String, TextureRegionDrawable> textureDrawableMap = new HashMap<>();
-	public static Map<LocalImagePathString, TextureRegionDrawable> cardImageMap = new HashMap<>();
+	private static Map<LocalImagePathString, TextureRegionDrawable> cardImageMap = new HashMap<>();
 
 	@Timing("res init")
 	public static void init() {

@@ -1,6 +1,7 @@
 package com.backinfile.card.view.actor;
 
 import com.backinfile.card.Res;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class DefaultButton extends TextButton {
@@ -13,5 +14,14 @@ public class DefaultButton extends TextButton {
 
 	public DefaultButton(String text) {
 		super("", DEFAULT_STYLE);
+	}
+	
+	@Override
+	public void setText(String text) {
+		super.setText(text);
+	}
+
+	static {
+		DEFAULT_STYLE.fontColor = Color.WHITE;
 	}
 }
