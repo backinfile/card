@@ -77,6 +77,7 @@ public class Res {
 		return cardImageMap.getOrDefault(imagePathString, EMPTY_DRAWABLE);
 	}
 
+	@Timing
 	private static void initImage() {
 		TEX_WHITE = getDrawable(newColorPixmap(8, 8, Color.WHITE));
 		TEX_BLACK = getDrawable(newColorPixmap(8, 8, Color.BLACK));

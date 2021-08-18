@@ -23,17 +23,17 @@ import javassist.NotFoundException;
 
 public class ReflectionUtils {
 
-	// 执行这个函数前尽量少加载类
-	public static void initTimingMethod() {
+	// 这个函数需要需改class文件，所以执行这个函数前尽量少加载类
+	public static void initTimingMethod(String packageName) {
 		ClassPool pool = ClassPool.getDefault();
 		CtClass timeLoggerCtClass;
 		try {
 			timeLoggerCtClass = pool.get(TimeLogger.class.getName());
 		} catch (NotFoundException e1) {
-			Log.core.error("error in reflection oper", e1);
+			Log.reflection.error("error in reflection oper", e1);
 			return;
 		}
-		for (String targetClassName : getClasseNames("com.backinfile")) {
+		for (String targetClassName : getClasseNames(packageName)) {
 			try {
 				boolean needRewrite = false;
 				CtClass ctClass = pool.get(targetClassName);
@@ -55,7 +55,7 @@ public class ReflectionUtils {
 				ctClass.toClass();
 				Log.reflection.info("rewrite class {}", targetClassName);
 			} catch (Exception e) {
-				Log.core.error("error in reflection oper", e);
+				Log.reflection.error("error in rewrite class {}", targetClassName);
 			}
 		}
 	}

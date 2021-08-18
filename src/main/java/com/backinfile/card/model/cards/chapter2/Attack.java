@@ -10,5 +10,4 @@ public class Attack extends ActionCard {
 		addSkill(new PlayAttackSkill(2));
 		addSkill(new PlayAttackSkill(1));
 	}
-
 }

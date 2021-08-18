@@ -1,8 +1,8 @@
 package com.backinfile.card.view;
 
 import com.backinfile.card.Res;
+import com.backinfile.card.manager.CardManager;
 import com.backinfile.card.view.stage.CardStage;
-import com.backinfile.support.ReflectionUtils;
 import com.backinfile.support.TimerQueue;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -25,8 +25,8 @@ public class GameScreen extends ScreenAdapter {
 		}
 		inited = true;
 
-		ReflectionUtils.initTimingMethod();
 		Res.init();
+		CardManager.init();
 
 		timerQueue = new TimerQueue();
 
