@@ -1,6 +1,5 @@
 package com.backinfile.card.model.actions;
 
-import com.backinfile.card.Res;
 import com.backinfile.card.model.TargetInfo;
 import com.backinfile.card.model.TargetInfo.TargetType;
 
@@ -13,7 +12,7 @@ public class SaveThreatenAction extends WaitAction {
 		var targetInfo = new TargetInfo(TargetType.Hand);
 		targetInfo.number = 1;
 		targetInfo.optional = false;
-		targetInfo.tip = Res.ACTION_SaveThreatenAction;
+		targetInfo.tip = actionString.tip;
 		human.targetInfo = targetInfo;
 	}
 

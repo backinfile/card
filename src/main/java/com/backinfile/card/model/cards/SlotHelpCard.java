@@ -1,13 +1,11 @@
 package com.backinfile.card.model.cards;
 
-import com.backinfile.card.Res;
 import com.backinfile.card.model.Card;
 
 public abstract class SlotHelpCard extends Card {
 	protected int slotIndex;
 
-	public SlotHelpCard(int id, String name, int slotIndex) {
-		super(id, name);
+	public SlotHelpCard(int slotIndex) {
 		this.slotIndex = slotIndex;
 	}
 
@@ -16,20 +14,20 @@ public abstract class SlotHelpCard extends Card {
 	}
 
 	public static class SlotOccupyCard extends SlotHelpCard {
-		public SlotOccupyCard(int id, int slotIndex) {
-			super(id, Res.CARD_AID_OCCUPY, slotIndex);
+		public SlotOccupyCard(int slotIndex) {
+			super(slotIndex);
 		}
 	}
 
 	public static class SlotStoreCard extends SlotHelpCard {
-		public SlotStoreCard(int id, int slotIndex) {
-			super(id, Res.CARD_AID_STORE, slotIndex);
+		public SlotStoreCard(int slotIndex) {
+			super(slotIndex);
 		}
 	}
 
 	public static class SlotChargeCard extends SlotHelpCard {
-		public SlotChargeCard(int id, int slotIndex) {
-			super(id, Res.CARD_AID_CHARGE, slotIndex);
+		public SlotChargeCard(int slotIndex) {
+			super(slotIndex);
 		}
 	}
 }

@@ -1,0 +1,24 @@
+{
+	cards: [
+		{
+		"sn":"attack",
+		"name":"强攻",
+		
+		"frontImages": [{
+			"path":"image/card/chap2/card1.png",
+			"locate":[5,2,0,0],
+		}],
+		
+		},
+	],
+	actions:[{
+		"sn":"DispatchAction",
+		"tip":"DispatchActionTip",
+	},{
+		"sn":"SaveThreatenAction",
+		"tip":"SaveThreatenActionTip",
+	},],
+	skills:[],
+	targets:[],
+	
+}

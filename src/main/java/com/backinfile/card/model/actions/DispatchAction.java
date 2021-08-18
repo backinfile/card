@@ -3,7 +3,6 @@ package com.backinfile.card.model.actions;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.backinfile.card.Res;
 import com.backinfile.card.model.Human;
 import com.backinfile.card.model.TargetInfo;
 import com.backinfile.card.model.TargetInfo.TargetType;
@@ -21,7 +20,7 @@ public class DispatchAction extends WaitAction {
 			TargetInfo targetInfo = new TargetInfo(TargetType.Hand);
 			targetInfo.number = -1;
 			targetInfo.optional = true;
-			targetInfo.tip = Res.ACTION_DispatchActionString;
+			targetInfo.tip = actionString.tip;
 			human.targetInfo = targetInfo;
 			human.selectedPile.clear();
 		}

@@ -3,13 +3,15 @@ package com.backinfile.card.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.backinfile.card.model.LocalString.LocalSkillString;
 import com.backinfile.card.model.actions.IOperable;
+import com.backinfile.support.IdAllot;
 
 // 技能 主动触发，或在Action中有交互
 public abstract class Skill {
 	// 自身属性
 	public long id;
-	public String name;
+	private LocalSkillString skillString;
 	public TargetInfo targetInfo = null; // 触发条件
 	public boolean passive = true; // 被动技能
 
@@ -33,9 +35,16 @@ public abstract class Skill {
 		OwnerEndTurn, // skill拥有者回合结束清除
 	}
 
-	public Skill(long id, String name) {
-		this.id = id;
-		this.name = name;
+	public Skill() {
+		this(null);
+	}
+
+	public Skill(LocalSkillString skillString) {
+		this.id = IdAllot.applyId();
+		this.skillString = skillString;
+		if (this.skillString == null) {
+			this.skillString = LocalString.getSkillString(getClass().getSimpleName());
+		}
 	}
 
 	// 若是主动技能，检查是否可以启用
@@ -55,5 +64,13 @@ public abstract class Skill {
 
 	public final void addFirst(Action action) {
 		board.getActionQueue().addFirst(action);
+	}
+
+	public String getDisplayName() {
+		return skillString.name;
+	}
+
+	public static class EmptySkill extends Skill {
+		public static final EmptySkill Instance = new EmptySkill();
 	}
 }

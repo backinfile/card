@@ -6,8 +6,7 @@ import com.backinfile.card.model.actions.DrawCardAction;
 public class DrawCardSkill extends Skill {
 	public int number;
 
-	public DrawCardSkill(long id, int number) {
-		super(id, ConstSkill.N_DRAW_ONE_CARD);
+	public DrawCardSkill(int number) {
 		this.number = number;
 	}
 

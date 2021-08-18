@@ -10,4 +10,5 @@ public class Log {
 	public static Logger timer = LoggerFactory.getLogger("TIMER");
 	public static Logger reflection = LoggerFactory.getLogger("REFLECTION");
 	public static Logger level = LoggerFactory.getLogger("LEVEL");
+	public static Logger res = LoggerFactory.getLogger("RES");
 }

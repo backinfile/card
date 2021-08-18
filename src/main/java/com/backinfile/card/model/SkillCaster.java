@@ -1,11 +1,9 @@
 package com.backinfile.card.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import com.backinfile.card.model.skills.EmptySkill;
+import com.backinfile.card.model.Skill.EmptySkill;
 
 public abstract class SkillCaster {
 	protected List<Skill> skills = new ArrayList<>();
@@ -28,20 +26,6 @@ public abstract class SkillCaster {
 		return EmptySkill.Instance;
 	}
 
-	public final Skill getSkill(String skillName) {
-		for (var skill : skills) {
-			if (skill.name.equals(skillName)) {
-				return skill;
-			}
-		}
-		return null;
-
-	}
-
-	public final boolean containsSkill(String skillName) {
-		return getSkill(skillName) != null;
-	}
-	
 	public final void addSkill(Skill skill) {
 		skills.add(skill);
 	}

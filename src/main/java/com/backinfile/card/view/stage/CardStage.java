@@ -3,6 +3,7 @@ package com.backinfile.card.view.stage;
 import java.util.HashMap;
 
 import com.backinfile.card.view.actor.CardView;
+import com.backinfile.card.view.actor.ShowCardView;
 import com.backinfile.card.view.actor.UIView;
 import com.backinfile.support.ObjectPool;
 import com.backinfile.card.view.actor.CardGroupView;
@@ -15,6 +16,7 @@ public class CardStage extends Stage {
 	private HashMap<Long, CardView> showingCardActors = new HashMap<>();
 	private CardGroupView cardGroupView;
 	private UIView uiView;
+	private ShowCardView showCardView;
 
 	public CardStage(Viewport viewport) {
 		super(viewport);
@@ -29,8 +31,11 @@ public class CardStage extends Stage {
 
 		uiView = new UIView(getWidth(), getHeight());
 
+		showCardView = new ShowCardView(getWidth(), getHeight());
+
 		addActor(cardGroupView);
 		addActor(uiView);
+		addActor(showCardView);
 	}
 
 	public void updateCard(CardInfo lastCardInfo, CardInfo cardInfo) {

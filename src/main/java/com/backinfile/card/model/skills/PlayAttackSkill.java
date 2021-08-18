@@ -1,6 +1,5 @@
 package com.backinfile.card.model.skills;
 
-import com.backinfile.card.Res;
 import com.backinfile.card.model.Card;
 import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.TargetInfo;
@@ -9,9 +8,7 @@ import com.backinfile.card.model.actions.AttackAction;
 
 // 释放储备skill, 卡牌本体弃置
 public class PlayAttackSkill extends Skill {
-	public PlayAttackSkill(long id, int number) {
-		super(id, Res.SKILL_PLAY);
-
+	public PlayAttackSkill(int number) {
 		passive = false;
 		targetInfo = new TargetInfo(TargetType.Store);
 		targetInfo.number = number;

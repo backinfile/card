@@ -3,63 +3,134 @@ package com.backinfile.card;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.backinfile.card.model.LocalString;
+import com.backinfile.card.model.LocalString.LocalImagePathString;
 import com.backinfile.support.FontCharacterCollection;
 import com.backinfile.support.Timing;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class Res {
+	public static final TextureRegionDrawable EMPTY_DRAWABLE = new TextureRegionDrawable();
 
+	public static float CARD_WIDTH;
+	public static float CARD_HEIGHT;
+	public static float CARD_WIDTH_L;
+	public static float CARD_HEIGHT_L;
+	public static float CARD_WIDTH_LL;
+	public static float CARD_HEIGHT_LL;
+	public static float CARD_WIDTH_S;
+	public static float CARD_HEIGHT_S;
+
+	public static TextureRegionDrawable TEX_BLACK;
+	public static TextureRegionDrawable TEX_WHITE;
+	public static TextureRegionDrawable TEX_GRAY;
+	public static TextureRegionDrawable TEX_HALF_BLACK;
 	public static final String PATH_IMAGE_BACKGROUND = "image/background1.jpg";
-	public static final String PATH_IMAGE_CARD1 = "image/background1.jpg";
-
-	public static final String ACTION_DispatchActionString = "调度手牌";
-	public static final String ACTION_SaveThreatenAction = "选择一张手牌加入威慑";
-
-	public static final String CARD_ATTACK = "强攻";
-
-	public static final String SKILL_D2D2 = "过牌2";
-	public static final String SKILL_PLAY = "打出";
-	public static final String CARD_AID_OCCUPY = "侵占";
-	public static final String CARD_AID_STORE = "储备";
-	public static final String CARD_AID_CHARGE = "充能";
-	public static final String TARGET_SELECT_TO_OCCUPY = "选择一处位置侵占";
 
 	public static BitmapFont DefaultFontSmallSamll;
 	public static BitmapFont DefaultFontSmall;
 	public static BitmapFont DefaultFontLarge;
 	public static BitmapFont DefaultFont;
 	private static FontCharacterCollection fontCharacterCollection = new FontCharacterCollection();
-	private static Map<String, TextureRegionDrawable> textureMap = new HashMap<>();
+	private static Map<String, Texture> textureMap = new HashMap<>(); // path->image
+	private static Map<String, TextureRegionDrawable> textureDrawableMap = new HashMap<>();
+	public static Map<LocalImagePathString, TextureRegionDrawable> cardImageMap = new HashMap<>();
 
+	@Timing("res init")
 	public static void init() {
+
+		CARD_HEIGHT = Gdx.graphics.getHeight() / 3f;
+		CARD_WIDTH = CARD_HEIGHT * 0.715f;
+		CARD_HEIGHT_L = CARD_HEIGHT * 4 / 3f;
+		CARD_WIDTH_L = CARD_WIDTH * 4 / 3f;
+		CARD_HEIGHT_LL = CARD_HEIGHT * 2f;
+		CARD_WIDTH_LL = CARD_WIDTH * 2f;
+		CARD_HEIGHT_S = CARD_HEIGHT * 3f / 4f;
+		CARD_WIDTH_S = CARD_WIDTH * 3f / 4f;
+
+		String localStringConf = Gdx.files.internal("local/zh.json").readString("utf8");
+		fontCharacterCollection.put(localStringConf);
+		LocalString.init(localStringConf);
+
 		initImage();
-		initText();
-		initFont();
+		initFont(); // 一定要在所有string加载后执行
 	}
 
 	public static TextureRegionDrawable getTexture(String path) {
-		return textureMap.getOrDefault(path, new TextureRegionDrawable());
+		var texture = textureMap.getOrDefault(path, null);
+		if (texture != null) {
+			return new TextureRegionDrawable(texture);
+		}
+		return EMPTY_DRAWABLE;
+	}
+
+	public static TextureRegionDrawable getTexture(LocalImagePathString imagePathString) {
+		return cardImageMap.getOrDefault(imagePathString, EMPTY_DRAWABLE);
 	}
 
 	private static void initImage() {
-		textureMap.put(PATH_IMAGE_BACKGROUND, new TextureRegionDrawable(new Texture(PATH_IMAGE_BACKGROUND)));
+		TEX_WHITE = getDrawable(newColorPixmap(8, 8, Color.WHITE));
+		TEX_BLACK = getDrawable(newColorPixmap(8, 8, Color.BLACK));
+		TEX_GRAY = getDrawable(newColorPixmap(8, 8, Color.GRAY));
+		TEX_HALF_BLACK = getDrawable(newColorPixmap(8, 8, new Color(0, 0, 0, 0.5f)));
+
+		textureMap.put(PATH_IMAGE_BACKGROUND, new Texture(PATH_IMAGE_BACKGROUND));
+
+		// 加载所有texture
+		for (var imageString : LocalString.getAllImagePathStrings()) {
+			String path = imageString.path;
+			if (!textureMap.containsKey(path)) {
+				textureMap.put(path, new Texture(path));
+			}
+		}
+		// 获取drawable
+		for (var path : textureMap.keySet()) {
+			textureDrawableMap.put(path, new TextureRegionDrawable(textureMap.get(path)));
+		}
+		for (var imageString : LocalString.getAllImagePathStrings()) {
+			if (cardImageMap.containsKey(imageString)) {
+				continue;
+			}
+			var texture = textureMap.get(imageString.path);
+			int[] locate = imageString.locate;
+			if (locate != null && locate.length == 4) {
+				int dw = texture.getWidth() / locate[0];
+				int dh = texture.getHeight() / locate[1];
+				var textureRegion = new TextureRegion(texture, dw * locate[2], dh * locate[3], dw, dh);
+				cardImageMap.put(imageString, new TextureRegionDrawable(textureRegion));
+			} else {
+				cardImageMap.put(imageString, new TextureRegionDrawable(texture));
+			}
+		}
+	}
+
+	private static Pixmap newColorPixmap(int width, int height, Color color) {
+		Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
+		pixmap.setColor(color);
+		pixmap.fill();
+		return pixmap;
+	}
+
+	private static TextureRegionDrawable getDrawable(Pixmap pixmap) {
+		Texture texture = new Texture(pixmap, true);
+		TextureRegion region = new TextureRegion(texture);
+		pixmap.dispose();
+		return new TextureRegionDrawable(region);
 	}
 
 	public static void dispose() {
 		for (var texture : textureMap.values()) {
-			texture.getRegion().getTexture().dispose();
+			texture.dispose();
 		}
-	}
-
-	@Timing
-	private static void initText() {
-		fontCharacterCollection.put(ACTION_DispatchActionString);
-		fontCharacterCollection.put(ACTION_SaveThreatenAction);
 	}
 
 	@Timing

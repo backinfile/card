@@ -2,7 +2,6 @@ package com.backinfile.card.model.actions;
 
 import java.util.List;
 
-import com.backinfile.card.Res;
 import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardSlot;
 import com.backinfile.card.model.Human;
@@ -33,7 +32,7 @@ public class AttackAction extends WaitAction {
 			var targetInfo = new TargetInfo(TargetType.EmptySlotExceptPlan);
 			targetInfo.number = 1;
 			targetInfo.optional = false;
-			targetInfo.tip = Res.TARGET_SELECT_TO_OCCUPY;
+			targetInfo.tip = actionString.tip;
 			human.targetInfo = targetInfo;
 		} else {
 			// 对手选择一张被击破

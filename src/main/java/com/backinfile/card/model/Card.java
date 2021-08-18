@@ -1,9 +1,11 @@
 package com.backinfile.card.model;
 
+import com.backinfile.card.model.LocalString.LocalCardString;
+import com.backinfile.support.IdAllot;
 
 public abstract class Card extends SkillCaster {
 	public final long id;
-	public final String name;
+	public LocalCardString cardString;
 	public CardType mainType = CardType.STORE;
 	public CardSubType subType = CardSubType.NONE;
 	public String mainImage;
@@ -24,9 +26,16 @@ public abstract class Card extends SkillCaster {
 		ACTION_ORDER, // 指令
 	}
 
-	public Card(int id, String name) {
-		this.id = id;
-		this.name = name;
+	public Card(LocalCardString cardString) {
+		this.id = IdAllot.applyId();
+		this.cardString = cardString;
+		if (this.cardString == null) {
+			this.cardString = LocalString.getCardString(getClass().getSimpleName());
+		}
+	}
+
+	public Card() {
+		this(null);
 	}
 
 }
