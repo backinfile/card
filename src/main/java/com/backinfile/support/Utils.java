@@ -34,6 +34,10 @@ public class Utils {
 		return result;
 	}
 
+	public static void setRndSeed(long seed) {
+		RANDOM.setSeed(seed);
+	}
+
 	public static double nextDouble() {
 		return RANDOM.nextDouble();
 	}

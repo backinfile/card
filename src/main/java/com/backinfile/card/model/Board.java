@@ -71,6 +71,10 @@ public abstract class Board implements IAlive {
 		actionQueue.pulse();
 	}
 
+	public void precess() {
+		
+	}
+
 	public boolean removeCard(Card card) {
 		for (var human : humans) {
 			if (human.removeCard(card)) {

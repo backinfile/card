@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class Res {
 	public static final TextureRegionDrawable EMPTY_DRAWABLE = new TextureRegionDrawable();
+	public static float BASE_DURATION = 0.3f;
 
 	public static float CARD_WIDTH;
 	public static float CARD_HEIGHT;
