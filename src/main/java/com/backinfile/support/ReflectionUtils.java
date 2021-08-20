@@ -53,6 +53,7 @@ public class ReflectionUtils {
 					continue;
 				}
 				ctClass.toClass();
+				ctClass.writeFile();
 				Log.reflection.info("rewrite class {}", targetClassName);
 			} catch (Exception e) {
 				Log.reflection.error("error in rewrite class {}", targetClassName);

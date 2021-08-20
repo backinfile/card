@@ -7,6 +7,8 @@ import java.util.Random;
 public class Utils {
 	public static final String UTF8 = "utf-8";
 	private static final Random RANDOM = new Random();
+	public static final String LETTER_AND_NUMBER = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+	public static final String NUMBER = "1234567890";
 
 	public static boolean isNullOrEmpty(String str) {
 		return str == null || str.equals("");
@@ -48,6 +50,34 @@ public class Utils {
 
 	public static double nextDouble(double a, double b) {
 		return RANDOM.nextDouble() * (b - a) + a;
+	}
+
+	public static String getBlankString(int n) {
+		var sb = new StringBuilder();
+		for (int i = 0; i < n; i++) {
+			sb.append(' ');
+		}
+		return sb.toString();
+	}
+
+	public static String getRandomToken() {
+		var rnd = new Random();
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < 16; i++) {
+			int index = rnd.nextInt(LETTER_AND_NUMBER.length());
+			sb.append(LETTER_AND_NUMBER.charAt(index));
+		}
+		return sb.toString();
+	}
+
+	public static String getRandomNumber(int n) {
+		var rnd = new Random();
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < n; i++) {
+			int index = rnd.nextInt(NUMBER.length());
+			sb.append(NUMBER.charAt(index));
+		}
+		return sb.toString();
 	}
 
 }

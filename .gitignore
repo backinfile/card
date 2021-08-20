@@ -26,3 +26,4 @@ bin/
 /logs
 *.log
 /gen
+data/data.json

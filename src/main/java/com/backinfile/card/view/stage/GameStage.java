@@ -3,6 +3,8 @@ package com.backinfile.card.view.stage;
 import java.util.HashMap;
 
 import com.backinfile.card.model.LocalString;
+import com.backinfile.card.server.GameClient;
+import com.backinfile.card.server.GameClientStandalone;
 import com.backinfile.card.view.group.CardGroupView;
 import com.backinfile.card.view.group.CardView;
 import com.backinfile.card.view.group.ShowCardView;
@@ -21,13 +23,20 @@ public class GameStage extends Stage {
 	private ShowCardView showCardView;
 	private UseCardSkillView useCardSkillView;
 
+	private GameClient gameClient;
+
 	public GameStage(Viewport viewport) {
 		super(viewport);
 
-		init();
+		initLogic();
+		initView();
 	}
 
-	private void init() {
+	private void initLogic() {
+		gameClient = new GameClientStandalone();
+	}
+
+	private void initView() {
 		cardActorPool = new ObjectPool<>(() -> new CardView());
 
 		cardGroupView = new CardGroupView(getWidth(), getHeight());
@@ -42,7 +51,7 @@ public class GameStage extends Stage {
 		addActor(showCardView);
 		addActor(useCardSkillView);
 
-		useCardSkillView.show(LocalString.getCardString("attack").frontImages[0]);
+//		useCardSkillView.show(LocalString.getCardString("attack").frontImages[0]);
 	}
 
 	public void updateCard(CardInfo lastCardInfo, CardInfo cardInfo) {
@@ -65,6 +74,7 @@ public class GameStage extends Stage {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
+		gameClient.pulse();
 	}
 
 }

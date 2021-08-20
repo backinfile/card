@@ -1,5 +1,6 @@
 package com.backinfile.card;
 
+import com.backinfile.card.server.proto.ProtoManager;
 import com.backinfile.card.view.MainGame;
 import com.backinfile.support.ReflectionUtils;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
@@ -11,6 +12,7 @@ public class DesktopLuncher {
 		if (Settings.DEV) {
 			ReflectionUtils.initTimingMethod(Settings.PackageName);
 		}
+		ProtoManager.init();
 
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setWindowedMode(Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);

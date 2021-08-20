@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.backinfile.card.model.actions.ChangeBoardStateAction;
 import com.backinfile.card.model.actions.DispatchAction;
+import com.backinfile.card.server.proto.DBoardInit;
 import com.backinfile.support.IAlive;
 import com.backinfile.support.Utils;
 
@@ -25,7 +26,7 @@ public abstract class Board implements IAlive {
 		GamePrepare, TurnStart, InTurn, TurnEnd,
 	}
 
-	public void init() {
+	public void init(DBoardInit boardInit) {
 		actionQueue = new ActionQueue(this);
 		actionQueue.init();
 
@@ -72,7 +73,7 @@ public abstract class Board implements IAlive {
 	}
 
 	public void precess() {
-		
+
 	}
 
 	public boolean removeCard(Card card) {

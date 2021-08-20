@@ -38,6 +38,7 @@ public class Res {
 	public static TextureRegionDrawable TEX_LIGHT_GRAY;
 	public static TextureRegionDrawable TEX_HALF_BLACK;
 	public static final String PATH_IMAGE_BACKGROUND = "image/background1.jpg";
+	public static final String PATH_LOCAL_DATA = "data/data.json";
 
 	public static BitmapFont DefaultFontSmallSamll;
 	public static BitmapFont DefaultFontSmall;

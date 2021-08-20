@@ -5,6 +5,7 @@ import java.util.List;
 
 public class DRoom {
 	public String roomToken;
+	public int state; // 0-normal 1-battle
 	public boolean hide = false;
 	public List<DPlayer> battlePlayers = new ArrayList<>();
 	public List<DPlayer> visitPlayers = new ArrayList<>();
