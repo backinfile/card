@@ -10,7 +10,7 @@ public abstract class Card extends SkillCaster {
 	public LocalCardString cardString;
 	public CardType mainType = CardType.STORE;
 	public CardSubType subType = CardSubType.NONE;
-	public long oriHumanId = 0; // 最初归属于谁
+	public String oriHumanToken; // 最初归属于谁
 
 	public static enum CardType {
 		HERO, // 角色卡
@@ -39,12 +39,12 @@ public abstract class Card extends SkillCaster {
 
 	public Card copy() {
 		try {
+			// 复制的卡用新的id
 			Card copy = getClass().getConstructor().newInstance();
-			copy.id = this.id;
 			copy.cardString = this.cardString;
 			copy.mainType = this.mainType;
 			copy.subType = this.subType;
-			copy.oriHumanId = this.oriHumanId;
+			copy.oriHumanToken = this.oriHumanToken;
 			onCopy(copy);
 			return copy;
 		} catch (Exception e) {

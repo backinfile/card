@@ -1,4 +1,4 @@
-package com.backinfile.card;
+package com.backinfile.card.manager;
 
 import java.util.HashMap;
 import java.util.Map;

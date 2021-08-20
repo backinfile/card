@@ -30,8 +30,12 @@ public abstract class Board implements IAlive {
 		actionQueue = new ActionQueue(this);
 		actionQueue.init();
 
-		for (var human : humans) {
+		Utils.setRndSeed(boardInit.seed);
+		for (var dhuman : boardInit.humanInits) {
+			Human human = new Human();
 			human.board = this;
+			human.init(dhuman);
+			humans.add(human);
 		}
 	}
 
@@ -85,16 +89,25 @@ public abstract class Board implements IAlive {
 		return false;
 	}
 
-	public void castSkill(int cardId) {
-	}
-
 	public ActionQueue getActionQueue() {
 		return actionQueue;
 	}
 
-	public Human getHuman(long id) {
+	public boolean isWaitingHumanOper() {
 		for (var human : humans) {
-			if (human.id == id) {
+			if (human.targetInfo != null && !human.targetInfo.isSelected()) {
+				return true;
+			}
+		}
+		if (actionQueue.isEmpty()) {
+			return true;
+		}
+		return false;
+	}
+
+	public Human getHuman(String token) {
+		for (var human : humans) {
+			if (human.token.equals(token)) {
 				return human;
 			}
 		}

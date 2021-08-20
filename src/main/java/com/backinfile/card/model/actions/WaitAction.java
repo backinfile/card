@@ -4,10 +4,14 @@ import com.backinfile.card.model.Action;
 
 public abstract class WaitAction extends Action {
 
-	public boolean isDone = false;
+	private boolean isDone = false;
 
 	@Override
 	public boolean isDone() {
 		return isDone;
+	}
+
+	public void setDone() {
+		isDone = true;
 	}
 }

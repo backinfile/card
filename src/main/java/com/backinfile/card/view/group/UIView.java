@@ -1,6 +1,6 @@
 package com.backinfile.card.view.group;
 
-import com.backinfile.card.Res;
+import com.backinfile.card.manager.Res;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;

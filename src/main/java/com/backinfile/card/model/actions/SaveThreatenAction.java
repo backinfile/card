@@ -7,26 +7,23 @@ public class SaveThreatenAction extends WaitAction {
 
 	@Override
 	public void init() {
-		human.clearSelectInfo();
+		human.clearTargetInfo();
 
-		var targetInfo = new TargetInfo(TargetType.Hand);
-		targetInfo.number = 1;
-		targetInfo.optional = false;
-		targetInfo.tip = actionString.tip;
+		var targetInfo = new TargetInfo(TargetType.Hand, 1, actionString.tip);
 		human.targetInfo = targetInfo;
 	}
 
 	@Override
 	public void pulse() {
-		if (human.selectedPile.isEmpty()) {
+		if (!human.targetInfo.isSelected()) {
 			return;
 		}
-		human.handPile.removeAll(human.selectedPile);
-		human.markPile.addAll(human.selectedPile);
+		human.handPile.removeAll(human.targetInfo.getSelected());
+		human.markPile.addAll(human.targetInfo.getSelected());
 	}
 
 	@Override
 	public void dispose() {
-		human.clearSelectInfo();
+		human.clearTargetInfo();
 	}
 }

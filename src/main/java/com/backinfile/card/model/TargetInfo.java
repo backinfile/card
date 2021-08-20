@@ -1,5 +1,7 @@
 package com.backinfile.card.model;
 
+import java.util.List;
+
 import com.backinfile.support.Param;
 
 public class TargetInfo {
@@ -7,26 +9,48 @@ public class TargetInfo {
 	public static final TargetInfo EMPTY = new TargetInfo(TargetType.None);
 	public TargetInfo.TargetType targetType = TargetType.None;
 	public int number = 1; // 需求数量 -1表示不限制数量
-	public int minNumber = -1; // 需求最小数目 optional==true时需求的数目
-	public boolean optional = false; // 是否可选任意张
+	public int minNumber = -1; // 如果>=0， 则可选取minNumber~number张
 	public String tip = "select a card"; // 选取提示
 	public boolean exceptSelf = true; // 作为skill的目标时，排除自身
 	public Param param = new Param(); // 额外参数
+
+	public TargetSelect select = null;
+
+	public static class TargetSelect {
+		public CardPile selected = new CardPile();
+	}
 
 	public TargetInfo(TargetInfo.TargetType targetType) {
 		this.targetType = targetType;
 	}
 
-	public TargetInfo(TargetType targetType, int number, boolean optional) {
+	public TargetInfo(TargetType targetType, int number) {
 		this.targetType = targetType;
 		this.number = number;
-		this.optional = optional;
 	}
 
-	public TargetInfo(TargetType targetType, int number, boolean optional, String tip) {
+	public TargetInfo(TargetType targetType, int number, int minNumber) {
 		this.targetType = targetType;
 		this.number = number;
-		this.optional = optional;
+		this.minNumber = minNumber;
+	}
+
+	public TargetInfo(TargetType targetType, int number, int minNumber, String tip) {
+		this.targetType = targetType;
+		this.number = number;
+		this.minNumber = minNumber;
+		this.tip = tip;
+	}
+
+	public TargetInfo(TargetType targetType, int number, String tip) {
+		this.targetType = targetType;
+		this.number = number;
+		this.tip = tip;
+	}
+
+	public TargetInfo(TargetType targetType, String tip) {
+		this.targetType = targetType;
+		this.number = -1;
 		this.tip = tip;
 	}
 
@@ -46,13 +70,31 @@ public class TargetInfo {
 	}
 
 	// 检查当前选择的卡是否可以满足
-	public boolean test(CardPile targetPile) {
+	public boolean test(Board board, CardPile targetPile) {
 		return false;
 	}
 
-	public CardPile getNextTargetCardPile(CardPile selectedPile) {
+	// 获取下一张可选目标
+	public CardPile getNextTargetCardPile(Board board, CardPile selectedPile) {
 		CardPile cardPile = new CardPile();
 
 		return cardPile;
+	}
+
+	public void setSelected(List<Card> selectedCards) {
+		select = new TargetSelect();
+		select.selected.addAll(selectedCards);
+	}
+
+	public boolean isSelected() {
+		return select != null;
+	}
+
+	public Card getSelectedOne() {
+		return select.selected.get(0);
+	}
+
+	public CardPile getSelected() {
+		return select.selected;
 	}
 }

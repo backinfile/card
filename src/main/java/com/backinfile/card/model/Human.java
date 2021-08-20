@@ -5,13 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.backinfile.card.manager.CardManager;
 import com.backinfile.card.model.actions.DrawCardAction;
 import com.backinfile.card.model.actions.RestoreActionNumberAction;
 import com.backinfile.card.model.actions.SaveThreatenAction;
+import com.backinfile.card.server.proto.DHumanInit;
 
 public class Human extends SkillCaster {
 	// 固有属性
-	public long id;
+	public String token;
 
 	// 被赋值属性
 	public Board board;
@@ -27,12 +29,19 @@ public class Human extends SkillCaster {
 	public int actionNumber = 0;
 
 	// 可被远程使用的属性
-	public CardPile selectedPile = new CardPile(); // 当前已确认选择的卡, 不是真正的牌库
 	public TargetInfo targetInfo = null; // 当前正在进行的选择
 
-	public void init(CardPile drawPile) {
-		this.drawPile.addAll(drawPile);
-		this.drawPile.shuffle();
+	public void init(DHumanInit humanInit) {
+		this.token = humanInit.controllerToken;
+		this.heroCard = CardManager.getCard(humanInit.startHeroCard, token);
+		for (var entry : humanInit.startPileData.pile.entrySet()) {
+			var name = entry.getKey();
+			var number = entry.getValue();
+			for (int i = 0; i < number; i++) {
+				this.drawPile.add(CardManager.getCard(name, token));
+				this.drawPile.shuffle();
+			}
+		}
 
 		// 初始化储备位
 		for (int i = 1; i <= 5; i++) {
@@ -123,8 +132,7 @@ public class Human extends SkillCaster {
 		return cardPile;
 	}
 
-	public final void clearSelectInfo() {
-		selectedPile.clear();
+	public final void clearTargetInfo() {
 		targetInfo = null;
 	}
 

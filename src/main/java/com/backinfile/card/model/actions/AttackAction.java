@@ -21,51 +21,44 @@ public class AttackAction extends WaitAction {
 
 	@Override
 	public void init() {
-		human.clearSelectInfo();
-		targetHuman.clearSelectInfo();
+		human.clearTargetInfo();
+		targetHuman.clearTargetInfo();
 
 		List<CardSlot> emptySlots = targetHuman.getEmptySlots(true);
 		if (emptySlots.isEmpty()) {
 
 			// 自己选择一处进行侵占
 			asBreak = false;
-			var targetInfo = new TargetInfo(TargetType.EmptySlotExceptPlan);
-			targetInfo.number = 1;
-			targetInfo.optional = false;
-			targetInfo.tip = actionString.tip;
-			human.targetInfo = targetInfo;
+			human.targetInfo = new TargetInfo(TargetType.EmptySlotExceptPlan, 1, actionString.tip);
 		} else {
 			// 对手选择一张被击破
 			asBreak = true;
-			var targetInfo = new TargetInfo(TargetType.StoreSlotExceptPlan);
-			targetInfo.number = 1;
-			targetInfo.optional = false;
-			targetHuman.targetInfo = targetInfo;
+			targetHuman.targetInfo = new TargetInfo(TargetType.StoreSlotExceptPlan, 1, actionString.tips[0]);
 		}
 	}
 
 	@Override
 	public void pulse() {
-		if (!human.selectedPile.isEmpty()) {
+		if (human.targetInfo.isSelected()) {
 			board.removeCard(card);
-			var occupyCard = (SlotOccupyCard) human.selectedPile.get(0);
+			var occupyCard = (SlotOccupyCard) human.targetInfo.getSelectedOne();
 			int slotIndex = occupyCard.getSlotIndex();
 			CardSlot cardSlot = targetHuman.cardSlotMap.get(slotIndex);
 			cardSlot.sealCard = card;
 
-			isDone = true;
+			setDone();
 			return;
 		}
 
-		if (!targetHuman.selectedPile.isEmpty()) {
-			var breakCard = targetHuman.selectedPile.get(0);
+		if (targetHuman.targetInfo.isSelected()) {
+			var breakCard = targetHuman.targetInfo.getSelectedOne();
 			board.removeCard(card);
 			board.removeCard(breakCard);
-			board.getHuman(breakCard.oriHumanId).discardPile.add(breakCard);
+			board.getHuman(breakCard.oriHumanToken).discardPile.add(breakCard);
 			human.discardPile.add(card);
 			addLast(new DrawCardAction(human, 1));
 
-			isDone = true;
+			setDone();
 			return;
 		}
 	}

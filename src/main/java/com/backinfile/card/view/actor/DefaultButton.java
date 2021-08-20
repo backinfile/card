@@ -1,7 +1,6 @@
 package com.backinfile.card.view.actor;
 
-import com.backinfile.card.Res;
-import com.badlogic.gdx.graphics.Color;
+import com.backinfile.card.manager.Res;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class DefaultButton extends TextButton {

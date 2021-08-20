@@ -1,6 +1,6 @@
 package com.backinfile.card.view.group;
 
-import com.backinfile.card.Res;
+import com.backinfile.card.manager.Res;
 import com.backinfile.card.model.LocalString.LocalImagePathString;
 import com.backinfile.card.view.actor.DefaultButton;
 import com.badlogic.gdx.Gdx;

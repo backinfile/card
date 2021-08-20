@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DHumanInit {
+	public String controllerToken;
 	public StartPileData startPileData = null;
 	public String startHeroCard = "";
 

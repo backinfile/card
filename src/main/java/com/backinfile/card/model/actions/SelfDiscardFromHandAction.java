@@ -1,6 +1,5 @@
 package com.backinfile.card.model.actions;
 
-import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
 import com.backinfile.card.model.TargetInfo;
 import com.backinfile.card.model.TargetInfo.TargetType;
@@ -15,28 +14,23 @@ public class SelfDiscardFromHandAction extends WaitAction {
 
 	@Override
 	public void init() {
-		human.selectedPile.clear();
-
-		TargetInfo targetInfo = new TargetInfo(TargetType.Hand);
-		targetInfo.optional = false;
-		targetInfo.number = number;
-		human.targetInfo = targetInfo;
+		human.clearTargetInfo();
+		human.targetInfo = new TargetInfo(TargetType.Hand, number, actionString.tip);
 	}
 
 	@Override
 	public void pulse() {
-		if (human.selectedPile.isEmpty()) {
+		if (!human.targetInfo.isSelected()) {
 			return;
 		}
 
-		isDone = true;
-		addLast(new DiscardCardAction(human, new CardPile(human.selectedPile)));
-
+		addLast(new DiscardCardAction(human, human.targetInfo.getSelected()));
+		setDone();
 	}
 
 	@Override
 	public void dispose() {
-		human.clearSelectInfo();
+		human.clearTargetInfo();
 	}
 
 }

@@ -25,4 +25,13 @@ public class CardManager {
 		}
 		Log.game.info("------------- init card over -------------");
 	}
+
+	/**
+	 * 获取一张新的卡牌
+	 */
+	public static Card getCard(String sn, String oriHumanToken) {
+		Card copy = allCards.get(sn).copy();
+		copy.oriHumanToken = oriHumanToken;
+		return copy;
+	}
 }

@@ -17,12 +17,8 @@ public class DispatchAction extends WaitAction {
 	@Override
 	public void init() {
 		for (var human : humans) {
-			TargetInfo targetInfo = new TargetInfo(TargetType.Hand);
-			targetInfo.number = -1;
-			targetInfo.optional = true;
-			targetInfo.tip = actionString.tip;
-			human.targetInfo = targetInfo;
-			human.selectedPile.clear();
+			human.targetInfo = new TargetInfo(TargetType.Hand, -1, 0, actionString.tip);
+			human.clearTargetInfo();
 		}
 
 	}
@@ -30,15 +26,15 @@ public class DispatchAction extends WaitAction {
 	@Override
 	public void pulse() {
 		for (var human : new ArrayList<>(humans)) {
-			if (!human.selectedPile.isEmpty()) {
-				addFirst(new DrawCardAction(human, human.selectedPile.size()));
-				addFirst(new PutbackHandCardAction(human, human.selectedPile));
-				human.clearSelectInfo();
+			if (human.targetInfo.isSelected()) {
+				addFirst(new DrawCardAction(human, human.targetInfo.getSelected().size()));
+				addFirst(new PutbackHandCardAction(human, human.targetInfo.getSelected()));
+				human.clearTargetInfo();
 			}
 		}
 
 		if (humans.isEmpty()) {
-			isDone = true;
+			setDone();
 		}
 	}
 }
