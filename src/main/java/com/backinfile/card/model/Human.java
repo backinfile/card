@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.backinfile.card.manager.CardManager;
+import com.backinfile.card.model.CardPile.PileType;
+import com.backinfile.card.model.CardSlot.SlotType;
 import com.backinfile.card.model.actions.DrawCardAction;
 import com.backinfile.card.model.actions.RestoreActionNumberAction;
 import com.backinfile.card.model.actions.SaveThreatenAction;
@@ -19,13 +21,13 @@ public class Human extends SkillCaster {
 	public Board board;
 
 	// 可变属性
-	public Card heroCard;
-	public CardPile handPile = new CardPile();
+	public CardPile heroPile = new CardPile(PileType.HeroPile);
+	public CardPile handPile = new CardPile(PileType.HandPile);
+	public CardPile markPile = new CardPile(PileType.MarkPile);
+	public CardPile drawPile = new CardPile(PileType.DrawPile);
+	public CardPile discardPile = new CardPile(PileType.DiscardPile);
+	public CardPile trashPile = new CardPile(PileType.TrashPile);
 	public Map<Integer, CardSlot> cardSlotMap = new HashMap<>();
-	public CardPile markPile = new CardPile();
-	public CardPile drawPile = new CardPile();
-	public CardPile discardPile = new CardPile();
-	public CardPile trashPile = new CardPile();
 	public int actionNumber = 0;
 
 	// 可被远程使用的属性
@@ -33,7 +35,7 @@ public class Human extends SkillCaster {
 
 	public void init(DHumanInit humanInit) {
 		this.token = humanInit.controllerToken;
-		this.heroCard = CardManager.getCard(humanInit.startHeroCard, token);
+		this.heroPile.add(CardManager.getCard(humanInit.startHeroCard, token));
 		for (var entry : humanInit.startPileData.pile.entrySet()) {
 			var name = entry.getKey();
 			var number = entry.getValue();
@@ -88,17 +90,30 @@ public class Human extends SkillCaster {
 
 	public CardPile getAllCards() {
 		CardPile cardPile = new CardPile();
-		cardPile.add(heroCard);
+		cardPile.addAll(heroPile);
 		cardPile.addAll(markPile);
 		cardPile.addAll(drawPile);
 		cardPile.addAll(discardPile);
 		cardPile.addAll(trashPile);
+		cardPile.addAll(handPile);
 		for (var slot : cardSlotMap.values()) {
 			cardPile.addAll(slot.getAllCards());
 		}
 		return cardPile;
 	}
 
+	public List<CardPile> getNormalPiles() {
+		var list = new ArrayList<CardPile>();
+		list.add(heroPile);
+		list.add(markPile);
+		list.add(drawPile);
+		list.add(discardPile);
+		list.add(trashPile);
+		list.add(handPile);
+		return list;
+	}
+
+	// 获取所有空的slot
 	public List<CardSlot> getEmptySlots(boolean exceptPlanSlot) {
 		List<CardSlot> cardSlots = new ArrayList<>();
 		for (var cardSlot : cardSlotMap.values()) {
@@ -106,6 +121,23 @@ public class Human extends SkillCaster {
 				continue;
 			}
 			if (cardSlot.getAllCards().isEmpty()) {
+				cardSlots.add(cardSlot);
+			}
+		}
+		return cardSlots;
+	}
+
+	// 获取所有具有储备的slot
+	public List<CardSlot> getStoreSlots(boolean needReady, boolean exceptPlanSlot) {
+		List<CardSlot> cardSlots = new ArrayList<>();
+		for (var cardSlot : cardSlotMap.values()) {
+			if (!cardSlot.getPile(SlotType.Store).isEmpty()) {
+				if (needReady && !cardSlot.ready) {
+					continue;
+				}
+				if (exceptPlanSlot && cardSlot.asPlanSlot) {
+					continue;
+				}
 				cardSlots.add(cardSlot);
 			}
 		}
@@ -121,15 +153,25 @@ public class Human extends SkillCaster {
 		return null;
 	}
 
-	public CardPile getAllStoreCards(boolean ready) {
+	// 获取所有储备
+	public CardPile getAllStoreCards(boolean needReady) {
 		CardPile cardPile = new CardPile();
 		for (var slot : cardSlotMap.values()) {
-			if (ready && !slot.ready) {
+			if (needReady && !slot.ready) {
 				continue;
 			}
-			cardPile.add(slot.storeCard);
+			cardPile.addAll(slot.getPile(SlotType.Store));
 		}
 		return cardPile;
+	}
+
+	public CardSlot getCardSlotByCard(Card card) {
+		for (var slot : cardSlotMap.values()) {
+			if (slot.getAllCards().contains(card)) {
+				return slot;
+			}
+		}
+		return null;
 	}
 
 	public final void clearTargetInfo() {

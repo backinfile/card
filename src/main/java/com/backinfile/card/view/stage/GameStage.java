@@ -2,6 +2,7 @@ package com.backinfile.card.view.stage;
 
 import java.util.HashMap;
 
+import com.backinfile.card.model.CardInfo;
 import com.backinfile.card.server.GameClient;
 import com.backinfile.card.server.GameClientStandalone;
 import com.backinfile.card.view.group.CardGroupView;

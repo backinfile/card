@@ -18,7 +18,7 @@ public class LocalData {
 	public String token;
 	public String name;
 
-	private static void load() {
+	public static void load() {
 		FileHandle file = Gdx.files.internal(Res.PATH_LOCAL_DATA);
 		if (file.exists()) {
 			localData = (LocalData) JSON.parseObject(file.readString(), LocalData.class);

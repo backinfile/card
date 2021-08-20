@@ -18,6 +18,7 @@ public class TargetInfo {
 
 	public static class TargetSelect {
 		public CardPile selected = new CardPile();
+		public boolean confirm = false;
 	}
 
 	public TargetInfo(TargetInfo.TargetType targetType) {
@@ -60,17 +61,39 @@ public class TargetInfo {
 		Hand, // 自己手牌里选
 		Store, // 储备卡
 		ReadyStore, // 储备完成的储备
+		EmptySlot, // 空白储备位
 		EmptySlotExceptPlan, // 空白储备位
 		StoreSlotExceptPlan, // 有储备的槽
 	}
 
 	// 检查棋盘上是否有可以满足
-	public boolean test(Board board) { // TODO
+	public boolean test(Board board, Human human) { // TODO
+		int minestNumber = minNumber >= 0 ? minNumber : number;
+		switch (targetType) {
+		case None:
+			return true;
+		case Hand:
+			return human.handPile.size() >= minestNumber;
+		case Confirm:
+			return true;
+		case EmptySlot:
+			return human.getEmptySlots(false).size() >= minestNumber;
+		case EmptySlotExceptPlan:
+			return human.getEmptySlots(true).size() >= minestNumber;
+		case ReadyStore:
+			return human.getAllStoreCards(true).size() >= minestNumber;
+		case Store:
+			return human.getAllStoreCards(false).size() >= minestNumber;
+		case StoreSlotExceptPlan:
+			return human.getStoreSlots(false, true).size() >= minestNumber;
+		default:
+			break;
+		}
 		return false;
 	}
 
 	// 检查当前选择的卡是否可以满足
-	public boolean test(Board board, CardPile targetPile) {
+	public boolean test(Board board, Human human, CardPile targetPile) {
 		return false;
 	}
 
@@ -91,10 +114,17 @@ public class TargetInfo {
 	}
 
 	public Card getSelectedOne() {
+		if (select.selected.isEmpty()) {
+			return null;
+		}
 		return select.selected.get(0);
 	}
 
 	public CardPile getSelected() {
 		return select.selected;
+	}
+
+	public boolean isConfirm() {
+		return select.confirm;
 	}
 }

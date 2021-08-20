@@ -7,7 +7,6 @@ import com.backinfile.card.model.TargetInfo.TargetType;
 // 释放储备skill, 卡牌本体弃置
 public class PlayAttackSkill extends Skill {
 	public PlayAttackSkill(int number) {
-		passive = false;
 		targetInfo = new TargetInfo(TargetType.Store, number);
 	}
 

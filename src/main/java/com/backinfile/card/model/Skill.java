@@ -13,7 +13,7 @@ public abstract class Skill {
 	public long id;
 	private LocalSkillString skillString;
 	public TargetInfo targetInfo = null; // 触发条件
-	public boolean passive = true; // 被动技能
+	public int activeCostActionPoint = 1; // 主动激活消耗行动力
 
 	// 联动效果
 	public List<IOperable> operables = new ArrayList<>();
@@ -21,10 +21,12 @@ public abstract class Skill {
 	// 执行上下文
 	public Board board;
 	public Human human;
-	public SkillCaster caster;
+	public Card card;
 
 	// 触发时效控制
 	public SkillDuration duration = SkillDuration.Combat;
+	public SkillTrigger trigger = SkillTrigger.Passive;
+	public SkillAura aura = SkillAura.Combat;
 	public int triggerTimesLimit = -1; // 当恰好==0时清除
 	public int triggerTimesPerTurnLimit = -1; // 当恰好==0时清除
 
@@ -33,6 +35,18 @@ public abstract class Skill {
 		Combat, // 本局对战中一直存在
 		OwnerStartTurn, // skill拥有者回合开始清除
 		OwnerEndTurn, // skill拥有者回合结束清除
+	}
+
+	public static enum SkillTrigger {
+		Active, // 主动激活
+		Passive, // 被动
+		OptionalPassive, // 可选被动
+	}
+
+	public static enum SkillAura {
+		Always, // 任何地方
+		Combat, // 场上
+		Hand, // 手牌
 	}
 
 	public Skill() {
@@ -47,12 +61,12 @@ public abstract class Skill {
 		}
 	}
 
-	// 若是主动技能，检查是否可以启用
+	// 检查是否可以启用
 	public boolean canActive() {
 		if (targetInfo == null) {
 			return true;
 		}
-		return targetInfo.test(board);
+		return targetInfo.test(board, human);
 	}
 
 	public void apply() {

@@ -1,9 +1,12 @@
 package com.backinfile.card.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
+import com.backinfile.card.model.CardPile.PileType;
 import com.backinfile.card.model.actions.ChangeBoardStateAction;
 import com.backinfile.card.model.actions.DispatchAction;
 import com.backinfile.card.server.proto.DBoardInit;
@@ -117,6 +120,31 @@ public abstract class Board implements IAlive {
 	public Human getOpponent(Human human) {
 		int index = humans.indexOf(human);
 		return humans.get((index + 1) % humans.size());
+	}
+
+	public Map<Card, CardInfo> getAllCardInfo() {
+		var cardInfos = new HashMap<Card, CardInfo>();
+		for (var human : humans) {
+			for (var cardPile : human.getNormalPiles()) {
+				for (var tuple : cardPile.cardsWithIndex()) {
+					var card = tuple.value2;
+					var index = tuple.value1;
+					cardInfos.put(card, new CardInfo(card, human, index, cardPile.getPileType()));
+				}
+			}
+			for (var cardSlot : human.cardSlotMap.values()) {
+				for (var entry : cardSlot.slotPileMap.entrySet()) {
+					var slotType = entry.getKey();
+					var pile = entry.getValue();
+					for (var tuple : pile.cardsWithIndex()) {
+						var card = tuple.value2;
+						var index = tuple.value1;
+						cardInfos.put(card, new CardInfo(card, human, index, PileType.SlotPile, slotType));
+					}
+				}
+			}
+		}
+		return cardInfos;
 	}
 
 }

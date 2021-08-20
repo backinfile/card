@@ -67,6 +67,8 @@ public class Res {
 
 		initImage();
 		initFont(); // 一定要在所有string加载后执行
+		
+		LocalData.load();
 	}
 
 	public static TextureRegionDrawable getTexture(String path) {

@@ -12,6 +12,11 @@ public class DiscardCardAction extends TriggerOnceAction {
 		this.cards.addAll(cards);
 	}
 
+	public DiscardCardAction(Human human, Card card) {
+		this.human = human;
+		this.cards.add(card);
+	}
+
 	@Override
 	public void run() {
 		for (var card : cards) {
