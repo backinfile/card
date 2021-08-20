@@ -27,22 +27,32 @@ public class CardPile implements Iterable<Card> {
 	public static enum PileType {
 		None(0), // 未知
 		HandPile(10000), // 手牌
-		DrawPile(9000), // 抽牌堆
-		DiscardPile(8000), // 弃牌
-		TrashPile(7000), // 废弃牌
-		MarkPile(6000), // 标记牌
+		DrawPile(9000, false), // 抽牌堆
+		DiscardPile(8000, false), // 弃牌
+		TrashPile(7000, false), // 废弃牌
+		MarkPile(6000, false), // 标记牌
 		SlotPile(5000), // 储备区牌
 		HeroPile(9000), // 英雄卡
 		;
 
 		private int zIndexStart;
+		private boolean visible = true;
 
 		private PileType(int zIndexStart) {
+			this(zIndexStart, true);
+		}
+
+		private PileType(int zIndexStart, boolean visible) {
 			this.zIndexStart = zIndexStart;
+			this.visible = visible;
 		}
 
 		public int getZIndexStart() {
 			return zIndexStart;
+		}
+
+		public boolean isVisible() {
+			return visible;
 		}
 	}
 

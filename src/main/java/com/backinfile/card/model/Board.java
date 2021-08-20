@@ -20,6 +20,7 @@ public abstract class Board implements IAlive {
 	private LinkedList<Human> nextTurnQueue = new LinkedList<>();
 	public int turnCount = 1; // 公共轮次
 	public int playerTurnCount = 0; // 玩家轮次之和
+	public boolean requireFlushCardView = false;
 
 	public BoardState state = BoardState.GamePrepare;
 
@@ -65,7 +66,6 @@ public abstract class Board implements IAlive {
 			}
 			// 回合开始
 			curTurnHuman.onTurnStart();
-
 			playerTurnCount++;
 		} else if (state == BoardState.InTurn) {
 

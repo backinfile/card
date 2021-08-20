@@ -1,23 +1,16 @@
 package com.backinfile.card.view.stage;
 
-import java.util.HashMap;
-
-import com.backinfile.card.model.CardInfo;
 import com.backinfile.card.server.GameClient;
 import com.backinfile.card.server.GameClientStandalone;
 import com.backinfile.card.view.group.CardGroupView;
-import com.backinfile.card.view.group.CardView;
 import com.backinfile.card.view.group.ShowCardView;
 import com.backinfile.card.view.group.UIView;
 import com.backinfile.card.view.group.UseCardSkillView;
-import com.backinfile.support.ObjectPool;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class GameStage extends Stage {
 
-	private ObjectPool<CardView> cardActorPool;
-	private HashMap<Long, CardView> showingCardActors = new HashMap<>();
 	private CardGroupView cardGroupView;
 	private UIView uiView;
 	private ShowCardView showCardView;
@@ -37,7 +30,6 @@ public class GameStage extends Stage {
 	}
 
 	private void initView() {
-		cardActorPool = new ObjectPool<>(() -> new CardView());
 
 		cardGroupView = new CardGroupView(getWidth(), getHeight());
 
@@ -52,18 +44,6 @@ public class GameStage extends Stage {
 		addActor(useCardSkillView);
 
 //		useCardSkillView.show(LocalString.getCardString("attack").frontImages[0]);
-	}
-
-	public void updateCard(CardInfo lastCardInfo, CardInfo cardInfo) {
-		boolean set = false;
-		var cardActor = showingCardActors.get(cardInfo.getId());
-		if (lastCardInfo == null || cardActor == null) {
-			set = true;
-		}
-		if (cardActor == null) {
-			cardActor = cardActorPool.apply();
-			cardActor.setVisible(true);
-		}
 	}
 
 	@Override

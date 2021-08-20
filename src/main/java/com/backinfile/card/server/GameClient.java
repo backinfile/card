@@ -3,7 +3,6 @@ package com.backinfile.card.server;
 import com.backinfile.card.manager.LocalData;
 import com.backinfile.card.model.Board;
 import com.backinfile.card.model.Human;
-import com.backinfile.card.model.TargetInfo;
 import com.backinfile.card.model.boards.StandaloneBoard;
 import com.backinfile.card.server.proto.DBoardInit;
 import com.backinfile.card.server.proto.DHumanOper;
@@ -17,12 +16,11 @@ public abstract class GameClient extends MsgConsumer<DHumanOper> implements IAli
 	public Board board;
 	public Human human;
 	public DRoom room;
-	public TargetInfo targetInfo;
-
 	public ClietState clietState = ClietState.Normal;
 
 	public static enum ClietState {
-		Normal, Room, Game, Select,
+		Normal, Room, Game, Select, // 执行targetInfo
+		Action, // 执行一项行动
 	}
 
 	public GameClient() {
@@ -32,11 +30,13 @@ public abstract class GameClient extends MsgConsumer<DHumanOper> implements IAli
 	public void startGame(DBoardInit boardInit) {
 		board = new StandaloneBoard();
 		board.init(boardInit);
+		human = board.getHuman(LocalData.instance().token);
+		clietState = ClietState.Game;
 	}
 
 	@Override
 	public void pulse() {
-
+		board.requireFlushCardView = false;
 		switch (clietState) {
 		case Normal:
 			break;
@@ -46,35 +46,29 @@ public abstract class GameClient extends MsgConsumer<DHumanOper> implements IAli
 		}
 		case Game: {
 			board.pulse();
-
 			if (human != null) {
 				if (human.targetInfo != null && !human.targetInfo.isSelected()) {
 					clietState = ClietState.Select;
-					targetInfo = human.targetInfo;
+				} else if (board.getActionQueue().isEmpty() && board.curTurnHuman == human) {
+					clietState = ClietState.Action;
 				}
 			}
 			break;
 		}
 		case Select: {
-			if (targetInfo.isSelected()) {
+			if (human.targetInfo.isSelected()) {
 				clietState = ClietState.Game;
 			}
 			break;
 		}
-		default:
+		case Action: {
+
 			break;
 		}
-	}
+		}
 
-	public Human getLocalHuman() {
-		if (board == null) {
-			return null;
+		if (board.requireFlushCardView) {
+			// TODO
 		}
-		for (var human : board.humans) {
-			if (human.token.equals(LocalData.instance().token)) {
-				return human;
-			}
-		}
-		return null;
 	}
 }
