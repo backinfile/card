@@ -31,6 +31,10 @@ public class Res {
 	public static float CARD_WIDTH_S;
 	public static float CARD_HEIGHT_S;
 
+	public static float PILE_ICON_WIDTH = 100;
+	public static float PILE_ICON_HEIGHT = 50;
+	public static float CARD_STAGE_H_OFFSET = 100;
+
 	public static TextureRegionDrawable TEX_BLACK;
 	public static TextureRegionDrawable TEX_WHITE;
 	public static TextureRegionDrawable TEX_GRAY;
@@ -67,7 +71,7 @@ public class Res {
 
 		initImage();
 		initFont(); // 一定要在所有string加载后执行
-		
+
 		LocalData.load();
 	}
 

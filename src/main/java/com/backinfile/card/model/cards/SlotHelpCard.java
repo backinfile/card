@@ -5,6 +5,10 @@ import com.backinfile.card.model.Card;
 public abstract class SlotHelpCard extends Card {
 	private int slotIndex;
 
+	public SlotHelpCard() {
+		mainType = CardType.NONE;
+	}
+
 	public int getSlotIndex() {
 		return slotIndex;
 	}

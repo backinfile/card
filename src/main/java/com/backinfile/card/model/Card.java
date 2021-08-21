@@ -8,7 +8,7 @@ import com.backinfile.support.SysException;
 public abstract class Card extends SkillCaster {
 	public long id;
 	public LocalCardString cardString;
-	public CardType mainType = CardType.STORE;
+	public CardType mainType = CardType.NONE;
 	public CardSubType subType = CardSubType.NONE;
 	public String oriHumanToken; // 最初归属于谁
 

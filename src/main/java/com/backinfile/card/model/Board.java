@@ -117,29 +117,35 @@ public abstract class Board implements IAlive {
 		return null;
 	}
 
+	public Human getAnyHuman() {
+		return humans.get(0);
+	}
+
 	public Human getOpponent(Human human) {
 		int index = humans.indexOf(human);
 		return humans.get((index + 1) % humans.size());
 	}
 
-	public Map<Card, CardInfo> getAllCardInfo() {
+	public final Map<Card, CardInfo> getAllCardInfo() {
 		var cardInfos = new HashMap<Card, CardInfo>();
 		for (var human : humans) {
 			for (var cardPile : human.getNormalPiles()) {
+				int length = cardPile.size();
 				for (var tuple : cardPile.cardsWithIndex()) {
 					var card = tuple.value2;
 					var index = tuple.value1;
-					cardInfos.put(card, new CardInfo(card, human, index, cardPile.getPileType()));
+					cardInfos.put(card, new CardInfo(card, human, index, length, cardPile.getPileType()));
 				}
 			}
 			for (var cardSlot : human.cardSlotMap.values()) {
 				for (var entry : cardSlot.slotPileMap.entrySet()) {
 					var slotType = entry.getKey();
 					var pile = entry.getValue();
+					int length = pile.size();
 					for (var tuple : pile.cardsWithIndex()) {
 						var card = tuple.value2;
 						var index = tuple.value1;
-						cardInfos.put(card, new CardInfo(card, human, index, PileType.SlotPile, slotType));
+						cardInfos.put(card, new CardInfo(card, human, index, length, PileType.SlotPile, slotType));
 					}
 				}
 			}

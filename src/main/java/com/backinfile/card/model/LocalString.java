@@ -15,6 +15,7 @@ public class LocalString {
 	private static Map<String, LocalCardString> cardStringMap = new HashMap<>();
 	private static Map<String, LocalSkillString> skillStringMap = new HashMap<>();
 	private static Map<String, LocalActionString> actionStringMap = new HashMap<>();
+	private static Map<String, LocalUIString> uiStringMap = new HashMap<>();
 	private static List<LocalImagePathString> imagePathStringList = new ArrayList<>();
 
 	@Timing("local string init")
@@ -51,6 +52,12 @@ public class LocalString {
 				actionStringMap.put(actionString.sn, actionString);
 			}
 		}
+		for (var uiString : localString.getJSONArray("ui").toJavaList(LocalUIString.class)) {
+			uiString.sn = uiString.sn.toLowerCase();
+			if (!Utils.isNullOrEmpty(uiString.sn)) {
+				uiStringMap.put(uiString.sn, uiString);
+			}
+		}
 	}
 
 	public static LocalCardString getCardString(String sn) {
@@ -78,6 +85,15 @@ public class LocalString {
 		}
 		Log.res.warn("mising action string sn: {}", sn.toLowerCase());
 		return LocalActionString.EMPTY_STRING;
+	}
+
+	public static LocalUIString getUIString(String sn) {
+		var localUIString = uiStringMap.get(sn.toLowerCase());
+		if (localUIString != null) {
+			return localUIString;
+		}
+		Log.res.warn("mising ui string sn: {}", sn.toLowerCase());
+		return LocalUIString.EMPTY_STRING;
 	}
 
 	public static Collection<LocalCardString> getAllCardStrings() {
@@ -114,5 +130,14 @@ public class LocalString {
 		public static final LocalSkillString EMPTY_STRING = new LocalSkillString();
 		public String sn = "[SN]";
 		public String name = "[NAME]";
+	}
+
+	public static class LocalUIString {
+		public static final LocalUIString EMPTY_STRING = new LocalUIString();
+		public String sn = "[SN]";
+		public String str = "[STR]";
+		public LocalImagePathString image;
+		public LocalImagePathString[] images;
+		public String[] strs = new String[] { "[STR0]", "[STR1]", "[STR2]" };
 	}
 }

@@ -7,19 +7,21 @@ public class CardInfo { // 记录一张卡与其位置
 	public Card card;
 	public Human human;
 	public int index;
+	public int maxLength;
 	public PileType pileType;
 	public SlotType slotType;
 
-	public CardInfo(Card card, Human human, int index, PileType pileType, SlotType slotType) {
+	public CardInfo(Card card, Human human, int index, int maxLength, PileType pileType, SlotType slotType) {
 		this.card = card;
 		this.human = human;
 		this.index = index;
+		this.maxLength = maxLength;
 		this.pileType = pileType;
 		this.slotType = slotType;
 	}
 
-	public CardInfo(Card card, Human human, int index, PileType pileType) {
-		this(card, human, index, pileType, SlotType.None);
+	public CardInfo(Card card, Human human, int index, int maxLength, PileType pileType) {
+		this(card, human, index, maxLength, pileType, SlotType.None);
 	}
 
 	public long getId() {

@@ -1,6 +1,7 @@
 package com.backinfile.card.view.group;
 
 import com.backinfile.card.manager.Res;
+import com.backinfile.card.view.stage.GameStage;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -10,8 +11,8 @@ public class UIView extends BaseView {
 
 	private Label label;
 
-	public UIView(float width, float height) {
-		super(width, height);
+	public UIView(GameStage gameStage, float width, float height) {
+		super(gameStage, width, height);
 
 		LabelStyle labelStyle = new LabelStyle(Res.DefaultFont, Color.WHITE);
 		label = new Label("[label]", labelStyle);

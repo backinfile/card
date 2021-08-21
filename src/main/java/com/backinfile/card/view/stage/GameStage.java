@@ -16,7 +16,7 @@ public class GameStage extends Stage {
 	private ShowCardView showCardView;
 	private UseCardSkillView useCardSkillView;
 
-	private GameClient gameClient;
+	public GameClient gameClient;
 
 	public GameStage(Viewport viewport) {
 		super(viewport);
@@ -31,12 +31,12 @@ public class GameStage extends Stage {
 
 	private void initView() {
 
-		cardGroupView = new CardGroupView(getWidth(), getHeight());
+		cardGroupView = new CardGroupView(this, getWidth(), getHeight());
 
-		uiView = new UIView(getWidth(), getHeight());
+		uiView = new UIView(this, getWidth(), getHeight());
 
-		showCardView = new ShowCardView(getWidth(), getHeight());
-		useCardSkillView = new UseCardSkillView(getWidth(), getHeight());
+		showCardView = new ShowCardView(this, getWidth(), getHeight());
+		useCardSkillView = new UseCardSkillView(this, getWidth(), getHeight());
 
 		addActor(cardGroupView);
 		addActor(uiView);
@@ -55,6 +55,7 @@ public class GameStage extends Stage {
 	public void act(float delta) {
 		super.act(delta);
 		gameClient.pulse();
+
 	}
 
 }
