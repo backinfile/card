@@ -25,5 +25,10 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="libs/dSync.jar" sourcepath="libs/dSync.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/C:/Github/dSync/src/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -7,4 +7,7 @@ public class SysException extends RuntimeException {
 		super(message);
 	}
 
+	public SysException(Throwable cause) {
+		super(cause);
+	}
 }
