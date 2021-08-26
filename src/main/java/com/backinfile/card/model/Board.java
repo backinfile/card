@@ -6,10 +6,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.backinfile.card.gen.MessageHandler.DBoardInit;
 import com.backinfile.card.model.CardPile.PileType;
 import com.backinfile.card.model.actions.ChangeBoardStateAction;
 import com.backinfile.card.model.actions.DispatchAction;
-import com.backinfile.card.server.proto.DBoardInit;
 import com.backinfile.support.IAlive;
 import com.backinfile.support.Utils;
 
@@ -34,8 +34,8 @@ public abstract class Board implements IAlive {
 		actionQueue = new ActionQueue(this);
 		actionQueue.init();
 
-		Utils.setRndSeed(boardInit.seed);
-		for (var dhuman : boardInit.humanInits) {
+		Utils.setRndSeed(boardInit.getSeed());
+		for (var dhuman : boardInit.getAllHumanInits()) {
 			Human human = new Human();
 			human.board = this;
 			human.init(dhuman);

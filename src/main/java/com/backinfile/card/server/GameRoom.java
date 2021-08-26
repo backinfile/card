@@ -3,12 +3,11 @@ package com.backinfile.card.server;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.backinfile.card.manager.LocalData;
+import com.backinfile.card.gen.MessageHandler.DBoardInit;
+import com.backinfile.card.gen.MessageHandler.DHumanInit;
+import com.backinfile.card.gen.MessageHandler.DRoom;
 import com.backinfile.card.model.Board;
 import com.backinfile.card.model.boards.StandaloneBoard;
-import com.backinfile.card.server.proto.DBoardInit;
-import com.backinfile.card.server.proto.DHumanInit;
-import com.backinfile.card.server.proto.DRoom;
 import com.backinfile.support.IAlive;
 
 public class GameRoom implements IAlive {

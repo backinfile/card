@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.backinfile.card.gen.MessageHandler.DHumanInit;
 import com.backinfile.card.manager.CardManager;
 import com.backinfile.card.model.CardPile.PileType;
 import com.backinfile.card.model.CardSlot.SlotType;
 import com.backinfile.card.model.actions.DrawCardAction;
 import com.backinfile.card.model.actions.RestoreActionNumberAction;
 import com.backinfile.card.model.actions.SaveThreatenAction;
-import com.backinfile.card.server.proto.DHumanInit;
 
 public class Human extends SkillCaster {
 	// 固有属性
@@ -34,11 +34,11 @@ public class Human extends SkillCaster {
 	public TargetInfo targetInfo = null; // 当前正在进行的选择
 
 	public void init(DHumanInit humanInit) {
-		this.token = humanInit.controllerToken;
-		this.heroPile.add(CardManager.getCard(humanInit.startPileData.heroCard, token));
-		for (var entry : humanInit.startPileData.pile.entrySet()) {
-			var name = entry.getKey();
-			var number = entry.getValue();
+		this.token = humanInit.getControllerToken();
+		this.heroPile.add(CardManager.getCard(humanInit.getStartPileData().getHeroCard(), token));
+		for (var entry : humanInit.getStartPileData().getAllPile()) {
+			var name = entry.getCard();
+			var number = entry.getCount();
 			for (int i = 0; i < number; i++) {
 				this.drawPile.add(CardManager.getCard(name, token));
 				this.drawPile.shuffle();
