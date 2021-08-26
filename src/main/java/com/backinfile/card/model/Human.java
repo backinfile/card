@@ -35,7 +35,7 @@ public class Human extends SkillCaster {
 
 	public void init(DHumanInit humanInit) {
 		this.token = humanInit.controllerToken;
-		this.heroPile.add(CardManager.getCard(humanInit.startHeroCard, token));
+		this.heroPile.add(CardManager.getCard(humanInit.startPileData.heroCard, token));
 		for (var entry : humanInit.startPileData.pile.entrySet()) {
 			var name = entry.getKey();
 			var number = entry.getValue();

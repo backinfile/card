@@ -11,20 +11,22 @@ import com.backinfile.dSync.DSyncGenerator;
 import com.backinfile.support.SysException;
 
 public class GenMain {
+	public static final String ProtoFilePath = "proto/server.ds";
+
 	public static void main(String[] args) {
 		DSyncGenerator generator = new DSyncGenerator();
 		generator.setFileName("MessageHandler.java");
 		generator.setClassName("MessageHandler");
-		generator.setResourceLoaderClass(GenMain.class);
 		generator.setTargetPackagePath("com.backinfile.card.gen");
-		generator.setTemplateFileDir("/template");
-		generator.setTemplateFileName("proxy.ftl");
+//		generator.setResourceLoaderClass(GenMain.class);
+//		generator.setTemplateFileDir("/template");
+//		generator.setTemplateFileName("proxy.ftl");
 		generator.setDsSource(getDSSource());
 		generator.genFile();
 	}
 
 	private static String getDSSource() {
-		String resourcePath = GenMain.class.getClassLoader().getResource("proto/server.ds").getPath();
+		String resourcePath = GenMain.class.getClassLoader().getResource(ProtoFilePath).getPath();
 		Path path = Paths.get(resourcePath.substring(1));
 		try {
 			List<String> lines = Files.readAllLines(path);

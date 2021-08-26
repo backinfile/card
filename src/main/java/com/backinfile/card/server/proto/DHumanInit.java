@@ -6,9 +6,9 @@ import java.util.Map;
 public class DHumanInit {
 	public String controllerToken;
 	public StartPileData startPileData = null;
-	public String startHeroCard = "";
 
 	public class StartPileData {
+		public String heroCard = "";
 		public Map<String, Integer> pile = new HashMap<>(); // cardSn->number
 	}
 }

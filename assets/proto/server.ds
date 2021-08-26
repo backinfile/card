@@ -1,18 +1,48 @@
+//====================
+// 服务器信息
+//====================
 
-root struct DBoard {
-	DHuman[] humans;
+root struct Root {
+	DPlayer[] onlinePlayers;
 }
 
-// 玩家信息
-struct DHuman {
-	long id;
-	string name;
-	DCardPile handPile; // 手牌
-	String[] cards;
+struct DPlayer {
+	String token;
+	String name;
+	String roomToken;
+	int state; // 0-空闲 1-忙碌
 }
 
-struct DCardPile {
-	DCard[] cards;
+struct DRoom {
+	String roomToken;
+	int state; // 0-normal 1-battle
+	bool hide;
+	DPlayer[] battlePlayers;
+	DPlayer[] visitPlayers;
+}
+
+//====================
+// 对战初始化
+//====================
+
+struct DBoardInit {
+	long seed;
+	DHumanInit[] humanInits;
+}
+
+struct DHumanInit {
+	String controllerToken;
+	DStartPileData startPileData;
+}
+
+struct DStartPileData {
+	String heroCard;
+	DStartPileDataPair[] pile;
+}
+
+struct DStartPileDataPair {
+	String card;
+	int count;
 }
 
 struct DCard {
