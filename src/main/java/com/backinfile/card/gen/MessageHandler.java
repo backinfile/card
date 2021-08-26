@@ -140,9 +140,9 @@ public class MessageHandler extends DSyncBaseHandler {
 	}
 
 	/**
-	 * ====================
+	 * --------------------
 	 * 对战初始化
-	 * ====================
+	 * --------------------
 	 */
 	public static class DBoardInit extends DSyncBase {
 		public static final String TypeName = "DBoardInit";
@@ -155,7 +155,7 @@ public class MessageHandler extends DSyncBaseHandler {
 			public static final String humanInits = "humanInits";
 		}
 
-		private DBoardInit() {
+		public DBoardInit() {
 		}
 
 		public static DBoardInit newInstance(MessageHandler _handler) {
@@ -244,7 +244,7 @@ public class MessageHandler extends DSyncBaseHandler {
 			public static final String startPileData = "startPileData";
 		}
 
-		private DHumanInit() {
+		public DHumanInit() {
 		}
 
 		public static DHumanInit newInstance(MessageHandler _handler) {
@@ -307,7 +307,7 @@ public class MessageHandler extends DSyncBaseHandler {
 			public static final String pile = "pile";
 		}
 
-		private DStartPileData() {
+		public DStartPileData() {
 		}
 
 		public static DStartPileData newInstance(MessageHandler _handler) {
@@ -386,9 +386,9 @@ public class MessageHandler extends DSyncBaseHandler {
 	}
 	
 	/**
-	 * ====================
+	 * --------------------
 	 * 服务器信息
-	 * ====================
+	 * --------------------
 	 */
 	public static class Root extends DSyncBase {
 		public static final String TypeName = "Root";
@@ -399,7 +399,7 @@ public class MessageHandler extends DSyncBaseHandler {
 			public static final String onlinePlayers = "onlinePlayers";
 		}
 
-		private Root() {
+		public Root() {
 		}
 
 		public static Root newInstance(MessageHandler _handler) {
@@ -484,7 +484,7 @@ public class MessageHandler extends DSyncBaseHandler {
 			public static final String visitPlayers = "visitPlayers";
 		}
 
-		private DRoom() {
+		public DRoom() {
 		}
 
 		public static DRoom newInstance(MessageHandler _handler) {
@@ -516,10 +516,12 @@ public class MessageHandler extends DSyncBaseHandler {
 			this.roomToken = roomToken;
 			onChanged();
 		}
+		/** 0-normal 1-battle */
 		public int getState() {
 			return state;
 		}
 		
+		/** 0-normal 1-battle */
 		public void setState(int state) {
 			this.state = state;
 			onChanged();
@@ -630,7 +632,7 @@ public class MessageHandler extends DSyncBaseHandler {
 			public static final String id = "id";
 		}
 
-		private DCard() {
+		public DCard() {
 		}
 
 		public static DCard newInstance(MessageHandler _handler) {
@@ -682,7 +684,7 @@ public class MessageHandler extends DSyncBaseHandler {
 			public static final String count = "count";
 		}
 
-		private DStartPileDataPair() {
+		public DStartPileDataPair() {
 		}
 
 		public static DStartPileDataPair newInstance(MessageHandler _handler) {
@@ -750,7 +752,7 @@ public class MessageHandler extends DSyncBaseHandler {
 			public static final String state = "state";
 		}
 
-		private DPlayer() {
+		public DPlayer() {
 		}
 
 		public static DPlayer newInstance(MessageHandler _handler) {
@@ -797,10 +799,12 @@ public class MessageHandler extends DSyncBaseHandler {
 			this.roomToken = roomToken;
 			onChanged();
 		}
+		/** 0-空闲 1-忙碌 */
 		public int getState() {
 			return state;
 		}
 		
+		/** 0-空闲 1-忙碌 */
 		public void setState(int state) {
 			this.state = state;
 			onChanged();
