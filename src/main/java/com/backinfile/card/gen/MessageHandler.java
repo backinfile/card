@@ -15,7 +15,6 @@ public class MessageHandler extends DSyncBaseHandler {
 	public MessageHandler(Mode mode) {
 		super(mode);
 		root = new Root();
-		root.init();
 		put(root);
 		root.sync();
 	}
@@ -156,6 +155,7 @@ public class MessageHandler extends DSyncBaseHandler {
 		}
 
 		public DBoardInit() {
+			init();
 		}
 
 		public static DBoardInit newInstance(MessageHandler _handler) {
@@ -163,7 +163,6 @@ public class MessageHandler extends DSyncBaseHandler {
 				throw new DSyncException("Client模式下，不能创建DSync数据对象");
 			}
 			DBoardInit _struct = new DBoardInit();
-			_struct.init();
 			if (_handler.mode == Mode.Server) {
 				_handler.put(_struct);
 			}
@@ -245,6 +244,7 @@ public class MessageHandler extends DSyncBaseHandler {
 		}
 
 		public DHumanInit() {
+			init();
 		}
 
 		public static DHumanInit newInstance(MessageHandler _handler) {
@@ -252,7 +252,6 @@ public class MessageHandler extends DSyncBaseHandler {
 				throw new DSyncException("Client模式下，不能创建DSync数据对象");
 			}
 			DHumanInit _struct = new DHumanInit();
-			_struct.init();
 			if (_handler.mode == Mode.Server) {
 				_handler.put(_struct);
 			}
@@ -308,6 +307,7 @@ public class MessageHandler extends DSyncBaseHandler {
 		}
 
 		public DStartPileData() {
+			init();
 		}
 
 		public static DStartPileData newInstance(MessageHandler _handler) {
@@ -315,7 +315,6 @@ public class MessageHandler extends DSyncBaseHandler {
 				throw new DSyncException("Client模式下，不能创建DSync数据对象");
 			}
 			DStartPileData _struct = new DStartPileData();
-			_struct.init();
 			if (_handler.mode == Mode.Server) {
 				_handler.put(_struct);
 			}
@@ -400,6 +399,7 @@ public class MessageHandler extends DSyncBaseHandler {
 		}
 
 		public Root() {
+			init();
 		}
 
 		public static Root newInstance(MessageHandler _handler) {
@@ -407,7 +407,6 @@ public class MessageHandler extends DSyncBaseHandler {
 				throw new DSyncException("Client模式下，不能创建DSync数据对象");
 			}
 			Root _struct = new Root();
-			_struct.init();
 			if (_handler.mode == Mode.Server) {
 				_handler.put(_struct);
 			}
@@ -485,6 +484,7 @@ public class MessageHandler extends DSyncBaseHandler {
 		}
 
 		public DRoom() {
+			init();
 		}
 
 		public static DRoom newInstance(MessageHandler _handler) {
@@ -492,7 +492,6 @@ public class MessageHandler extends DSyncBaseHandler {
 				throw new DSyncException("Client模式下，不能创建DSync数据对象");
 			}
 			DRoom _struct = new DRoom();
-			_struct.init();
 			if (_handler.mode == Mode.Server) {
 				_handler.put(_struct);
 			}
@@ -633,6 +632,7 @@ public class MessageHandler extends DSyncBaseHandler {
 		}
 
 		public DCard() {
+			init();
 		}
 
 		public static DCard newInstance(MessageHandler _handler) {
@@ -640,7 +640,6 @@ public class MessageHandler extends DSyncBaseHandler {
 				throw new DSyncException("Client模式下，不能创建DSync数据对象");
 			}
 			DCard _struct = new DCard();
-			_struct.init();
 			if (_handler.mode == Mode.Server) {
 				_handler.put(_struct);
 			}
@@ -685,6 +684,7 @@ public class MessageHandler extends DSyncBaseHandler {
 		}
 
 		public DStartPileDataPair() {
+			init();
 		}
 
 		public static DStartPileDataPair newInstance(MessageHandler _handler) {
@@ -692,7 +692,6 @@ public class MessageHandler extends DSyncBaseHandler {
 				throw new DSyncException("Client模式下，不能创建DSync数据对象");
 			}
 			DStartPileDataPair _struct = new DStartPileDataPair();
-			_struct.init();
 			if (_handler.mode == Mode.Server) {
 				_handler.put(_struct);
 			}
@@ -753,6 +752,7 @@ public class MessageHandler extends DSyncBaseHandler {
 		}
 
 		public DPlayer() {
+			init();
 		}
 
 		public static DPlayer newInstance(MessageHandler _handler) {
@@ -760,7 +760,6 @@ public class MessageHandler extends DSyncBaseHandler {
 				throw new DSyncException("Client模式下，不能创建DSync数据对象");
 			}
 			DPlayer _struct = new DPlayer();
-			_struct.init();
 			if (_handler.mode == Mode.Server) {
 				_handler.put(_struct);
 			}
@@ -828,5 +827,7 @@ public class MessageHandler extends DSyncBaseHandler {
 		}
 	}
 	
+
+
 }
 
