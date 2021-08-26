@@ -626,9 +626,11 @@ public class MessageHandler extends DSyncBaseHandler {
 		public static final String TypeName = "DCard";
 		
 		private long id;
+		private EPileType pileType;
 
 		public static class K {
 			public static final String id = "id";
+			public static final String pileType = "pileType";
 		}
 
 		public DCard() {
@@ -649,6 +651,7 @@ public class MessageHandler extends DSyncBaseHandler {
 		@Override
 		protected void init() {
 			id = 0;
+			pileType = EPileType.None;
 		}
 		
 		public long getId() {
@@ -659,16 +662,26 @@ public class MessageHandler extends DSyncBaseHandler {
 			this.id = id;
 			onChanged();
 		}
+		public EPileType getPileType() {
+			return pileType;
+		}
+		
+		public void setPileType(EPileType pileType) {
+			this.pileType = pileType;
+			onChanged();
+		}
 
 		@Override
 		protected void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.id, id);
+			jsonObject.put(K.pileType, pileType.ordinal());
 		}
 
 		@Override
 		protected void applyRecord(JSONObject jsonObject) {
 			id = jsonObject.getLongValue(K.id);
+			pileType = EPileType.values()[(jsonObject.getIntValue(K.pileType))];
 		}
 	}
 	
@@ -829,5 +842,12 @@ public class MessageHandler extends DSyncBaseHandler {
 	
 
 
+	public static enum EPileType {
+		None,
+		/** 手牌 */
+		HandPile,
+		/** 牌库 */
+		DrawPile,
+	}
 }
 

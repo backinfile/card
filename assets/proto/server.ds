@@ -47,4 +47,11 @@ struct DStartPileDataPair {
 
 struct DCard {
 	long id;
+	EPileType pileType;
+}
+
+enum EPileType {
+	None;
+	HandPile; // 手牌
+	DrawPile; // 牌库
 }
