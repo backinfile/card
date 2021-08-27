@@ -8,11 +8,11 @@ import com.backinfile.dSync.model.DSyncBaseHandler;
 import com.backinfile.dSync.model.DSyncException;
 import com.backinfile.dSync.model.Mode;
 
-public class MessageHandler extends DSyncBaseHandler {
+public class ServerMessage extends DSyncBaseHandler {
 	private Root root;
 	private List<DSyncListener> listeners = new ArrayList<>();
 
-	public MessageHandler(Mode mode) {
+	public ServerMessage(Mode mode) {
 		super(mode);
 		root = new Root();
 		put(root);
@@ -142,6 +142,7 @@ public class MessageHandler extends DSyncBaseHandler {
 	 * --------------------
 	 * 对战初始化
 	 * --------------------
+	 * 仅用于存数据
 	 */
 	public static class DBoardInit extends DSyncBase {
 		public static final String TypeName = "DBoardInit";
@@ -158,7 +159,7 @@ public class MessageHandler extends DSyncBaseHandler {
 			init();
 		}
 
-		public static DBoardInit newInstance(MessageHandler _handler) {
+		public static DBoardInit newInstance(ServerMessage _handler) {
 			if (_handler.mode == Mode.Client) {
 				throw new DSyncException("Client模式下，不能创建DSync数据对象");
 			}
@@ -187,11 +188,11 @@ public class MessageHandler extends DSyncBaseHandler {
 			return this.humanInits.size();
 		}
 		
-		public List<DHumanInit> getAllHumanInits() {
+		public List<DHumanInit> getHumanInitsList() {
 			return new ArrayList<>(humanInits);
 		}
 		
-		public void setAllHumanInits(List<DHumanInit> _value) {
+		public void setHumanInitsList(List<DHumanInit> _value) {
 			this.humanInits.clear();
 			this.humanInits.addAll(_value);
 			onChanged();
@@ -230,6 +231,48 @@ public class MessageHandler extends DSyncBaseHandler {
 			seed = jsonObject.getLongValue(K.seed);
 			humanInits = fromJSONString(jsonObject.getString(K.humanInits));
 		}
+		
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof DBoardInit)) {
+				return false;
+			}
+			var _value = (DBoardInit) obj;
+			if (this.seed != _value.seed) {
+				return false;
+			}
+			if (!this.humanInits.equals(_value.humanInits)) {
+				return false;
+			}
+			return true;
+		}
+		
+		public DBoardInit copy() {
+			var _value = new DBoardInit();
+			_value._dSync_id = -1;
+			_value.seed = this.seed;
+			_value.humanInits = new ArrayList<>(this.humanInits);
+			return _value;
+		}
+		
+		
+		public DBoardInit deepCopy() {
+			var _value = new DBoardInit();
+			_value._dSync_id = -1;
+			_value.seed = this.seed;
+			_value.humanInits = new ArrayList<>();
+			for(var _f: this.humanInits) {
+				_value.humanInits.add(_f.deepCopy());
+			}
+			return _value;
+		}
 	}
 	
 	public static class DHumanInit extends DSyncBase {
@@ -247,7 +290,7 @@ public class MessageHandler extends DSyncBaseHandler {
 			init();
 		}
 
-		public static DHumanInit newInstance(MessageHandler _handler) {
+		public static DHumanInit newInstance(ServerMessage _handler) {
 			if (_handler.mode == Mode.Client) {
 				throw new DSyncException("Client模式下，不能创建DSync数据对象");
 			}
@@ -293,6 +336,45 @@ public class MessageHandler extends DSyncBaseHandler {
 			controllerToken = jsonObject.getString(K.controllerToken);
 			startPileData = (DStartPileData) handler.get(jsonObject.getLongValue(K.startPileData));
 		}
+		
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof DHumanInit)) {
+				return false;
+			}
+			var _value = (DHumanInit) obj;
+			if (!this.controllerToken.equals(_value.controllerToken)) {
+				return false;
+			}
+			if (!this.startPileData.equals(_value.startPileData)) {
+				return false;
+			}
+			return true;
+		}
+		
+		public DHumanInit copy() {
+			var _value = new DHumanInit();
+			_value._dSync_id = -1;
+			_value.controllerToken = this.controllerToken;
+			_value.startPileData = this.startPileData;
+			return _value;
+		}
+		
+		
+		public DHumanInit deepCopy() {
+			var _value = new DHumanInit();
+			_value._dSync_id = -1;
+			_value.controllerToken = this.controllerToken;
+			_value.startPileData = this.startPileData.deepCopy();
+			return _value;
+		}
 	}
 	
 	public static class DStartPileData extends DSyncBase {
@@ -310,7 +392,7 @@ public class MessageHandler extends DSyncBaseHandler {
 			init();
 		}
 
-		public static DStartPileData newInstance(MessageHandler _handler) {
+		public static DStartPileData newInstance(ServerMessage _handler) {
 			if (_handler.mode == Mode.Client) {
 				throw new DSyncException("Client模式下，不能创建DSync数据对象");
 			}
@@ -339,11 +421,11 @@ public class MessageHandler extends DSyncBaseHandler {
 			return this.pile.size();
 		}
 		
-		public List<DStartPileDataPair> getAllPile() {
+		public List<DStartPileDataPair> getPileList() {
 			return new ArrayList<>(pile);
 		}
 		
-		public void setAllPile(List<DStartPileDataPair> _value) {
+		public void setPileList(List<DStartPileDataPair> _value) {
 			this.pile.clear();
 			this.pile.addAll(_value);
 			onChanged();
@@ -382,6 +464,48 @@ public class MessageHandler extends DSyncBaseHandler {
 			heroCard = jsonObject.getString(K.heroCard);
 			pile = fromJSONString(jsonObject.getString(K.pile));
 		}
+		
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof DStartPileData)) {
+				return false;
+			}
+			var _value = (DStartPileData) obj;
+			if (!this.heroCard.equals(_value.heroCard)) {
+				return false;
+			}
+			if (!this.pile.equals(_value.pile)) {
+				return false;
+			}
+			return true;
+		}
+		
+		public DStartPileData copy() {
+			var _value = new DStartPileData();
+			_value._dSync_id = -1;
+			_value.heroCard = this.heroCard;
+			_value.pile = new ArrayList<>(this.pile);
+			return _value;
+		}
+		
+		
+		public DStartPileData deepCopy() {
+			var _value = new DStartPileData();
+			_value._dSync_id = -1;
+			_value.heroCard = this.heroCard;
+			_value.pile = new ArrayList<>();
+			for(var _f: this.pile) {
+				_value.pile.add(_f.deepCopy());
+			}
+			return _value;
+		}
 	}
 	
 	/**
@@ -393,16 +517,18 @@ public class MessageHandler extends DSyncBaseHandler {
 		public static final String TypeName = "Root";
 		
 		private List<DPlayer> onlinePlayers;
+		private List<DRoom> rooms;
 
 		public static class K {
 			public static final String onlinePlayers = "onlinePlayers";
+			public static final String rooms = "rooms";
 		}
 
 		public Root() {
 			init();
 		}
 
-		public static Root newInstance(MessageHandler _handler) {
+		public static Root newInstance(ServerMessage _handler) {
 			if (_handler.mode == Mode.Client) {
 				throw new DSyncException("Client模式下，不能创建DSync数据对象");
 			}
@@ -416,17 +542,18 @@ public class MessageHandler extends DSyncBaseHandler {
 		@Override
 		protected void init() {
 			onlinePlayers = new ArrayList<>();
+			rooms = new ArrayList<>();
 		}
 		
 		public int getOnlinePlayersCount() {
 			return this.onlinePlayers.size();
 		}
 		
-		public List<DPlayer> getAllOnlinePlayers() {
+		public List<DPlayer> getOnlinePlayersList() {
 			return new ArrayList<>(onlinePlayers);
 		}
 		
-		public void setAllOnlinePlayers(List<DPlayer> _value) {
+		public void setOnlinePlayersList(List<DPlayer> _value) {
 			this.onlinePlayers.clear();
 			this.onlinePlayers.addAll(_value);
 			onChanged();
@@ -452,31 +579,111 @@ public class MessageHandler extends DSyncBaseHandler {
 			onChanged();
 		}
 		
+		public int getRoomsCount() {
+			return this.rooms.size();
+		}
+		
+		public List<DRoom> getRoomsList() {
+			return new ArrayList<>(rooms);
+		}
+		
+		public void setRoomsList(List<DRoom> _value) {
+			this.rooms.clear();
+			this.rooms.addAll(_value);
+			onChanged();
+		}
+		
+		public void addRooms(DRoom _value) {
+			this.rooms.add(_value);
+			onChanged();
+		}
+		
+		public void removeRooms(DRoom _value) {
+			this.rooms.remove(_value);
+			onChanged();
+		}
+		
+		public void addAllRooms(List<DRoom> _value) {
+			this.rooms.addAll(_value);
+			onChanged();
+		}
+		
+		public void clearRooms() {
+			this.rooms.clear();
+			onChanged();
+		}
+		
 
 		@Override
 		protected void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.onlinePlayers, toJSONString(onlinePlayers));
+			jsonObject.put(K.rooms, toJSONString(rooms));
 		}
 
 		@Override
 		protected void applyRecord(JSONObject jsonObject) {
 			onlinePlayers = fromJSONString(jsonObject.getString(K.onlinePlayers));
+			rooms = fromJSONString(jsonObject.getString(K.rooms));
+		}
+		
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof Root)) {
+				return false;
+			}
+			var _value = (Root) obj;
+			if (!this.onlinePlayers.equals(_value.onlinePlayers)) {
+				return false;
+			}
+			if (!this.rooms.equals(_value.rooms)) {
+				return false;
+			}
+			return true;
+		}
+		
+		public Root copy() {
+			var _value = new Root();
+			_value._dSync_id = -1;
+			_value.onlinePlayers = new ArrayList<>(this.onlinePlayers);
+			_value.rooms = new ArrayList<>(this.rooms);
+			return _value;
+		}
+		
+		
+		public Root deepCopy() {
+			var _value = new Root();
+			_value._dSync_id = -1;
+			_value.onlinePlayers = new ArrayList<>();
+			for(var _f: this.onlinePlayers) {
+				_value.onlinePlayers.add(_f.deepCopy());
+			}
+			_value.rooms = new ArrayList<>();
+			for(var _f: this.rooms) {
+				_value.rooms.add(_f.deepCopy());
+			}
+			return _value;
 		}
 	}
 	
 	public static class DRoom extends DSyncBase {
 		public static final String TypeName = "DRoom";
 		
-		private String roomToken;
-		/** 0-normal 1-battle */
-		private int state;
+		private String token;
+		private ERoomStage state;
 		private boolean hide;
 		private List<DPlayer> battlePlayers;
 		private List<DPlayer> visitPlayers;
 
 		public static class K {
-			public static final String roomToken = "roomToken";
+			public static final String token = "token";
 			public static final String state = "state";
 			public static final String hide = "hide";
 			public static final String battlePlayers = "battlePlayers";
@@ -487,7 +694,7 @@ public class MessageHandler extends DSyncBaseHandler {
 			init();
 		}
 
-		public static DRoom newInstance(MessageHandler _handler) {
+		public static DRoom newInstance(ServerMessage _handler) {
 			if (_handler.mode == Mode.Client) {
 				throw new DSyncException("Client模式下，不能创建DSync数据对象");
 			}
@@ -500,28 +707,26 @@ public class MessageHandler extends DSyncBaseHandler {
 
 		@Override
 		protected void init() {
-			roomToken = "";
-			state = 0;
+			token = "";
+			state = ERoomStage.Normal;
 			hide = false;
 			battlePlayers = new ArrayList<>();
 			visitPlayers = new ArrayList<>();
 		}
 		
-		public String getRoomToken() {
-			return roomToken;
+		public String getToken() {
+			return token;
 		}
 		
-		public void setRoomToken(String roomToken) {
-			this.roomToken = roomToken;
+		public void setToken(String token) {
+			this.token = token;
 			onChanged();
 		}
-		/** 0-normal 1-battle */
-		public int getState() {
+		public ERoomStage getState() {
 			return state;
 		}
 		
-		/** 0-normal 1-battle */
-		public void setState(int state) {
+		public void setState(ERoomStage state) {
 			this.state = state;
 			onChanged();
 		}
@@ -537,11 +742,11 @@ public class MessageHandler extends DSyncBaseHandler {
 			return this.battlePlayers.size();
 		}
 		
-		public List<DPlayer> getAllBattlePlayers() {
+		public List<DPlayer> getBattlePlayersList() {
 			return new ArrayList<>(battlePlayers);
 		}
 		
-		public void setAllBattlePlayers(List<DPlayer> _value) {
+		public void setBattlePlayersList(List<DPlayer> _value) {
 			this.battlePlayers.clear();
 			this.battlePlayers.addAll(_value);
 			onChanged();
@@ -571,11 +776,11 @@ public class MessageHandler extends DSyncBaseHandler {
 			return this.visitPlayers.size();
 		}
 		
-		public List<DPlayer> getAllVisitPlayers() {
+		public List<DPlayer> getVisitPlayersList() {
 			return new ArrayList<>(visitPlayers);
 		}
 		
-		public void setAllVisitPlayers(List<DPlayer> _value) {
+		public void setVisitPlayersList(List<DPlayer> _value) {
 			this.visitPlayers.clear();
 			this.visitPlayers.addAll(_value);
 			onChanged();
@@ -605,8 +810,8 @@ public class MessageHandler extends DSyncBaseHandler {
 		@Override
 		protected void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
-			jsonObject.put(K.roomToken, roomToken);
-			jsonObject.put(K.state, state);
+			jsonObject.put(K.token, token);
+			jsonObject.put(K.state, state.ordinal());
 			jsonObject.put(K.hide, hide);
 			jsonObject.put(K.battlePlayers, toJSONString(battlePlayers));
 			jsonObject.put(K.visitPlayers, toJSONString(visitPlayers));
@@ -614,11 +819,71 @@ public class MessageHandler extends DSyncBaseHandler {
 
 		@Override
 		protected void applyRecord(JSONObject jsonObject) {
-			roomToken = jsonObject.getString(K.roomToken);
-			state = jsonObject.getIntValue(K.state);
+			token = jsonObject.getString(K.token);
+			state = ERoomStage.values()[(jsonObject.getIntValue(K.state))];
 			hide = jsonObject.getBooleanValue(K.hide);
 			battlePlayers = fromJSONString(jsonObject.getString(K.battlePlayers));
 			visitPlayers = fromJSONString(jsonObject.getString(K.visitPlayers));
+		}
+		
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof DRoom)) {
+				return false;
+			}
+			var _value = (DRoom) obj;
+			if (!this.token.equals(_value.token)) {
+				return false;
+			}
+			if (!this.state.equals(_value.state)) {
+				return false;
+			}
+			if (this.hide != _value.hide) {
+				return false;
+			}
+			if (!this.battlePlayers.equals(_value.battlePlayers)) {
+				return false;
+			}
+			if (!this.visitPlayers.equals(_value.visitPlayers)) {
+				return false;
+			}
+			return true;
+		}
+		
+		public DRoom copy() {
+			var _value = new DRoom();
+			_value._dSync_id = -1;
+			_value.token = this.token;
+			_value.state = this.state;
+			_value.hide = this.hide;
+			_value.battlePlayers = new ArrayList<>(this.battlePlayers);
+			_value.visitPlayers = new ArrayList<>(this.visitPlayers);
+			return _value;
+		}
+		
+		
+		public DRoom deepCopy() {
+			var _value = new DRoom();
+			_value._dSync_id = -1;
+			_value.token = this.token;
+			_value.state = this.state;
+			_value.hide = this.hide;
+			_value.battlePlayers = new ArrayList<>();
+			for(var _f: this.battlePlayers) {
+				_value.battlePlayers.add(_f.deepCopy());
+			}
+			_value.visitPlayers = new ArrayList<>();
+			for(var _f: this.visitPlayers) {
+				_value.visitPlayers.add(_f.deepCopy());
+			}
+			return _value;
 		}
 	}
 	
@@ -637,7 +902,7 @@ public class MessageHandler extends DSyncBaseHandler {
 			init();
 		}
 
-		public static DCard newInstance(MessageHandler _handler) {
+		public static DCard newInstance(ServerMessage _handler) {
 			if (_handler.mode == Mode.Client) {
 				throw new DSyncException("Client模式下，不能创建DSync数据对象");
 			}
@@ -683,6 +948,45 @@ public class MessageHandler extends DSyncBaseHandler {
 			id = jsonObject.getLongValue(K.id);
 			pileType = EPileType.values()[(jsonObject.getIntValue(K.pileType))];
 		}
+		
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof DCard)) {
+				return false;
+			}
+			var _value = (DCard) obj;
+			if (this.id != _value.id) {
+				return false;
+			}
+			if (!this.pileType.equals(_value.pileType)) {
+				return false;
+			}
+			return true;
+		}
+		
+		public DCard copy() {
+			var _value = new DCard();
+			_value._dSync_id = -1;
+			_value.id = this.id;
+			_value.pileType = this.pileType;
+			return _value;
+		}
+		
+		
+		public DCard deepCopy() {
+			var _value = new DCard();
+			_value._dSync_id = -1;
+			_value.id = this.id;
+			_value.pileType = this.pileType;
+			return _value;
+		}
 	}
 	
 	public static class DStartPileDataPair extends DSyncBase {
@@ -700,7 +1004,7 @@ public class MessageHandler extends DSyncBaseHandler {
 			init();
 		}
 
-		public static DStartPileDataPair newInstance(MessageHandler _handler) {
+		public static DStartPileDataPair newInstance(ServerMessage _handler) {
 			if (_handler.mode == Mode.Client) {
 				throw new DSyncException("Client模式下，不能创建DSync数据对象");
 			}
@@ -746,6 +1050,45 @@ public class MessageHandler extends DSyncBaseHandler {
 			card = jsonObject.getString(K.card);
 			count = jsonObject.getIntValue(K.count);
 		}
+		
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof DStartPileDataPair)) {
+				return false;
+			}
+			var _value = (DStartPileDataPair) obj;
+			if (!this.card.equals(_value.card)) {
+				return false;
+			}
+			if (this.count != _value.count) {
+				return false;
+			}
+			return true;
+		}
+		
+		public DStartPileDataPair copy() {
+			var _value = new DStartPileDataPair();
+			_value._dSync_id = -1;
+			_value.card = this.card;
+			_value.count = this.count;
+			return _value;
+		}
+		
+		
+		public DStartPileDataPair deepCopy() {
+			var _value = new DStartPileDataPair();
+			_value._dSync_id = -1;
+			_value.card = this.card;
+			_value.count = this.count;
+			return _value;
+		}
 	}
 	
 	public static class DPlayer extends DSyncBase {
@@ -754,8 +1097,7 @@ public class MessageHandler extends DSyncBaseHandler {
 		private String token;
 		private String name;
 		private String roomToken;
-		/** 0-空闲 1-忙碌 */
-		private int state;
+		private EPlayerState state;
 
 		public static class K {
 			public static final String token = "token";
@@ -768,7 +1110,7 @@ public class MessageHandler extends DSyncBaseHandler {
 			init();
 		}
 
-		public static DPlayer newInstance(MessageHandler _handler) {
+		public static DPlayer newInstance(ServerMessage _handler) {
 			if (_handler.mode == Mode.Client) {
 				throw new DSyncException("Client模式下，不能创建DSync数据对象");
 			}
@@ -784,7 +1126,7 @@ public class MessageHandler extends DSyncBaseHandler {
 			token = "";
 			name = "";
 			roomToken = "";
-			state = 0;
+			state = EPlayerState.Normal;
 		}
 		
 		public String getToken() {
@@ -811,13 +1153,11 @@ public class MessageHandler extends DSyncBaseHandler {
 			this.roomToken = roomToken;
 			onChanged();
 		}
-		/** 0-空闲 1-忙碌 */
-		public int getState() {
+		public EPlayerState getState() {
 			return state;
 		}
 		
-		/** 0-空闲 1-忙碌 */
-		public void setState(int state) {
+		public void setState(EPlayerState state) {
 			this.state = state;
 			onChanged();
 		}
@@ -828,7 +1168,7 @@ public class MessageHandler extends DSyncBaseHandler {
 			jsonObject.put(K.token, token);
 			jsonObject.put(K.name, name);
 			jsonObject.put(K.roomToken, roomToken);
-			jsonObject.put(K.state, state);
+			jsonObject.put(K.state, state.ordinal());
 		}
 
 		@Override
@@ -836,7 +1176,56 @@ public class MessageHandler extends DSyncBaseHandler {
 			token = jsonObject.getString(K.token);
 			name = jsonObject.getString(K.name);
 			roomToken = jsonObject.getString(K.roomToken);
-			state = jsonObject.getIntValue(K.state);
+			state = EPlayerState.values()[(jsonObject.getIntValue(K.state))];
+		}
+		
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof DPlayer)) {
+				return false;
+			}
+			var _value = (DPlayer) obj;
+			if (!this.token.equals(_value.token)) {
+				return false;
+			}
+			if (!this.name.equals(_value.name)) {
+				return false;
+			}
+			if (!this.roomToken.equals(_value.roomToken)) {
+				return false;
+			}
+			if (!this.state.equals(_value.state)) {
+				return false;
+			}
+			return true;
+		}
+		
+		public DPlayer copy() {
+			var _value = new DPlayer();
+			_value._dSync_id = -1;
+			_value.token = this.token;
+			_value.name = this.name;
+			_value.roomToken = this.roomToken;
+			_value.state = this.state;
+			return _value;
+		}
+		
+		
+		public DPlayer deepCopy() {
+			var _value = new DPlayer();
+			_value._dSync_id = -1;
+			_value.token = this.token;
+			_value.name = this.name;
+			_value.roomToken = this.roomToken;
+			_value.state = this.state;
+			return _value;
 		}
 	}
 	
@@ -848,6 +1237,14 @@ public class MessageHandler extends DSyncBaseHandler {
 		HandPile,
 		/** 牌库 */
 		DrawPile,
+	}
+	public static enum ERoomStage {
+		Normal,
+		Battle,
+	}
+	public static enum EPlayerState {
+		Normal,
+		Game,
 	}
 }
 

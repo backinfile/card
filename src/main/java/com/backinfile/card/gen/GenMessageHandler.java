@@ -11,22 +11,40 @@ import com.backinfile.dSync.DSyncGenerator;
 import com.backinfile.support.SysException;
 
 public class GenMessageHandler {
-	public static final String ProtoFilePath = "proto/server.ds";
+	public static final String ServerProtoFilePath = "proto/server.ds";
+	public static final String ClientFilePath = "proto/client.ds";
 
 	public static void main(String[] args) {
+		genServerMessage();
+		genClientMessage();
+	}
+
+	private static void genClientMessage() {
 		DSyncGenerator generator = new DSyncGenerator();
-		generator.setFileName("MessageHandler.java");
-		generator.setClassName("MessageHandler");
+		generator.setFileName("ClientMessage.java");
+		generator.setClassName("ClientMessage");
 		generator.setTargetPackagePath("com.backinfile.card.gen");
 		generator.setResourceLoaderClass(GenMessageHandler.class);
 		generator.setTemplateFileDir("/template");
 		generator.setTemplateFileName("proxy.ftl");
-		generator.setDsSource(getDSSource());
+		generator.setDsSource(getDSSource(ClientFilePath));
 		generator.genFile();
 	}
 
-	private static String getDSSource() {
-		String resourcePath = GenMessageHandler.class.getClassLoader().getResource(ProtoFilePath).getPath();
+	private static void genServerMessage() {
+		DSyncGenerator generator = new DSyncGenerator();
+		generator.setFileName("ServerMessage.java");
+		generator.setClassName("ServerMessage");
+		generator.setTargetPackagePath("com.backinfile.card.gen");
+		generator.setResourceLoaderClass(GenMessageHandler.class);
+		generator.setTemplateFileDir("/template");
+		generator.setTemplateFileName("proxy.ftl");
+		generator.setDsSource(getDSSource(ServerProtoFilePath));
+		generator.genFile();
+	}
+
+	private static String getDSSource(String filePath) {
+		String resourcePath = GenMessageHandler.class.getClassLoader().getResource(filePath).getPath();
 		Path path = Paths.get(resourcePath.substring(1));
 		try {
 			List<String> lines = Files.readAllLines(path);

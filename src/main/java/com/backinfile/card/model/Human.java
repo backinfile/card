@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.backinfile.card.gen.MessageHandler.DHumanInit;
+import com.backinfile.card.gen.ServerMessage.DHumanInit;
 import com.backinfile.card.manager.CardManager;
 import com.backinfile.card.model.CardPile.PileType;
 import com.backinfile.card.model.CardSlot.SlotType;
@@ -36,7 +36,7 @@ public class Human extends SkillCaster {
 	public void init(DHumanInit humanInit) {
 		this.token = humanInit.getControllerToken();
 		this.heroPile.add(CardManager.getCard(humanInit.getStartPileData().getHeroCard(), token));
-		for (var entry : humanInit.getStartPileData().getAllPile()) {
+		for (var entry : humanInit.getStartPileData().getPileList()) {
 			var name = entry.getCard();
 			var number = entry.getCount();
 			for (int i = 0; i < number; i++) {

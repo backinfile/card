@@ -3,7 +3,7 @@ package com.backinfile.card.server;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.backinfile.card.gen.MessageHandler.DPlayer;
+import com.backinfile.card.gen.ServerMessage.DPlayer;
 import com.backinfile.support.IAlive;
 import com.backinfile.support.MsgConsumer;
 import com.backinfile.support.Utils;

@@ -1,0 +1,18 @@
+//--------------------
+// 客户端->服务器
+//--------------------
+
+root struct Root {
+	String token;
+	DHumanOper oper;
+}
+
+struct DHumanOper {
+	EOperType type;
+	long id;
+}
+
+enum EOperType {
+	Reset,
+	Skill,
+}

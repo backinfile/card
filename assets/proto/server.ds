@@ -4,27 +4,39 @@
 
 root struct Root {
 	DPlayer[] onlinePlayers;
+	DRoom[] rooms;
 }
 
 struct DPlayer {
 	String token;
 	String name;
 	String roomToken;
-	int state; // 0-空闲 1-忙碌
+	EPlayerState state;
+}
+
+enum EPlayerState {
+	Normal;
+	Game;
 }
 
 struct DRoom {
-	String roomToken;
-	int state; // 0-normal 1-battle
+	String token;
+	ERoomStage state;
 	bool hide;
 	DPlayer[] battlePlayers;
 	DPlayer[] visitPlayers;
+}
+
+enum ERoomStage {
+	Normal,
+	Battle,
 }
 
 //--------------------
 // 对战初始化
 //--------------------
 
+// 仅用于存数据
 struct DBoardInit {
 	long seed;
 	DHumanInit[] humanInits;
