@@ -1,11 +1,8 @@
 package com.backinfile.card.server;
 
-import java.util.ArrayList;
-import java.util.List;
 
-import com.backinfile.card.gen.ServerMessage.DBoardInit;
-import com.backinfile.card.gen.ServerMessage.DHumanInit;
-import com.backinfile.card.gen.ServerMessage.DRoom;
+import com.backinfile.card.gen.GameMessage.DBoardInit;
+import com.backinfile.card.gen.GameMessage.DRoom;
 import com.backinfile.card.model.Board;
 import com.backinfile.card.model.boards.StandaloneBoard;
 import com.backinfile.support.IAlive;
@@ -13,9 +10,7 @@ import com.backinfile.support.IAlive;
 public class GameRoom implements IAlive {
 	public DRoom room;
 	public Board board;
-	public List<DHumanInit> humanInits = new ArrayList<>();
-
-	public ClietState clietState = ClietState.Normal;
+	public DBoardInit boardInit;
 
 	public static enum ClietState {
 		Normal, Room, Game, Select, // 执行targetInfo
@@ -25,30 +20,9 @@ public class GameRoom implements IAlive {
 	public void startGame(DBoardInit boardInit) {
 		board = new StandaloneBoard();
 		board.init(boardInit);
-		clietState = ClietState.Game;
 	}
 
 	@Override
 	public void pulse() {
-		board.requireFlushCardView = false;
-		switch (clietState) {
-		case Normal:
-			break;
-		case Room: {
-
-			break;
-		}
-		case Game: {
-			board.pulse();
-			break;
-		}
-		case Select: {
-			break;
-		}
-		case Action: {
-
-			break;
-		}
-		}
 	}
 }

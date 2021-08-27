@@ -3,8 +3,12 @@
 //--------------------
 
 root struct Root {
-	DPlayer[] onlinePlayers;
-	DRoom[] rooms;
+}
+
+struct DServer {
+	DPlayer[] onlinePlayerList;
+	DRoom[] roomList;
+	DRoom myRoom;
 }
 
 struct DPlayer {
@@ -36,6 +40,22 @@ enum ERoomStage {
 // 对战初始化
 //--------------------
 
+
+struct DClientPlayerInfo {
+	String token;
+	String name;
+}
+
+//--------------------
+// 客户端->服务器
+//--------------------
+
+
+struct CSCreateRoom {
+}
+struct CSJoinRoom {
+}
+
 // 仅用于存数据
 struct DBoardInit {
 	long seed;
@@ -44,10 +64,6 @@ struct DBoardInit {
 
 struct DHumanInit {
 	String controllerToken;
-	DStartPileData startPileData;
-}
-
-struct DStartPileData {
 	String heroCard;
 	DStartPileDataPair[] pile;
 }
@@ -57,13 +73,14 @@ struct DStartPileDataPair {
 	int count;
 }
 
-struct DCard {
-	long id;
-	EPileType pileType;
+struct DHumanOper {
+	EOperType type;
+	long skillId;
 }
 
-enum EPileType {
-	None;
-	HandPile; // 手牌
-	DrawPile; // 牌库
+enum EOperType {
+	None,
+	Skill,
 }
+
+

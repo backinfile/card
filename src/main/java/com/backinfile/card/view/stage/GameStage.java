@@ -1,7 +1,6 @@
 package com.backinfile.card.view.stage;
 
 import com.backinfile.card.server.GameClient;
-import com.backinfile.card.server.GameClientStandalone;
 import com.backinfile.card.view.group.CardGroupView;
 import com.backinfile.card.view.group.ShowCardView;
 import com.backinfile.card.view.group.UIView;
@@ -26,7 +25,7 @@ public class GameStage extends Stage {
 	}
 
 	private void initLogic() {
-		gameClient = new GameClientStandalone();
+		gameClient = new GameClient();
 	}
 
 	private void initView() {

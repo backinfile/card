@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.backinfile.card.gen.ServerMessage.DBoardInit;
+import com.backinfile.card.gen.GameMessage.DBoardInit;
 import com.backinfile.card.model.CardPile.PileType;
 import com.backinfile.card.model.actions.ChangeBoardStateAction;
 import com.backinfile.card.model.actions.DispatchAction;

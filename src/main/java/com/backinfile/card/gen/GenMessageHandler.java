@@ -12,29 +12,11 @@ import com.backinfile.support.SysException;
 
 public class GenMessageHandler {
 	public static final String ServerProtoFilePath = "proto/server.ds";
-	public static final String ClientFilePath = "proto/client.ds";
 
 	public static void main(String[] args) {
-		genServerMessage();
-		genClientMessage();
-	}
-
-	private static void genClientMessage() {
 		DSyncGenerator generator = new DSyncGenerator();
-		generator.setFileName("ClientMessage.java");
-		generator.setClassName("ClientMessage");
-		generator.setTargetPackagePath("com.backinfile.card.gen");
-		generator.setResourceLoaderClass(GenMessageHandler.class);
-		generator.setTemplateFileDir("/template");
-		generator.setTemplateFileName("proxy.ftl");
-		generator.setDsSource(getDSSource(ClientFilePath));
-		generator.genFile();
-	}
-
-	private static void genServerMessage() {
-		DSyncGenerator generator = new DSyncGenerator();
-		generator.setFileName("ServerMessage.java");
-		generator.setClassName("ServerMessage");
+		generator.setFileName("GameMessage.java");
+		generator.setClassName("GameMessage");
 		generator.setTargetPackagePath("com.backinfile.card.gen");
 		generator.setResourceLoaderClass(GenMessageHandler.class);
 		generator.setTemplateFileDir("/template");
