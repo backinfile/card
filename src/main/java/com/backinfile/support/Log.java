@@ -11,4 +11,7 @@ public class Log {
 	public static Logger reflection = LoggerFactory.getLogger("REFLECTION");
 	public static Logger level = LoggerFactory.getLogger("LEVEL");
 	public static Logger res = LoggerFactory.getLogger("RES");
+	public static Logger client = LoggerFactory.getLogger("CLIENT");
+	public static Logger server = LoggerFactory.getLogger("SERVER");
+	public static Logger net = LoggerFactory.getLogger("NET");
 }

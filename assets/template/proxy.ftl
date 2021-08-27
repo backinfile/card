@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.backinfile.dSync.model.DSyncBaseHandler;
 
+@SuppressWarnings("unused")
 public class ${handlerClassName} extends DSyncBaseHandler {
 	private List<DSyncListener> listeners = new ArrayList<>();
 

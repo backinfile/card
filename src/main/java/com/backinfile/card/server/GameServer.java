@@ -12,7 +12,7 @@ public class GameServer extends MsgConsumer<String> implements IAlive {
 	public static GameServer Instance;
 
 	private Map<String, GameRoom> gameRooms = new HashMap<>();
-	private Map<String, DPlayer> onlinePlayers = new HashMap<>();
+	private Map<String, Player> onlinePlayers = new HashMap<>();
 
 	public GameServer() {
 		Instance = this;
@@ -36,9 +36,11 @@ public class GameServer extends MsgConsumer<String> implements IAlive {
 		if (Utils.isNullOrEmpty(player.getToken())) {
 			return;
 		}
-		if (!onlinePlayers.containsKey(player.getToken())) {
-			onlinePlayers.put(player.getToken(), player);
-		}
+//		if (!onlinePlayers.containsKey(player.getToken())) {
+//			onlinePlayers.put(player.getToken(), player);
+//		}
 	}
+	
+	
 
 }
