@@ -3,10 +3,10 @@ package com.backinfile.card.view.group;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.backinfile.card.gen.GameMessage.DCardInfo;
+import com.backinfile.card.gen.GameMessage.ECardPileType;
 import com.backinfile.card.manager.Res;
 import com.backinfile.card.model.Card;
-import com.backinfile.card.model.CardInfo;
-import com.backinfile.card.model.CardPile.PileType;
 import com.backinfile.card.view.stage.GameStage;
 import com.backinfile.support.ObjectPool;
 import com.badlogic.gdx.math.Vector2;
@@ -15,8 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 public class CardGroupView extends BaseView {
 
 	private ObjectPool<CardView> cardActorPool;
-	private HashMap<Card, CardView> cardViews = new HashMap<>();
-	private HashMap<Card, CardInfo> saveCardInfos = new HashMap<>();
+	private HashMap<Long, CardView> cardViews = new HashMap<>();
+	private HashMap<Long, DCardInfo> saveCardInfos = new HashMap<>();
 	private Group cardGroup = new Group();
 
 	private PileView myDrawPile;
@@ -28,10 +28,10 @@ public class CardGroupView extends BaseView {
 		super(gameStage, width, height);
 		cardActorPool = new ObjectPool<>(() -> new CardView());
 
-		myDrawPile = new PileView(gameStage, width, height, PileType.DrawPile, true);
-		opDrawPile = new PileView(gameStage, width, height, PileType.DrawPile, false);
-		myDiscardPile = new PileView(gameStage, width, height, PileType.DiscardPile, true);
-		opDiscardPile = new PileView(gameStage, width, height, PileType.DiscardPile, false);
+		myDrawPile = new PileView(gameStage, width, height, ECardPileType.DrawPile, true);
+		opDrawPile = new PileView(gameStage, width, height, ECardPileType.DrawPile, false);
+		myDiscardPile = new PileView(gameStage, width, height, ECardPileType.DiscardPile, true);
+		opDiscardPile = new PileView(gameStage, width, height, ECardPileType.DiscardPile, false);
 
 		addActor(myDrawPile);
 		addActor(opDrawPile);
@@ -41,7 +41,7 @@ public class CardGroupView extends BaseView {
 		addActor(cardGroup);
 	}
 
-	public void updateAllCardInfo(Map<Card, CardInfo> allCardInfo, boolean set) {
+	public void updateAllCardInfo(Map<Card, DCardInfo> allCardInfo, boolean set) {
 		for (var cardInfo : allCardInfo.values()) {
 			updateCard(cardInfo, set);
 		}
@@ -51,15 +51,15 @@ public class CardGroupView extends BaseView {
 	private void adjustCardLayer() {
 	}
 
-	private void updateCard(CardInfo cardInfo, boolean set) {
-		var lastCardInfo = saveCardInfos.get(cardInfo.card);
+	private void updateCard(DCardInfo cardInfo, boolean set) {
+		var lastCardInfo = saveCardInfos.get(cardInfo.getId());
 		if (lastCardInfo == null) {
 			set = true;
 		}
 
-		saveCardInfos.put(cardInfo.card, cardInfo);
+		saveCardInfos.put(cardInfo.getId(), cardInfo);
 
-		var cardActor = cardViews.get(cardInfo.card);
+		var cardActor = cardViews.get(cardInfo.getId());
 
 		if (cardActor == null) {
 			cardActor = cardActorPool.apply();
@@ -67,36 +67,36 @@ public class CardGroupView extends BaseView {
 		}
 	}
 
-	private void setCard(CardInfo cardInfo) {
+	private void setCard(DCardInfo cardInfo) {
 		if (!isCardVisible(cardInfo)) {
 			removeCardView(cardInfo);
 		}
 	}
 
-	private void moveCard(CardInfo oldCardInfo, CardInfo newCardInfo) {
+	private void moveCard(DCardInfo oldCardInfo, DCardInfo newCardInfo) {
 
 	}
 
-	private CardView getCardView(CardInfo cardInfo) {
-		var cardView = cardViews.get(cardInfo.card);
+	private CardView getCardView(DCardInfo cardInfo) {
+		var cardView = cardViews.get(cardInfo.getId());
 		if (cardView == null) {
 			cardView = cardActorPool.apply();
-			cardViews.put(cardInfo.card, cardView);
+			cardViews.put(cardInfo.getId(), cardView);
 		}
 		return cardView;
 	}
 
-	private void removeCardView(CardInfo cardInfo) {
-		var cardView = cardViews.get(cardInfo.card);
+	private void removeCardView(DCardInfo cardInfo) {
+		var cardView = cardViews.get(cardInfo.getId());
 		if (cardView != null) {
 			cardView.setVisible(false);
 			cardActorPool.putBack(cardView);
-			cardViews.remove(cardInfo.card);
+			cardViews.remove(cardInfo.getId());
 		}
 	}
 
-	private boolean isCardVisible(CardInfo cardInfo) {
-		switch (cardInfo.pileType) {
+	private boolean isCardVisible(DCardInfo cardInfo) {
+		switch (cardInfo.getPileType()) {
 		case DiscardPile:
 		case DrawPile:
 		case MarkPile:
@@ -114,8 +114,8 @@ public class CardGroupView extends BaseView {
 		return false;
 	}
 
-	private Vector2 getCardFinalPos(CardInfo cardInfo) {
-		switch (cardInfo.pileType) {
+	private Vector2 getCardFinalPos(DCardInfo cardInfo) {
+		switch (cardInfo.getPileType()) {
 		case DiscardPile: {
 		}
 		}

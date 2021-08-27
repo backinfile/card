@@ -47,6 +47,59 @@ struct DClientPlayerInfo {
 	String name;
 }
 
+
+//--------------------
+// 服务器->客户端
+//--------------------
+
+struct DBoardSetup {
+	String viewAt; // 主视角玩家token
+	DCardInfoList cardInfos;
+}
+
+struct DCardInfoList {
+	DCardInfo[] cards;
+}
+
+struct DCardInfo {
+	long id;
+	String cardName; // 卡牌类型 className
+	String playerToken; // 拥有者token
+	ECardPileType pileType; // 牌库类型
+	ESlotType slotType; // 储备区牌类型
+	int pileIndex; // 处于牌堆中的那个位置 0为最底部
+	int pileSize; // 牌堆中牌的总数
+	bool asPlanSlot; // 当前slot是计划区
+	bool ready; // 当前slot已经准备完成
+}
+
+enum ECardPileType {
+	None,
+	HandPile, // 手牌
+	DrawPile, // 牌库
+	DiscardPile, // 弃牌区
+	TrashPile, // 废弃牌区
+	MarkPile, // 标记牌
+	SlotPile, // 储备牌区
+	HeroPile, // 英雄牌区
+}
+
+enum ESlotType {
+	None,
+	Store, // 储备牌
+	Seal, // 封印牌
+	Ride, // 骑乘牌
+	Harass, // 骚扰牌
+	Charge, // 充能牌
+	Plan, // 计划牌
+}
+
+// 主动技能
+struct DActiveSkill {
+	long id;
+}
+
+
 //--------------------
 // 客户端->服务器
 //--------------------
@@ -83,5 +136,6 @@ enum EOperType {
 	None,
 	Skill,
 }
+
 
 

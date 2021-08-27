@@ -1,7 +1,7 @@
 package com.backinfile.card.view.group;
 
+import com.backinfile.card.gen.GameMessage.ECardPileType;
 import com.backinfile.card.manager.Res;
-import com.backinfile.card.model.CardPile.PileType;
 import com.backinfile.card.model.LocalString;
 import com.backinfile.card.model.LocalString.LocalUIString;
 import com.backinfile.card.view.stage.GameStage;
@@ -17,12 +17,12 @@ import com.badlogic.gdx.utils.Align;
 
 public class PileView extends BaseView {
 	private boolean self;
-	private PileType pileType;
+	private ECardPileType pileType;
 	private Button pileButton;
 	private Label label;
 	private LocalUIString localUIString;
 
-	public PileView(GameStage gameStage, float stageWidth, float stageHeight, PileType pileType, boolean self) {
+	public PileView(GameStage gameStage, float stageWidth, float stageHeight, ECardPileType pileType, boolean self) {
 		super(gameStage, Res.PILE_ICON_WIDTH, Res.PILE_ICON_HEIGHT);
 
 		this.pileType = pileType;
@@ -65,7 +65,7 @@ public class PileView extends BaseView {
 		return texture;
 	}
 
-	public PileType getPileType() {
+	public ECardPileType getPileType() {
 		return pileType;
 	}
 

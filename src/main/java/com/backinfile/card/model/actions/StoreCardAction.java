@@ -1,8 +1,8 @@
 package com.backinfile.card.model.actions;
 
+import com.backinfile.card.gen.GameMessage.ESlotType;
 import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardSlot;
-import com.backinfile.card.model.CardSlot.SlotType;
 import com.backinfile.card.model.Human;
 import com.backinfile.card.model.TargetInfo;
 import com.backinfile.card.model.TargetInfo.TargetType;
@@ -66,7 +66,7 @@ public class StoreCardAction extends WaitAction {
 				Card selectedOne = human.targetInfo.getSelectedOne();
 				SlotStoreCard slotCard = (SlotStoreCard) selectedOne;
 				CardSlot cardSlot = human.cardSlotMap.get(slotCard.getSlotIndex());
-				cardSlot.put(SlotType.Store, card);
+				cardSlot.put(ESlotType.Store, card);
 				cardSlot.ready = fast;
 				setDone();
 				return;
@@ -78,7 +78,7 @@ public class StoreCardAction extends WaitAction {
 				board.removeCard(card);
 				Card selectedOne = human.targetInfo.getSelectedOne();
 				CardSlot cardSlot = human.getCardSlotByCard(selectedOne);
-				cardSlot.put(SlotType.Store, card);
+				cardSlot.put(ESlotType.Store, card);
 				cardSlot.ready = fast;
 				addLast(new DiscardCardAction(human, selectedOne));
 				setDone();

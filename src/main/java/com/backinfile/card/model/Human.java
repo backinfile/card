@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.backinfile.card.gen.GameMessage.DHumanInit;
+import com.backinfile.card.gen.GameMessage.ECardPileType;
+import com.backinfile.card.gen.GameMessage.ESlotType;
 import com.backinfile.card.manager.CardManager;
-import com.backinfile.card.model.CardPile.PileType;
-import com.backinfile.card.model.CardSlot.SlotType;
 import com.backinfile.card.model.actions.DrawCardAction;
 import com.backinfile.card.model.actions.RestoreActionNumberAction;
 import com.backinfile.card.model.actions.SaveThreatenAction;
@@ -21,12 +21,12 @@ public class Human extends SkillCaster {
 	public Board board;
 
 	// 可变属性
-	public CardPile heroPile = new CardPile(PileType.HeroPile);
-	public CardPile handPile = new CardPile(PileType.HandPile);
-	public CardPile markPile = new CardPile(PileType.MarkPile);
-	public CardPile drawPile = new CardPile(PileType.DrawPile);
-	public CardPile discardPile = new CardPile(PileType.DiscardPile);
-	public CardPile trashPile = new CardPile(PileType.TrashPile);
+	public CardPile heroPile = new CardPile(ECardPileType.HeroPile);
+	public CardPile handPile = new CardPile(ECardPileType.HandPile);
+	public CardPile markPile = new CardPile(ECardPileType.MarkPile);
+	public CardPile drawPile = new CardPile(ECardPileType.DrawPile);
+	public CardPile discardPile = new CardPile(ECardPileType.DiscardPile);
+	public CardPile trashPile = new CardPile(ECardPileType.TrashPile);
 	public Map<Integer, CardSlot> cardSlotMap = new HashMap<>();
 	public int actionNumber = 0;
 
@@ -131,7 +131,7 @@ public class Human extends SkillCaster {
 	public List<CardSlot> getStoreSlots(boolean needReady, boolean exceptPlanSlot) {
 		List<CardSlot> cardSlots = new ArrayList<>();
 		for (var cardSlot : cardSlotMap.values()) {
-			if (!cardSlot.getPile(SlotType.Store).isEmpty()) {
+			if (!cardSlot.getPile(ESlotType.Store).isEmpty()) {
 				if (needReady && !cardSlot.ready) {
 					continue;
 				}
@@ -160,7 +160,7 @@ public class Human extends SkillCaster {
 			if (needReady && !slot.ready) {
 				continue;
 			}
-			cardPile.addAll(slot.getPile(SlotType.Store));
+			cardPile.addAll(slot.getPile(ESlotType.Store));
 		}
 		return cardPile;
 	}

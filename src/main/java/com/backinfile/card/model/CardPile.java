@@ -6,11 +6,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
 
+import com.backinfile.card.gen.GameMessage.ECardPileType;
 import com.backinfile.support.Tuple2;
 import com.backinfile.support.Utils;
 
 public class CardPile implements Iterable<Card> {
-	private PileType pileType = PileType.None;
+	private ECardPileType pileType = ECardPileType.None;
 	private LinkedList<Card> cards = new LinkedList<Card>();
 
 	public CardPile() {
@@ -20,40 +21,8 @@ public class CardPile implements Iterable<Card> {
 		this.addAll(cardPile);
 	}
 
-	public CardPile(PileType pileType) {
+	public CardPile(ECardPileType pileType) {
 		this.pileType = pileType;
-	}
-
-	public static enum PileType {
-		None(0), // 未知
-		HandPile(10000), // 手牌
-		DrawPile(9000, false), // 抽牌堆
-		DiscardPile(8000, false), // 弃牌
-		TrashPile(7000, false), // 废弃牌
-		MarkPile(6000, false), // 标记牌
-		SlotPile(5000), // 储备区牌
-		HeroPile(9000), // 英雄卡
-		;
-
-		private int zIndexStart;
-		private boolean visible = true;
-
-		private PileType(int zIndexStart) {
-			this(zIndexStart, true);
-		}
-
-		private PileType(int zIndexStart, boolean visible) {
-			this.zIndexStart = zIndexStart;
-			this.visible = visible;
-		}
-
-		public int getZIndexStart() {
-			return zIndexStart;
-		}
-
-		public boolean isVisible() {
-			return visible;
-		}
 	}
 
 	public void add(Card card) {
@@ -148,7 +117,7 @@ public class CardPile implements Iterable<Card> {
 		}
 	}
 
-	public PileType getPileType() {
+	public ECardPileType getPileType() {
 		return pileType;
 	}
 

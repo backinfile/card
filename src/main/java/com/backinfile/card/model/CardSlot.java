@@ -3,37 +3,19 @@ package com.backinfile.card.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.backinfile.card.model.CardPile.PileType;
+import com.backinfile.card.gen.GameMessage.ECardPileType;
+import com.backinfile.card.gen.GameMessage.ESlotType;
 
 // 储备位
 public class CardSlot {
 	public int index = 1;
 	public boolean asPlanSlot = false; // 可作为计划区使用
 	public boolean ready = false; // 储备完成
-	public Map<SlotType, CardPile> slotPileMap = new HashMap<>();
+	public Map<ESlotType, CardPile> slotPileMap = new HashMap<>();
 
-	public static enum SlotType {
-		None(0), // 未知
-		Store(0), // 储备卡(计划卡）
-		Seal(0), // 封印
-		Ride(-1), // 骑乘
-		Harass(1), // 骚扰
-		Charge(1), // 充能
-		;
-
-		private int offset = 0;
-
-		private SlotType(int offset) {
-			this.offset = offset;
-		}
-
-		public int getOffset() {
-			return offset;
-		}
-	}
 
 	public CardPile getAllCards() {
-		CardPile cardPile = new CardPile(PileType.SlotPile);
+		CardPile cardPile = new CardPile(ECardPileType.SlotPile);
 		for (var pile : slotPileMap.values()) {
 			cardPile.addAll(pile);
 		}
@@ -49,16 +31,16 @@ public class CardSlot {
 		return false;
 	}
 
-	public void put(SlotType slotType, Card card) {
+	public void put(ESlotType slotType, Card card) {
 		var pile = slotPileMap.get(slotType);
 		if (pile == null) {
-			pile = new CardPile(PileType.SlotPile);
+			pile = new CardPile(ECardPileType.SlotPile);
 			slotPileMap.put(slotType, pile);
 		}
 		pile.add(card);
 	}
 
-	public void remove(SlotType slotType) {
+	public void remove(ESlotType slotType) {
 		slotPileMap.remove(slotType);
 	}
 
@@ -80,19 +62,19 @@ public class CardSlot {
 		return false;
 	}
 
-	public SlotType getSlotType(Card card) {
+	public ESlotType getSlotType(Card card) {
 		for (var entry : slotPileMap.entrySet()) {
 			if (entry.getValue().contains(card)) {
 				return entry.getKey();
 			}
 		}
-		return SlotType.None;
+		return ESlotType.None;
 	}
 
-	public CardPile getPile(SlotType slotType) {
+	public CardPile getPile(ESlotType slotType) {
 		var pile = slotPileMap.get(slotType);
 		if (pile == null) {
-			pile = new CardPile(PileType.SlotPile);
+			pile = new CardPile(ECardPileType.SlotPile);
 			slotPileMap.put(slotType, pile);
 		}
 		return pile;

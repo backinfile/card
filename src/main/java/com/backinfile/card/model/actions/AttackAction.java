@@ -2,9 +2,9 @@ package com.backinfile.card.model.actions;
 
 import java.util.List;
 
+import com.backinfile.card.gen.GameMessage.ESlotType;
 import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardSlot;
-import com.backinfile.card.model.CardSlot.SlotType;
 import com.backinfile.card.model.Human;
 import com.backinfile.card.model.TargetInfo;
 import com.backinfile.card.model.TargetInfo.TargetType;
@@ -42,7 +42,7 @@ public class AttackAction extends WaitAction {
 			var occupyCard = (SlotOccupyCard) human.targetInfo.getSelectedOne();
 			int slotIndex = occupyCard.getSlotIndex();
 			CardSlot cardSlot = targetHuman.cardSlotMap.get(slotIndex);
-			cardSlot.put(SlotType.Seal, card);
+			cardSlot.put(ESlotType.Seal, card);
 
 			setDone();
 			return;
