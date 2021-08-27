@@ -13,7 +13,7 @@ import com.backinfile.card.model.actions.DispatchAction;
 import com.backinfile.support.IAlive;
 import com.backinfile.support.Utils;
 
-public abstract class Board implements IAlive {
+public class Board implements IAlive {
 	public List<Human> humans = new ArrayList<>();
 	public Human curTurnHuman = null;
 	private ActionQueue actionQueue;
