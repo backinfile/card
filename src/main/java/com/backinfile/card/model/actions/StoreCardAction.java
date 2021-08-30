@@ -4,8 +4,6 @@ import com.backinfile.card.gen.GameMessage.ESlotType;
 import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardSlot;
 import com.backinfile.card.model.Human;
-import com.backinfile.card.model.TargetInfo;
-import com.backinfile.card.model.TargetInfo.TargetType;
 import com.backinfile.card.model.cards.SlotHelpCard.SlotStoreCard;
 
 public class StoreCardAction extends WaitAction {

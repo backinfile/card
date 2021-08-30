@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.backinfile.card.gen.GameMessage.DHumanInit;
+import com.backinfile.card.gen.GameMessage.DTargetInfo;
+import com.backinfile.card.gen.GameMessage.DTargetSelect;
 import com.backinfile.card.gen.GameMessage.ECardPileType;
 import com.backinfile.card.gen.GameMessage.ESlotType;
 import com.backinfile.card.manager.CardManager;
@@ -31,7 +33,8 @@ public class Human extends SkillCaster {
 	public int actionNumber = 0;
 
 	// 可被远程使用的属性
-	public TargetInfo targetInfo = null; // 当前正在进行的选择
+	public DTargetInfo targetInfo = null; // 当前正在进行的选择
+	public DTargetSelect targetSelect = null;
 
 	public void init(DHumanInit humanInit) {
 		this.token = humanInit.getControllerToken();
@@ -176,6 +179,23 @@ public class Human extends SkillCaster {
 
 	public final void clearTargetInfo() {
 		targetInfo = null;
+		targetSelect = null;
+	}
+
+	public boolean isTargetSelected() {
+		return targetSelect != null;
+	}
+
+	public Card getTargetSelectOne() {
+		return board.getCard(targetSelect.getSelectedCardList().get(0));
+	}
+
+	public CardPile getTargetSelected() {
+		CardPile cardPile = new CardPile();
+		for (var id : targetSelect.getSelectedCardList()) {
+			cardPile.add(board.getCard(id));
+		}
+		return cardPile;
 	}
 
 	public final void addLast(Action action) {

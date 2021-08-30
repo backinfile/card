@@ -1,8 +1,6 @@
 package com.backinfile.card.model.skills;
 
 import com.backinfile.card.model.Skill;
-import com.backinfile.card.model.TargetInfo;
-import com.backinfile.card.model.TargetInfo.TargetType;
 
 // 释放储备skill, 卡牌本体弃置
 public class PlayAttackSkill extends Skill {

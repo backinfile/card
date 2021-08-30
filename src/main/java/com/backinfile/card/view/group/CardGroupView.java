@@ -96,7 +96,7 @@ public class CardGroupView extends BaseView {
 	}
 
 	private boolean isCardVisible(DCardInfo cardInfo) {
-		switch (cardInfo.getPileType()) {
+		switch (cardInfo.getPileInfo().getPileType()) {
 		case DiscardPile:
 		case DrawPile:
 		case MarkPile:
@@ -115,7 +115,7 @@ public class CardGroupView extends BaseView {
 	}
 
 	private Vector2 getCardFinalPos(DCardInfo cardInfo) {
-		switch (cardInfo.getPileType()) {
+		switch (cardInfo.getPileInfo().getPileType()) {
 		case DiscardPile: {
 		}
 		}

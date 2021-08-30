@@ -1,8 +1,6 @@
 package com.backinfile.card.model.actions;
 
 import com.backinfile.card.model.Human;
-import com.backinfile.card.model.TargetInfo;
-import com.backinfile.card.model.TargetInfo.TargetType;
 
 public class SelfDiscardFromHandAction extends WaitAction {
 	private int number;

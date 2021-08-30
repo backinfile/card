@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.backinfile.card.gen.GameMessage.DBoardInit;
 import com.backinfile.card.gen.GameMessage.DCardInfo;
+import com.backinfile.card.gen.GameMessage.DCardPileInfo;
 import com.backinfile.card.model.actions.ChangeBoardStateAction;
 import com.backinfile.card.model.actions.DispatchAction;
 import com.backinfile.support.IAlive;
@@ -98,7 +99,7 @@ public class Board implements IAlive {
 
 	public boolean isWaitingHumanOper() {
 		for (var human : humans) {
-			if (human.targetInfo != null && !human.targetInfo.isSelected()) {
+			if (human.targetInfo != null && !human.isTargetSelected()) {
 				return true;
 			}
 		}
@@ -135,11 +136,13 @@ public class Board implements IAlive {
 					var index = tuple.value1;
 					var cardInfo = new DCardInfo();
 					cardInfo.setId(card.id);
-					cardInfo.setCardName(card.cardString.sn);
-					cardInfo.setPlayerToken(human.token);
-					cardInfo.setPileType(cardPile.getPileType());
-					cardInfo.setPileSize(cardPile.size());
-					cardInfo.setPileIndex(index);
+					cardInfo.setSn(card.cardString.sn);
+					DCardPileInfo pileInfo = new DCardPileInfo();
+					cardInfo.setPileInfo(pileInfo);
+					pileInfo.setPlayerToken(human.token);
+					pileInfo.setPileType(cardPile.getPileType());
+					pileInfo.setPileSize(cardPile.size());
+					pileInfo.setPileIndex(index);
 					cardInfos.put(card, cardInfo);
 				}
 			}
@@ -152,20 +155,26 @@ public class Board implements IAlive {
 						var index = tuple.value1;
 						var cardInfo = new DCardInfo();
 						cardInfo.setId(card.id);
-						cardInfo.setCardName(card.cardString.sn);
-						cardInfo.setPlayerToken(human.token);
-						cardInfo.setPileType(pile.getPileType());
-						cardInfo.setSlotType(slotType);
-						cardInfo.setPileSize(pile.size());
-						cardInfo.setPileIndex(index);
-						cardInfo.setAsPlanSlot(cardSlot.asPlanSlot);
-						cardInfo.setReady(cardSlot.ready);
+						cardInfo.setSn(card.cardString.sn);
+						DCardPileInfo pileInfo = new DCardPileInfo();
+						cardInfo.setPileInfo(pileInfo);
+						pileInfo.setPlayerToken(human.token);
+						pileInfo.setPileType(pile.getPileType());
+						pileInfo.setSlotType(slotType);
+						pileInfo.setPileSize(pile.size());
+						pileInfo.setPileIndex(index);
+						pileInfo.setAsPlanSlot(cardSlot.asPlanSlot);
+						pileInfo.setReady(cardSlot.ready);
 						cardInfos.put(card, cardInfo);
 					}
 				}
 			}
 		}
 		return cardInfos;
+	}
+
+	public Card getCard(long cardId) { // TODO
+		return null;
 	}
 
 }

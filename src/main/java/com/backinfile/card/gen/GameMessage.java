@@ -25,28 +25,25 @@ public class GameMessage extends DSyncBaseHandler {
 		public void onMessage(DBoardSetup data) {
 		}
 		
-		public void onMessage(Root data) {
-		}
-		
 		public void onMessage(DActiveSkill data) {
 		}
 		
 		public void onMessage(DCardInfo data) {
 		}
 		
-		public void onMessage(DServer data) {
-		}
-		
 		public void onMessage(DClientPlayerInfo data) {
-		}
-		
-		public void onMessage(DStartPileDataPair data) {
 		}
 		
 		public void onMessage(DPlayer data) {
 		}
 		
+		public void onMessage(DTargetInfo data) {
+		}
+		
 		public void onMessage(DHumanInit data) {
+		}
+		
+		public void onMessage(DTargetCardInfo data) {
 		}
 		
 		public void onMessage(DCardInfoList data) {
@@ -58,7 +55,31 @@ public class GameMessage extends DSyncBaseHandler {
 		public void onMessage(DRoom data) {
 		}
 		
+		public void onMessage(DTargetSelect data) {
+		}
+		
 		public void onMessage(DHumanOper data) {
+		}
+		
+		public void onMessage(DBoardData data) {
+		}
+		
+		public void onMessage(Root data) {
+		}
+		
+		public void onMessage(DSkillInfo data) {
+		}
+		
+		public void onMessage(DServer data) {
+		}
+		
+		public void onMessage(DStartPileDataPair data) {
+		}
+		
+		public void onMessage(DSkillInfos data) {
+		}
+		
+		public void onMessage(DCardPileInfo data) {
 		}
 		
 	}
@@ -82,11 +103,6 @@ public class GameMessage extends DSyncBaseHandler {
 				listener.onMessage(DBoardSetup.parseJSONObject(jsonObject));
 			}
 			break;
-		case Root.TypeName:
-			for (var listener : listeners) {
-				listener.onMessage(Root.parseJSONObject(jsonObject));
-			}
-			break;
 		case DActiveSkill.TypeName:
 			for (var listener : listeners) {
 				listener.onMessage(DActiveSkill.parseJSONObject(jsonObject));
@@ -97,19 +113,9 @@ public class GameMessage extends DSyncBaseHandler {
 				listener.onMessage(DCardInfo.parseJSONObject(jsonObject));
 			}
 			break;
-		case DServer.TypeName:
-			for (var listener : listeners) {
-				listener.onMessage(DServer.parseJSONObject(jsonObject));
-			}
-			break;
 		case DClientPlayerInfo.TypeName:
 			for (var listener : listeners) {
 				listener.onMessage(DClientPlayerInfo.parseJSONObject(jsonObject));
-			}
-			break;
-		case DStartPileDataPair.TypeName:
-			for (var listener : listeners) {
-				listener.onMessage(DStartPileDataPair.parseJSONObject(jsonObject));
 			}
 			break;
 		case DPlayer.TypeName:
@@ -117,9 +123,19 @@ public class GameMessage extends DSyncBaseHandler {
 				listener.onMessage(DPlayer.parseJSONObject(jsonObject));
 			}
 			break;
+		case DTargetInfo.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(DTargetInfo.parseJSONObject(jsonObject));
+			}
+			break;
 		case DHumanInit.TypeName:
 			for (var listener : listeners) {
 				listener.onMessage(DHumanInit.parseJSONObject(jsonObject));
+			}
+			break;
+		case DTargetCardInfo.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(DTargetCardInfo.parseJSONObject(jsonObject));
 			}
 			break;
 		case DCardInfoList.TypeName:
@@ -137,9 +153,49 @@ public class GameMessage extends DSyncBaseHandler {
 				listener.onMessage(DRoom.parseJSONObject(jsonObject));
 			}
 			break;
+		case DTargetSelect.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(DTargetSelect.parseJSONObject(jsonObject));
+			}
+			break;
 		case DHumanOper.TypeName:
 			for (var listener : listeners) {
 				listener.onMessage(DHumanOper.parseJSONObject(jsonObject));
+			}
+			break;
+		case DBoardData.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(DBoardData.parseJSONObject(jsonObject));
+			}
+			break;
+		case Root.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(Root.parseJSONObject(jsonObject));
+			}
+			break;
+		case DSkillInfo.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(DSkillInfo.parseJSONObject(jsonObject));
+			}
+			break;
+		case DServer.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(DServer.parseJSONObject(jsonObject));
+			}
+			break;
+		case DStartPileDataPair.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(DStartPileDataPair.parseJSONObject(jsonObject));
+			}
+			break;
+		case DSkillInfos.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(DSkillInfos.parseJSONObject(jsonObject));
+			}
+			break;
+		case DCardPileInfo.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(DCardPileInfo.parseJSONObject(jsonObject));
 			}
 			break;
 		}
@@ -153,30 +209,44 @@ public class GameMessage extends DSyncBaseHandler {
 			return new DBoardInit();
 		case DBoardSetup.TypeName:
 			return new DBoardSetup();
-		case Root.TypeName:
-			return new Root();
 		case DActiveSkill.TypeName:
 			return new DActiveSkill();
 		case DCardInfo.TypeName:
 			return new DCardInfo();
-		case DServer.TypeName:
-			return new DServer();
 		case DClientPlayerInfo.TypeName:
 			return new DClientPlayerInfo();
-		case DStartPileDataPair.TypeName:
-			return new DStartPileDataPair();
 		case DPlayer.TypeName:
 			return new DPlayer();
+		case DTargetInfo.TypeName:
+			return new DTargetInfo();
 		case DHumanInit.TypeName:
 			return new DHumanInit();
+		case DTargetCardInfo.TypeName:
+			return new DTargetCardInfo();
 		case DCardInfoList.TypeName:
 			return new DCardInfoList();
 		case CSCreateRoom.TypeName:
 			return new CSCreateRoom();
 		case DRoom.TypeName:
 			return new DRoom();
+		case DTargetSelect.TypeName:
+			return new DTargetSelect();
 		case DHumanOper.TypeName:
 			return new DHumanOper();
+		case DBoardData.TypeName:
+			return new DBoardData();
+		case Root.TypeName:
+			return new Root();
+		case DSkillInfo.TypeName:
+			return new DSkillInfo();
+		case DServer.TypeName:
+			return new DServer();
+		case DStartPileDataPair.TypeName:
+			return new DStartPileDataPair();
+		case DSkillInfos.TypeName:
+			return new DSkillInfos();
+		case DCardPileInfo.TypeName:
+			return new DCardPileInfo();
 		default:
 			return null;
 		}
@@ -390,19 +460,22 @@ public class GameMessage extends DSyncBaseHandler {
 	}
 	
 	/**
-	 * --------------------
-	 * 服务器->客户端
-	 * --------------------
+	 * ----------------------------------------
+	 * 棋盘基本信息
+	 * ----------------------------------------
+	 * 棋盘初始化信息 第一次进入游戏
 	 */
 	public static class DBoardSetup extends DSyncBase {
 		public static final String TypeName = "DBoardSetup";
 		
 		/** 主视角玩家token */
 		private String viewAt;
+		private DBoardData data;
 		private DCardInfoList cardInfos;
 
 		public static class K {
 			public static final String viewAt = "viewAt";
+			public static final String data = "data";
 			public static final String cardInfos = "cardInfos";
 		}
 
@@ -413,6 +486,7 @@ public class GameMessage extends DSyncBaseHandler {
 		@Override
 		protected void init() {
 			viewAt = "";
+			data = null;
 			cardInfos = null;
 		}
 		
@@ -424,6 +498,14 @@ public class GameMessage extends DSyncBaseHandler {
 		/** 主视角玩家token */
 		public void setViewAt(String viewAt) {
 			this.viewAt = viewAt;
+		}
+		
+		public DBoardData getData() {
+			return data;
+		}
+		
+		public void setData(DBoardData data) {
+			this.data = data;
 		}
 		
 		public DCardInfoList getCardInfos() {
@@ -460,12 +542,14 @@ public class GameMessage extends DSyncBaseHandler {
 		protected void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.viewAt, viewAt);
+			jsonObject.put(K.data, getJSONObject(data));
 			jsonObject.put(K.cardInfos, getJSONObject(cardInfos));
 		}
 
 		@Override
 		protected void applyRecord(JSONObject jsonObject) {
 			viewAt = jsonObject.getString(K.viewAt);
+			data = DBoardData.parseJSONObject(jsonObject.getJSONObject(K.data));
 			cardInfos = DCardInfoList.parseJSONObject(jsonObject.getJSONObject(K.cardInfos));
 		}
 		
@@ -484,6 +568,9 @@ public class GameMessage extends DSyncBaseHandler {
 			if (!this.viewAt.equals(_value.viewAt)) {
 				return false;
 			}
+			if (!this.data.equals(_value.data)) {
+				return false;
+			}
 			if (!this.cardInfos.equals(_value.cardInfos)) {
 				return false;
 			}
@@ -493,6 +580,7 @@ public class GameMessage extends DSyncBaseHandler {
 		public DBoardSetup copy() {
 			var _value = new DBoardSetup();
 			_value.viewAt = this.viewAt;
+			_value.data = this.data;
 			_value.cardInfos = this.cardInfos;
 			return _value;
 		}
@@ -500,6 +588,9 @@ public class GameMessage extends DSyncBaseHandler {
 		public DBoardSetup deepCopy() {
 			var _value = new DBoardSetup();
 			_value.viewAt = this.viewAt;
+			if (this.data != null) {
+				_value.data = this.data.deepCopy();
+			}
 			if (this.cardInfos != null) {
 				_value.cardInfos = this.cardInfos.deepCopy();
 			}
@@ -507,88 +598,18 @@ public class GameMessage extends DSyncBaseHandler {
 		}
 	}
 	
-	public static class Root extends DSyncBase {
-		public static final String TypeName = "Root";
-		
-
-		public static class K {
-		}
-
-		public Root() {
-			init();
-		}
-
-		@Override
-		protected void init() {
-		}
-		
-
-		static Root parseJSONObject(JSONObject jsonObject) {
-			var _value = new Root();
-			if (!jsonObject.isEmpty()) {
-				_value.applyRecord(jsonObject);
-			}
-			return _value;
-		}
-		
-		static List<Root> parseJSONArray(JSONArray jsonArray) {
-			var list = new ArrayList<Root>();
-			for (int i = 0; i < jsonArray.size(); i++) {
-				var _value = new Root();
-				var jsonObject = jsonArray.getJSONObject(i);
-				if (!jsonObject.isEmpty()) {
-					_value.applyRecord(jsonObject);
-				}
-				list.add(_value);
-			}
-			return list;
-		}
-
-		@Override
-		protected void getRecord(JSONObject jsonObject) {
-			jsonObject.put(DSyncBase.K.TypeName, TypeName);
-		}
-
-		@Override
-		protected void applyRecord(JSONObject jsonObject) {
-		}
-		
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj) {
-				return true;
-			}
-			if (obj == null) {
-				return false;
-			}
-			if (!(obj instanceof Root)) {
-				return false;
-			}
-			var _value = (Root) obj;
-			return true;
-		}
-		
-		public Root copy() {
-			var _value = new Root();
-			return _value;
-		}
-		
-		public Root deepCopy() {
-			var _value = new Root();
-			return _value;
-		}
-	}
-	
 	/**
-	 * 主动技能
+	 * 使用skill
 	 */
 	public static class DActiveSkill extends DSyncBase {
 		public static final String TypeName = "DActiveSkill";
 		
-		private long id;
+		private long skillId;
+		private DTargetSelect targetSelect;
 
 		public static class K {
-			public static final String id = "id";
+			public static final String skillId = "skillId";
+			public static final String targetSelect = "targetSelect";
 		}
 
 		public DActiveSkill() {
@@ -597,15 +618,24 @@ public class GameMessage extends DSyncBaseHandler {
 
 		@Override
 		protected void init() {
-			id = 0;
+			skillId = 0;
+			targetSelect = null;
 		}
 		
-		public long getId() {
-			return id;
+		public long getSkillId() {
+			return skillId;
 		}
 		
-		public void setId(long id) {
-			this.id = id;
+		public void setSkillId(long skillId) {
+			this.skillId = skillId;
+		}
+		
+		public DTargetSelect getTargetSelect() {
+			return targetSelect;
+		}
+		
+		public void setTargetSelect(DTargetSelect targetSelect) {
+			this.targetSelect = targetSelect;
 		}
 		
 
@@ -633,12 +663,14 @@ public class GameMessage extends DSyncBaseHandler {
 		@Override
 		protected void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
-			jsonObject.put(K.id, id);
+			jsonObject.put(K.skillId, skillId);
+			jsonObject.put(K.targetSelect, getJSONObject(targetSelect));
 		}
 
 		@Override
 		protected void applyRecord(JSONObject jsonObject) {
-			id = jsonObject.getLongValue(K.id);
+			skillId = jsonObject.getLongValue(K.skillId);
+			targetSelect = DTargetSelect.parseJSONObject(jsonObject.getJSONObject(K.targetSelect));
 		}
 		
 		@Override
@@ -653,7 +685,10 @@ public class GameMessage extends DSyncBaseHandler {
 				return false;
 			}
 			var _value = (DActiveSkill) obj;
-			if (this.id != _value.id) {
+			if (this.skillId != _value.skillId) {
+				return false;
+			}
+			if (!this.targetSelect.equals(_value.targetSelect)) {
 				return false;
 			}
 			return true;
@@ -661,48 +696,36 @@ public class GameMessage extends DSyncBaseHandler {
 		
 		public DActiveSkill copy() {
 			var _value = new DActiveSkill();
-			_value.id = this.id;
+			_value.skillId = this.skillId;
+			_value.targetSelect = this.targetSelect;
 			return _value;
 		}
 		
 		public DActiveSkill deepCopy() {
 			var _value = new DActiveSkill();
-			_value.id = this.id;
+			_value.skillId = this.skillId;
+			if (this.targetSelect != null) {
+				_value.targetSelect = this.targetSelect.deepCopy();
+			}
 			return _value;
 		}
 	}
 	
+	/**
+	 * 卡牌更新或移动
+	 */
 	public static class DCardInfo extends DSyncBase {
 		public static final String TypeName = "DCardInfo";
 		
+		/** 卡牌sn */
+		private String sn;
 		private long id;
-		/** 卡牌类型 className */
-		private String cardName;
-		/** 拥有者token */
-		private String playerToken;
-		/** 牌库类型 */
-		private ECardPileType pileType;
-		/** 储备区牌类型 */
-		private ESlotType slotType;
-		/** 处于牌堆中的那个位置 0为最底部 */
-		private int pileIndex;
-		/** 牌堆中牌的总数 */
-		private int pileSize;
-		/** 当前slot是计划区 */
-		private boolean asPlanSlot;
-		/** 当前slot已经准备完成 */
-		private boolean ready;
+		private DCardPileInfo pileInfo;
 
 		public static class K {
+			public static final String sn = "sn";
 			public static final String id = "id";
-			public static final String cardName = "cardName";
-			public static final String playerToken = "playerToken";
-			public static final String pileType = "pileType";
-			public static final String slotType = "slotType";
-			public static final String pileIndex = "pileIndex";
-			public static final String pileSize = "pileSize";
-			public static final String asPlanSlot = "asPlanSlot";
-			public static final String ready = "ready";
+			public static final String pileInfo = "pileInfo";
 		}
 
 		public DCardInfo() {
@@ -711,15 +734,19 @@ public class GameMessage extends DSyncBaseHandler {
 
 		@Override
 		protected void init() {
+			sn = "";
 			id = 0;
-			cardName = "";
-			playerToken = "";
-			pileType = ECardPileType.None;
-			slotType = ESlotType.None;
-			pileIndex = 0;
-			pileSize = 0;
-			asPlanSlot = false;
-			ready = false;
+			pileInfo = null;
+		}
+		
+		/** 卡牌sn */
+		public String getSn() {
+			return sn;
+		}
+		
+		/** 卡牌sn */
+		public void setSn(String sn) {
+			this.sn = sn;
 		}
 		
 		public long getId() {
@@ -730,84 +757,12 @@ public class GameMessage extends DSyncBaseHandler {
 			this.id = id;
 		}
 		
-		/** 卡牌类型 className */
-		public String getCardName() {
-			return cardName;
+		public DCardPileInfo getPileInfo() {
+			return pileInfo;
 		}
 		
-		/** 卡牌类型 className */
-		public void setCardName(String cardName) {
-			this.cardName = cardName;
-		}
-		
-		/** 拥有者token */
-		public String getPlayerToken() {
-			return playerToken;
-		}
-		
-		/** 拥有者token */
-		public void setPlayerToken(String playerToken) {
-			this.playerToken = playerToken;
-		}
-		
-		/** 牌库类型 */
-		public ECardPileType getPileType() {
-			return pileType;
-		}
-		
-		/** 牌库类型 */
-		public void setPileType(ECardPileType pileType) {
-			this.pileType = pileType;
-		}
-		
-		/** 储备区牌类型 */
-		public ESlotType getSlotType() {
-			return slotType;
-		}
-		
-		/** 储备区牌类型 */
-		public void setSlotType(ESlotType slotType) {
-			this.slotType = slotType;
-		}
-		
-		/** 处于牌堆中的那个位置 0为最底部 */
-		public int getPileIndex() {
-			return pileIndex;
-		}
-		
-		/** 处于牌堆中的那个位置 0为最底部 */
-		public void setPileIndex(int pileIndex) {
-			this.pileIndex = pileIndex;
-		}
-		
-		/** 牌堆中牌的总数 */
-		public int getPileSize() {
-			return pileSize;
-		}
-		
-		/** 牌堆中牌的总数 */
-		public void setPileSize(int pileSize) {
-			this.pileSize = pileSize;
-		}
-		
-		/** 当前slot是计划区 */
-		public boolean getAsPlanSlot() {
-			return asPlanSlot;
-		}
-		
-		/** 当前slot是计划区 */
-		public void setAsPlanSlot(boolean asPlanSlot) {
-			this.asPlanSlot = asPlanSlot;
-		}
-		
-		/** 当前slot已经准备完成 */
-		public boolean getReady() {
-			return ready;
-		}
-		
-		/** 当前slot已经准备完成 */
-		public void setReady(boolean ready) {
-			this.ready = ready;
+		public void setPileInfo(DCardPileInfo pileInfo) {
+			this.pileInfo = pileInfo;
 		}
 		
 
@@ -835,28 +790,16 @@ public class GameMessage extends DSyncBaseHandler {
 		@Override
 		protected void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.sn, sn);
 			jsonObject.put(K.id, id);
-			jsonObject.put(K.cardName, cardName);
-			jsonObject.put(K.playerToken, playerToken);
-			jsonObject.put(K.pileType, pileType.ordinal());
-			jsonObject.put(K.slotType, slotType.ordinal());
-			jsonObject.put(K.pileIndex, pileIndex);
-			jsonObject.put(K.pileSize, pileSize);
-			jsonObject.put(K.asPlanSlot, asPlanSlot);
-			jsonObject.put(K.ready, ready);
+			jsonObject.put(K.pileInfo, getJSONObject(pileInfo));
 		}
 
 		@Override
 		protected void applyRecord(JSONObject jsonObject) {
+			sn = jsonObject.getString(K.sn);
 			id = jsonObject.getLongValue(K.id);
-			cardName = jsonObject.getString(K.cardName);
-			playerToken = jsonObject.getString(K.playerToken);
-			pileType = ECardPileType.values()[(jsonObject.getIntValue(K.pileType))];
-			slotType = ESlotType.values()[(jsonObject.getIntValue(K.slotType))];
-			pileIndex = jsonObject.getIntValue(K.pileIndex);
-			pileSize = jsonObject.getIntValue(K.pileSize);
-			asPlanSlot = jsonObject.getBooleanValue(K.asPlanSlot);
-			ready = jsonObject.getBooleanValue(K.ready);
+			pileInfo = DCardPileInfo.parseJSONObject(jsonObject.getJSONObject(K.pileInfo));
 		}
 		
 		@Override
@@ -871,31 +814,13 @@ public class GameMessage extends DSyncBaseHandler {
 				return false;
 			}
 			var _value = (DCardInfo) obj;
+			if (!this.sn.equals(_value.sn)) {
+				return false;
+			}
 			if (this.id != _value.id) {
 				return false;
 			}
-			if (!this.cardName.equals(_value.cardName)) {
-				return false;
-			}
-			if (!this.playerToken.equals(_value.playerToken)) {
-				return false;
-			}
-			if (!this.pileType.equals(_value.pileType)) {
-				return false;
-			}
-			if (!this.slotType.equals(_value.slotType)) {
-				return false;
-			}
-			if (this.pileIndex != _value.pileIndex) {
-				return false;
-			}
-			if (this.pileSize != _value.pileSize) {
-				return false;
-			}
-			if (this.asPlanSlot != _value.asPlanSlot) {
-				return false;
-			}
-			if (this.ready != _value.ready) {
+			if (!this.pileInfo.equals(_value.pileInfo)) {
 				return false;
 			}
 			return true;
@@ -903,219 +828,23 @@ public class GameMessage extends DSyncBaseHandler {
 		
 		public DCardInfo copy() {
 			var _value = new DCardInfo();
+			_value.sn = this.sn;
 			_value.id = this.id;
-			_value.cardName = this.cardName;
-			_value.playerToken = this.playerToken;
-			_value.pileType = this.pileType;
-			_value.slotType = this.slotType;
-			_value.pileIndex = this.pileIndex;
-			_value.pileSize = this.pileSize;
-			_value.asPlanSlot = this.asPlanSlot;
-			_value.ready = this.ready;
+			_value.pileInfo = this.pileInfo;
 			return _value;
 		}
 		
 		public DCardInfo deepCopy() {
 			var _value = new DCardInfo();
+			_value.sn = this.sn;
 			_value.id = this.id;
-			_value.cardName = this.cardName;
-			_value.playerToken = this.playerToken;
-			_value.pileType = this.pileType;
-			_value.slotType = this.slotType;
-			_value.pileIndex = this.pileIndex;
-			_value.pileSize = this.pileSize;
-			_value.asPlanSlot = this.asPlanSlot;
-			_value.ready = this.ready;
-			return _value;
-		}
-	}
-	
-	/**
-	 * --------------------
-	 * 服务器信息
-	 * --------------------
-	 */
-	public static class DServer extends DSyncBase {
-		public static final String TypeName = "DServer";
-		
-		private List<DPlayer> onlinePlayerList;
-		private List<DRoom> roomList;
-		private DRoom myRoom;
-
-		public static class K {
-			public static final String onlinePlayerList = "onlinePlayerList";
-			public static final String roomList = "roomList";
-			public static final String myRoom = "myRoom";
-		}
-
-		public DServer() {
-			init();
-		}
-
-		@Override
-		protected void init() {
-			onlinePlayerList = new ArrayList<>();
-			roomList = new ArrayList<>();
-			myRoom = null;
-		}
-		
-		public int getOnlinePlayerListCount() {
-			return this.onlinePlayerList.size();
-		}
-		
-		public List<DPlayer> getOnlinePlayerListList() {
-			return new ArrayList<>(onlinePlayerList);
-		}
-		
-		public void setOnlinePlayerListList(List<DPlayer> _value) {
-			this.onlinePlayerList.clear();
-			this.onlinePlayerList.addAll(_value);
-		}
-
-		public void addOnlinePlayerList(DPlayer _value) {
-			this.onlinePlayerList.add(_value);
-		}
-		
-		public void addAllOnlinePlayerList(List<DPlayer> _value) {
-			this.onlinePlayerList.addAll(_value);
-		}
-		
-		public void clearOnlinePlayerList() {
-			this.onlinePlayerList.clear();
-		}
-		
-		public int getRoomListCount() {
-			return this.roomList.size();
-		}
-		
-		public List<DRoom> getRoomListList() {
-			return new ArrayList<>(roomList);
-		}
-		
-		public void setRoomListList(List<DRoom> _value) {
-			this.roomList.clear();
-			this.roomList.addAll(_value);
-		}
-
-		public void addRoomList(DRoom _value) {
-			this.roomList.add(_value);
-		}
-		
-		public void addAllRoomList(List<DRoom> _value) {
-			this.roomList.addAll(_value);
-		}
-		
-		public void clearRoomList() {
-			this.roomList.clear();
-		}
-		
-		public DRoom getMyRoom() {
-			return myRoom;
-		}
-		
-		public void setMyRoom(DRoom myRoom) {
-			this.myRoom = myRoom;
-		}
-		
-
-		static DServer parseJSONObject(JSONObject jsonObject) {
-			var _value = new DServer();
-			if (!jsonObject.isEmpty()) {
-				_value.applyRecord(jsonObject);
-			}
-			return _value;
-		}
-		
-		static List<DServer> parseJSONArray(JSONArray jsonArray) {
-			var list = new ArrayList<DServer>();
-			for (int i = 0; i < jsonArray.size(); i++) {
-				var _value = new DServer();
-				var jsonObject = jsonArray.getJSONObject(i);
-				if (!jsonObject.isEmpty()) {
-					_value.applyRecord(jsonObject);
-				}
-				list.add(_value);
-			}
-			return list;
-		}
-
-		@Override
-		protected void getRecord(JSONObject jsonObject) {
-			jsonObject.put(DSyncBase.K.TypeName, TypeName);
-			jsonObject.put(K.onlinePlayerList, getJSONArray(onlinePlayerList));
-			jsonObject.put(K.roomList, getJSONArray(roomList));
-			jsonObject.put(K.myRoom, getJSONObject(myRoom));
-		}
-
-		@Override
-		protected void applyRecord(JSONObject jsonObject) {
-			onlinePlayerList = DPlayer.parseJSONArray(jsonObject.getJSONArray(K.onlinePlayerList));
-			roomList = DRoom.parseJSONArray(jsonObject.getJSONArray(K.roomList));
-			myRoom = DRoom.parseJSONObject(jsonObject.getJSONObject(K.myRoom));
-		}
-		
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj) {
-				return true;
-			}
-			if (obj == null) {
-				return false;
-			}
-			if (!(obj instanceof DServer)) {
-				return false;
-			}
-			var _value = (DServer) obj;
-			if (!this.onlinePlayerList.equals(_value.onlinePlayerList)) {
-				return false;
-			}
-			if (!this.roomList.equals(_value.roomList)) {
-				return false;
-			}
-			if (!this.myRoom.equals(_value.myRoom)) {
-				return false;
-			}
-			return true;
-		}
-		
-		public DServer copy() {
-			var _value = new DServer();
-			_value.onlinePlayerList = new ArrayList<>(this.onlinePlayerList);
-			_value.roomList = new ArrayList<>(this.roomList);
-			_value.myRoom = this.myRoom;
-			return _value;
-		}
-		
-		public DServer deepCopy() {
-			var _value = new DServer();
-			_value.onlinePlayerList = new ArrayList<>();
-			for(var _f: this.onlinePlayerList) {
-				if (_f != null) {
-					_value.onlinePlayerList.add(_f.deepCopy());
-				} else {
-					_value.onlinePlayerList.add(null);
-				}
-			}
-			_value.roomList = new ArrayList<>();
-			for(var _f: this.roomList) {
-				if (_f != null) {
-					_value.roomList.add(_f.deepCopy());
-				} else {
-					_value.roomList.add(null);
-				}
-			}
-			if (this.myRoom != null) {
-				_value.myRoom = this.myRoom.deepCopy();
+			if (this.pileInfo != null) {
+				_value.pileInfo = this.pileInfo.deepCopy();
 			}
 			return _value;
 		}
 	}
 	
-	/**
-	 * --------------------
-	 * 对战初始化
-	 * --------------------
-	 */
 	public static class DClientPlayerInfo extends DSyncBase {
 		public static final String TypeName = "DClientPlayerInfo";
 		
@@ -1220,114 +949,6 @@ public class GameMessage extends DSyncBaseHandler {
 			var _value = new DClientPlayerInfo();
 			_value.token = this.token;
 			_value.name = this.name;
-			return _value;
-		}
-	}
-	
-	public static class DStartPileDataPair extends DSyncBase {
-		public static final String TypeName = "DStartPileDataPair";
-		
-		private String card;
-		private int count;
-
-		public static class K {
-			public static final String card = "card";
-			public static final String count = "count";
-		}
-
-		public DStartPileDataPair() {
-			init();
-		}
-
-		@Override
-		protected void init() {
-			card = "";
-			count = 0;
-		}
-		
-		public String getCard() {
-			return card;
-		}
-		
-		public void setCard(String card) {
-			this.card = card;
-		}
-		
-		public int getCount() {
-			return count;
-		}
-		
-		public void setCount(int count) {
-			this.count = count;
-		}
-		
-
-		static DStartPileDataPair parseJSONObject(JSONObject jsonObject) {
-			var _value = new DStartPileDataPair();
-			if (!jsonObject.isEmpty()) {
-				_value.applyRecord(jsonObject);
-			}
-			return _value;
-		}
-		
-		static List<DStartPileDataPair> parseJSONArray(JSONArray jsonArray) {
-			var list = new ArrayList<DStartPileDataPair>();
-			for (int i = 0; i < jsonArray.size(); i++) {
-				var _value = new DStartPileDataPair();
-				var jsonObject = jsonArray.getJSONObject(i);
-				if (!jsonObject.isEmpty()) {
-					_value.applyRecord(jsonObject);
-				}
-				list.add(_value);
-			}
-			return list;
-		}
-
-		@Override
-		protected void getRecord(JSONObject jsonObject) {
-			jsonObject.put(DSyncBase.K.TypeName, TypeName);
-			jsonObject.put(K.card, card);
-			jsonObject.put(K.count, count);
-		}
-
-		@Override
-		protected void applyRecord(JSONObject jsonObject) {
-			card = jsonObject.getString(K.card);
-			count = jsonObject.getIntValue(K.count);
-		}
-		
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj) {
-				return true;
-			}
-			if (obj == null) {
-				return false;
-			}
-			if (!(obj instanceof DStartPileDataPair)) {
-				return false;
-			}
-			var _value = (DStartPileDataPair) obj;
-			if (!this.card.equals(_value.card)) {
-				return false;
-			}
-			if (this.count != _value.count) {
-				return false;
-			}
-			return true;
-		}
-		
-		public DStartPileDataPair copy() {
-			var _value = new DStartPileDataPair();
-			_value.card = this.card;
-			_value.count = this.count;
-			return _value;
-		}
-		
-		public DStartPileDataPair deepCopy() {
-			var _value = new DStartPileDataPair();
-			_value.card = this.card;
-			_value.count = this.count;
 			return _value;
 		}
 	}
@@ -1472,6 +1093,267 @@ public class GameMessage extends DSyncBaseHandler {
 			_value.name = this.name;
 			_value.roomToken = this.roomToken;
 			_value.state = this.state;
+			return _value;
+		}
+	}
+	
+	/**
+	 * ----------------------------------------
+	 * 棋盘内交互信息
+	 * ----------------------------------------
+	 * 需求Player执行选择操作
+	 */
+	public static class DTargetInfo extends DSyncBase {
+		public static final String TypeName = "DTargetInfo";
+		
+		private ETargetType type;
+		/** 最少需求数量 */
+		private int minNumber;
+		/** 最大需求数量 -1表示任意数量 */
+		private int maxNumber;
+		/** 提示 */
+		private String tip;
+		private List<Long> exceptCards;
+		/** type==CardPile时启用 */
+		private List<DTargetCardInfo> targetCardInfos;
+		private ETargetSlotAimType slotAimType;
+
+		public static class K {
+			public static final String type = "type";
+			public static final String minNumber = "minNumber";
+			public static final String maxNumber = "maxNumber";
+			public static final String tip = "tip";
+			public static final String exceptCards = "exceptCards";
+			public static final String targetCardInfos = "targetCardInfos";
+			public static final String slotAimType = "slotAimType";
+		}
+
+		public DTargetInfo() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			type = ETargetType.None;
+			minNumber = 0;
+			maxNumber = 0;
+			tip = "";
+			exceptCards = new ArrayList<>();
+			targetCardInfos = new ArrayList<>();
+			slotAimType = ETargetSlotAimType.Occupy;
+		}
+		
+		public ETargetType getType() {
+			return type;
+		}
+		
+		public void setType(ETargetType type) {
+			this.type = type;
+		}
+		
+		/** 最少需求数量 */
+		public int getMinNumber() {
+			return minNumber;
+		}
+		
+		/** 最少需求数量 */
+		public void setMinNumber(int minNumber) {
+			this.minNumber = minNumber;
+		}
+		
+		/** 最大需求数量 -1表示任意数量 */
+		public int getMaxNumber() {
+			return maxNumber;
+		}
+		
+		/** 最大需求数量 -1表示任意数量 */
+		public void setMaxNumber(int maxNumber) {
+			this.maxNumber = maxNumber;
+		}
+		
+		/** 提示 */
+		public String getTip() {
+			return tip;
+		}
+		
+		/** 提示 */
+		public void setTip(String tip) {
+			this.tip = tip;
+		}
+		
+		public int getExceptCardsCount() {
+			return this.exceptCards.size();
+		}
+		
+		public List<Long> getExceptCardsList() {
+			return new ArrayList<>(exceptCards);
+		}
+		
+		public void setExceptCardsList(List<Long> _value) {
+			this.exceptCards.clear();
+			this.exceptCards.addAll(_value);
+		}
+
+		public void addExceptCards(long _value) {
+			this.exceptCards.add(_value);
+		}
+		
+		public void addAllExceptCards(List<Long> _value) {
+			this.exceptCards.addAll(_value);
+		}
+		
+		public void clearExceptCards() {
+			this.exceptCards.clear();
+		}
+		
+		/** type==CardPile时启用 */
+		public int getTargetCardInfosCount() {
+			return this.targetCardInfos.size();
+		}
+		
+		/** type==CardPile时启用 */
+		public List<DTargetCardInfo> getTargetCardInfosList() {
+			return new ArrayList<>(targetCardInfos);
+		}
+		
+		/** type==CardPile时启用 */
+		public void setTargetCardInfosList(List<DTargetCardInfo> _value) {
+			this.targetCardInfos.clear();
+			this.targetCardInfos.addAll(_value);
+		}
+
+		/** type==CardPile时启用 */
+		public void addTargetCardInfos(DTargetCardInfo _value) {
+			this.targetCardInfos.add(_value);
+		}
+		
+		/** type==CardPile时启用 */
+		public void addAllTargetCardInfos(List<DTargetCardInfo> _value) {
+			this.targetCardInfos.addAll(_value);
+		}
+		
+		/** type==CardPile时启用 */
+		public void clearTargetCardInfos() {
+			this.targetCardInfos.clear();
+		}
+		
+		public ETargetSlotAimType getSlotAimType() {
+			return slotAimType;
+		}
+		
+		public void setSlotAimType(ETargetSlotAimType slotAimType) {
+			this.slotAimType = slotAimType;
+		}
+		
+
+		static DTargetInfo parseJSONObject(JSONObject jsonObject) {
+			var _value = new DTargetInfo();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<DTargetInfo> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<DTargetInfo>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new DTargetInfo();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.type, type.ordinal());
+			jsonObject.put(K.minNumber, minNumber);
+			jsonObject.put(K.maxNumber, maxNumber);
+			jsonObject.put(K.tip, tip);
+			jsonObject.put(K.exceptCards, JSONObject.toJSONString(exceptCards));
+			jsonObject.put(K.targetCardInfos, getJSONArray(targetCardInfos));
+			jsonObject.put(K.slotAimType, slotAimType.ordinal());
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+			type = ETargetType.values()[(jsonObject.getIntValue(K.type))];
+			minNumber = jsonObject.getIntValue(K.minNumber);
+			maxNumber = jsonObject.getIntValue(K.maxNumber);
+			tip = jsonObject.getString(K.tip);
+			exceptCards = JSONObject.parseArray(jsonObject.getString(K.exceptCards), Long.class);
+			targetCardInfos = DTargetCardInfo.parseJSONArray(jsonObject.getJSONArray(K.targetCardInfos));
+			slotAimType = ETargetSlotAimType.values()[(jsonObject.getIntValue(K.slotAimType))];
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof DTargetInfo)) {
+				return false;
+			}
+			var _value = (DTargetInfo) obj;
+			if (!this.type.equals(_value.type)) {
+				return false;
+			}
+			if (this.minNumber != _value.minNumber) {
+				return false;
+			}
+			if (this.maxNumber != _value.maxNumber) {
+				return false;
+			}
+			if (!this.tip.equals(_value.tip)) {
+				return false;
+			}
+			if (!this.exceptCards.equals(_value.exceptCards)) {
+				return false;
+			}
+			if (!this.targetCardInfos.equals(_value.targetCardInfos)) {
+				return false;
+			}
+			if (!this.slotAimType.equals(_value.slotAimType)) {
+				return false;
+			}
+			return true;
+		}
+		
+		public DTargetInfo copy() {
+			var _value = new DTargetInfo();
+			_value.type = this.type;
+			_value.minNumber = this.minNumber;
+			_value.maxNumber = this.maxNumber;
+			_value.tip = this.tip;
+			_value.exceptCards = new ArrayList<>(this.exceptCards);
+			_value.targetCardInfos = new ArrayList<>(this.targetCardInfos);
+			_value.slotAimType = this.slotAimType;
+			return _value;
+		}
+		
+		public DTargetInfo deepCopy() {
+			var _value = new DTargetInfo();
+			_value.type = this.type;
+			_value.minNumber = this.minNumber;
+			_value.maxNumber = this.maxNumber;
+			_value.tip = this.tip;
+			_value.exceptCards = new ArrayList<>(this.exceptCards);
+			_value.targetCardInfos = new ArrayList<>();
+			for(var _f: this.targetCardInfos) {
+				if (_f != null) {
+					_value.targetCardInfos.add(_f.deepCopy());
+				} else {
+					_value.targetCardInfos.add(null);
+				}
+			}
+			_value.slotAimType = this.slotAimType;
 			return _value;
 		}
 	}
@@ -1626,6 +1508,189 @@ public class GameMessage extends DSyncBaseHandler {
 		}
 	}
 	
+	/**
+	 * 卡所在的位置
+	 */
+	public static class DTargetCardInfo extends DSyncBase {
+		public static final String TypeName = "DTargetCardInfo";
+		
+		/** 拥有者token */
+		private String playerToken;
+		/** 牌库类型 */
+		private ECardPileType pileType;
+		/** 储备区牌类型 */
+		private ESlotType slotType;
+		/** 是否限定储备完成的牌 */
+		private boolean onlyReady;
+		/** 是否排除计划牌 */
+		private boolean exceptPlan;
+
+		public static class K {
+			public static final String playerToken = "playerToken";
+			public static final String pileType = "pileType";
+			public static final String slotType = "slotType";
+			public static final String onlyReady = "onlyReady";
+			public static final String exceptPlan = "exceptPlan";
+		}
+
+		public DTargetCardInfo() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			playerToken = "";
+			pileType = ECardPileType.None;
+			slotType = ESlotType.None;
+			onlyReady = false;
+			exceptPlan = false;
+		}
+		
+		/** 拥有者token */
+		public String getPlayerToken() {
+			return playerToken;
+		}
+		
+		/** 拥有者token */
+		public void setPlayerToken(String playerToken) {
+			this.playerToken = playerToken;
+		}
+		
+		/** 牌库类型 */
+		public ECardPileType getPileType() {
+			return pileType;
+		}
+		
+		/** 牌库类型 */
+		public void setPileType(ECardPileType pileType) {
+			this.pileType = pileType;
+		}
+		
+		/** 储备区牌类型 */
+		public ESlotType getSlotType() {
+			return slotType;
+		}
+		
+		/** 储备区牌类型 */
+		public void setSlotType(ESlotType slotType) {
+			this.slotType = slotType;
+		}
+		
+		/** 是否限定储备完成的牌 */
+		public boolean getOnlyReady() {
+			return onlyReady;
+		}
+		
+		/** 是否限定储备完成的牌 */
+		public void setOnlyReady(boolean onlyReady) {
+			this.onlyReady = onlyReady;
+		}
+		
+		/** 是否排除计划牌 */
+		public boolean getExceptPlan() {
+			return exceptPlan;
+		}
+		
+		/** 是否排除计划牌 */
+		public void setExceptPlan(boolean exceptPlan) {
+			this.exceptPlan = exceptPlan;
+		}
+		
+
+		static DTargetCardInfo parseJSONObject(JSONObject jsonObject) {
+			var _value = new DTargetCardInfo();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<DTargetCardInfo> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<DTargetCardInfo>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new DTargetCardInfo();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.playerToken, playerToken);
+			jsonObject.put(K.pileType, pileType.ordinal());
+			jsonObject.put(K.slotType, slotType.ordinal());
+			jsonObject.put(K.onlyReady, onlyReady);
+			jsonObject.put(K.exceptPlan, exceptPlan);
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+			playerToken = jsonObject.getString(K.playerToken);
+			pileType = ECardPileType.values()[(jsonObject.getIntValue(K.pileType))];
+			slotType = ESlotType.values()[(jsonObject.getIntValue(K.slotType))];
+			onlyReady = jsonObject.getBooleanValue(K.onlyReady);
+			exceptPlan = jsonObject.getBooleanValue(K.exceptPlan);
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof DTargetCardInfo)) {
+				return false;
+			}
+			var _value = (DTargetCardInfo) obj;
+			if (!this.playerToken.equals(_value.playerToken)) {
+				return false;
+			}
+			if (!this.pileType.equals(_value.pileType)) {
+				return false;
+			}
+			if (!this.slotType.equals(_value.slotType)) {
+				return false;
+			}
+			if (this.onlyReady != _value.onlyReady) {
+				return false;
+			}
+			if (this.exceptPlan != _value.exceptPlan) {
+				return false;
+			}
+			return true;
+		}
+		
+		public DTargetCardInfo copy() {
+			var _value = new DTargetCardInfo();
+			_value.playerToken = this.playerToken;
+			_value.pileType = this.pileType;
+			_value.slotType = this.slotType;
+			_value.onlyReady = this.onlyReady;
+			_value.exceptPlan = this.exceptPlan;
+			return _value;
+		}
+		
+		public DTargetCardInfo deepCopy() {
+			var _value = new DTargetCardInfo();
+			_value.playerToken = this.playerToken;
+			_value.pileType = this.pileType;
+			_value.slotType = this.slotType;
+			_value.onlyReady = this.onlyReady;
+			_value.exceptPlan = this.exceptPlan;
+			return _value;
+		}
+	}
+	
+	/**
+	 * 卡牌更新或移动
+	 */
 	public static class DCardInfoList extends DSyncBase {
 		public static final String TypeName = "DCardInfoList";
 		
@@ -1741,9 +1806,9 @@ public class GameMessage extends DSyncBaseHandler {
 	}
 	
 	/**
-	 * --------------------
-	 * 客户端->服务器
-	 * --------------------
+	 * ----------------------------------------
+	 * 其他
+	 * ----------------------------------------
 	 */
 	public static class CSCreateRoom extends DSyncBase {
 		public static final String TypeName = "CSCreateRoom";
@@ -2027,6 +2092,155 @@ public class GameMessage extends DSyncBaseHandler {
 		}
 	}
 	
+	/**
+	 * 选择操作返回
+	 */
+	public static class DTargetSelect extends DSyncBase {
+		public static final String TypeName = "DTargetSelect";
+		
+		/** 确认与否 */
+		private boolean confirm;
+		private List<Long> selectedCard;
+		private int slotIndex;
+
+		public static class K {
+			public static final String confirm = "confirm";
+			public static final String selectedCard = "selectedCard";
+			public static final String slotIndex = "slotIndex";
+		}
+
+		public DTargetSelect() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			confirm = false;
+			selectedCard = new ArrayList<>();
+			slotIndex = 0;
+		}
+		
+		/** 确认与否 */
+		public boolean getConfirm() {
+			return confirm;
+		}
+		
+		/** 确认与否 */
+		public void setConfirm(boolean confirm) {
+			this.confirm = confirm;
+		}
+		
+		public int getSelectedCardCount() {
+			return this.selectedCard.size();
+		}
+		
+		public List<Long> getSelectedCardList() {
+			return new ArrayList<>(selectedCard);
+		}
+		
+		public void setSelectedCardList(List<Long> _value) {
+			this.selectedCard.clear();
+			this.selectedCard.addAll(_value);
+		}
+
+		public void addSelectedCard(long _value) {
+			this.selectedCard.add(_value);
+		}
+		
+		public void addAllSelectedCard(List<Long> _value) {
+			this.selectedCard.addAll(_value);
+		}
+		
+		public void clearSelectedCard() {
+			this.selectedCard.clear();
+		}
+		
+		public int getSlotIndex() {
+			return slotIndex;
+		}
+		
+		public void setSlotIndex(int slotIndex) {
+			this.slotIndex = slotIndex;
+		}
+		
+
+		static DTargetSelect parseJSONObject(JSONObject jsonObject) {
+			var _value = new DTargetSelect();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<DTargetSelect> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<DTargetSelect>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new DTargetSelect();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.confirm, confirm);
+			jsonObject.put(K.selectedCard, JSONObject.toJSONString(selectedCard));
+			jsonObject.put(K.slotIndex, slotIndex);
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+			confirm = jsonObject.getBooleanValue(K.confirm);
+			selectedCard = JSONObject.parseArray(jsonObject.getString(K.selectedCard), Long.class);
+			slotIndex = jsonObject.getIntValue(K.slotIndex);
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof DTargetSelect)) {
+				return false;
+			}
+			var _value = (DTargetSelect) obj;
+			if (this.confirm != _value.confirm) {
+				return false;
+			}
+			if (!this.selectedCard.equals(_value.selectedCard)) {
+				return false;
+			}
+			if (this.slotIndex != _value.slotIndex) {
+				return false;
+			}
+			return true;
+		}
+		
+		public DTargetSelect copy() {
+			var _value = new DTargetSelect();
+			_value.confirm = this.confirm;
+			_value.selectedCard = new ArrayList<>(this.selectedCard);
+			_value.slotIndex = this.slotIndex;
+			return _value;
+		}
+		
+		public DTargetSelect deepCopy() {
+			var _value = new DTargetSelect();
+			_value.confirm = this.confirm;
+			_value.selectedCard = new ArrayList<>(this.selectedCard);
+			_value.slotIndex = this.slotIndex;
+			return _value;
+		}
+	}
+	
 	public static class DHumanOper extends DSyncBase {
 		public static final String TypeName = "DHumanOper";
 		
@@ -2135,11 +2349,980 @@ public class GameMessage extends DSyncBaseHandler {
 		}
 	}
 	
+	/**
+	 * 棋盘上卡牌以外的信息 sc
+	 */
+	public static class DBoardData extends DSyncBase {
+		public static final String TypeName = "DBoardData";
+		
+		/** 当前回合玩家 */
+		private String curTurnPlayer;
+		/** 当前行动玩家 */
+		private String curActionPlayer;
+		/** 当前行动点 */
+		private int actionPoint;
 
-	public static enum ERoomStage {
-		Normal,
-		Battle,
+		public static class K {
+			public static final String curTurnPlayer = "curTurnPlayer";
+			public static final String curActionPlayer = "curActionPlayer";
+			public static final String actionPoint = "actionPoint";
+		}
+
+		public DBoardData() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			curTurnPlayer = "";
+			curActionPlayer = "";
+			actionPoint = 0;
+		}
+		
+		/** 当前回合玩家 */
+		public String getCurTurnPlayer() {
+			return curTurnPlayer;
+		}
+		
+		/** 当前回合玩家 */
+		public void setCurTurnPlayer(String curTurnPlayer) {
+			this.curTurnPlayer = curTurnPlayer;
+		}
+		
+		/** 当前行动玩家 */
+		public String getCurActionPlayer() {
+			return curActionPlayer;
+		}
+		
+		/** 当前行动玩家 */
+		public void setCurActionPlayer(String curActionPlayer) {
+			this.curActionPlayer = curActionPlayer;
+		}
+		
+		/** 当前行动点 */
+		public int getActionPoint() {
+			return actionPoint;
+		}
+		
+		/** 当前行动点 */
+		public void setActionPoint(int actionPoint) {
+			this.actionPoint = actionPoint;
+		}
+		
+
+		static DBoardData parseJSONObject(JSONObject jsonObject) {
+			var _value = new DBoardData();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<DBoardData> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<DBoardData>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new DBoardData();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.curTurnPlayer, curTurnPlayer);
+			jsonObject.put(K.curActionPlayer, curActionPlayer);
+			jsonObject.put(K.actionPoint, actionPoint);
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+			curTurnPlayer = jsonObject.getString(K.curTurnPlayer);
+			curActionPlayer = jsonObject.getString(K.curActionPlayer);
+			actionPoint = jsonObject.getIntValue(K.actionPoint);
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof DBoardData)) {
+				return false;
+			}
+			var _value = (DBoardData) obj;
+			if (!this.curTurnPlayer.equals(_value.curTurnPlayer)) {
+				return false;
+			}
+			if (!this.curActionPlayer.equals(_value.curActionPlayer)) {
+				return false;
+			}
+			if (this.actionPoint != _value.actionPoint) {
+				return false;
+			}
+			return true;
+		}
+		
+		public DBoardData copy() {
+			var _value = new DBoardData();
+			_value.curTurnPlayer = this.curTurnPlayer;
+			_value.curActionPlayer = this.curActionPlayer;
+			_value.actionPoint = this.actionPoint;
+			return _value;
+		}
+		
+		public DBoardData deepCopy() {
+			var _value = new DBoardData();
+			_value.curTurnPlayer = this.curTurnPlayer;
+			_value.curActionPlayer = this.curActionPlayer;
+			_value.actionPoint = this.actionPoint;
+			return _value;
+		}
 	}
+	
+	public static class Root extends DSyncBase {
+		public static final String TypeName = "Root";
+		
+
+		public static class K {
+		}
+
+		public Root() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+		}
+		
+
+		static Root parseJSONObject(JSONObject jsonObject) {
+			var _value = new Root();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<Root> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<Root>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new Root();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof Root)) {
+				return false;
+			}
+			var _value = (Root) obj;
+			return true;
+		}
+		
+		public Root copy() {
+			var _value = new Root();
+			return _value;
+		}
+		
+		public Root deepCopy() {
+			var _value = new Root();
+			return _value;
+		}
+	}
+	
+	public static class DSkillInfo extends DSyncBase {
+		public static final String TypeName = "DSkillInfo";
+		
+		/** 技能sn */
+		private String sn;
+		/** 技能id */
+		private long skillId;
+		/** 卡牌id -1表示非卡牌skill */
+		private long ownerId;
+
+		public static class K {
+			public static final String sn = "sn";
+			public static final String skillId = "skillId";
+			public static final String ownerId = "ownerId";
+		}
+
+		public DSkillInfo() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			sn = "";
+			skillId = 0;
+			ownerId = 0;
+		}
+		
+		/** 技能sn */
+		public String getSn() {
+			return sn;
+		}
+		
+		/** 技能sn */
+		public void setSn(String sn) {
+			this.sn = sn;
+		}
+		
+		/** 技能id */
+		public long getSkillId() {
+			return skillId;
+		}
+		
+		/** 技能id */
+		public void setSkillId(long skillId) {
+			this.skillId = skillId;
+		}
+		
+		/** 卡牌id -1表示非卡牌skill */
+		public long getOwnerId() {
+			return ownerId;
+		}
+		
+		/** 卡牌id -1表示非卡牌skill */
+		public void setOwnerId(long ownerId) {
+			this.ownerId = ownerId;
+		}
+		
+
+		static DSkillInfo parseJSONObject(JSONObject jsonObject) {
+			var _value = new DSkillInfo();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<DSkillInfo> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<DSkillInfo>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new DSkillInfo();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.sn, sn);
+			jsonObject.put(K.skillId, skillId);
+			jsonObject.put(K.ownerId, ownerId);
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+			sn = jsonObject.getString(K.sn);
+			skillId = jsonObject.getLongValue(K.skillId);
+			ownerId = jsonObject.getLongValue(K.ownerId);
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof DSkillInfo)) {
+				return false;
+			}
+			var _value = (DSkillInfo) obj;
+			if (!this.sn.equals(_value.sn)) {
+				return false;
+			}
+			if (this.skillId != _value.skillId) {
+				return false;
+			}
+			if (this.ownerId != _value.ownerId) {
+				return false;
+			}
+			return true;
+		}
+		
+		public DSkillInfo copy() {
+			var _value = new DSkillInfo();
+			_value.sn = this.sn;
+			_value.skillId = this.skillId;
+			_value.ownerId = this.ownerId;
+			return _value;
+		}
+		
+		public DSkillInfo deepCopy() {
+			var _value = new DSkillInfo();
+			_value.sn = this.sn;
+			_value.skillId = this.skillId;
+			_value.ownerId = this.ownerId;
+			return _value;
+		}
+	}
+	
+	/**
+	 * ----------------------------------------
+	 * 服务器信息
+	 * ----------------------------------------
+	 */
+	public static class DServer extends DSyncBase {
+		public static final String TypeName = "DServer";
+		
+		private List<DPlayer> onlinePlayerList;
+		private List<DRoom> roomList;
+		private DRoom myRoom;
+
+		public static class K {
+			public static final String onlinePlayerList = "onlinePlayerList";
+			public static final String roomList = "roomList";
+			public static final String myRoom = "myRoom";
+		}
+
+		public DServer() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			onlinePlayerList = new ArrayList<>();
+			roomList = new ArrayList<>();
+			myRoom = null;
+		}
+		
+		public int getOnlinePlayerListCount() {
+			return this.onlinePlayerList.size();
+		}
+		
+		public List<DPlayer> getOnlinePlayerListList() {
+			return new ArrayList<>(onlinePlayerList);
+		}
+		
+		public void setOnlinePlayerListList(List<DPlayer> _value) {
+			this.onlinePlayerList.clear();
+			this.onlinePlayerList.addAll(_value);
+		}
+
+		public void addOnlinePlayerList(DPlayer _value) {
+			this.onlinePlayerList.add(_value);
+		}
+		
+		public void addAllOnlinePlayerList(List<DPlayer> _value) {
+			this.onlinePlayerList.addAll(_value);
+		}
+		
+		public void clearOnlinePlayerList() {
+			this.onlinePlayerList.clear();
+		}
+		
+		public int getRoomListCount() {
+			return this.roomList.size();
+		}
+		
+		public List<DRoom> getRoomListList() {
+			return new ArrayList<>(roomList);
+		}
+		
+		public void setRoomListList(List<DRoom> _value) {
+			this.roomList.clear();
+			this.roomList.addAll(_value);
+		}
+
+		public void addRoomList(DRoom _value) {
+			this.roomList.add(_value);
+		}
+		
+		public void addAllRoomList(List<DRoom> _value) {
+			this.roomList.addAll(_value);
+		}
+		
+		public void clearRoomList() {
+			this.roomList.clear();
+		}
+		
+		public DRoom getMyRoom() {
+			return myRoom;
+		}
+		
+		public void setMyRoom(DRoom myRoom) {
+			this.myRoom = myRoom;
+		}
+		
+
+		static DServer parseJSONObject(JSONObject jsonObject) {
+			var _value = new DServer();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<DServer> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<DServer>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new DServer();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.onlinePlayerList, getJSONArray(onlinePlayerList));
+			jsonObject.put(K.roomList, getJSONArray(roomList));
+			jsonObject.put(K.myRoom, getJSONObject(myRoom));
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+			onlinePlayerList = DPlayer.parseJSONArray(jsonObject.getJSONArray(K.onlinePlayerList));
+			roomList = DRoom.parseJSONArray(jsonObject.getJSONArray(K.roomList));
+			myRoom = DRoom.parseJSONObject(jsonObject.getJSONObject(K.myRoom));
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof DServer)) {
+				return false;
+			}
+			var _value = (DServer) obj;
+			if (!this.onlinePlayerList.equals(_value.onlinePlayerList)) {
+				return false;
+			}
+			if (!this.roomList.equals(_value.roomList)) {
+				return false;
+			}
+			if (!this.myRoom.equals(_value.myRoom)) {
+				return false;
+			}
+			return true;
+		}
+		
+		public DServer copy() {
+			var _value = new DServer();
+			_value.onlinePlayerList = new ArrayList<>(this.onlinePlayerList);
+			_value.roomList = new ArrayList<>(this.roomList);
+			_value.myRoom = this.myRoom;
+			return _value;
+		}
+		
+		public DServer deepCopy() {
+			var _value = new DServer();
+			_value.onlinePlayerList = new ArrayList<>();
+			for(var _f: this.onlinePlayerList) {
+				if (_f != null) {
+					_value.onlinePlayerList.add(_f.deepCopy());
+				} else {
+					_value.onlinePlayerList.add(null);
+				}
+			}
+			_value.roomList = new ArrayList<>();
+			for(var _f: this.roomList) {
+				if (_f != null) {
+					_value.roomList.add(_f.deepCopy());
+				} else {
+					_value.roomList.add(null);
+				}
+			}
+			if (this.myRoom != null) {
+				_value.myRoom = this.myRoom.deepCopy();
+			}
+			return _value;
+		}
+	}
+	
+	public static class DStartPileDataPair extends DSyncBase {
+		public static final String TypeName = "DStartPileDataPair";
+		
+		private String card;
+		private int count;
+
+		public static class K {
+			public static final String card = "card";
+			public static final String count = "count";
+		}
+
+		public DStartPileDataPair() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			card = "";
+			count = 0;
+		}
+		
+		public String getCard() {
+			return card;
+		}
+		
+		public void setCard(String card) {
+			this.card = card;
+		}
+		
+		public int getCount() {
+			return count;
+		}
+		
+		public void setCount(int count) {
+			this.count = count;
+		}
+		
+
+		static DStartPileDataPair parseJSONObject(JSONObject jsonObject) {
+			var _value = new DStartPileDataPair();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<DStartPileDataPair> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<DStartPileDataPair>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new DStartPileDataPair();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.card, card);
+			jsonObject.put(K.count, count);
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+			card = jsonObject.getString(K.card);
+			count = jsonObject.getIntValue(K.count);
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof DStartPileDataPair)) {
+				return false;
+			}
+			var _value = (DStartPileDataPair) obj;
+			if (!this.card.equals(_value.card)) {
+				return false;
+			}
+			if (this.count != _value.count) {
+				return false;
+			}
+			return true;
+		}
+		
+		public DStartPileDataPair copy() {
+			var _value = new DStartPileDataPair();
+			_value.card = this.card;
+			_value.count = this.count;
+			return _value;
+		}
+		
+		public DStartPileDataPair deepCopy() {
+			var _value = new DStartPileDataPair();
+			_value.card = this.card;
+			_value.count = this.count;
+			return _value;
+		}
+	}
+	
+	/**
+	 * 可使用的主动技能
+	 */
+	public static class DSkillInfos extends DSyncBase {
+		public static final String TypeName = "DSkillInfos";
+		
+		private List<DSkillInfo> skillInfos;
+
+		public static class K {
+			public static final String skillInfos = "skillInfos";
+		}
+
+		public DSkillInfos() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			skillInfos = new ArrayList<>();
+		}
+		
+		public int getSkillInfosCount() {
+			return this.skillInfos.size();
+		}
+		
+		public List<DSkillInfo> getSkillInfosList() {
+			return new ArrayList<>(skillInfos);
+		}
+		
+		public void setSkillInfosList(List<DSkillInfo> _value) {
+			this.skillInfos.clear();
+			this.skillInfos.addAll(_value);
+		}
+
+		public void addSkillInfos(DSkillInfo _value) {
+			this.skillInfos.add(_value);
+		}
+		
+		public void addAllSkillInfos(List<DSkillInfo> _value) {
+			this.skillInfos.addAll(_value);
+		}
+		
+		public void clearSkillInfos() {
+			this.skillInfos.clear();
+		}
+		
+
+		static DSkillInfos parseJSONObject(JSONObject jsonObject) {
+			var _value = new DSkillInfos();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<DSkillInfos> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<DSkillInfos>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new DSkillInfos();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.skillInfos, getJSONArray(skillInfos));
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+			skillInfos = DSkillInfo.parseJSONArray(jsonObject.getJSONArray(K.skillInfos));
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof DSkillInfos)) {
+				return false;
+			}
+			var _value = (DSkillInfos) obj;
+			if (!this.skillInfos.equals(_value.skillInfos)) {
+				return false;
+			}
+			return true;
+		}
+		
+		public DSkillInfos copy() {
+			var _value = new DSkillInfos();
+			_value.skillInfos = new ArrayList<>(this.skillInfos);
+			return _value;
+		}
+		
+		public DSkillInfos deepCopy() {
+			var _value = new DSkillInfos();
+			_value.skillInfos = new ArrayList<>();
+			for(var _f: this.skillInfos) {
+				if (_f != null) {
+					_value.skillInfos.add(_f.deepCopy());
+				} else {
+					_value.skillInfos.add(null);
+				}
+			}
+			return _value;
+		}
+	}
+	
+	/**
+	 * 一张卡所在的位置
+	 */
+	public static class DCardPileInfo extends DSyncBase {
+		public static final String TypeName = "DCardPileInfo";
+		
+		/** 拥有者token */
+		private String playerToken;
+		/** 牌库类型 */
+		private ECardPileType pileType;
+		/** 储备区牌类型 */
+		private ESlotType slotType;
+		/** 当前slot是计划区 */
+		private boolean asPlanSlot;
+		/** 当前slot已经准备完成 */
+		private boolean ready;
+		/** 处于牌堆中的那个位置 0为最底部 */
+		private int pileIndex;
+		/** 牌堆中牌的总数 */
+		private int pileSize;
+
+		public static class K {
+			public static final String playerToken = "playerToken";
+			public static final String pileType = "pileType";
+			public static final String slotType = "slotType";
+			public static final String asPlanSlot = "asPlanSlot";
+			public static final String ready = "ready";
+			public static final String pileIndex = "pileIndex";
+			public static final String pileSize = "pileSize";
+		}
+
+		public DCardPileInfo() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			playerToken = "";
+			pileType = ECardPileType.None;
+			slotType = ESlotType.None;
+			asPlanSlot = false;
+			ready = false;
+			pileIndex = 0;
+			pileSize = 0;
+		}
+		
+		/** 拥有者token */
+		public String getPlayerToken() {
+			return playerToken;
+		}
+		
+		/** 拥有者token */
+		public void setPlayerToken(String playerToken) {
+			this.playerToken = playerToken;
+		}
+		
+		/** 牌库类型 */
+		public ECardPileType getPileType() {
+			return pileType;
+		}
+		
+		/** 牌库类型 */
+		public void setPileType(ECardPileType pileType) {
+			this.pileType = pileType;
+		}
+		
+		/** 储备区牌类型 */
+		public ESlotType getSlotType() {
+			return slotType;
+		}
+		
+		/** 储备区牌类型 */
+		public void setSlotType(ESlotType slotType) {
+			this.slotType = slotType;
+		}
+		
+		/** 当前slot是计划区 */
+		public boolean getAsPlanSlot() {
+			return asPlanSlot;
+		}
+		
+		/** 当前slot是计划区 */
+		public void setAsPlanSlot(boolean asPlanSlot) {
+			this.asPlanSlot = asPlanSlot;
+		}
+		
+		/** 当前slot已经准备完成 */
+		public boolean getReady() {
+			return ready;
+		}
+		
+		/** 当前slot已经准备完成 */
+		public void setReady(boolean ready) {
+			this.ready = ready;
+		}
+		
+		/** 处于牌堆中的那个位置 0为最底部 */
+		public int getPileIndex() {
+			return pileIndex;
+		}
+		
+		/** 处于牌堆中的那个位置 0为最底部 */
+		public void setPileIndex(int pileIndex) {
+			this.pileIndex = pileIndex;
+		}
+		
+		/** 牌堆中牌的总数 */
+		public int getPileSize() {
+			return pileSize;
+		}
+		
+		/** 牌堆中牌的总数 */
+		public void setPileSize(int pileSize) {
+			this.pileSize = pileSize;
+		}
+		
+
+		static DCardPileInfo parseJSONObject(JSONObject jsonObject) {
+			var _value = new DCardPileInfo();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<DCardPileInfo> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<DCardPileInfo>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new DCardPileInfo();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.playerToken, playerToken);
+			jsonObject.put(K.pileType, pileType.ordinal());
+			jsonObject.put(K.slotType, slotType.ordinal());
+			jsonObject.put(K.asPlanSlot, asPlanSlot);
+			jsonObject.put(K.ready, ready);
+			jsonObject.put(K.pileIndex, pileIndex);
+			jsonObject.put(K.pileSize, pileSize);
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+			playerToken = jsonObject.getString(K.playerToken);
+			pileType = ECardPileType.values()[(jsonObject.getIntValue(K.pileType))];
+			slotType = ESlotType.values()[(jsonObject.getIntValue(K.slotType))];
+			asPlanSlot = jsonObject.getBooleanValue(K.asPlanSlot);
+			ready = jsonObject.getBooleanValue(K.ready);
+			pileIndex = jsonObject.getIntValue(K.pileIndex);
+			pileSize = jsonObject.getIntValue(K.pileSize);
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof DCardPileInfo)) {
+				return false;
+			}
+			var _value = (DCardPileInfo) obj;
+			if (!this.playerToken.equals(_value.playerToken)) {
+				return false;
+			}
+			if (!this.pileType.equals(_value.pileType)) {
+				return false;
+			}
+			if (!this.slotType.equals(_value.slotType)) {
+				return false;
+			}
+			if (this.asPlanSlot != _value.asPlanSlot) {
+				return false;
+			}
+			if (this.ready != _value.ready) {
+				return false;
+			}
+			if (this.pileIndex != _value.pileIndex) {
+				return false;
+			}
+			if (this.pileSize != _value.pileSize) {
+				return false;
+			}
+			return true;
+		}
+		
+		public DCardPileInfo copy() {
+			var _value = new DCardPileInfo();
+			_value.playerToken = this.playerToken;
+			_value.pileType = this.pileType;
+			_value.slotType = this.slotType;
+			_value.asPlanSlot = this.asPlanSlot;
+			_value.ready = this.ready;
+			_value.pileIndex = this.pileIndex;
+			_value.pileSize = this.pileSize;
+			return _value;
+		}
+		
+		public DCardPileInfo deepCopy() {
+			var _value = new DCardPileInfo();
+			_value.playerToken = this.playerToken;
+			_value.pileType = this.pileType;
+			_value.slotType = this.slotType;
+			_value.asPlanSlot = this.asPlanSlot;
+			_value.ready = this.ready;
+			_value.pileIndex = this.pileIndex;
+			_value.pileSize = this.pileSize;
+			return _value;
+		}
+	}
+	
+
 	public static enum ECardPileType {
 		None,
 		/** 手牌 */
@@ -2156,6 +3339,22 @@ public class GameMessage extends DSyncBaseHandler {
 		SlotPile,
 		/** 英雄牌区 */
 		HeroPile,
+	}
+	public static enum ETargetType {
+		/** 只需确认 */
+		None,
+		/** 确认/取消 */
+		Confirm,
+		/** 需求n张存在的牌 */
+		CardPile,
+		/** 空白储备位 */
+		EmptySlot,
+		/** 非计划区空白储备位 */
+		EmptySlotExceptionPlan,
+	}
+	public static enum ERoomStage {
+		Normal,
+		Battle,
 	}
 	public static enum ESlotType {
 		None,
@@ -2179,6 +3378,12 @@ public class GameMessage extends DSyncBaseHandler {
 	public static enum EOperType {
 		None,
 		Skill,
+	}
+	public static enum ETargetSlotAimType {
+		/** 侵占 */
+		Occupy,
+		/** 储备 */
+		Store,
 	}
 }
 
