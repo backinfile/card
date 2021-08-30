@@ -3,7 +3,9 @@ package com.backinfile.card.model.actions;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.backinfile.card.gen.GameMessage.DTargetCardInfo;
 import com.backinfile.card.gen.GameMessage.DTargetInfo;
+import com.backinfile.card.gen.GameMessage.ECardPileType;
 import com.backinfile.card.gen.GameMessage.ETargetType;
 import com.backinfile.card.model.Human;
 
@@ -17,15 +19,18 @@ public class DispatchAction extends WaitAction {
 	@Override
 	public void init() {
 		for (var human : humans) {
+			human.clearTargetInfo();
+
 			DTargetInfo targetInfo = new DTargetInfo();
 			targetInfo.setType(ETargetType.CardPile);
 			targetInfo.setMaxNumber(-1);
 			targetInfo.setMinNumber(0);
-			targetInfo.setTip(tip);
-			human.targetInfo = new TargetInfo(TargetType.Hand, -1, 0, actionString.tip);
-			human.clearTargetInfo();
+			targetInfo.setTip(actionString.tip);
+			DTargetCardInfo targetCardInfo = new DTargetCardInfo();
+			targetCardInfo.setPileType(ECardPileType.HandPile);
+			targetInfo.addTargetCardInfos(targetCardInfo);
+			human.targetInfo = targetInfo;
 		}
-
 	}
 
 	@Override
