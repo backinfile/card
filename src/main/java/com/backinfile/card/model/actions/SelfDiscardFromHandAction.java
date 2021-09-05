@@ -1,5 +1,7 @@
 package com.backinfile.card.model.actions;
 
+import com.backinfile.card.gen.GameMessage.ETargetType;
+import com.backinfile.card.manager.GameUtils;
 import com.backinfile.card.model.Human;
 
 public class SelfDiscardFromHandAction extends WaitAction {
@@ -12,8 +14,8 @@ public class SelfDiscardFromHandAction extends WaitAction {
 
 	@Override
 	public void init() {
-		human.clearTargetInfo();
-		human.targetInfo = new TargetInfo(TargetType.Hand, number, actionString.tip);
+		human.targetInfo.clear();
+		human.targetInfo.setTargetInfo(GameUtils.newTargetInfo(ETargetType.HandPile, number, actionString.tip));
 	}
 
 	@Override
@@ -22,13 +24,7 @@ public class SelfDiscardFromHandAction extends WaitAction {
 			return;
 		}
 
-		addLast(new DiscardCardAction(human, human.targetInfo.getSelected()));
+		addLast(new DiscardCardAction(human, human.targetInfo.getTargetSelected()));
 		setDone();
 	}
-
-	@Override
-	public void dispose() {
-		human.clearTargetInfo();
-	}
-
 }

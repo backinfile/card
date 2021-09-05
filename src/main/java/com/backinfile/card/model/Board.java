@@ -99,7 +99,7 @@ public class Board implements IAlive {
 
 	public boolean isWaitingHumanOper() {
 		for (var human : humans) {
-			if (human.targetInfo != null && !human.isTargetSelected()) {
+			if (human.targetInfo != null && !human.targetInfo.isSelected()) {
 				return true;
 			}
 		}

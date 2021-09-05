@@ -3,6 +3,7 @@ package com.backinfile.card.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.backinfile.card.gen.GameMessage.DTargetInfo;
 import com.backinfile.card.model.LocalString.LocalSkillString;
 import com.backinfile.card.model.actions.IOperable;
 import com.backinfile.support.IdAllot;
@@ -11,8 +12,8 @@ import com.backinfile.support.IdAllot;
 public abstract class Skill {
 	// 自身属性
 	public long id;
-	private LocalSkillString skillString;
-	public TargetInfo targetInfo = null; // 触发条件
+	protected LocalSkillString skillString;
+	public TargetInfo targetInfo = new TargetInfo(null); // 触发条件
 	public int activeCostActionPoint = 1; // 主动激活消耗行动力
 
 	// 联动效果
@@ -66,7 +67,8 @@ public abstract class Skill {
 		if (targetInfo == null) {
 			return true;
 		}
-		return targetInfo.test(board, human);
+		targetInfo.human = this.human;
+		return targetInfo.test();
 	}
 
 	public void apply() {

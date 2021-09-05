@@ -7,7 +7,6 @@ public class Attack extends ActionCard {
 
 	public Attack() {
 		subType = CardSubType.ACTION_ORDER;
-		addSkill(new PlayAttackSkill(2));
-		addSkill(new PlayAttackSkill(1));
+		addSkill(new PlayAttackSkill());
 	}
 }

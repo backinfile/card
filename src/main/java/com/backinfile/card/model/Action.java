@@ -44,7 +44,9 @@ public abstract class Action implements IAlive, IDisposable {
 	}
 
 	public void dispose() {
-
+		if (human != null) {
+			human.targetInfo.clear();
+		}
 	}
 
 	public void setTargetCard(Card targetCard) {

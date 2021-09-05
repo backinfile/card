@@ -130,6 +130,7 @@ public class LocalString {
 		public static final LocalSkillString EMPTY_STRING = new LocalSkillString();
 		public String sn = "[SN]";
 		public String name = "[NAME]";
+		public String tip = "[TIP]";
 	}
 
 	public static class LocalUIString {

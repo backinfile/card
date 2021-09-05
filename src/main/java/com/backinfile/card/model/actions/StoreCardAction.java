@@ -1,6 +1,8 @@
 package com.backinfile.card.model.actions;
 
 import com.backinfile.card.gen.GameMessage.ESlotType;
+import com.backinfile.card.gen.GameMessage.ETargetType;
+import com.backinfile.card.manager.GameUtils;
 import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardSlot;
 import com.backinfile.card.model.Human;
@@ -39,11 +41,11 @@ public class StoreCardAction extends WaitAction {
 
 		switch (mode) {
 		case EmptySlot: {
-			human.targetInfo = new TargetInfo(TargetType.EmptySlot, 1, actionString.tip);
+			human.targetInfo.setTargetInfo(GameUtils.newTargetInfo(ETargetType.EmptySlot, 1, actionString.tip));
 			break;
 		}
 		case Replace: {
-			human.targetInfo = new TargetInfo(TargetType.StoreSlotExceptPlan, 1, actionString.tip);
+			human.targetInfo.setTargetInfo(GameUtils.newTargetInfo(ETargetType.StoreInSlot, 1, actionString.tips[0]));
 			break;
 		}
 		default:
@@ -61,9 +63,7 @@ public class StoreCardAction extends WaitAction {
 		case EmptySlot: {
 			if (human.targetInfo.isSelected()) {
 				board.removeCard(card);
-				Card selectedOne = human.targetInfo.getSelectedOne();
-				SlotStoreCard slotCard = (SlotStoreCard) selectedOne;
-				CardSlot cardSlot = human.cardSlotMap.get(slotCard.getSlotIndex());
+				CardSlot cardSlot = human.cardSlotMap.get(human.targetInfo.getSelectSlotIndex());
 				cardSlot.put(ESlotType.Store, card);
 				cardSlot.ready = fast;
 				setDone();
@@ -74,7 +74,7 @@ public class StoreCardAction extends WaitAction {
 		case Replace: {
 			if (human.targetInfo.isSelected()) {
 				board.removeCard(card);
-				Card selectedOne = human.targetInfo.getSelectedOne();
+				Card selectedOne = human.targetInfo.getTargetSelectOne();
 				CardSlot cardSlot = human.getCardSlotByCard(selectedOne);
 				cardSlot.put(ESlotType.Store, card);
 				cardSlot.ready = fast;
@@ -86,10 +86,5 @@ public class StoreCardAction extends WaitAction {
 		}
 		}
 
-	}
-
-	@Override
-	public void dispose() {
-		human.clearTargetInfo();
 	}
 }
