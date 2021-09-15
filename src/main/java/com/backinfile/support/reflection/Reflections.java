@@ -1,5 +1,9 @@
 package com.backinfile.support.reflection;
 
+import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.Objects;
+
 import com.backinfile.support.Log;
 import com.backinfile.support.Utils;
 
@@ -17,6 +21,7 @@ public class Reflections {
 				boolean needRewrite = false;
 				CtClass ctClass = pool.get(targetClassName);
 				needRewrite |= timingRewrite(pool, ctClass);
+				needRewrite |= invokeLogRewrite(pool, ctClass);
 				if (!needRewrite) {
 					continue;
 				}
@@ -24,7 +29,7 @@ public class Reflections {
 				ctClass.writeFile();
 				Log.reflection.info("rewrite class {}", targetClassName);
 			} catch (Exception e) {
-				Log.reflection.error("error in rewrite class {}", targetClassName);
+				Log.reflection.error("error in rewrite class {}, {}", targetClassName, e.getMessage());
 			}
 		}
 	}
@@ -41,6 +46,27 @@ public class Reflections {
 			ctMethod.addLocalVariable("$timeLogger", timeLoggerCtClass);
 			ctMethod.insertBefore("$timeLogger = new " + TimeLogger.class.getName() + "(\"" + loggerName + "\");");
 			ctMethod.insertAfter("$timeLogger.log();");
+			needRewrite = true;
+		}
+		return needRewrite;
+	}
+
+	public static boolean invokeLogRewrite(ClassPool pool, CtClass ctClass) throws Exception {
+		boolean needRewrite = false;
+		for (CtMethod ctMethod : ctClass.getDeclaredMethods()) {
+			LogInvokeInfo annotation = (LogInvokeInfo) ctMethod.getAnnotation(LogInvokeInfo.class);
+			if (annotation == null) {
+				continue;
+			}
+			if (annotation.args()) {
+				String code = MessageFormat.format("{0}.invoke.info(\"{1}.{2} invoked args:\"+java.util.Arrays.toString($args)+\"\");",
+						Log.class.getName(), ctMethod.getDeclaringClass().getSimpleName(), ctMethod.getName());
+				ctMethod.insertBefore(code);
+			} else {
+				String code = MessageFormat.format("{0}.invoke.info(\"{1}.{2} invoked\");", Log.class.getName(),
+						ctMethod.getDeclaringClass().getSimpleName(), ctMethod.getName());
+				ctMethod.insertBefore(code);
+			}
 			needRewrite = true;
 		}
 		return needRewrite;

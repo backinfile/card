@@ -2,7 +2,6 @@ package com.backinfile.card.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,19 +11,17 @@ import com.backinfile.card.gen.GameMessage.DCardPileInfo;
 import com.backinfile.card.model.actions.ChangeBoardStateAction;
 import com.backinfile.card.model.actions.DispatchAction;
 import com.backinfile.support.IAlive;
+import com.backinfile.support.Time2;
 import com.backinfile.support.Utils;
 
 public class Board implements IAlive {
 	public List<Human> humans = new ArrayList<>();
 	public Human curTurnHuman = null;
 	private ActionQueue actionQueue;
-	public int turnCount = 1; // 公共轮次
-	public int playerTurnCount = 0; // 玩家轮次之和
-	public boolean requireFlushCardView = false;
+	public int turnCount; // 公共轮次
+	public int playerTurnCount; // 玩家轮次之和
 
 	public BoardState state = BoardState.GamePrepare;
-
-	public CardPile aidCardPile = new CardPile();
 
 	public static enum BoardState {
 		GamePrepare, TurnStart, InTurn, TurnEnd,
@@ -34,7 +31,14 @@ public class Board implements IAlive {
 		actionQueue = new ActionQueue(this);
 		actionQueue.init();
 
-		Utils.setRndSeed(boardInit.getSeed());
+		// 初始化随机种子
+		if (boardInit.getSeed() > 0) {
+			Utils.setRndSeed(boardInit.getSeed());
+		} else {
+			Utils.setRndSeed(Time2.getCurMillis());
+		}
+
+		// 初始化每个玩家及其牌库
 		for (var dhuman : boardInit.getHumanInitsList()) {
 			Human human = new Human();
 			human.board = this;
@@ -46,6 +50,8 @@ public class Board implements IAlive {
 	@Override
 	public void pulse() {
 		if (state == BoardState.GamePrepare) {
+			turnCount = 1;
+			playerTurnCount = 0;
 			for (var human : humans) {
 				human.onGameStart();
 			}
@@ -72,6 +78,7 @@ public class Board implements IAlive {
 			}
 			actionQueue.addLast(new ChangeBoardStateAction(BoardState.TurnStart));
 		}
+
 		actionQueue.pulse();
 	}
 
@@ -107,6 +114,10 @@ public class Board implements IAlive {
 			}
 		}
 		return null;
+	}
+
+	public Human getCurTurnHuman() {
+		return curTurnHuman;
 	}
 
 	public Human getOpponent(Human human) {
@@ -160,7 +171,29 @@ public class Board implements IAlive {
 		return cardInfos;
 	}
 
-	public Card getCard(long cardId) { // TODO
+	public Card getCard(long id) {
+		for (var human : humans) {
+			var card = human.getCard(id);
+			if (card != null) {
+				return card;
+			}
+		}
+		return null;
+	}
+
+	public Skill getSkillById(long id) {
+		for (var human : humans) {
+			var humanSkill = human.getSkill(id);
+			if (humanSkill != null) {
+				return humanSkill;
+			}
+			for (var card : human.getAllCards()) {
+				var skill = card.getSkill(id);
+				if (skill != null) {
+					return skill;
+				}
+			}
+		}
 		return null;
 	}
 

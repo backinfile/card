@@ -22,7 +22,4 @@ public abstract class SlotHelpCard extends Card {
 
 	public static class SlotStoreCard extends SlotHelpCard {
 	}
-
-	public static class SlotChargeCard extends SlotHelpCard {
-	}
 }

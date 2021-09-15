@@ -5,8 +5,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import com.backinfile.card.gen.GameMessage.ECardPileType;
+import com.backinfile.support.Log;
+import com.backinfile.support.SysException;
 import com.backinfile.support.Tuple2;
 import com.backinfile.support.Utils;
 
@@ -27,7 +30,11 @@ public class CardPile implements Iterable<Card> {
 
 	public void add(Card card) {
 		if (card != null) {
-			cards.add(card);
+			if (cards.stream().anyMatch(c -> c.id == card.id)) {
+				Log.game.error("add duplicate card", new SysException());
+			} else {
+				cards.add(card);
+			}
 		}
 	}
 
@@ -48,6 +55,16 @@ public class CardPile implements Iterable<Card> {
 			return cards.remove(card);
 		}
 		return false;
+	}
+
+	public boolean removeAll(Predicate<Card> predicate) {
+		boolean removed = false;
+		for (var card : new ArrayList<>(cards)) {
+			if (predicate.test(card)) {
+				removed |= remove(card);
+			}
+		}
+		return removed;
 	}
 
 	public void removeAll(CardPile cardPile) {

@@ -9,6 +9,8 @@ import com.backinfile.card.gen.GameMessage.DHumanInit;
 import com.backinfile.card.gen.GameMessage.ECardPileType;
 import com.backinfile.card.gen.GameMessage.ESlotType;
 import com.backinfile.card.manager.CardManager;
+import com.backinfile.card.manager.ConstGame;
+import com.backinfile.card.model.Card.CardType;
 import com.backinfile.card.model.actions.DrawCardAction;
 import com.backinfile.card.model.actions.RestoreActionNumberAction;
 import com.backinfile.card.model.actions.SaveThreatenAction;
@@ -47,9 +49,9 @@ public class Human extends SkillCaster {
 		}
 
 		// 初始化储备位
-		for (int i = 1; i <= 5; i++) {
+		for (int i = 1; i <= ConstGame.SlotPileNumber; i++) {
 			var cardSlot = new CardSlot();
-			cardSlot.asPlanSlot = i == 5;
+			cardSlot.asPlanSlot = i == ConstGame.SlotPileNumber;
 			cardSlot.index = i;
 			cardSlotMap.put(cardSlot.index, cardSlot);
 		}
@@ -89,6 +91,9 @@ public class Human extends SkillCaster {
 		return false;
 	}
 
+	/**
+	 * 获取所有卡牌
+	 */
 	public CardPile getAllCards() {
 		CardPile cardPile = new CardPile();
 		cardPile.addAll(heroPile);
@@ -103,6 +108,9 @@ public class Human extends SkillCaster {
 		return cardPile;
 	}
 
+	/**
+	 * 获取除了储备位之外的牌
+	 */
 	public List<CardPile> getNormalPiles() {
 		var list = new ArrayList<CardPile>();
 		list.add(heroPile);
@@ -114,7 +122,9 @@ public class Human extends SkillCaster {
 		return list;
 	}
 
-	// 获取所有空的slot
+	/**
+	 * 获取所有空的slot
+	 */
 	public List<CardSlot> getEmptySlots(boolean exceptPlanSlot) {
 		List<CardSlot> cardSlots = new ArrayList<>();
 		for (var cardSlot : cardSlotMap.values()) {
@@ -128,7 +138,9 @@ public class Human extends SkillCaster {
 		return cardSlots;
 	}
 
-	// 获取所有具有储备的slot
+	/**
+	 * 获取所有具有储备的slot
+	 */
 	public List<CardSlot> getStoreSlots(boolean needReady, boolean exceptPlanSlot) {
 		List<CardSlot> cardSlots = new ArrayList<>();
 		for (var cardSlot : cardSlotMap.values()) {
@@ -154,15 +166,28 @@ public class Human extends SkillCaster {
 		return null;
 	}
 
-	// 获取所有储备
+	/**
+	 * 获取所有储备 TODO 根据skill实时修改
+	 */
 	public CardPile getAllStoreCards(boolean needReady) {
+		CardPile cardPile = new CardPile();
+		cardPile.addAll(getAllStoreInSlot(needReady));
+		return cardPile;
+	}
+
+	/**
+	 * 获取所有储备位上的储备
+	 */
+	public CardPile getAllStoreInSlot(boolean needReady) {
 		CardPile cardPile = new CardPile();
 		for (var slot : cardSlotMap.values()) {
 			if (needReady && !slot.ready) {
 				continue;
 			}
 			cardPile.addAll(slot.getPile(ESlotType.Store));
+			cardPile.addAll(slot.getPile(ESlotType.Plan));
 		}
+		cardPile.removeAll(card -> card.mainType != CardType.STORE);
 		return cardPile;
 	}
 

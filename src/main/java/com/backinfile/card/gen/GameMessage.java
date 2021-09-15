@@ -1370,10 +1370,6 @@ public class GameMessage extends DSyncBaseHandler {
 			_value.strict = this.strict;
 			return _value;
 		}
-
-		public boolean test() {
-			return false;
-		}
 	}
 	
 	public static class DHumanInit extends DSyncBase {
@@ -1938,8 +1934,10 @@ public class GameMessage extends DSyncBaseHandler {
 		
 		/** 确认与否 */
 		private boolean confirm;
+		/** 选择的卡牌id */
 		private List<Long> selectedCard;
-		private int slotIndex;
+		/** 选择的储备位 */
+		private List<Integer> slotIndex;
 
 		public static class K {
 			public static final String confirm = "confirm";
@@ -1955,7 +1953,7 @@ public class GameMessage extends DSyncBaseHandler {
 		protected void init() {
 			confirm = false;
 			selectedCard = new ArrayList<>();
-			slotIndex = 0;
+			slotIndex = new ArrayList<>();
 		}
 		
 		/** 确认与否 */
@@ -1968,37 +1966,66 @@ public class GameMessage extends DSyncBaseHandler {
 			this.confirm = confirm;
 		}
 		
+		/** 选择的卡牌id */
 		public int getSelectedCardCount() {
 			return this.selectedCard.size();
 		}
 		
+		/** 选择的卡牌id */
 		public List<Long> getSelectedCardList() {
 			return new ArrayList<>(selectedCard);
 		}
 		
+		/** 选择的卡牌id */
 		public void setSelectedCardList(List<Long> _value) {
 			this.selectedCard.clear();
 			this.selectedCard.addAll(_value);
 		}
 
+		/** 选择的卡牌id */
 		public void addSelectedCard(long _value) {
 			this.selectedCard.add(_value);
 		}
 		
+		/** 选择的卡牌id */
 		public void addAllSelectedCard(List<Long> _value) {
 			this.selectedCard.addAll(_value);
 		}
 		
+		/** 选择的卡牌id */
 		public void clearSelectedCard() {
 			this.selectedCard.clear();
 		}
 		
-		public int getSlotIndex() {
-			return slotIndex;
+		/** 选择的储备位 */
+		public int getSlotIndexCount() {
+			return this.slotIndex.size();
 		}
 		
-		public void setSlotIndex(int slotIndex) {
-			this.slotIndex = slotIndex;
+		/** 选择的储备位 */
+		public List<Integer> getSlotIndexList() {
+			return new ArrayList<>(slotIndex);
+		}
+		
+		/** 选择的储备位 */
+		public void setSlotIndexList(List<Integer> _value) {
+			this.slotIndex.clear();
+			this.slotIndex.addAll(_value);
+		}
+
+		/** 选择的储备位 */
+		public void addSlotIndex(int _value) {
+			this.slotIndex.add(_value);
+		}
+		
+		/** 选择的储备位 */
+		public void addAllSlotIndex(List<Integer> _value) {
+			this.slotIndex.addAll(_value);
+		}
+		
+		/** 选择的储备位 */
+		public void clearSlotIndex() {
+			this.slotIndex.clear();
 		}
 		
 
@@ -2028,14 +2055,14 @@ public class GameMessage extends DSyncBaseHandler {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.confirm, confirm);
 			jsonObject.put(K.selectedCard, JSONObject.toJSONString(selectedCard));
-			jsonObject.put(K.slotIndex, slotIndex);
+			jsonObject.put(K.slotIndex, JSONObject.toJSONString(slotIndex));
 		}
 
 		@Override
 		protected void applyRecord(JSONObject jsonObject) {
 			confirm = jsonObject.getBooleanValue(K.confirm);
 			selectedCard = JSONObject.parseArray(jsonObject.getString(K.selectedCard), Long.class);
-			slotIndex = jsonObject.getIntValue(K.slotIndex);
+			slotIndex = JSONObject.parseArray(jsonObject.getString(K.slotIndex), Integer.class);
 		}
 		
 		@Override
@@ -2056,7 +2083,7 @@ public class GameMessage extends DSyncBaseHandler {
 			if (!this.selectedCard.equals(_value.selectedCard)) {
 				return false;
 			}
-			if (this.slotIndex != _value.slotIndex) {
+			if (!this.slotIndex.equals(_value.slotIndex)) {
 				return false;
 			}
 			return true;
@@ -2066,7 +2093,7 @@ public class GameMessage extends DSyncBaseHandler {
 			var _value = new DTargetSelect();
 			_value.confirm = this.confirm;
 			_value.selectedCard = new ArrayList<>(this.selectedCard);
-			_value.slotIndex = this.slotIndex;
+			_value.slotIndex = new ArrayList<>(this.slotIndex);
 			return _value;
 		}
 		
@@ -2074,7 +2101,7 @@ public class GameMessage extends DSyncBaseHandler {
 			var _value = new DTargetSelect();
 			_value.confirm = this.confirm;
 			_value.selectedCard = new ArrayList<>(this.selectedCard);
-			_value.slotIndex = this.slotIndex;
+			_value.slotIndex = new ArrayList<>(this.slotIndex);
 			return _value;
 		}
 	}

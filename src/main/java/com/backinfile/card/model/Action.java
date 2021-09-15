@@ -3,7 +3,11 @@ package com.backinfile.card.model;
 import com.backinfile.card.model.LocalString.LocalActionString;
 import com.backinfile.support.IAlive;
 import com.backinfile.support.IDisposable;
+import com.backinfile.support.reflection.LogInvokeInfo;
 
+/**
+ * 一个动作，通常情况下，Board上的数据修改都通过Action来进行
+ */
 public abstract class Action implements IAlive, IDisposable {
 
 	public LocalActionString actionString;
@@ -32,9 +36,11 @@ public abstract class Action implements IAlive, IDisposable {
 		this.actionString = LocalString.getActionString(getClass().getSimpleName());
 	}
 
+	@LogInvokeInfo
 	public void init() {
 	}
 
+	@LogInvokeInfo
 	@Override
 	public void pulse() {
 	}
@@ -43,6 +49,7 @@ public abstract class Action implements IAlive, IDisposable {
 		return true;
 	}
 
+	@LogInvokeInfo
 	public void dispose() {
 		if (human != null) {
 			human.targetInfo.clear();
@@ -62,7 +69,7 @@ public abstract class Action implements IAlive, IDisposable {
 	}
 
 	/**
-	 * Action中紧急的动作用addFirst，不紧急的用addLast
+	 * 必须要立即执行的动作用addFirst，一般情况下用addLast
 	 */
 	public final void addFirst(Action action) {
 		board.getActionQueue().addFirst(action);

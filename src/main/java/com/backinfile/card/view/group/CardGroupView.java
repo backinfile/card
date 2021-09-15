@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.backinfile.card.gen.GameMessage.DCardInfo;
-import com.backinfile.card.gen.GameMessage.ECardPileType;
 import com.backinfile.card.manager.Res;
 import com.backinfile.card.model.Card;
 import com.backinfile.card.view.stage.GameStage;

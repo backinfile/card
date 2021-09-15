@@ -55,7 +55,6 @@ public class ActionQueue implements IAlive {
 			// 完成后回收资源
 			curAction.dispose();
 			curAction = null;
-			board.requireFlushCardView = true;
 		}
 
 	}

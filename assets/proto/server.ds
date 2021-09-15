@@ -151,8 +151,8 @@ enum ETargetSlotAimType {
 // 选择操作返回
 struct DTargetSelect {
 	bool confirm; // 确认与否
-	long[] selectedCard;
-	int slotIndex;
+	long[] selectedCard; // 选择的卡牌id
+	int[] slotIndex; // 选择的储备位
 }
 
 // 可使用的主动技能

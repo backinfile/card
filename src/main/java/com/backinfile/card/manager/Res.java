@@ -6,6 +6,7 @@ import java.util.Map;
 import com.backinfile.card.model.LocalString;
 import com.backinfile.card.model.LocalString.LocalImagePathString;
 import com.backinfile.support.FontCharacterCollection;
+import com.backinfile.support.reflection.LogInvokeInfo;
 import com.backinfile.support.reflection.Timing;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -54,6 +55,7 @@ public class Res {
 	private static Map<LocalImagePathString, TextureRegionDrawable> cardImageMap = new HashMap<>();
 
 	@Timing("res init")
+	@LogInvokeInfo
 	public static void init() {
 
 		CARD_HEIGHT = Gdx.graphics.getHeight() / 3f;
@@ -87,7 +89,7 @@ public class Res {
 		return cardImageMap.getOrDefault(imagePathString, EMPTY_DRAWABLE);
 	}
 
-	@Timing
+	@LogInvokeInfo
 	private static void initImage() {
 		TEX_WHITE = getDrawable(newColorPixmap(8, 8, Color.WHITE));
 		TEX_BLACK = getDrawable(newColorPixmap(8, 8, Color.BLACK));
