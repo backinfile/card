@@ -5,8 +5,8 @@ import java.util.Map;
 
 import com.backinfile.card.gen.GameMessage.DPlayer;
 import com.backinfile.support.IAlive;
-import com.backinfile.support.MsgConsumer;
 import com.backinfile.support.Utils;
+import com.backinfile.support.func.MsgConsumer;
 
 public class GameServer extends MsgConsumer<String> implements IAlive {
 	public static GameServer Instance;

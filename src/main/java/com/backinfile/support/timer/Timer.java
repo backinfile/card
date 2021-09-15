@@ -1,4 +1,7 @@
-package com.backinfile.support;
+package com.backinfile.support.timer;
+
+import com.backinfile.support.Time2;
+import com.backinfile.support.func.Function;
 
 public class Timer {
 	private long interval = -1;

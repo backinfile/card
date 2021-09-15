@@ -6,8 +6,8 @@ import java.util.Map;
 import com.backinfile.card.Settings;
 import com.backinfile.card.model.Card;
 import com.backinfile.support.Log;
-import com.backinfile.support.ReflectionUtils;
-import com.backinfile.support.Timing;
+import com.backinfile.support.reflection.ReflectionUtils;
+import com.backinfile.support.reflection.Timing;
 
 public class CardManager {
 	private static Map<String, Card> allCards = new HashMap<>();

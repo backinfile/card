@@ -1,4 +1,7 @@
-package com.backinfile.support;
+package com.backinfile.support.reflection;
+
+import com.backinfile.support.Log;
+import com.backinfile.support.Time2;
 
 public class TimeLogger {
 	private long startTime;

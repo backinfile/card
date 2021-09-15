@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.backinfile.support.func.Function;
+
 public class ObjectPool<T> {
 	private LinkedList<T> objs = new LinkedList<>();
 	private Function<T> objCreator;

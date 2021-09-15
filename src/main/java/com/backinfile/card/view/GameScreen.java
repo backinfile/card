@@ -3,7 +3,7 @@ package com.backinfile.card.view;
 import com.backinfile.card.manager.CardManager;
 import com.backinfile.card.manager.Res;
 import com.backinfile.card.view.stage.GameStage;
-import com.backinfile.support.TimerQueue;
+import com.backinfile.support.timer.TimerQueue;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;

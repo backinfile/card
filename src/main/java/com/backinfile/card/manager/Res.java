@@ -6,7 +6,7 @@ import java.util.Map;
 import com.backinfile.card.model.LocalString;
 import com.backinfile.card.model.LocalString.LocalImagePathString;
 import com.backinfile.support.FontCharacterCollection;
-import com.backinfile.support.Timing;
+import com.backinfile.support.reflection.Timing;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;

@@ -28,15 +28,15 @@ public class CardGroupView extends BaseView {
 		super(gameStage, width, height);
 		cardActorPool = new ObjectPool<>(() -> new CardView());
 
-		myDrawPile = new PileView(gameStage, width, height, ECardPileType.DrawPile, true);
-		opDrawPile = new PileView(gameStage, width, height, ECardPileType.DrawPile, false);
-		myDiscardPile = new PileView(gameStage, width, height, ECardPileType.DiscardPile, true);
-		opDiscardPile = new PileView(gameStage, width, height, ECardPileType.DiscardPile, false);
-
-		addActor(myDrawPile);
-		addActor(opDrawPile);
-		addActor(myDiscardPile);
-		addActor(opDiscardPile);
+//		myDrawPile = new PileView(gameStage, width, height, ECardPileType.DrawPile, true);
+//		opDrawPile = new PileView(gameStage, width, height, ECardPileType.DrawPile, false);
+//		myDiscardPile = new PileView(gameStage, width, height, ECardPileType.DiscardPile, true);
+//		opDiscardPile = new PileView(gameStage, width, height, ECardPileType.DiscardPile, false);
+//
+//		addActor(myDrawPile);
+//		addActor(opDrawPile);
+//		addActor(myDiscardPile);
+//		addActor(opDiscardPile);
 
 		addActor(cardGroup);
 	}

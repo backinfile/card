@@ -1,8 +1,12 @@
-package com.backinfile.support;
+package com.backinfile.support.timer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.backinfile.support.Log;
+import com.backinfile.support.func.Action0;
+import com.backinfile.support.func.Function;
 
 public class TimerQueue {
 	private Map<Long, TimeEvent> timers = new HashMap<>();

@@ -1,4 +1,4 @@
-package com.backinfile.support;
+package com.backinfile.support.reflection;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,50 +16,10 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.CtMethod;
-import javassist.NotFoundException;
+import com.backinfile.support.Log;
+import com.backinfile.support.Utils;
 
 public class ReflectionUtils {
-
-	// 这个函数需要需改class文件，所以执行这个函数前尽量少加载类
-	public static void initTimingMethod(String packageName) {
-		ClassPool pool = ClassPool.getDefault();
-		CtClass timeLoggerCtClass;
-		try {
-			timeLoggerCtClass = pool.get(TimeLogger.class.getName());
-		} catch (NotFoundException e1) {
-			Log.reflection.error("error in reflection oper", e1);
-			return;
-		}
-		for (String targetClassName : getClasseNames(packageName)) {
-			try {
-				boolean needRewrite = false;
-				CtClass ctClass = pool.get(targetClassName);
-				for (CtMethod ctMethod : ctClass.getDeclaredMethods()) {
-					Timing timing = (Timing) ctMethod.getAnnotation(Timing.class);
-					if (timing == null) {
-						continue;
-					}
-					String loggerName = Utils.isNullOrEmpty(timing.value()) ? ctMethod.getName() : timing.value();
-					ctMethod.addLocalVariable("$timeLogger", timeLoggerCtClass);
-					ctMethod.insertBefore(
-							"$timeLogger = new " + TimeLogger.class.getName() + "(\"" + loggerName + "\");");
-					ctMethod.insertAfter("$timeLogger.log();");
-					needRewrite = true;
-				}
-				if (!needRewrite) {
-					continue;
-				}
-				ctClass.toClass();
-				ctClass.writeFile();
-				Log.reflection.info("rewrite class {}", targetClassName);
-			} catch (Exception e) {
-				Log.reflection.error("error in rewrite class {}", targetClassName);
-			}
-		}
-	}
 
 	public static boolean isAbstract(Class<?> clazz) {
 		return Modifier.isAbstract(clazz.getModifiers());

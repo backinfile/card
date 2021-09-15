@@ -175,6 +175,11 @@ public class Human extends SkillCaster {
 		return null;
 	}
 
+	// 获取对手
+	public Human getOpponent() {
+		return board.getOpponent(this);
+	}
+
 	public final void addLast(Action action) {
 		board.getActionQueue().addLast(action);
 	}

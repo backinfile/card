@@ -1,7 +1,7 @@
 package com.backinfile.card;
 
 import com.backinfile.card.view.MainGame;
-import com.backinfile.support.ReflectionUtils;
+import com.backinfile.support.reflection.Reflections;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
@@ -9,7 +9,7 @@ public class DesktopLuncher {
 	public static void main(String[] args) {
 
 		if (Settings.DEV) {
-			ReflectionUtils.initTimingMethod(Settings.PackageName);
+			Reflections.classRewriteInit(Settings.PackageName);
 		}
 
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();

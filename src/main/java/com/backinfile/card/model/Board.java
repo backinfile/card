@@ -18,7 +18,6 @@ public class Board implements IAlive {
 	public List<Human> humans = new ArrayList<>();
 	public Human curTurnHuman = null;
 	private ActionQueue actionQueue;
-	private LinkedList<Human> nextTurnQueue = new LinkedList<>();
 	public int turnCount = 1; // 公共轮次
 	public int playerTurnCount = 0; // 玩家轮次之和
 	public boolean requireFlushCardView = false;
@@ -53,21 +52,18 @@ public class Board implements IAlive {
 			actionQueue.addLast(new DispatchAction(humans));
 			actionQueue.addLast(new ChangeBoardStateAction(BoardState.TurnStart));
 		} else if (state == BoardState.TurnStart) {
-			if (nextTurnQueue.isEmpty()) {
+			// 回合开始，找到当前回合玩家
+			if (curTurnHuman != null) {
+				int curIndex = humans.indexOf(curTurnHuman);
+				curTurnHuman = humans.get((curIndex + 1) % humans.size());
+			} else {
 				int rnd = Utils.nextInt(0, humans.size());
 				curTurnHuman = humans.get(rnd);
-			} else {
-				curTurnHuman = nextTurnQueue.pollFirst();
-			}
-			playerTurnCount++;
-			// 找到下一个回合的玩家
-			if (nextTurnQueue.isEmpty()) {
-				int curIndex = humans.indexOf(curTurnHuman);
-				nextTurnQueue.addLast(humans.get((curIndex + 1) % humans.size()));
 			}
 			// 回合开始
-			curTurnHuman.onTurnStart();
 			playerTurnCount++;
+			curTurnHuman.onTurnStart();
+			actionQueue.addLast(new ChangeBoardStateAction(BoardState.InTurn));
 		} else if (state == BoardState.InTurn) {
 
 		} else if (state == BoardState.TurnEnd) {
@@ -76,12 +72,7 @@ public class Board implements IAlive {
 			}
 			actionQueue.addLast(new ChangeBoardStateAction(BoardState.TurnStart));
 		}
-
 		actionQueue.pulse();
-	}
-
-	public void precess() {
-
 	}
 
 	public boolean removeCard(Card card) {
@@ -116,10 +107,6 @@ public class Board implements IAlive {
 			}
 		}
 		return null;
-	}
-
-	public Human getAnyHuman() {
-		return humans.get(0);
 	}
 
 	public Human getOpponent(Human human) {
@@ -177,4 +164,11 @@ public class Board implements IAlive {
 		return null;
 	}
 
+	public void addLast(Action action) {
+		actionQueue.addLast(action);
+	}
+
+	public void addFirst(Action action) {
+		actionQueue.addFirst(action);
+	}
 }
