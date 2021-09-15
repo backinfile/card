@@ -6,7 +6,6 @@ import com.backinfile.card.manager.GameUtils;
 import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardSlot;
 import com.backinfile.card.model.Human;
-import com.backinfile.card.model.cards.SlotHelpCard.SlotStoreCard;
 
 public class StoreCardAction extends WaitAction {
 	private boolean fast;

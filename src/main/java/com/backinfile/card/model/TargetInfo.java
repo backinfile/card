@@ -1,12 +1,8 @@
 package com.backinfile.card.model;
 
-import java.util.List;
-
 import com.backinfile.card.gen.GameMessage.DTargetInfo;
 import com.backinfile.card.gen.GameMessage.DTargetSelect;
-import com.backinfile.card.gen.GameMessage.ETargetType;
 import com.backinfile.card.model.cards.SlotHelpCard;
-import com.backinfile.card.model.cards.SlotHelpCard.SlotOccupyCard;
 
 // human正在进行的操作
 public class TargetInfo {
@@ -95,8 +91,6 @@ public class TargetInfo {
 	// 分步进行卡牌选择
 	public SelectCardStepInfo stepSelectCard(CardPile selected) {
 		SelectCardStepInfo info = new SelectCardStepInfo();
-		var targetHuman = targetInfo.getOpponent() ? human.getOpponent() : human;
-
 		var minNumber = targetInfo.getMinNumber();
 		var maxNumber = targetInfo.getMaxNumber() < 0 ? Integer.MAX_VALUE : targetInfo.getMaxNumber();
 
