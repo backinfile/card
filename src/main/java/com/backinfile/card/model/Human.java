@@ -169,19 +169,22 @@ public class Human extends SkillCaster {
 	/**
 	 * 获取所有储备 TODO 根据skill实时修改
 	 */
-	public CardPile getAllStoreCards(boolean needReady) {
+	public CardPile getAllStoreCards(boolean onlyReady, boolean exceptPlan, boolean exceptHand) {
 		CardPile cardPile = new CardPile();
-		cardPile.addAll(getAllStoreInSlot(needReady));
+		cardPile.addAll(getAllStoreInSlot(onlyReady, exceptPlan));
 		return cardPile;
 	}
 
 	/**
 	 * 获取所有储备位上的储备
 	 */
-	public CardPile getAllStoreInSlot(boolean needReady) {
+	public CardPile getAllStoreInSlot(boolean onlyReady, boolean exceptPlan) {
 		CardPile cardPile = new CardPile();
 		for (var slot : cardSlotMap.values()) {
-			if (needReady && !slot.ready) {
+			if (onlyReady && !slot.ready) {
+				continue;
+			}
+			if (exceptPlan && slot.asPlanSlot) {
 				continue;
 			}
 			cardPile.addAll(slot.getPile(ESlotType.Store));

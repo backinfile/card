@@ -138,4 +138,8 @@ public class CardPile implements Iterable<Card> {
 		return pileType;
 	}
 
+	public CardPile copy() {
+		return new CardPile(this);
+	}
+
 }

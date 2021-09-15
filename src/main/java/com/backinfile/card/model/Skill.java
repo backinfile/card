@@ -3,7 +3,6 @@ package com.backinfile.card.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.backinfile.card.gen.GameMessage.DTargetInfo;
 import com.backinfile.card.model.LocalString.LocalSkillString;
 import com.backinfile.card.model.actions.IOperable;
 import com.backinfile.support.IdAllot;
@@ -62,12 +61,15 @@ public abstract class Skill {
 		}
 	}
 
+	public void setContext(Board board, Human human, Card card) {
+		this.board = board;
+		this.human = human;
+		this.card = card;
+		targetInfo.human = human;
+	}
+
 	// 检查是否可以启用
 	public boolean canActive() {
-		if (targetInfo == null) {
-			return true;
-		}
-		targetInfo.human = this.human;
 		return targetInfo.test();
 	}
 

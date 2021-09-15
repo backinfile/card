@@ -96,12 +96,14 @@ public class Board implements IAlive {
 	}
 
 	public boolean isWaitingHumanOper() {
+		// 有人在执行Action, 等待做出选择
 		for (var human : humans) {
 			if (human.targetInfo != null && !human.targetInfo.isSelected()) {
 				return true;
 			}
 		}
-		if (actionQueue.isEmpty()) {
+		// 回合中，等待执行行动
+		if (state == BoardState.InTurn && actionQueue.isEmpty()) {
 			return true;
 		}
 		return false;
@@ -125,7 +127,41 @@ public class Board implements IAlive {
 		return humans.get((index + 1) % humans.size());
 	}
 
-	public final Map<Card, DCardInfo> getAllCardInfo() {
+	public Card getCard(long id) {
+		for (var human : humans) {
+			var card = human.getCard(id);
+			if (card != null) {
+				return card;
+			}
+		}
+		return null;
+	}
+
+	public Skill getSkillById(long id) {
+		for (var human : humans) {
+			var humanSkill = human.getSkill(id);
+			if (humanSkill != null) {
+				return humanSkill;
+			}
+			for (var card : human.getAllCards()) {
+				var skill = card.getSkill(id);
+				if (skill != null) {
+					return skill;
+				}
+			}
+		}
+		return null;
+	}
+
+	public void addLast(Action action) {
+		actionQueue.addLast(action);
+	}
+
+	public void addFirst(Action action) {
+		actionQueue.addFirst(action);
+	}
+
+	public Map<Card, DCardInfo> getAllCardInfo() {
 		var cardInfos = new HashMap<Card, DCardInfo>();
 		for (var human : humans) {
 			for (var cardPile : human.getNormalPiles()) {
@@ -171,37 +207,4 @@ public class Board implements IAlive {
 		return cardInfos;
 	}
 
-	public Card getCard(long id) {
-		for (var human : humans) {
-			var card = human.getCard(id);
-			if (card != null) {
-				return card;
-			}
-		}
-		return null;
-	}
-
-	public Skill getSkillById(long id) {
-		for (var human : humans) {
-			var humanSkill = human.getSkill(id);
-			if (humanSkill != null) {
-				return humanSkill;
-			}
-			for (var card : human.getAllCards()) {
-				var skill = card.getSkill(id);
-				if (skill != null) {
-					return skill;
-				}
-			}
-		}
-		return null;
-	}
-
-	public void addLast(Action action) {
-		actionQueue.addLast(action);
-	}
-
-	public void addFirst(Action action) {
-		actionQueue.addFirst(action);
-	}
 }

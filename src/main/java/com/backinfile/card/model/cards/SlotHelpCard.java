@@ -1,12 +1,20 @@
 package com.backinfile.card.model.cards;
 
+import com.backinfile.card.gen.GameMessage.ETargetSlotAimType;
 import com.backinfile.card.model.Card;
 
-public abstract class SlotHelpCard extends Card {
+public class SlotHelpCard extends Card {
 	private int slotIndex;
+	private ETargetSlotAimType type;
 
 	public SlotHelpCard() {
 		mainType = CardType.NONE;
+	}
+
+	public SlotHelpCard(int slotIndex, ETargetSlotAimType type) {
+		this();
+		this.slotIndex = slotIndex;
+		this.type = type;
 	}
 
 	public int getSlotIndex() {
@@ -17,9 +25,7 @@ public abstract class SlotHelpCard extends Card {
 		this.slotIndex = slotIndex;
 	}
 
-	public static class SlotOccupyCard extends SlotHelpCard {
-	}
-
-	public static class SlotStoreCard extends SlotHelpCard {
+	public ETargetSlotAimType getType() {
+		return type;
 	}
 }

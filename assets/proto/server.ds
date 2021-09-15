@@ -131,6 +131,7 @@ struct DTargetInfo {
 	bool strict; // 严格限制张数，不足张数则不进行选择（默认为尽量达到需求即可）
 }
 
+// TargetInfo的类型
 enum ETargetType {
 	None, // 只需确认
 	Confirm, // 确认/取消
@@ -142,6 +143,7 @@ enum ETargetType {
 	DiscardPile, // 弃牌区
 }
 
+// 工具卡牌的类型
 enum ETargetSlotAimType {
 	None,
 	Occupy, // 侵占
