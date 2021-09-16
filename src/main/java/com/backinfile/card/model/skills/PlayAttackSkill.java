@@ -1,6 +1,6 @@
 package com.backinfile.card.model.skills;
 
-import com.backinfile.card.gen.GameMessage.ETargetType;
+import com.backinfile.card.gen.GameMessageHandler.ETargetType;
 import com.backinfile.card.manager.GameUtils;
 import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.actions.AttackAction;

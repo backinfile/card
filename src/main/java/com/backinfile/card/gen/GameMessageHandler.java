@@ -8,7 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.backinfile.dSync.model.DSyncBaseHandler;
 
 @SuppressWarnings("unused")
-public class GameMessage extends DSyncBaseHandler {
+public class GameMessageHandler extends DSyncBaseHandler {
 	private List<DSyncListener> listeners = new ArrayList<>();
 
 	public void addListener(DSyncListener listener) {
@@ -3205,6 +3205,9 @@ public class GameMessage extends DSyncBaseHandler {
 		/** 英雄牌区 */
 		HeroPile,
 	}
+	/**
+	 * TargetInfo的类型
+	 */
 	public static enum ETargetType {
 		/** 只需确认 */
 		None,
@@ -3250,6 +3253,9 @@ public class GameMessage extends DSyncBaseHandler {
 		None,
 		Skill,
 	}
+	/**
+	 * 工具卡牌的类型
+	 */
 	public static enum ETargetSlotAimType {
 		None,
 		/** 侵占 */

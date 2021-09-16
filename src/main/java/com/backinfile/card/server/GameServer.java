@@ -3,12 +3,16 @@ package com.backinfile.card.server;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.backinfile.card.gen.GameMessage.DPlayer;
+import com.backinfile.card.gen.GameMessageHandler.DPlayer;
 import com.backinfile.support.IAlive;
 import com.backinfile.support.Utils;
-import com.backinfile.support.func.MsgConsumer;
+import com.backinfile.support.func.Terminal;
 
-public class GameServer extends MsgConsumer<String> implements IAlive {
+/**
+ * GameServer管理游戏棋盘，产生数据->转string->传输到client->dSync解析
+ * GameClient产生玩家操作->转string->传输到Server->dSync解析
+ */
+public class GameServer extends Terminal<String, String> implements IAlive {
 	public static GameServer Instance;
 
 	private Map<String, GameRoom> gameRooms = new HashMap<>();
@@ -40,7 +44,5 @@ public class GameServer extends MsgConsumer<String> implements IAlive {
 //			onlinePlayers.put(player.getToken(), player);
 //		}
 	}
-	
-	
 
 }

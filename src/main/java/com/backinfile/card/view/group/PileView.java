@@ -1,6 +1,6 @@
 package com.backinfile.card.view.group;
 
-import com.backinfile.card.gen.GameMessage.ECardPileType;
+import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
 import com.backinfile.card.manager.Res;
 import com.backinfile.card.model.LocalString;
 import com.backinfile.card.model.LocalString.LocalUIString;

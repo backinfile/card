@@ -1,6 +1,6 @@
 package com.backinfile.card.model.cards;
 
-import com.backinfile.card.gen.GameMessage.ETargetSlotAimType;
+import com.backinfile.card.gen.GameMessageHandler.ETargetSlotAimType;
 import com.backinfile.card.model.Card;
 
 public class SlotHelpCard extends Card {

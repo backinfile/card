@@ -2,9 +2,9 @@ package com.backinfile.card.model.actions;
 
 import java.util.List;
 
-import com.backinfile.card.gen.GameMessage.ESlotType;
-import com.backinfile.card.gen.GameMessage.ETargetSlotAimType;
-import com.backinfile.card.gen.GameMessage.ETargetType;
+import com.backinfile.card.gen.GameMessageHandler.ESlotType;
+import com.backinfile.card.gen.GameMessageHandler.ETargetSlotAimType;
+import com.backinfile.card.gen.GameMessageHandler.ETargetType;
 import com.backinfile.card.manager.GameUtils;
 import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardSlot;

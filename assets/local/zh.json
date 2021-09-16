@@ -1,14 +1,34 @@
 {
 	cards: [
 		{
-		"sn":"attack",
-		"name":"强攻",
-		
-		"frontImages": [{
-			"path":"image/card/chap2/card1.png",
-			"locate":[5,2,0,0],
-		}],
-		
+			"sn":"attack",
+			"name":"强攻",
+			"frontImages": [{
+				"path":"image/card/chap2/card1.png",
+				"locate":[5,2,2,1],
+			}],
+		},
+		{
+			"sn":"dragon",
+			"name":"远古龙",
+			"frontImages": [{
+				"path":"image/card/chap2/card1.png",
+				"locate":[5,2,0,1],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back1.png"
+			}],
+		},
+		{
+			"sn":"beekeeper",
+			"name":"养蜂人",
+			"frontImages": [{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,0,0],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back_hero.png"
+			}],
 		},
 	],
 	actions:[{

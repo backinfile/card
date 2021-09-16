@@ -9,7 +9,6 @@ import java.util.Map;
 import com.alibaba.fastjson.JSONObject;
 import com.backinfile.support.Log;
 import com.backinfile.support.Utils;
-import com.backinfile.support.reflection.LogInvokeInfo;
 import com.backinfile.support.reflection.Timing;
 
 public class LocalString {

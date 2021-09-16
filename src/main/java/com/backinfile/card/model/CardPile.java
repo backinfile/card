@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import com.backinfile.card.gen.GameMessage.ECardPileType;
+import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
 import com.backinfile.support.Log;
 import com.backinfile.support.SysException;
 import com.backinfile.support.Tuple2;

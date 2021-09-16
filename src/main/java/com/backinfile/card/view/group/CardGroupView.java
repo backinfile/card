@@ -3,7 +3,7 @@ package com.backinfile.card.view.group;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.backinfile.card.gen.GameMessage.DCardInfo;
+import com.backinfile.card.gen.GameMessageHandler.DCardInfo;
 import com.backinfile.card.manager.Res;
 import com.backinfile.card.model.Card;
 import com.backinfile.card.view.stage.GameStage;

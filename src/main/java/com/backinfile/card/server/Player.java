@@ -1,6 +1,6 @@
 package com.backinfile.card.server;
 
-import com.backinfile.card.gen.GameMessage.DPlayer;
+import com.backinfile.card.gen.GameMessageHandler.DPlayer;
 
 public class Player {
 	public DPlayer dPlayer;

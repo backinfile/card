@@ -3,8 +3,8 @@ package com.backinfile.card.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.backinfile.card.gen.GameMessage.ECardPileType;
-import com.backinfile.card.gen.GameMessage.ESlotType;
+import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
+import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 
 // 储备位
 public class CardSlot {

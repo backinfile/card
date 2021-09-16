@@ -1,7 +1,7 @@
 package com.backinfile.card.model;
 
-import com.backinfile.card.gen.GameMessage.DTargetInfo;
-import com.backinfile.card.gen.GameMessage.DTargetSelect;
+import com.backinfile.card.gen.GameMessageHandler.DTargetInfo;
+import com.backinfile.card.gen.GameMessageHandler.DTargetSelect;
 import com.backinfile.card.model.cards.SlotHelpCard;
 
 // human正在进行的操作

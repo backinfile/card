@@ -1,6 +1,6 @@
 package com.backinfile.card.view.group;
 
-import com.backinfile.card.gen.GameMessage.DCardInfo;
+import com.backinfile.card.gen.GameMessageHandler.DCardInfo;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;

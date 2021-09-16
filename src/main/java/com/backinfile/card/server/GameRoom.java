@@ -3,10 +3,10 @@ package com.backinfile.card.server;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.backinfile.card.gen.GameMessage.DBoardInit;
-import com.backinfile.card.gen.GameMessage.DHumanInit;
-import com.backinfile.card.gen.GameMessage.DRoom;
-import com.backinfile.card.gen.GameMessage.ERoomStage;
+import com.backinfile.card.gen.GameMessageHandler.DBoardInit;
+import com.backinfile.card.gen.GameMessageHandler.DHumanInit;
+import com.backinfile.card.gen.GameMessageHandler.DRoom;
+import com.backinfile.card.gen.GameMessageHandler.ERoomStage;
 import com.backinfile.card.model.Board;
 import com.backinfile.support.IAlive;
 import com.backinfile.support.Time2;

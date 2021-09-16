@@ -1,8 +1,8 @@
 package com.backinfile.card.manager;
 
-import com.backinfile.card.gen.GameMessage.DTargetInfo;
-import com.backinfile.card.gen.GameMessage.ETargetSlotAimType;
-import com.backinfile.card.gen.GameMessage.ETargetType;
+import com.backinfile.card.gen.GameMessageHandler.DTargetInfo;
+import com.backinfile.card.gen.GameMessageHandler.ETargetSlotAimType;
+import com.backinfile.card.gen.GameMessageHandler.ETargetType;
 
 public class GameUtils {
 	public static DTargetInfo newTargetInfo(ETargetType type, String tip) {

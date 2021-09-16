@@ -9,6 +9,7 @@ import com.backinfile.support.Log;
 import com.backinfile.support.reflection.ReflectionUtils;
 import com.backinfile.support.reflection.Timing;
 
+// 默认使用卡牌的类的simpleName作为唯一标识
 public class CardManager {
 	private static Map<String, Card> allCards = new HashMap<>();
 
@@ -33,5 +34,15 @@ public class CardManager {
 		Card copy = allCards.get(sn).copy();
 		copy.oriHumanToken = oriHumanToken;
 		return copy;
+	}
+
+	// 获取卡牌标识
+	public static String getCardSn(Class<? extends Card> clazz) {
+		return clazz.getSimpleName();
+	}
+
+	// 获取卡牌标识
+	public static String getCardSn(Card card) {
+		return card.getClass().getSimpleName();
 	}
 }

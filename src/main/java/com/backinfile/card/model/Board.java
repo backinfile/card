@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.backinfile.card.gen.GameMessage.DBoardInit;
-import com.backinfile.card.gen.GameMessage.DCardInfo;
-import com.backinfile.card.gen.GameMessage.DCardPileInfo;
+import com.backinfile.card.gen.GameMessageHandler.DBoardInit;
+import com.backinfile.card.gen.GameMessageHandler.DCardInfo;
+import com.backinfile.card.gen.GameMessageHandler.DCardPileInfo;
 import com.backinfile.card.model.actions.ChangeBoardStateAction;
 import com.backinfile.card.model.actions.DispatchAction;
 import com.backinfile.support.IAlive;

@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.backinfile.card.gen.GameMessage.DHumanInit;
-import com.backinfile.card.gen.GameMessage.ECardPileType;
-import com.backinfile.card.gen.GameMessage.ESlotType;
+import com.backinfile.card.gen.GameMessageHandler.DHumanInit;
+import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
+import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.manager.CardManager;
 import com.backinfile.card.manager.ConstGame;
 import com.backinfile.card.model.Card.CardType;
