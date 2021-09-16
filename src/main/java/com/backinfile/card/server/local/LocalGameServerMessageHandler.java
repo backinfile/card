@@ -7,9 +7,9 @@ public class LocalGameServerMessageHandler extends DSyncListener {
 	private LocalGameServer gameServer;
 	private Board board;
 
-	public LocalGameServerMessageHandler(LocalGameServer gameServer) {
+	public LocalGameServerMessageHandler(LocalGameServer gameServer, Board board) {
 		this.gameServer = gameServer;
-		this.board = gameServer.board;
+		this.board = board;
 	}
 
 }

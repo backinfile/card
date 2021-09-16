@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.backinfile.card.gen.GameMessageHandler;
 import com.backinfile.card.gen.GameMessageHandler.DBoardInit;
 import com.backinfile.card.gen.GameMessageHandler.DHumanInit;
 import com.backinfile.card.gen.GameMessageHandler.DStartPileDataPair;
@@ -24,6 +25,7 @@ import com.backinfile.support.func.Terminal;
 
 public class LocalGameServer extends Terminal<MessageWarpper, MessageWarpper> implements IAlive {
 	public Board board;
+	private GameMessageHandler gameMessageHandler;
 
 	// 当前正在执行操作的Human
 	private LinkedList<HumanOperCache> waitingHumanOper = new LinkedList<>();
@@ -32,8 +34,12 @@ public class LocalGameServer extends Terminal<MessageWarpper, MessageWarpper> im
 	}
 
 	public void init() {
-		waitingHumanOper.clear();
 		board = new Board();
+		gameMessageHandler = new GameMessageHandler();
+		gameMessageHandler.addListener(new LocalGameServerMessageHandler(this, board));
+	}
+
+	public void gameStart() {
 		board.init(getBoardInit());
 	}
 
