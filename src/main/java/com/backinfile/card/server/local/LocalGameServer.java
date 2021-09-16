@@ -1,30 +1,38 @@
 package com.backinfile.card.server.local;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.backinfile.card.gen.GameMessageHandler.DBoardInit;
 import com.backinfile.card.gen.GameMessageHandler.DHumanInit;
 import com.backinfile.card.gen.GameMessageHandler.DStartPileDataPair;
+import com.backinfile.card.gen.GameMessageHandler.SCSelectCards;
+import com.backinfile.card.manager.ConstGame;
 import com.backinfile.card.manager.LocalData;
 import com.backinfile.card.model.Board;
+import com.backinfile.card.model.CardPile;
+import com.backinfile.card.model.Human;
 import com.backinfile.card.model.TargetInfo;
 import com.backinfile.card.model.cards.chapter2.Attack;
 import com.backinfile.card.model.cards.chapter2.Beekeeper;
 import com.backinfile.card.model.cards.chapter2.Dragon;
+import com.backinfile.dSync.model.DSyncBaseHandler.DSyncBase;
 import com.backinfile.support.IAlive;
 import com.backinfile.support.Time2;
 import com.backinfile.support.func.Terminal;
 
 public class LocalGameServer extends Terminal<MessageWarpper, MessageWarpper> implements IAlive {
-	private Board board;
-	private List<TargetInfo> targetInfos = new ArrayList<>();
+	public Board board;
+
+	// 当前正在执行操作的Human
+	private LinkedList<HumanOperCache> waitingHumanOper = new LinkedList<>();
 
 	public LocalGameServer() {
 	}
 
 	public void init() {
-		targetInfos.clear();
+		waitingHumanOper.clear();
 		board = new Board();
 		board.init(getBoardInit());
 	}
@@ -41,7 +49,7 @@ public class LocalGameServer extends Terminal<MessageWarpper, MessageWarpper> im
 		}
 		{
 			DHumanInit aiInit = new DHumanInit();
-			aiInit.setControllerToken(LocalData.instance().token);
+			aiInit.setControllerToken(ConstGame.AI_TOKEN);
 			aiInit.setHeroCard(Beekeeper.class.getSimpleName());
 			aiInit.setPileList(getStartPile());
 			boardInit.addHumanInits(aiInit);
@@ -71,5 +79,53 @@ public class LocalGameServer extends Terminal<MessageWarpper, MessageWarpper> im
 		if (board == null) {
 			return;
 		}
+
+		// 等待玩家执行操作
+		if (!waitingHumanOper.isEmpty()) {
+			return;
+		}
+
+		// 等待玩家执行操作
+		if (board.isWaitingHumanOper()) {
+			for (var human : board.humans) {
+				if (human.targetInfo.needSelectTarget()) {
+					onTargetInfoAttach(human);
+				}
+			}
+			return;
+		}
+
+		// 正常游戏循环
+		board.pulse();
+	}
+
+	// 玩家需要执行一个操作， 推送消息给玩家
+	private void onTargetInfoAttach(Human human) {
+		var humanOperCache = new HumanOperCache(human);
+		waitingHumanOper.add(humanOperCache);
+		TargetInfo targetInfo = human.targetInfo;
+		if (targetInfo.isSelectCardType()) {
+			// 推送卡牌选择消息
+			var info = targetInfo.stepSelectCard(humanOperCache.selected);
+			sendMessage(human, info.toMsg());
+			return;
+		}
+		switch (targetInfo.targetInfo.getType()) {
+		case None:
+		case Confirm:
+		case EmptySlot:
+			break;
+		case DiscardPile:
+		case DrawPile:
+		case HandPile:
+		case Store:
+		case StoreInSlot:
+		default:
+			break;
+		}
+	}
+
+	private void sendMessage(Human human, DSyncBase msg) {
+		outputMsg(MessageWarpper.pack(human, msg));
 	}
 }

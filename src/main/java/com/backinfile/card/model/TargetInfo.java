@@ -2,6 +2,7 @@ package com.backinfile.card.model;
 
 import com.backinfile.card.gen.GameMessageHandler.DTargetInfo;
 import com.backinfile.card.gen.GameMessageHandler.DTargetSelect;
+import com.backinfile.card.gen.GameMessageHandler.SCSelectCards;
 import com.backinfile.card.model.cards.SlotHelpCard;
 
 // human正在进行的操作
@@ -48,6 +49,10 @@ public class TargetInfo {
 		return cardPile;
 	}
 
+	public boolean needSelectTarget() {
+		return targetInfo != null;
+	}
+
 	public void clear() {
 		targetInfo = null;
 		targetSelect = null;
@@ -86,6 +91,13 @@ public class TargetInfo {
 	public static class SelectCardStepInfo {
 		public CardPile cardPile = new CardPile(); // 为空表示选择完成
 		public boolean optional = false; // 可结束选择了
+
+		public SCSelectCards toMsg() {
+			SCSelectCards msg = new SCSelectCards();
+			msg.addAllCardIds(cardPile.getCardIdList());
+			msg.setCancel(optional);
+			return msg;
+		}
 	}
 
 	// 分步进行卡牌选择

@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
 import com.backinfile.support.Log;
@@ -48,6 +50,10 @@ public class CardPile implements Iterable<Card> {
 		for (Card card : cards) {
 			add(card);
 		}
+	}
+
+	public List<Long> getCardIdList() {
+		return cards.stream().map(c -> c.id).collect(Collectors.toList());
 	}
 
 	public boolean remove(Card card) {

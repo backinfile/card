@@ -56,8 +56,8 @@ struct DBoardSetup {
 
 // 棋盘上卡牌以外的信息 sc
 struct DBoardData {
-	String curTurnPlayer; // 当前回合玩家
-	String curActionPlayer; // 当前行动玩家
+	String curTurnPlayer; // 当前回合玩家名字
+	String curActionPlayer; // 当前行动玩家名字
 	int actionPoint; // 当前行动点
 }
 
@@ -174,6 +174,17 @@ struct DActiveSkill {
 	DTargetSelect targetSelect;
 }
 
+// 通知客户端可以选择其中一张卡牌
+struct SCSelectCards {
+	long[] cardIds;
+	bool cancel; // 可以取消
+}
+
+// 客户端选择一张卡牌
+struct CSSelectCard {
+	long cardId;
+}
+
 //----------------------------------------
 // 其他
 //----------------------------------------
@@ -191,6 +202,7 @@ struct DBoardInit {
 
 struct DHumanInit {
 	String controllerToken;
+	String playerName;
 	String heroCard;
 	DStartPileDataPair[] pile;
 }
