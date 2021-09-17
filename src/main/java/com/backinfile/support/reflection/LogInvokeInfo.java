@@ -8,5 +8,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface LogInvokeInfo {
+	String value() default ""; // pattern
+
 	boolean args() default false;
+
+	public static final String DEFAULT_PATTERN = "\"{0}.{1} invoked\"";
+	public static final String DEFAULT_PATTERN_ARGS = "\"{0}.{1} invoked \"+{2}";
 }

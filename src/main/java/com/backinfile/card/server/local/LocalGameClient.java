@@ -1,6 +1,7 @@
 package com.backinfile.card.server.local;
 
 import com.backinfile.card.gen.GameMessageHandler;
+import com.backinfile.card.gen.GameMessageHandler.DBoardInit;
 import com.backinfile.card.manager.LocalData;
 import com.backinfile.card.view.stage.GameStage;
 import com.backinfile.dSync.model.DSyncBaseHandler.DSyncBase;
@@ -20,8 +21,11 @@ public class LocalGameClient extends Terminal<MessageWarpper, MessageWarpper> im
 		gameMessageHandler.addListener(new LocalGameClientMessageHandler(this, gameStage));
 		gameServer = new LocalGameServer();
 		gameServer.addOutputListener(this::putMsg); // server产生的消息直接转入client
+	}
+
+	public void startGame(DBoardInit boardInit) {
 		gameServer.init();
-		gameServer.gameStart();
+		gameServer.startGame(boardInit);
 	}
 
 	public void sendMessage(DSyncBase msg) {

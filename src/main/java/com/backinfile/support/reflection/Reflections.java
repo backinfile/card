@@ -58,15 +58,18 @@ public class Reflections {
 			if (annotation == null) {
 				continue;
 			}
-			if (annotation.args()) {
-				String code = MessageFormat.format("{0}.invoke.info(\"{1}.{2} invoked args:\"+java.util.Arrays.toString($args)+\"\");",
-						Log.class.getName(), ctMethod.getDeclaringClass().getSimpleName(), ctMethod.getName());
-				ctMethod.insertBefore(code);
+			String pattern;
+			if (!annotation.value().isEmpty()) {
+				pattern = annotation.value();
+			} else if (annotation.args()) {
+				pattern = LogInvokeInfo.DEFAULT_PATTERN_ARGS;
 			} else {
-				String code = MessageFormat.format("{0}.invoke.info(\"{1}.{2} invoked\");", Log.class.getName(),
-						ctMethod.getDeclaringClass().getSimpleName(), ctMethod.getName());
-				ctMethod.insertBefore(code);
+				pattern = LogInvokeInfo.DEFAULT_PATTERN;
 			}
+			var codePattern = MessageFormat.format("{0}.invoke.info({1});", Log.class.getName(), pattern);
+			String code = MessageFormat.format(codePattern, ctMethod.getDeclaringClass().getSimpleName(),
+					ctMethod.getName(), "\"args:\"+java.util.Arrays.toString($args)");
+			ctMethod.insertBefore(code);
 			needRewrite = true;
 		}
 		return needRewrite;

@@ -1,21 +1,14 @@
 package com.backinfile.card.view.stage;
 
-import com.backinfile.card.server.GameClient;
-import com.backinfile.card.view.group.CardGroupView;
-import com.backinfile.card.view.group.ShowCardView;
-import com.backinfile.card.view.group.UIView;
-import com.backinfile.card.view.group.UseCardSkillView;
+import com.backinfile.card.view.group.LocalBoardView;
+import com.backinfile.card.view.group.TestView;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class GameStage extends Stage {
 
-	private CardGroupView cardGroupView;
-	private UIView uiView;
-	private ShowCardView showCardView;
-	private UseCardSkillView useCardSkillView;
-
-	public GameClient gameClient;
+	public LocalBoardView boardView;
+	public TestView testView;
 
 	public GameStage(Viewport viewport) {
 		super(viewport);
@@ -25,24 +18,13 @@ public class GameStage extends Stage {
 	}
 
 	private void initLogic() {
-		gameClient = new GameClient();
 	}
 
 	private void initView() {
-
-		cardGroupView = new CardGroupView(this, getWidth(), getHeight());
-
-		uiView = new UIView(this, getWidth(), getHeight());
-
-		showCardView = new ShowCardView(this, getWidth(), getHeight());
-		useCardSkillView = new UseCardSkillView(this, getWidth(), getHeight());
-
-		addActor(cardGroupView);
-		addActor(uiView);
-		addActor(showCardView);
-		addActor(useCardSkillView);
-
-//		useCardSkillView.show(LocalString.getCardString("attack").frontImages[0]);
+		boardView = new LocalBoardView(this, getWidth(), getHeight());
+		testView = new TestView(this, getWidth(), getHeight());
+		addActor(boardView);
+		addActor(testView);
 	}
 
 	@Override
@@ -53,8 +35,6 @@ public class GameStage extends Stage {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-		gameClient.pulse();
-
 	}
 
 }

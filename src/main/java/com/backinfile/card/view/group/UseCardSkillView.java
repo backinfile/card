@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+// 选择一张卡牌上的一个技能
 public class UseCardSkillView extends BaseView {
 	private Image maskImage;
 	private Image mainCardImage;

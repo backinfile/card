@@ -11,6 +11,7 @@ import com.backinfile.support.ObjectPool;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
+// 管理所有卡牌
 public class CardGroupView extends BaseView {
 
 	private ObjectPool<CardView> cardActorPool;
