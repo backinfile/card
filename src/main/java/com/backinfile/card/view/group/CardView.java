@@ -2,6 +2,7 @@ package com.backinfile.card.view.group;
 
 import com.backinfile.card.manager.Res;
 import com.backinfile.card.model.LocalString.LocalCardString;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -10,36 +11,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 public class CardView extends Group {
 
 	private Image mainImage;
-	private Image maskImage;
 
 	private LocalCardString cardString;
 	private boolean flipOver = false;
 	private int position = 0;
 
-	public static enum CardSize {
-		Small(Res.CARD_WIDTH_S, Res.CARD_HEIGHT_S), // 小
-		Normal(Res.CARD_WIDTH, Res.CARD_HEIGHT), // 中
-		Large(Res.CARD_WIDTH_L, Res.CARD_HEIGHT_L), // 大
-		LargeLarge(Res.CARD_WIDTH_LL, Res.CARD_HEIGHT_LL), // 特大
-
-		;
-		public final float width;
-		public final float height;
-
-		private CardSize(float width, float height) {
-			this.width = width;
-			this.height = height;
-		}
-
-	}
-
 	public CardView() {
 		mainImage = new Image();
-		maskImage = new Image(Res.TEX_BLACK);
-		maskImage.getColor().a = 0.5f;
 		addActor(mainImage);
-		addActor(maskImage);
-
+		setSize(CardSize.Normal);
 	}
 
 	public void setCardString(LocalCardString cardString) {
@@ -54,6 +34,12 @@ public class CardView extends Group {
 		updateView();
 	}
 
+	public void clearState() {
+		setSize(CardSize.Normal);
+		setDark(false);
+		setFlipOver(false);
+	}
+
 	public void setFlipOver(boolean flipOver) {
 		this.flipOver = flipOver;
 		updateView();
@@ -61,7 +47,17 @@ public class CardView extends Group {
 
 	public void setSize(CardSize cardSize) {
 		mainImage.setSize(cardSize.width, cardSize.height);
-		maskImage.setSize(cardSize.width, cardSize.height);
+	}
+
+	public void setDark(boolean dark) {
+		var color = mainImage.getColor();
+		if (dark) {
+			color.r *= 0.5;
+			color.g *= 0.5;
+			color.b *= 0.5;
+		} else {
+			color.set(Color.WHITE);
+		}
 	}
 
 	private void updateView() {
@@ -86,4 +82,20 @@ public class CardView extends Group {
 		super.draw(batch, parentAlpha);
 	}
 
+	public static enum CardSize {
+		Small(Res.CARD_WIDTH_S, Res.CARD_HEIGHT_S), // 小
+		Normal(Res.CARD_WIDTH, Res.CARD_HEIGHT), // 中
+		Large(Res.CARD_WIDTH_L, Res.CARD_HEIGHT_L), // 大
+		LargeLarge(Res.CARD_WIDTH_LL, Res.CARD_HEIGHT_LL), // 特大
+
+		;
+		public final float width;
+		public final float height;
+
+		private CardSize(float width, float height) {
+			this.width = width;
+			this.height = height;
+		}
+
+	}
 }

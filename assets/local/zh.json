@@ -7,6 +7,9 @@
 				"path":"image/card/chap2/card1.png",
 				"locate":[5,2,2,1],
 			}],
+			"backImages": [{
+				"path":"image/card/chap2/back1.png"
+			}],
 		},
 		{
 			"sn":"dragon",
