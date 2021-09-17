@@ -1,6 +1,7 @@
 package com.backinfile.card.view.group;
 
 import com.backinfile.card.view.actor.BoardButton;
+import com.backinfile.card.view.actor.PositionLocator;
 import com.backinfile.card.view.stage.GameStage;
 import com.badlogic.gdx.utils.Align;
 
@@ -11,9 +12,15 @@ public class TestView extends BaseView {
 		super(gameStage, width, height);
 
 		BoardButton boardButton = new BoardButton();
-		boardButton.setPosition(width / 2, height / 2, Align.center);
 		boardButton.setSize(100, 40);
+		boardButton.setPosition(width / 2, height / 2, Align.center);
+//		boardButton.setVisible(false);
 		addActor(boardButton);
+
+		PositionLocator locator = new PositionLocator();
+		locator.setSize(16, 16);
+		locator.setPosition(100, height / 2, Align.center);
+		addActor(locator);
 	}
 
 }

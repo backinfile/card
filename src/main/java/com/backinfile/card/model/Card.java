@@ -16,6 +16,7 @@ public abstract class Card extends SkillCaster {
 		HERO, // 角色卡
 		STORE, // 储备卡
 		ACTION, // 行动卡
+		TOOL, // 辅助用卡，并不实际存在
 		NONE
 	}
 
