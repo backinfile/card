@@ -12,6 +12,6 @@ public class RestoreActionNumberAction extends TriggerOnceAction {
 
 	@Override
 	public void run() {
-		human.actionNumber = number;
+		human.actionPoint = number;
 	}
 }

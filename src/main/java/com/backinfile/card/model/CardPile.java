@@ -22,8 +22,14 @@ public class CardPile implements Iterable<Card> {
 	public CardPile() {
 	}
 
-	public CardPile(CardPile cardPile) {
-		this.addAll(cardPile);
+	public CardPile(Iterable<Card> cards) {
+		this.addAll(cards);
+	}
+
+	public CardPile(Card... cards) {
+		for (var card : cards) {
+			this.add(card);
+		}
 	}
 
 	public CardPile(ECardPileType pileType) {
@@ -99,6 +105,10 @@ public class CardPile implements Iterable<Card> {
 		return cardPile;
 	}
 
+	public Card pollTop() {
+		return cards.pollLast();
+	}
+
 	public CardPile getBottom(int n) {
 		CardPile cardPile = new CardPile();
 		for (int i = 0; i < n; i++) {
@@ -130,10 +140,13 @@ public class CardPile implements Iterable<Card> {
 	}
 
 	public void shuffle() {
+		if (isEmpty()) {
+			return;
+		}
 		CardPile newCardPile = new CardPile(this);
 		this.clear();
 		while (!newCardPile.isEmpty()) {
-			int rnd = Utils.nextInt(0, newCardPile.size() - 1);
+			int rnd = Utils.nextInt(0, newCardPile.size());
 			Card card = newCardPile.get(rnd);
 			newCardPile.remove(card);
 			this.add(card);

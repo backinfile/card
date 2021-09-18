@@ -49,23 +49,16 @@ struct DClientPlayerInfo {
 
 // 棋盘初始化信息 第一次进入游戏
 struct DBoardSetup {
-	String viewAt; // 主视角玩家token
 	DBoardData data;
 	DCardInfoList cardInfos;
 }
 
 // 棋盘上卡牌以外的信息 sc
 struct DBoardData {
-	String curTurnPlayer; // 当前回合玩家名字
-	String curActionPlayer; // 当前行动玩家名字
+	String opponentPlayerName;
+	String curTurnPlayerName; // 当前回合玩家名字
+	String curActionPlayerName; // 当前行动玩家名字
 	int actionPoint; // 当前行动点
-}
-
-// 玩家初始化信息 cs
-struct DHumanInit {
-	String controllerToken;
-	String heroCard;
-	DStartPileDataPair[] pile;
 }
 
 // 卡牌更新或移动

@@ -3,12 +3,11 @@ package com.backinfile.card.model.skills;
 import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.actions.StoreCardAction;
 
+// 储备牌 储备本身的技能
 public class StoreSelfSkill extends Skill {
 
 	public StoreSelfSkill() {
-		duration = SkillDuration.Combat;
-		aura = SkillAura.Hand;
-		trigger = SkillTrigger.Active;
+		setTriggerType(SkillDuration.Fixed, SkillTrigger.Active, SkillAura.Hand, 1);
 	}
 
 	@Override

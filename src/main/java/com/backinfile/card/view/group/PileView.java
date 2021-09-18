@@ -62,6 +62,9 @@ public class PileView extends BaseView {
 		numberLabel.setText(String.valueOf(number));
 	}
 
+	/**
+	 * 这个牌堆属于哪个角色
+	 */
 	public static enum PilePosition {
 		Self, Opponent,
 	}

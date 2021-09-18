@@ -13,7 +13,10 @@ public class LocalBoardView extends BaseView {
 	public LocalGameClient gameClient;
 	public CardGroupView cardGroupView;
 	private BoardBackgroundView backgroundView;
+	private BoardUIView boardUIView;
 	private Group pileViewGroup;
+
+	private TestView testView;
 
 	public LocalBoardView(GameStage gameStage, float width, float height) {
 		super(gameStage, width, height);
@@ -39,12 +42,24 @@ public class LocalBoardView extends BaseView {
 
 		cardGroupView = new CardGroupView(gameStage, getWidth(), getHeight());
 //		addActor(cardGroupView);
+
+		boardUIView = new BoardUIView(gameStage, getWidth(), getHeight());
+		addActor(boardUIView);
+
+		testView = new TestView(gameStage, getWidth(), getHeight());
+		addActor(testView);
 	}
 
 	public void startGame() {
 		show();
 		gameClient = new LocalGameClient(gameStage);
 		gameClient.startGame(GameUtils.getDefaultBoardInit());
+	}
+
+	@Override
+	public void act(float delta) {
+		super.act(delta);
+		gameClient.pulse();
 	}
 
 }

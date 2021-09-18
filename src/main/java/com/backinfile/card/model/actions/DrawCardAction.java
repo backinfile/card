@@ -12,13 +12,28 @@ public class DrawCardAction extends TriggerOnceAction {
 
 	@Override
 	public void run() {
-		int firstDrawSize = human.drawPile.size();
-		if (firstDrawSize <= number) {
-			int leftSize = number - firstDrawSize;
-			board.getActionQueue().addFirst(new DrawCardAction(human, leftSize));
-			board.getActionQueue().addFirst(new ShuffleDiscardPileToDrawPileAction(human));
-			board.getActionQueue().addFirst(new DrawCardAction(human, firstDrawSize));
+		if (number < 1) {
 			return;
 		}
+
+		// 转化成一张一张的抽
+		if (number == 1) {
+			// 牌不够抽，就先去洗回弃牌堆
+			if (human.drawPile.isEmpty() && !human.discardPile.isEmpty()) {
+				addFirst(new DrawCardAction(human, 1));
+				addFirst(new ShuffleDiscardPileToDrawPileAction(human));
+			} else {
+				drawOneCard();
+			}
+		} else {
+			addFirst(new DrawCardAction(human, number - 1));
+			addFirst(new DrawCardAction(human, 1));
+		}
+	}
+
+	private void drawOneCard() {
+		var card = human.drawPile.pollTop();
+		human.handPile.add(card);
+		board.modifyCard(card);
 	}
 }

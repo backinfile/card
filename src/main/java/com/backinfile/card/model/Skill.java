@@ -1,10 +1,6 @@
 package com.backinfile.card.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.backinfile.card.model.LocalString.LocalSkillString;
-import com.backinfile.card.model.actions.IOperable;
 import com.backinfile.support.IdAllot;
 
 // 技能 主动触发，或在Action中有交互
@@ -12,11 +8,6 @@ public abstract class Skill {
 	// 自身属性
 	public long id;
 	protected LocalSkillString skillString;
-	public TargetInfo targetInfo = new TargetInfo(null); // 触发条件
-	public int activeCostActionPoint = 1; // 主动激活消耗行动力
-
-	// 联动效果
-	public List<IOperable> operables = new ArrayList<>();
 
 	// 执行上下文
 	public Board board;
@@ -24,11 +15,12 @@ public abstract class Skill {
 	public Card card;
 
 	// 触发时效控制
-	public SkillDuration duration = SkillDuration.Combat;
-	public SkillTrigger trigger = SkillTrigger.Passive;
-	public SkillAura aura = SkillAura.Combat;
-	public int triggerTimesLimit = -1; // 当恰好==0时清除
-	public int triggerTimesPerTurnLimit = -1; // 当恰好==0时清除
+	public TargetInfo targetInfo = new TargetInfo(null); // 触发条件
+	public SkillDuration duration = SkillDuration.Combat; // 失效方式
+	public SkillTrigger trigger = SkillTrigger.Passive; // 触发方式
+	public SkillAura aura = SkillAura.Combat; // 可触发区域
+	public int triggerCostAP = 0; // 使用时需要消耗的行动点
+	public int triggerTimesLimit = -1; // 可触发次数，当恰好==0时清除
 
 	public static enum SkillDuration {
 		Fixed, // 本身固有属性，不会被自动清除
@@ -37,15 +29,17 @@ public abstract class Skill {
 		OwnerEndTurn, // skill拥有者回合结束清除
 	}
 
+	// 触发方式
 	public static enum SkillTrigger {
 		Active, // 主动激活
-		Passive, // 被动
+		Passive, // 强制型被动
 		OptionalPassive, // 可选被动
 	}
 
+	// 生效地点
 	public static enum SkillAura {
-		Always, // 任何地方
-		Combat, // 场上
+		AnyWhere, // 任何地方
+		Combat, // 场上(非手牌)
 		Hand, // 手牌
 	}
 
@@ -68,8 +62,20 @@ public abstract class Skill {
 		targetInfo.human = human;
 	}
 
+	public void setTriggerType(SkillDuration duration, SkillTrigger trigger, SkillAura aura, int cost, int limit) {
+		this.duration = duration;
+		this.trigger = trigger;
+		this.aura = aura;
+		this.triggerCostAP = cost;
+		this.triggerTimesLimit = limit;
+	}
+
+	public void setTriggerType(SkillDuration duration, SkillTrigger trigger, SkillAura aura, int cost) {
+		setTriggerType(duration, trigger, aura, cost, -1);
+	}
+
 	// 检查是否可以启用
-	public boolean canActive() {
+	public boolean isTargetFit() {
 		return targetInfo.test();
 	}
 

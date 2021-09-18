@@ -17,7 +17,7 @@ public class PositionLocator extends Image {
 			@Override
 			public void touchDragged(InputEvent event, float x, float y, int pointer) {
 				var mousePos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-				var coor = getStage().screenToStageCoordinates(mousePos);
+				var coor = getParent().screenToLocalCoordinates(mousePos);
 				setPosition(coor.x, coor.y, Align.center);
 				Log.game.info("locator rate = {},{}", mousePos.x / getStage().getWidth(),
 						mousePos.y / getStage().getHeight());

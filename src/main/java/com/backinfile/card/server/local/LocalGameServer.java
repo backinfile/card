@@ -29,6 +29,10 @@ public class LocalGameServer extends Terminal<MessageWarpper, MessageWarpper> im
 
 	public void startGame(DBoardInit boardInit) {
 		board.init(boardInit);
+		for (var human : board.humans) {
+			sendMessage(human, board.getBoardSetup(human.token));
+		}
+		board.start();
 	}
 
 	@Override
@@ -44,16 +48,27 @@ public class LocalGameServer extends Terminal<MessageWarpper, MessageWarpper> im
 
 		// 等待玩家执行操作
 		if (board.isWaitingHumanOper()) {
+			// 执行Action中的选择
 			for (var human : board.humans) {
 				if (human.targetInfo.needSelectTarget()) {
 					onTargetInfoAttach(human);
 				}
 			}
+			// 执行一项Skill
+			if (waitingHumanOper.isEmpty()) {
+				// TODO
+			}
 			return;
 		}
 
 		// 正常游戏循环
-		board.pulse();
+		board.pulseLoop();
+		for (var human : board.humans) {
+			for (var msg : human.msgCacheQueue) {
+				sendMessage(human, msg);
+			}
+			human.msgCacheQueue.clear();
+		}
 	}
 
 	// 玩家需要执行一个操作， 推送消息给玩家

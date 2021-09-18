@@ -82,7 +82,7 @@ public class LocalString {
 		if (localSkillString != null) {
 			return localSkillString;
 		}
-		Log.res.warn("mising skill string sn: {}", sn.toLowerCase());
+//		Log.res.warn("mising skill string sn: {}", sn.toLowerCase());
 		return LocalSkillString.EMPTY_STRING;
 	}
 
@@ -91,7 +91,7 @@ public class LocalString {
 		if (localActionString != null) {
 			return localActionString;
 		}
-		Log.res.warn("mising action string sn: {}", sn.toLowerCase());
+//		Log.res.warn("mising action string sn: {}", sn.toLowerCase());
 		return LocalActionString.EMPTY_STRING;
 	}
 

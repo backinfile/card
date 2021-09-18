@@ -1,10 +1,12 @@
 package com.backinfile.card.view.group;
 
 import com.backinfile.card.manager.Res;
+import com.backinfile.card.model.CardInfo;
+import com.backinfile.card.model.LocalString;
 import com.backinfile.card.model.LocalString.LocalImagePathString;
 import com.backinfile.card.view.stage.GameStage;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Align;
 
 public class ShowCardView extends BaseView {
 	private Image maskImage;
@@ -15,7 +17,7 @@ public class ShowCardView extends BaseView {
 
 		mainCardImage = new Image();
 		maskImage = new Image(Res.TEX_HALF_BLACK);
-		maskImage.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		maskImage.setSize(width, height);
 
 		addActor(maskImage);
 		addActor(mainCardImage);
@@ -23,12 +25,15 @@ public class ShowCardView extends BaseView {
 		hide();
 	}
 
+	public void show(CardInfo cardInfo) {
+		var cardString = LocalString.getCardString(cardInfo.info.getSn());
+		show(cardString.frontImages[cardInfo.getPilePosition().ordinal()]);
+	}
+
 	public void show(LocalImagePathString imagePathString) {
 		mainCardImage.setDrawable(Res.getTexture(imagePathString));
-//		mainCardImage.setSize(texture.getRegion().getRegionWidth(), texture.getRegion().getRegionHeight());
 		mainCardImage.setSize(Res.CARD_HEIGHT_L, Res.CARD_HEIGHT_L);
-		mainCardImage.setPosition(getWidth() / 2 - mainCardImage.getWidth() / 2,
-				getHeight() / 2 - mainCardImage.getHeight() / 2);
+		mainCardImage.setPosition(getWidth() / 2, getHeight() / 2, Align.center);
 		this.setVisible(true);
 	}
 }

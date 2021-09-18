@@ -11,7 +11,6 @@ public class TurnEndAction extends TriggerOnceAction {
 
 	@Override
 	public void run() {
-		human.onTurnEnd();
 		addLast(new ChangeBoardStateAction(BoardState.TurnEnd));
 	}
 }

@@ -3,7 +3,6 @@ package com.backinfile.card.model;
 import com.backinfile.card.model.LocalString.LocalActionString;
 import com.backinfile.support.IAlive;
 import com.backinfile.support.IDisposable;
-import com.backinfile.support.reflection.LogInvokeInfo;
 
 /**
  * 一个动作，通常情况下，Board上的数据修改都通过Action来进行
@@ -36,11 +35,9 @@ public abstract class Action implements IAlive, IDisposable {
 		this.actionString = LocalString.getActionString(getClass().getSimpleName());
 	}
 
-	@LogInvokeInfo
 	public void init() {
 	}
 
-	@LogInvokeInfo
 	@Override
 	public void pulse() {
 	}
@@ -49,7 +46,6 @@ public abstract class Action implements IAlive, IDisposable {
 		return true;
 	}
 
-	@LogInvokeInfo
 	public void dispose() {
 		if (human != null) {
 			human.targetInfo.clear();

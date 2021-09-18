@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class Res {
 	public static float BASE_DURATION = 0.3f;
+	public static float BoardOffsetRate = 0.06f;
 
 	public static float CARD_WIDTH;
 	public static float CARD_HEIGHT;

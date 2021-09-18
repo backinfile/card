@@ -70,6 +70,7 @@ public class GameUtils {
 		{
 			DHumanInit humanInit = new DHumanInit();
 			humanInit.setControllerToken(LocalData.instance().token);
+			humanInit.setPlayerName(LocalData.instance().name);
 			humanInit.setHeroCard(Beekeeper.class.getSimpleName());
 			humanInit.setPileList(getStartPile());
 			boardInit.addHumanInits(humanInit);
@@ -77,6 +78,7 @@ public class GameUtils {
 		{
 			DHumanInit aiInit = new DHumanInit();
 			aiInit.setControllerToken(ConstGame.AI_TOKEN);
+			aiInit.setPlayerName("AI01");
 			aiInit.setHeroCard(Beekeeper.class.getSimpleName());
 			aiInit.setPileList(getStartPile());
 			boardInit.addHumanInits(aiInit);

@@ -27,7 +27,7 @@ public class TestView extends BaseView {
 		cardView.setCardString(LocalString.getCardString("attack"));
 		cardView.setFlipOver(true);
 		cardView.setVisible(false);
-		addActor(cardView);
+//		addActor(cardView);
 	}
 
 }

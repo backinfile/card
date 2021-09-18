@@ -71,6 +71,11 @@
 			},{
 				"path":"image/card/chap2/back2.png",
 			}],
+	},{
+			"sn":"boardUIView",
+			"strs":[
+				"你的对手", "你",
+			],
 	}],
 	
 }

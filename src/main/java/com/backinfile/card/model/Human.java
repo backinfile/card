@@ -2,6 +2,7 @@ package com.backinfile.card.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,10 +15,12 @@ import com.backinfile.card.model.Card.CardType;
 import com.backinfile.card.model.actions.DrawCardAction;
 import com.backinfile.card.model.actions.RestoreActionNumberAction;
 import com.backinfile.card.model.actions.SaveThreatenAction;
+import com.backinfile.dSync.model.DSyncBaseHandler.DSyncBase;
 
 public class Human extends SkillCaster {
 	// 固有属性
 	public String token;
+	public String playerName;
 
 	// 被赋值属性
 	public Board board;
@@ -30,23 +33,25 @@ public class Human extends SkillCaster {
 	public CardPile discardPile = new CardPile(ECardPileType.DiscardPile);
 	public CardPile trashPile = new CardPile(ECardPileType.TrashPile);
 	public Map<Integer, CardSlot> cardSlotMap = new HashMap<>();
-	public int actionNumber = 0;
+	public int actionPoint = 0;
 
-	// 可被远程使用的属性
+	// 可被外部Server修改的属性
 	public TargetInfo targetInfo; // 当前正在进行的选择
+	public LinkedList<DSyncBase> msgCacheQueue = new LinkedList<>(); // 消息缓存
 
 	public void init(DHumanInit humanInit) {
 		this.targetInfo = new TargetInfo(this);
 		this.token = humanInit.getControllerToken();
+		this.playerName = humanInit.getPlayerName();
 		this.heroPile.add(CardManager.getCard(humanInit.getHeroCard(), token));
 		for (var entry : humanInit.getPileList()) {
 			var name = entry.getCard();
 			var number = entry.getCount();
 			for (int i = 0; i < number; i++) {
 				this.drawPile.add(CardManager.getCard(name, token));
-				this.drawPile.shuffle();
 			}
 		}
+		this.drawPile.shuffle();
 
 		// 初始化储备位
 		for (int i = 1; i <= ConstGame.SlotPileNumber; i++) {

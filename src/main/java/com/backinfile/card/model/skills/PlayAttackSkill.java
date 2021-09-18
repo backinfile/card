@@ -1,22 +1,17 @@
 package com.backinfile.card.model.skills;
 
-import com.backinfile.card.gen.GameMessageHandler.ETargetType;
-import com.backinfile.card.manager.GameUtils;
 import com.backinfile.card.model.Skill;
-import com.backinfile.card.model.actions.AttackAction;
+import com.backinfile.card.model.actions.DiscardCardAction;
 
-// 释放储备skill, 卡牌本体弃置
+// 强攻释放两张储备技能
 public class PlayAttackSkill extends Skill {
 	public PlayAttackSkill() {
-		targetInfo.setTargetInfo(GameUtils.newTargetInfo(ETargetType.Store, 1, skillString.tip));
+		setTriggerType(SkillDuration.Fixed, SkillTrigger.Active, SkillAura.Hand, 1);
 	}
 
 	@Override
 	public void apply() {
-		board.removeCard(card);
-		for (var selectedCard : human.targetInfo.getTargetSelected()) {
-			addLast(new AttackAction(human, selectedCard, board.getOpponent(human)));
-		}
-		human.targetInfo.clear();
+		// TODO
+		addLast(new DiscardCardAction(human, card));
 	}
 }
