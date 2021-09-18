@@ -3,6 +3,7 @@ package com.backinfile.card.view.group;
 import com.backinfile.card.model.LocalString;
 import com.backinfile.card.view.actor.BoardButton;
 import com.backinfile.card.view.actor.PositionLocator;
+import com.backinfile.card.view.group.CardView.CardViewState;
 import com.backinfile.card.view.stage.GameStage;
 import com.badlogic.gdx.utils.Align;
 
@@ -25,9 +26,15 @@ public class TestView extends BaseView {
 
 		CardView cardView = new CardView();
 		cardView.setCardString(LocalString.getCardString("attack"));
-		cardView.setFlipOver(true);
-		cardView.setVisible(false);
+//		cardView.clearState();
+		cardView.setPosition(getWidth() / 2, getHeight() / 2);
 //		addActor(cardView);
+
+		CardViewState cardViewState = new CardViewState();
+		cardViewState.position.set(0, 0);
+		cardViewState.cardSize = CardSize.LargeLarge;
+		cardViewState.flipOver = true;
+//		cardView.moveToState(cardViewState);
 	}
 
 }

@@ -21,4 +21,8 @@ public class CardInfo {
 		return PilePosition.Opponent;
 	}
 
+	public long getId() {
+		return info.getId();
+	}
+
 }

@@ -1,5 +1,8 @@
 package com.backinfile.card.view.group;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
 import com.backinfile.card.manager.GameUtils;
 import com.backinfile.card.server.local.LocalGameClient;
@@ -14,7 +17,7 @@ public class LocalBoardView extends BaseView {
 	public CardGroupView cardGroupView;
 	private BoardBackgroundView backgroundView;
 	private BoardUIView boardUIView;
-	private Group pileViewGroup;
+	public List<PileView> pileViews;
 
 	private TestView testView;
 
@@ -28,16 +31,17 @@ public class LocalBoardView extends BaseView {
 		addActor(backgroundView);
 
 		{
-			pileViewGroup = new Group();
-			addActor(pileViewGroup);
-			pileViewGroup.addActor(
-					new PileView(gameStage, getWidth(), getHeight(), ECardPileType.DrawPile, PilePosition.Self));
-			pileViewGroup.addActor(
+			pileViews = new ArrayList<>();
+			pileViews.add(new PileView(gameStage, getWidth(), getHeight(), ECardPileType.DrawPile, PilePosition.Self));
+			pileViews.add(
 					new PileView(gameStage, getWidth(), getHeight(), ECardPileType.DiscardPile, PilePosition.Self));
-			pileViewGroup.addActor(
+			pileViews.add(
 					new PileView(gameStage, getWidth(), getHeight(), ECardPileType.DrawPile, PilePosition.Opponent));
-			pileViewGroup.addActor(
+			pileViews.add(
 					new PileView(gameStage, getWidth(), getHeight(), ECardPileType.DiscardPile, PilePosition.Opponent));
+			for (var pile : pileViews) {
+				addActor(pile);
+			}
 		}
 
 		cardGroupView = new CardGroupView(gameStage, getWidth(), getHeight());

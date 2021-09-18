@@ -20,8 +20,8 @@ import com.badlogic.gdx.utils.Align;
 public class PileView extends BaseView {
 	private PileButton pileButton; // 查看牌库按钮
 	private LocalUIString uiString;
-	private ECardPileType pileType;
-	private PilePosition pilePosition;
+	public ECardPileType pileType;
+	public PilePosition pilePosition;
 	private Label numberLabel;
 
 	private boolean pileRoated = false;
