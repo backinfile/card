@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public class BoardButton extends Button {
 	public BoardButton() {
 		super(Res.TEX_GRAY, Res.TEX_DARK_GRAY);
+		setTransform(true);
 		addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {

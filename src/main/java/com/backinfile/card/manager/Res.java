@@ -3,9 +3,11 @@ package com.backinfile.card.manager;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import com.backinfile.card.model.LocalString;
 import com.backinfile.card.model.LocalString.LocalImagePathString;
 import com.backinfile.support.FontCharacterCollection;
+import com.backinfile.support.Log;
 import com.backinfile.support.reflection.LogInvokeInfo;
 import com.backinfile.support.reflection.Timing;
 import com.badlogic.gdx.Gdx;
@@ -20,7 +22,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class Res {
-	public static final TextureRegionDrawable EMPTY_DRAWABLE = new TextureRegionDrawable();
 	public static float BASE_DURATION = 0.3f;
 
 	public static float CARD_WIDTH;
@@ -42,6 +43,7 @@ public class Res {
 	public static TextureRegionDrawable TEX_DARK_GRAY;
 	public static TextureRegionDrawable TEX_LIGHT_GRAY;
 	public static TextureRegionDrawable TEX_HALF_BLACK;
+	public static TextureRegionDrawable EMPTY_DRAWABLE;
 	public static final String PATH_IMAGE_BACKGROUND = "image/background1.jpg";
 	public static final String PATH_LOCAL_DATA = "data/data.json";
 
@@ -58,7 +60,7 @@ public class Res {
 	@LogInvokeInfo
 	public static void init() {
 
-		CARD_HEIGHT = Gdx.graphics.getHeight() / 3f;
+		CARD_HEIGHT = Gdx.graphics.getHeight() * 0.15f;
 		CARD_WIDTH = CARD_HEIGHT * 0.715f;
 		CARD_HEIGHT_L = CARD_HEIGHT * 4 / 3f;
 		CARD_WIDTH_L = CARD_WIDTH * 4 / 3f;
@@ -86,7 +88,11 @@ public class Res {
 	}
 
 	public static TextureRegionDrawable getTexture(LocalImagePathString imagePathString) {
-		return cardImageMap.getOrDefault(imagePathString, EMPTY_DRAWABLE);
+		if (cardImageMap.containsKey(imagePathString)) {
+			return cardImageMap.get(imagePathString);
+		}
+		Log.res.warn("missing texture for {}", JSON.toJSONString(imagePathString));
+		return EMPTY_DRAWABLE;
 	}
 
 	@LogInvokeInfo
@@ -97,14 +103,16 @@ public class Res {
 		TEX_DARK_GRAY = getDrawable(newColorPixmap(8, 8, Color.DARK_GRAY));
 		TEX_LIGHT_GRAY = getDrawable(newColorPixmap(8, 8, Color.LIGHT_GRAY));
 		TEX_HALF_BLACK = getDrawable(newColorPixmap(8, 8, new Color(0, 0, 0, 0.5f)));
+		EMPTY_DRAWABLE = TEX_GRAY;
 
-		textureMap.put(PATH_IMAGE_BACKGROUND, new Texture(PATH_IMAGE_BACKGROUND));
+		textureMap.put(PATH_IMAGE_BACKGROUND, new Texture(Gdx.files.internal(PATH_IMAGE_BACKGROUND), true));
 
 		// 加载所有texture
 		for (var imageString : LocalString.getAllImagePathStrings()) {
 			String path = imageString.path;
 			if (!textureMap.containsKey(path)) {
-				textureMap.put(path, new Texture(path));
+				textureMap.put(path, new Texture(Gdx.files.internal(path), true));
+				Log.res.info("load texture {}", path);
 			}
 		}
 		// 获取drawable

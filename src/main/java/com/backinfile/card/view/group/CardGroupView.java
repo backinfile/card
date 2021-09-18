@@ -16,27 +16,24 @@ public class CardGroupView extends BaseView {
 
 	private ObjectPool<CardView> cardActorPool;
 	private HashMap<Long, CardView> cardViews = new HashMap<>();
-	private HashMap<Long, DCardInfo> saveCardInfos = new HashMap<>();
+	private HashMap<Long, DCardInfo> cardInfoCacheMap = new HashMap<>();
 	private Group cardGroup = new Group();
-
-	private PileView myDrawPile;
-	private PileView opDrawPile;
-	private PileView myDiscardPile;
-	private PileView opDiscardPile;
 
 	public CardGroupView(GameStage gameStage, float width, float height) {
 		super(gameStage, width, height);
-		cardActorPool = new ObjectPool<>(() -> new CardView());
+		cardActorPool = new ObjectPool<CardView>() {
+			@Override
+			protected CardView newObject() {
+				return new CardView();
+			}
 
-//		myDrawPile = new PileView(gameStage, width, height, ECardPileType.DrawPile, true);
-//		opDrawPile = new PileView(gameStage, width, height, ECardPileType.DrawPile, false);
-//		myDiscardPile = new PileView(gameStage, width, height, ECardPileType.DiscardPile, true);
-//		opDiscardPile = new PileView(gameStage, width, height, ECardPileType.DiscardPile, false);
-//
-//		addActor(myDrawPile);
-//		addActor(opDrawPile);
-//		addActor(myDiscardPile);
-//		addActor(opDiscardPile);
+			@Override
+			public CardView obtain() {
+				var cardView = super.obtain();
+				cardView.clearState();
+				return cardView;
+			}
+		};
 
 		addActor(cardGroup);
 	}
@@ -52,17 +49,17 @@ public class CardGroupView extends BaseView {
 	}
 
 	private void updateCard(DCardInfo cardInfo, boolean set) {
-		var lastCardInfo = saveCardInfos.get(cardInfo.getId());
+		var lastCardInfo = cardInfoCacheMap.get(cardInfo.getId());
 		if (lastCardInfo == null) {
 			set = true;
 		}
 
-		saveCardInfos.put(cardInfo.getId(), cardInfo);
+		cardInfoCacheMap.put(cardInfo.getId(), cardInfo);
 
 		var cardActor = cardViews.get(cardInfo.getId());
 
 		if (cardActor == null) {
-			cardActor = cardActorPool.apply();
+			cardActor = cardActorPool.obtain();
 			cardActor.setVisible(true);
 		}
 	}
@@ -80,7 +77,7 @@ public class CardGroupView extends BaseView {
 	private CardView getCardView(DCardInfo cardInfo) {
 		var cardView = cardViews.get(cardInfo.getId());
 		if (cardView == null) {
-			cardView = cardActorPool.apply();
+			cardView = cardActorPool.obtain();
 			cardViews.put(cardInfo.getId(), cardView);
 		}
 		return cardView;
@@ -90,7 +87,7 @@ public class CardGroupView extends BaseView {
 		var cardView = cardViews.get(cardInfo.getId());
 		if (cardView != null) {
 			cardView.setVisible(false);
-			cardActorPool.putBack(cardView);
+			cardActorPool.free(cardView);
 			cardViews.remove(cardInfo.getId());
 		}
 	}

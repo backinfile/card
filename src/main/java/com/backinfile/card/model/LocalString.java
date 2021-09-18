@@ -57,6 +57,14 @@ public class LocalString {
 			if (!Utils.isNullOrEmpty(uiString.sn)) {
 				uiStringMap.put(uiString.sn, uiString);
 			}
+			if (uiString.image != null) {
+				imagePathStringList.add(uiString.image);
+			}
+			if (uiString.images != null) {
+				for (var imagePathString : uiString.images) {
+					imagePathStringList.add(imagePathString);
+				}
+			}
 		}
 	}
 

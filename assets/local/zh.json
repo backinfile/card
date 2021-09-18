@@ -35,23 +35,42 @@
 		},
 	],
 	actions:[{
-		"sn":"DispatchAction",
-		"tip":"DispatchActionTip",
+			"sn":"DispatchAction",
+			"tip":"DispatchActionTip",
 	},{
-		"sn":"SaveThreatenAction",
-		"tip":"SaveThreatenActionTip",
+			"sn":"SaveThreatenAction",
+			"tip":"SaveThreatenActionTip",
 	},],
 	skills:[],
 	targets:[],
 	ui:[{
-		"sn":"pileView",
-		"images":[{
-			"path":"image/card/chap2/card1.png",
-			"locate":[5,2,1,0],
-		},{
-			"path":"image/card/chap2/card1.png",
-			"locate":[5,2,2,0],
-		}],
+			"sn":"pileView",
+			"images":[{
+				"path":"image/card/chap2/card1.png",
+				"locate":[5,2,1,0],
+			},{
+				"path":"image/card/chap2/card1.png",
+				"locate":[5,2,2,0],
+			}],
+	},{
+			"sn":"board_background",
+			"images":[{
+				"path":"image/background1.jpg",
+			}],
+	},{
+			"sn":"PileDrawPile",
+			"images":[{
+				"path":"image/card/chap2/back1.png",
+			},{
+				"path":"image/card/chap2/back2.png",
+			}],
+	},{
+			"sn":"PileDiscardPile",
+			"images":[{
+				"path":"image/card/chap2/back1.png",
+			},{
+				"path":"image/card/chap2/back2.png",
+			}],
 	}],
 	
 }

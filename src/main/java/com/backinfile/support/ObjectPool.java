@@ -1,41 +1,25 @@
 package com.backinfile.support;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
-import com.backinfile.support.func.Function;
+public abstract class ObjectPool<T> {
+	private LinkedList<T> freeObjs = new LinkedList<>();
 
-public class ObjectPool<T> {
-	private LinkedList<T> objs = new LinkedList<>();
-	private Function<T> objCreator;
-	private List<T> maintainedObjs = new ArrayList<>();
-
-	public ObjectPool(Function<T> objCreator) {
-		this.objCreator = objCreator;
+	public ObjectPool() {
 	}
 
-	public int getNumCount() {
-		return objs.size();
+	public int getFreeCount() {
+		return freeObjs.size();
 	}
 
-	public T apply() {
-		T obj;
-		if (objs.isEmpty()) {
-			obj = objCreator.invoke();
-			maintainedObjs.add(obj);
-		} else {
-			obj = objs.pollLast();
-		}
-		return obj;
+	protected abstract T newObject();
+
+	public T obtain() {
+		return freeObjs.isEmpty() ? newObject() : freeObjs.pollLast();
 	}
 
-	public void putBack(T t) {
-		objs.add(t);
-	}
-
-	public List<T> getMaintainedObjs() {
-		return maintainedObjs;
+	public void free(T obj) {
+		freeObjs.addLast(obj);
 	}
 
 }
