@@ -25,6 +25,9 @@ public class Res {
 	public static float BASE_DURATION = 0.2f;
 	public static float BoardOffsetRate = 0.06f;
 
+	public static float STAGE_WIDTH;
+	public static float STAGE_HEIGHT;
+
 	public static float CARD_WIDTH;
 	public static float CARD_HEIGHT;
 	public static float CARD_WIDTH_L;
@@ -60,6 +63,9 @@ public class Res {
 	@Timing("res init")
 	@LogInvokeInfo
 	public static void init() {
+		
+		STAGE_HEIGHT = Gdx.graphics.getHeight();
+		STAGE_WIDTH = STAGE_HEIGHT / 0.8f;
 
 		CARD_HEIGHT = Gdx.graphics.getHeight() * 0.15f;
 		CARD_WIDTH = CARD_HEIGHT * 0.715f;

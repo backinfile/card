@@ -17,7 +17,7 @@ public class TestView extends BaseView {
 		boardButton.setSize(100, 40);
 		boardButton.setPosition(width / 2, height / 2, Align.center);
 //		boardButton.setVisible(false);
-		addActor(boardButton);
+//		addActor(boardButton);
 
 		PositionLocator locator = new PositionLocator();
 		locator.setSize(16, 16);

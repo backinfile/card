@@ -123,6 +123,7 @@ public class LocalString {
 	}
 
 	public static class LocalImagePathString {
+		public static final LocalImagePathString EMPTY_STRING = new LocalImagePathString();
 		public String path = "[path]";
 		public int[] locate; // 指定切分
 	}

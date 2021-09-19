@@ -1,7 +1,6 @@
 package com.backinfile.card.model;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.backinfile.card.gen.GameMessageHandler.DBoardData;

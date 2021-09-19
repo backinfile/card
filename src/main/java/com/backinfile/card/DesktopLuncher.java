@@ -13,8 +13,12 @@ public class DesktopLuncher {
 		}
 
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setWindowedMode(Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
 		config.setResizable(false);
+		if (Settings.FULL_SCREEN) {
+			config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+		} else {
+			config.setWindowedMode(Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
+		}
 		new Lwjgl3Application(new MainGame(), config);
 	}
 }

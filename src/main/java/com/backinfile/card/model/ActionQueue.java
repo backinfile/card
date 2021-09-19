@@ -55,7 +55,6 @@ public class ActionQueue implements IAlive {
 		if (curAction.isDone()) {
 			// 完成后回收资源
 			curAction.dispose();
-			Log.game.info("action {} dispose", curAction.getClass().getSimpleName());
 			curAction = null;
 		}
 

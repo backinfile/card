@@ -34,6 +34,6 @@ public class DrawCardAction extends TriggerOnceAction {
 	private void drawOneCard() {
 		var card = human.drawPile.pollTop();
 		human.handPile.add(card);
-		board.modifyCard(card);
+		board.modifyCard(human.handPile);
 	}
 }

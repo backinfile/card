@@ -8,7 +8,6 @@ import com.backinfile.card.manager.GameUtils;
 import com.backinfile.card.server.local.LocalGameClient;
 import com.backinfile.card.view.group.PileView.PilePosition;
 import com.backinfile.card.view.stage.GameStage;
-import com.badlogic.gdx.scenes.scene2d.Group;
 
 // 本地BoardView
 public class LocalBoardView extends BaseView {
@@ -17,6 +16,7 @@ public class LocalBoardView extends BaseView {
 	public CardGroupView cardGroupView;
 	private BoardBackgroundView backgroundView;
 	private BoardUIView boardUIView;
+	public ShowCardView showCardView;
 	public List<PileView> pileViews;
 
 	private TestView testView;
@@ -45,11 +45,14 @@ public class LocalBoardView extends BaseView {
 		}
 
 		cardGroupView = new CardGroupView(gameStage, getWidth(), getHeight());
-//		addActor(cardGroupView);
+		addActor(cardGroupView);
 
 		boardUIView = new BoardUIView(gameStage, getWidth(), getHeight());
 		addActor(boardUIView);
 
+		showCardView = new ShowCardView(gameStage, getWidth(), getHeight());
+//		addActor(showCardView);
+		
 		testView = new TestView(gameStage, getWidth(), getHeight());
 		addActor(testView);
 	}

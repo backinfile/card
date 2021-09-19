@@ -2,7 +2,10 @@ package com.backinfile.card.view.stage;
 
 import com.backinfile.card.manager.Res;
 import com.backinfile.card.view.group.LocalBoardView;
-import com.backinfile.card.view.group.TestView;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -17,6 +20,17 @@ public class GameStage extends Stage {
 	}
 
 	private void initLogic() {
+
+		addListener(new InputListener() {
+			@Override
+			public boolean keyUp(InputEvent event, int keycode) {
+				if (keycode == Keys.ESCAPE) {
+					Gdx.app.exit();
+					return true;
+				}
+				return super.keyUp(event, keycode);
+			}
+		});
 	}
 
 	private void initView() {

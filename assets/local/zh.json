@@ -6,9 +6,14 @@
 			"frontImages": [{
 				"path":"image/card/chap2/card1.png",
 				"locate":[5,2,2,1],
+			},{
+				"path":"image/card/chap2/card2.png",
+				"locate":[5,2,2,1],
 			}],
 			"backImages": [{
 				"path":"image/card/chap2/back1.png"
+			},{
+				"path":"image/card/chap2/back2.png"
 			}],
 		},
 		{
@@ -17,9 +22,14 @@
 			"frontImages": [{
 				"path":"image/card/chap2/card1.png",
 				"locate":[5,2,0,1],
+			},{
+				"path":"image/card/chap2/card2.png",
+				"locate":[5,2,0,1],
 			}],
 			"backImages": [{
 				"path":"image/card/chap2/back1.png"
+			},{
+				"path":"image/card/chap2/back2.png"
 			}],
 		},
 		{
@@ -28,8 +38,13 @@
 			"frontImages": [{
 				"path":"image/card/chap2/hero.png",
 				"locate":[7,2,0,0],
+			},{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,0,0],
 			}],
 			"backImages": [{
+				"path":"image/card/chap2/back_hero.png"
+			},{
 				"path":"image/card/chap2/back_hero.png"
 			}],
 		},

@@ -2,6 +2,7 @@ package com.backinfile.card.view.group;
 
 import com.backinfile.card.manager.Res;
 import com.backinfile.card.model.LocalString.LocalCardString;
+import com.backinfile.card.model.LocalString.LocalImagePathString;
 import com.backinfile.card.view.actions.TimeoutAction;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
@@ -18,7 +19,8 @@ public class CardView extends Group {
 
 	private LocalCardString cardString;
 	private boolean flipOver = false;
-	private int position = 0;
+	private int pilePosition = 0;
+	private int zIndex = 0;
 
 	public static class CardViewState {
 		public Vector2 position = new Vector2();
@@ -26,6 +28,7 @@ public class CardView extends Group {
 		public boolean flipOver = false; // 翻面
 		public boolean dark = false; // 变暗
 		public boolean rotated = false; // 横置
+		public int zIndex = 0; // 越大距离玩家越近
 	}
 
 	public CardView() {
@@ -38,15 +41,16 @@ public class CardView extends Group {
 		};
 		addActor(mainImage);
 		setSize(CardSize.Normal);
+
 	}
 
 	public void setCardString(LocalCardString cardString) {
 		setCardString(cardString, 0);
 	}
 
-	public void setCardString(LocalCardString cardString, int position) {
+	public void setCardString(LocalCardString cardString, int pilePosition) {
 		this.cardString = cardString;
-		this.position = position;
+		this.pilePosition = pilePosition;
 		updateView();
 	}
 
@@ -61,6 +65,7 @@ public class CardView extends Group {
 		setRotation(state.rotated ? 90 : 0); // 设置mainImage
 		setDark(state.dark); // 设置mainImage
 		setFlipOver(state.flipOver); // 设置本身属性
+		setZIndex(state.zIndex);
 	}
 
 	public final void moveToState(CardViewState state) {
@@ -73,11 +78,17 @@ public class CardView extends Group {
 			setFlipOver(state.flipOver);
 		}));
 		addAction(parallelAction);
+
+		setZIndex(state.zIndex);
 	}
 
 	public void setFlipOver(boolean flipOver) {
 		this.flipOver = flipOver;
 		updateView();
+	}
+
+	public boolean isFlipOver() {
+		return flipOver;
 	}
 
 	public void setSize(CardSize cardSize) {
@@ -89,6 +100,17 @@ public class CardView extends Group {
 	@Override
 	public void setSize(float width, float height) {
 		mainImage.setSize(width, height);
+	}
+
+	@Override
+	public boolean setZIndex(int index) {
+		this.zIndex = index;
+		return true;
+	}
+
+	@Override
+	public int getZIndex() {
+		return this.zIndex;
 	}
 
 	public void setDark(boolean dark) {
@@ -105,13 +127,16 @@ public class CardView extends Group {
 	private void updateView() {
 		if (cardString != null) {
 			if (!flipOver) {
-				var texture = Res.getTexture(cardString.frontImages[position]);
+				var texture = Res.getTexture(cardString.frontImages[pilePosition]);
 				mainImage.setDrawable(texture);
 			} else {
-				var texture = Res.getTexture(cardString.backImages[position]);
+				var texture = Res.getTexture(cardString.backImages[pilePosition]);
 				mainImage.setDrawable(texture);
 			}
 		}
 	}
 
+	public LocalImagePathString getImagePathString() {
+		return cardString.frontImages[pilePosition];
+	}
 }

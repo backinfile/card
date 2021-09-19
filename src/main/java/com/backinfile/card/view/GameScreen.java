@@ -7,7 +7,9 @@ import com.backinfile.support.timer.TimerQueue;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 
 public class GameScreen extends ScreenAdapter {
 	private boolean inited = false;
@@ -29,14 +31,13 @@ public class GameScreen extends ScreenAdapter {
 		CardManager.init();
 
 		timerQueue = new TimerQueue();
-
-		cardStage = new GameStage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+		cardStage = new GameStage(new ScalingViewport(Scaling.none, Res.STAGE_WIDTH, Res.STAGE_HEIGHT));
 		Gdx.input.setInputProcessor(cardStage);
 	}
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
+		Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		timerQueue.update();
