@@ -1,7 +1,7 @@
 package com.backinfile.card.view.stage;
 
 import com.backinfile.card.manager.Res;
-import com.backinfile.card.view.group.LocalBoardView;
+import com.backinfile.card.view.group.boardView.LocalBoardView;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;

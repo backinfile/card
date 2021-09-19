@@ -1,4 +1,4 @@
-package com.backinfile.card.view.group;
+package com.backinfile.card.view.group.boardView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,10 @@ import java.util.List;
 import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
 import com.backinfile.card.manager.GameUtils;
 import com.backinfile.card.server.local.LocalGameClient;
+import com.backinfile.card.view.group.BaseView;
+import com.backinfile.card.view.group.CardGroupView;
+import com.backinfile.card.view.group.PileView;
+import com.backinfile.card.view.group.TestView;
 import com.backinfile.card.view.group.PileView.PilePosition;
 import com.backinfile.card.view.stage.GameStage;
 
@@ -51,10 +55,10 @@ public class LocalBoardView extends BaseView {
 		addActor(boardUIView);
 
 		showCardView = new ShowCardView(gameStage, getWidth(), getHeight());
-//		addActor(showCardView);
-		
+		addActor(showCardView);
+
 		testView = new TestView(gameStage, getWidth(), getHeight());
-		addActor(testView);
+//		addActor(testView);
 	}
 
 	public void startGame() {

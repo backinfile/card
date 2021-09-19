@@ -1,10 +1,12 @@
-package com.backinfile.card.view.group;
+package com.backinfile.card.view.group.boardView;
 
 import com.backinfile.card.manager.Res;
 import com.backinfile.card.model.LocalString.LocalImagePathString;
+import com.backinfile.card.view.group.BaseView;
 import com.backinfile.card.view.stage.GameStage;
 import com.backinfile.support.Log;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -18,10 +20,12 @@ public class ShowCardView extends BaseView {
 	public ShowCardView(GameStage gameStage, float width, float height) {
 		super(gameStage, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
+		var zeroCoor = screenToLocalCoordinates(new Vector2());
+
 		mainCardImage = new Image();
 		maskImage = new Image(Res.TEX_HALF_BLACK);
 		maskImage.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		maskImage.setPosition(0, 0, Align.bottomLeft);
+		maskImage.setPosition(zeroCoor.x, zeroCoor.y, Align.bottomLeft);
 
 		addActor(maskImage);
 		addActor(mainCardImage);
