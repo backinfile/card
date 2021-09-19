@@ -93,6 +93,10 @@ public class CardPile implements Iterable<Card> {
 		return cards.contains(card);
 	}
 
+	public boolean contains(long id) {
+		return cards.stream().anyMatch(c -> c.id == id);
+	}
+
 	public Card get(int index) {
 		return cards.get(index);
 	}

@@ -91,6 +91,11 @@
 			"strs":[
 				"你的对手", "你",
 			],
+	},{
+			"sn":"cardTools",
+			"images":[{
+				"path":"image/card/tools/border.png",
+			}],
 	}],
 	
 }

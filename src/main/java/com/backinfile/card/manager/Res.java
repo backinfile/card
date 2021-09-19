@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -47,6 +48,7 @@ public class Res {
 	public static TextureRegionDrawable TEX_DARK_GRAY;
 	public static TextureRegionDrawable TEX_LIGHT_GRAY;
 	public static TextureRegionDrawable TEX_HALF_BLACK;
+	public static TextureRegionDrawable TEX_BLACK_MASK;
 	public static TextureRegionDrawable EMPTY_DRAWABLE;
 	public static final String PATH_IMAGE_BACKGROUND = "image/background1.jpg";
 	public static final String PATH_LOCAL_DATA = "data/data.json";
@@ -63,7 +65,7 @@ public class Res {
 	@Timing("res init")
 	@LogInvokeInfo
 	public static void init() {
-		
+
 		STAGE_HEIGHT = Gdx.graphics.getHeight();
 		STAGE_WIDTH = STAGE_HEIGHT / 0.8f;
 
@@ -71,8 +73,8 @@ public class Res {
 		CARD_WIDTH = CARD_HEIGHT * 0.715f;
 		CARD_HEIGHT_L = CARD_HEIGHT * 4 / 3f;
 		CARD_WIDTH_L = CARD_WIDTH * 4 / 3f;
-		CARD_HEIGHT_LL = CARD_HEIGHT * 2f;
-		CARD_WIDTH_LL = CARD_WIDTH * 2f;
+		CARD_HEIGHT_LL = CARD_HEIGHT * 3.5f;
+		CARD_WIDTH_LL = CARD_WIDTH * 3.5f;
 		CARD_HEIGHT_S = CARD_HEIGHT * 3f / 4f;
 		CARD_WIDTH_S = CARD_WIDTH * 3f / 4f;
 
@@ -110,6 +112,7 @@ public class Res {
 		TEX_DARK_GRAY = getDrawable(newColorPixmap(8, 8, Color.DARK_GRAY));
 		TEX_LIGHT_GRAY = getDrawable(newColorPixmap(8, 8, Color.LIGHT_GRAY));
 		TEX_HALF_BLACK = getDrawable(newColorPixmap(8, 8, new Color(0, 0, 0, 0.5f)));
+		TEX_BLACK_MASK = getDrawable(newColorPixmap(8, 8, new Color(0, 0, 0, 0.3f)));
 		EMPTY_DRAWABLE = TEX_GRAY;
 
 		textureMap.put(PATH_IMAGE_BACKGROUND, new Texture(Gdx.files.internal(PATH_IMAGE_BACKGROUND), true));
@@ -118,7 +121,10 @@ public class Res {
 		for (var imageString : LocalString.getAllImagePathStrings()) {
 			String path = imageString.path;
 			if (!textureMap.containsKey(path)) {
-				textureMap.put(path, new Texture(Gdx.files.internal(path), true));
+
+				Texture texture = new Texture(path);
+				texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+				textureMap.put(path, texture);
 				Log.res.info("load texture {}", path);
 			}
 		}

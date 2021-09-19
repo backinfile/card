@@ -20,7 +20,6 @@ public class LocalBoardView extends BaseView {
 	public CardGroupView cardGroupView;
 	private BoardBackgroundView backgroundView;
 	private BoardUIView boardUIView;
-	public ShowCardView showCardView;
 	public List<PileView> pileViews;
 
 	private TestView testView;
@@ -53,9 +52,6 @@ public class LocalBoardView extends BaseView {
 
 		boardUIView = new BoardUIView(gameStage, getWidth(), getHeight());
 		addActor(boardUIView);
-
-		showCardView = new ShowCardView(gameStage, getWidth(), getHeight());
-		addActor(showCardView);
 
 		testView = new TestView(gameStage, getWidth(), getHeight());
 //		addActor(testView);

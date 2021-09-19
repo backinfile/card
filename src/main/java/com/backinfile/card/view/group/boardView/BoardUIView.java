@@ -35,4 +35,9 @@ public class BoardUIView extends BaseView {
 			addActor(selfNameLabel);
 		}
 	}
+
+	public void setData(String name, String opponentName) {
+		selfNameLabel.setText(name);
+		opponentNameLabel.setText(opponentName);
+	}
 }

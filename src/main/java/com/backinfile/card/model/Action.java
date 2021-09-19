@@ -1,13 +1,12 @@
 package com.backinfile.card.model;
 
 import com.backinfile.card.model.LocalString.LocalActionString;
-import com.backinfile.support.IAlive;
-import com.backinfile.support.IDisposable;
+import com.backinfile.support.IAction;
 
 /**
  * 一个动作，通常情况下，Board上的数据修改都通过Action来进行
  */
-public abstract class Action implements IAlive, IDisposable {
+public abstract class Action implements IAction {
 
 	public LocalActionString actionString;
 	public Board board; // 当前棋盘（自动设置）

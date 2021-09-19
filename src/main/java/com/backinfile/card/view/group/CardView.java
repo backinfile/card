@@ -1,10 +1,12 @@
 package com.backinfile.card.view.group;
 
 import com.backinfile.card.manager.Res;
+import com.backinfile.card.model.LocalString;
 import com.backinfile.card.model.LocalString.LocalCardString;
 import com.backinfile.card.model.LocalString.LocalImagePathString;
+import com.backinfile.card.model.LocalString.LocalUIString;
 import com.backinfile.card.view.actions.TimeoutAction;
-import com.badlogic.gdx.graphics.Color;
+import com.backinfile.support.func.Action0;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -15,33 +17,43 @@ import com.badlogic.gdx.utils.Align;
 // 显示一张卡牌
 public class CardView extends Group {
 
+	private static LocalUIString cardToolsString = LocalString.getUIString("cardTools");
+
 	private Image mainImage;
+	private Image boarderImage;
 
 	private LocalCardString cardString;
 	private boolean flipOver = false;
 	private int pilePosition = 0;
 	private int zIndex = 0;
+	private Action0 leftClickCallback = null; // 点击回调
 
 	public static class CardViewState {
 		public Vector2 position = new Vector2();
 		public CardSize cardSize = CardSize.Normal;
 		public boolean flipOver = false; // 翻面
-		public boolean dark = false; // 变暗
+		public boolean dark = true; // 变暗 变暗状态下不能使用, 改用border形式
 		public boolean rotated = false; // 横置
 		public int zIndex = 0; // 越大距离玩家越近
 	}
 
 	public CardView() {
+		boarderImage = new Image(Res.getTexture(cardToolsString.images[0]));
 		mainImage = new Image() {
 			@Override
 			public void setSize(float width, float height) {
 				super.setSize(width, height);
 				setPosition(0, 0, Align.center);
+
+				boarderImage.setSize(width, height);
+				boarderImage.setPosition(0, 0, Align.center);
 			}
 		};
 		addActor(mainImage);
-		setSize(CardSize.Normal);
+		addActor(boarderImage);
 
+		setSize(CardSize.Normal);
+		setDark(false);
 	}
 
 	public void setCardString(LocalCardString cardString) {
@@ -91,6 +103,16 @@ public class CardView extends Group {
 		return flipOver;
 	}
 
+	public void setLeftClickCallback(Action0 leftClickCallback) {
+		this.leftClickCallback = leftClickCallback;
+	}
+
+	public void invokeLeftClickCallback() {
+		if (this.leftClickCallback != null) {
+			this.leftClickCallback.invoke();
+		}
+	}
+
 	public void setSize(CardSize cardSize) {
 		mainImage.setSize(cardSize.width, cardSize.height);
 		mainImage.setPosition(0, 0, Align.center);
@@ -114,14 +136,7 @@ public class CardView extends Group {
 	}
 
 	public void setDark(boolean dark) {
-		var color = mainImage.getColor();
-		if (dark) {
-			color.r *= 0.5;
-			color.g *= 0.5;
-			color.b *= 0.5;
-		} else {
-			color.set(Color.WHITE);
-		}
+		boarderImage.setVisible(!dark);
 	}
 
 	private void updateView() {

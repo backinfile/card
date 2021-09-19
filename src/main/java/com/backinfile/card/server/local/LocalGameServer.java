@@ -4,9 +4,13 @@ import java.util.LinkedList;
 
 import com.backinfile.card.gen.GameMessageHandler;
 import com.backinfile.card.gen.GameMessageHandler.DBoardInit;
+import com.backinfile.card.gen.GameMessageHandler.DTargetSelect;
 import com.backinfile.card.model.Board;
+import com.backinfile.card.model.Card;
+import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
 import com.backinfile.card.model.TargetInfo;
+import com.backinfile.card.model.TargetInfo.SelectCardStepInfo;
 import com.backinfile.dSync.model.DSyncBaseHandler.DSyncBase;
 import com.backinfile.support.IAlive;
 import com.backinfile.support.func.Terminal;
@@ -37,6 +41,13 @@ public class LocalGameServer extends Terminal<MessageWarpper, MessageWarpper> im
 
 	@Override
 	public void pulse() {
+
+		// 处理客户端来的消息
+		while (hasMsg()) {
+			var msg = pollMsg();
+			gameMessageHandler.onMessage(msg.content);
+		}
+
 		if (board == null) {
 			return;
 		}
@@ -94,6 +105,41 @@ public class LocalGameServer extends Terminal<MessageWarpper, MessageWarpper> im
 		case StoreInSlot:
 		default:
 			break;
+		}
+	}
+
+	public void onClientSelectCard(String token, long id) {
+		for (var cache : waitingHumanOper) {
+			if (cache.targetInfo.isSelected()) {
+				continue;
+			}
+			if (cache.human.token.equals(token)) {
+				if (cache.targetInfo.isSelectCardType()) {
+					SelectCardStepInfo stepSelectCard = cache.targetInfo.stepSelectCard(cache.selected);
+					if (id == 0) {
+						if (stepSelectCard.optional) { // 选择完成
+							DTargetSelect targetSelect = new DTargetSelect();
+							targetSelect.addAllSelectedCard(cache.selected.getCardIdList());
+							cache.targetInfo.targetSelect = targetSelect;
+							break;
+						}
+					} else if (stepSelectCard.cardPile.contains(id)) {
+						Card card = board.getCard(id);
+						if (card != null && !cache.selected.contains(card)) {
+							cache.selected.add(card);
+							// 推送卡牌选择消息
+							var info = cache.targetInfo.stepSelectCard(cache.selected);
+							if (info.cardPile.isEmpty()) { // 选择完成
+								DTargetSelect targetSelect = new DTargetSelect();
+								targetSelect.addAllSelectedCard(cache.selected.getCardIdList());
+								cache.targetInfo.targetSelect = targetSelect;
+								break;
+							}
+							sendMessage(cache.human, info.toMsg());
+						}
+					}
+				}
+			}
 		}
 	}
 

@@ -2,12 +2,10 @@ package com.backinfile.card.view.group;
 
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.backinfile.card.gen.GameMessageHandler.DCardInfo;
-import com.backinfile.card.manager.Res;
 import com.backinfile.card.model.CardInfo;
 import com.backinfile.card.model.LocalString;
 import com.backinfile.card.view.group.CardView.CardViewState;
@@ -15,8 +13,6 @@ import com.backinfile.card.view.group.PileView.PilePosition;
 import com.backinfile.card.view.stage.GameStage;
 import com.backinfile.support.Log;
 import com.backinfile.support.ObjectPool;
-import com.backinfile.support.Time2;
-import com.backinfile.support.Tuple2;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -27,10 +23,6 @@ public class CardGroupView extends BaseView {
 	private HashMap<Long, CardView> cardViews = new HashMap<>(); // 正在显示的牌
 	private HashMap<Long, CardInfo> cardInfoCacheMap = new HashMap<>();
 
-	// 控制动画播放
-	private LinkedList<Tuple2<List<DCardInfo>, Boolean>> cardUpdateCache = new LinkedList<>();
-	private long animeEndTime = 0;
-
 	public CardGroupView(GameStage gameStage, float width, float height) {
 		super(gameStage, width, height);
 		cardActorPool = new ObjectPool<CardView>() {
@@ -40,13 +32,28 @@ public class CardGroupView extends BaseView {
 				cardView.addListener(new ClickListener(Buttons.RIGHT) {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
-						Log.game.info("cardView click");
 						if (cardView.isFlipOver()) {
 							return;
 						}
-						gameStage.boardView.showCardView.show(cardView.getImagePathString());
+						gameStage.showCardView.show(cardView.getImagePathString());
 					}
 				});
+				cardView.addListener(new ClickListener(Buttons.LEFT) {
+					@Override
+					public void clicked(InputEvent event, float x, float y) {
+						if (cardView.isFlipOver()) {
+							return;
+						}
+						cardView.invokeLeftClickCallback();
+					}
+				});
+				return cardView;
+			}
+
+			@Override
+			public CardView obtain() {
+				CardView cardView = super.obtain();
+				cardView.setLeftClickCallback(null);
 				return cardView;
 			}
 		};
@@ -54,27 +61,10 @@ public class CardGroupView extends BaseView {
 	}
 
 	public void updateAllCardInfo(List<DCardInfo> allCardInfo, boolean set) {
-		cardUpdateCache.add(new Tuple2<List<DCardInfo>, Boolean>(allCardInfo, set));
-	}
-
-	@Override
-	public void act(float delta) {
-		super.act(delta);
-
-		// 这次动画要等到上次动画执行完毕
-		if (Time2.getCurMillis() > animeEndTime && !cardUpdateCache.isEmpty()) {
-			var cache = cardUpdateCache.pollFirst();
-			List<DCardInfo> allCardInfo = cache.value1;
-			boolean set = cache.value2;
-			for (var cardInfo : allCardInfo) {
-				updateCard(new CardInfo(cardInfo), set);
-			}
-			adjustCardLayer();
-
-			if (!set) {
-				animeEndTime = Time2.getCurMillis() + (long) (Res.BASE_DURATION * Time2.SEC) + 1;
-			}
+		for (var cardInfo : allCardInfo) {
+			updateCard(new CardInfo(cardInfo), set);
 		}
+		adjustCardLayer();
 	}
 
 	private void adjustCardLayer() {
@@ -84,6 +74,10 @@ public class CardGroupView extends BaseView {
 		for (var cardView : sorted) {
 			addActor(cardView);
 		}
+	}
+
+	public final CardView getCurCardView(long id) {
+		return cardViews.get(id);
 	}
 
 	private void updateCard(CardInfo cardInfo, boolean set) {

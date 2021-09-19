@@ -175,7 +175,7 @@ struct SCSelectCards {
 
 // 客户端选择一张卡牌
 struct CSSelectCard {
-	long cardId;
+	long cardId; // 0表示取消 >0表示选择的卡
 }
 
 //----------------------------------------

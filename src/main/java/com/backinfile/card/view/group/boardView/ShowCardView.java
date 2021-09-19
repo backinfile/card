@@ -3,10 +3,8 @@ package com.backinfile.card.view.group.boardView;
 import com.backinfile.card.manager.Res;
 import com.backinfile.card.model.LocalString.LocalImagePathString;
 import com.backinfile.card.view.group.BaseView;
+import com.backinfile.card.view.group.CardSize;
 import com.backinfile.card.view.stage.GameStage;
-import com.backinfile.support.Log;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -18,32 +16,29 @@ public class ShowCardView extends BaseView {
 	private Image mainCardImage;
 
 	public ShowCardView(GameStage gameStage, float width, float height) {
-		super(gameStage, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-		var zeroCoor = screenToLocalCoordinates(new Vector2());
+		super(gameStage, width, height);
 
 		mainCardImage = new Image();
-		maskImage = new Image(Res.TEX_HALF_BLACK);
-		maskImage.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		maskImage.setPosition(zeroCoor.x, zeroCoor.y, Align.bottomLeft);
+		maskImage = new Image(Res.TEX_BLACK);
+		maskImage.getColor().a = 0.5f;
+		maskImage.setSize(getWidth(), getHeight());
 
 		addActor(maskImage);
 		addActor(mainCardImage);
 
-		addListener(new ClickListener() {
+		addListener(new ClickListener(-1) {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Log.game.info("cardView click");
-				hide();
+				setVisible(false);
 			}
 		});
 
-		hide();
+		setVisible(false);
 	}
 
 	public void show(LocalImagePathString imagePathString) {
 		mainCardImage.setDrawable(Res.getTexture(imagePathString));
-		mainCardImage.setSize(Res.CARD_WIDTH_L, Res.CARD_HEIGHT_L);
+		mainCardImage.setSize(CardSize.LargeLarge.width, CardSize.LargeLarge.height);
 		mainCardImage.setPosition(getWidth() / 2, getHeight() / 2, Align.center);
 		this.setVisible(true);
 	}
