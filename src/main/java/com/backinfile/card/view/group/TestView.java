@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Align;
 public class TestView extends BaseView {
 
 	public TestView(GameStage gameStage, float width, float height) {
-		super(gameStage, width, height);
+		super(gameStage, 0, 0);
 
 		BoardButton boardButton = new BoardButton();
 		boardButton.setSize(100, 40);

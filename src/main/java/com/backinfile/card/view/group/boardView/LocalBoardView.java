@@ -18,8 +18,8 @@ public class LocalBoardView extends BaseView {
 
 	public LocalGameClient gameClient;
 	public CardGroupView cardGroupView;
+	public BoardUIView boardUIView;
 	private BoardBackgroundView backgroundView;
-	private BoardUIView boardUIView;
 	public List<PileView> pileViews;
 
 	private TestView testView;
@@ -54,7 +54,7 @@ public class LocalBoardView extends BaseView {
 		addActor(boardUIView);
 
 		testView = new TestView(gameStage, getWidth(), getHeight());
-//		addActor(testView);
+		addActor(testView);
 	}
 
 	public void startGame() {

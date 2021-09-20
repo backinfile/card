@@ -38,9 +38,7 @@ public class CardPile implements Iterable<Card> {
 
 	public void add(Card card) {
 		if (card != null) {
-			if (cards.stream().anyMatch(c -> c.id == card.id)) {
-				Log.game.error("add duplicate card", new SysException());
-			} else {
+			if (!cards.stream().anyMatch(c -> c.id == card.id)) {
 				cards.add(card);
 			}
 		}

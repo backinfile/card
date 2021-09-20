@@ -16,6 +16,7 @@ import com.backinfile.card.model.actions.DrawCardAction;
 import com.backinfile.card.model.actions.RestoreActionNumberAction;
 import com.backinfile.card.model.actions.SaveThreatenAction;
 import com.backinfile.dSync.model.DSyncBaseHandler.DSyncBase;
+import com.backinfile.support.Log;
 
 public class Human extends SkillCaster {
 	// 固有属性
@@ -64,15 +65,18 @@ public class Human extends SkillCaster {
 
 	public final void onGameStart() {
 		addLast(new DrawCardAction(this, 5));
+		Log.game.info("player {} gameStart", token);
 	}
 
 	public final void onTurnStart() {
 		addLast(new RestoreActionNumberAction(this, 2));
 		addLast(new DrawCardAction(this, 3));
+		Log.game.info("player {} turnStart", token);
 	}
 
 	public final void onTurnEnd() {
 		addLast(new SaveThreatenAction());
+		Log.game.info("player {} turnEnd", token);
 	}
 
 	public boolean removeCard(Card card) {

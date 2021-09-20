@@ -1,5 +1,7 @@
 package com.backinfile.card.model;
 
+import java.util.List;
+
 import com.backinfile.card.gen.GameMessageHandler.DTargetInfo;
 import com.backinfile.card.gen.GameMessageHandler.DTargetSelect;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectCards;
@@ -19,8 +21,14 @@ public class TargetInfo {
 		this.targetInfo = targetInfo;
 	}
 
+	// 客户端选择完成
 	public boolean isSelected() {
 		return targetSelect != null;
+	}
+
+	// 需要客户端进行选择
+	public boolean needSelect() {
+		return targetInfo != null && !isSelected();
 	}
 
 	public Card getTargetSelectOne() {
@@ -47,10 +55,6 @@ public class TargetInfo {
 			cardPile.add(human.board.getCard(id));
 		}
 		return cardPile;
-	}
-
-	public boolean needSelectTarget() {
-		return targetInfo != null;
 	}
 
 	public void clear() {
@@ -98,6 +102,19 @@ public class TargetInfo {
 			msg.setCancel(optional);
 			return msg;
 		}
+
+		// 此次卡牌选择结束
+		public boolean isSelectOver() {
+			return cardPile.isEmpty();
+		}
+	}
+
+	/**
+	 * 设置所选的卡牌，表示这个选择已经完成
+	 */
+	public void setSelect(CardPile selected) {
+		targetSelect = new DTargetSelect();
+		targetSelect.addAllSelectedCard(selected.getCardIdList());
 	}
 
 	// 分步进行卡牌选择
@@ -135,6 +152,9 @@ public class TargetInfo {
 		return info;
 	}
 
+	/**
+	 * 这个选择需求n次卡牌选择
+	 */
 	public boolean isSelectCardType() {
 		if (targetInfo == null) {
 			return false;

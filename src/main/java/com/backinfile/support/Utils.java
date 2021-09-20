@@ -46,6 +46,10 @@ public class Utils {
 		return RANDOM.nextDouble();
 	}
 
+	public static int nextInt(int b) {
+		return nextInt(0, b);
+	}
+
 	public static int nextInt(int a, int b) {
 		return RANDOM.nextInt(b - a) + a;
 	}

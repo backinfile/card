@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import com.backinfile.card.manager.Res;
 import com.backinfile.card.view.group.boardView.LocalBoardView;
 import com.backinfile.card.view.group.boardView.ShowCardView;
+import com.backinfile.card.view.group.boardView.UseCardSkillView;
 import com.backinfile.card.view.viewActions.ViewAction;
 import com.backinfile.support.Log;
 import com.backinfile.support.Time2;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class GameStage extends Stage {
 	public LocalBoardView boardView;
 	public ShowCardView showCardView;
+	public UseCardSkillView useCardSkillView;
 
 	private LinkedList<ViewAction> viewActionQueue = new LinkedList<>();
 	private ViewAction curViewAction = null;
@@ -51,6 +53,9 @@ public class GameStage extends Stage {
 
 		showCardView = new ShowCardView(this, getWidth(), getHeight());
 		addActor(showCardView);
+
+		useCardSkillView = new UseCardSkillView(this, getWidth(), getHeight());
+		addActor(useCardSkillView);
 
 		boardView.startGame();
 	}
@@ -89,6 +94,6 @@ public class GameStage extends Stage {
 		curViewAction.init();
 		curViewAction.begin();
 		curViewAction.pulse();
-		Log.game.info("viewAction {} begin", curViewAction.getClass().getSimpleName());
+//		Log.game.info("viewAction {} begin", curViewAction.getClass().getSimpleName());
 	}
 }

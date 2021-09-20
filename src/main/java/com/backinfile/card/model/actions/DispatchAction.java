@@ -28,9 +28,10 @@ public class DispatchAction extends WaitAction {
 		for (var human : new ArrayList<>(humans)) {
 			if (human.targetInfo.isSelected()) {
 				var targetSelected = human.targetInfo.getTargetSelected();
-				addFirst(new DrawCardAction(human, targetSelected.size()));
-				addFirst(new PutbackHandCardAction(human, targetSelected));
+				addLast(new PutbackHandCardAction(human, targetSelected));
+				addLast(new DrawCardAction(human, targetSelected.size()));
 				human.targetInfo.clear();
+				humans.remove(human);
 			}
 		}
 

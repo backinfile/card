@@ -16,6 +16,7 @@ public class PutbackHandCardAction extends TriggerOnceAction {
 		human.handPile.removeAll(cardPile);
 		human.drawPile.addAll(cardPile);
 		addFirst(new ShuffleAction(human));
+		board.modifyCard(cardPile, human.handPile);
 	}
 
 }

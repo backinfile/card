@@ -22,6 +22,8 @@ public class Board implements IAlive {
 	public int turnCount; // 公共轮次
 	public int playerTurnCount; // 玩家轮次之和
 
+	private Human startPlayer; // 先手玩家
+
 	public BoardState state = BoardState.None;
 	public BoardState lastState = BoardState.None;
 
@@ -53,8 +55,14 @@ public class Board implements IAlive {
 		}
 	}
 
-	public void start() {
+	public final void start() {
 		state = BoardState.GamePrepare;
+		startPlayer = humans.get(Utils.nextInt(humans.size()));
+	}
+
+	public final void start(String startPlayerToken) {
+		state = BoardState.GamePrepare;
+		startPlayer = getHuman(startPlayerToken);
 	}
 
 	public void pulseLoop() {
@@ -93,12 +101,11 @@ public class Board implements IAlive {
 				turnCount++;
 			}
 			// 回合开始，找到当前回合玩家
-			if (curTurnHuman != null) {
-				int curIndex = humans.indexOf(curTurnHuman);
-				curTurnHuman = humans.get((curIndex + 1) % humans.size());
+			if (curTurnHuman == null) {
+				curTurnHuman = startPlayer;
 			} else {
-				int rnd = Utils.nextInt(0, humans.size());
-				curTurnHuman = humans.get(rnd);
+				var index = humans.indexOf(curTurnHuman) + 1;
+				curTurnHuman = humans.get(index % humans.size());
 			}
 			// 回合开始
 			playerTurnCount++;
@@ -134,10 +141,21 @@ public class Board implements IAlive {
 		return actionQueue;
 	}
 
+	// 等待玩家进行一项选择
+	public boolean isWaitingHumanSelectTarget() {
+		for (var human : humans) {
+			if (human.targetInfo.needSelect()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// 等待玩家操作
 	public boolean isWaitingHumanOper() {
 		// 有人在执行Action, 等待做出选择
 		for (var human : humans) {
-			if (human.targetInfo.needSelectTarget()) {
+			if (human.targetInfo.needSelect()) {
 				return true;
 			}
 		}
@@ -283,6 +301,14 @@ public class Board implements IAlive {
 
 	public final void modifyCard(Card... cards) {
 		modifyCard(new CardPile(cards));
+	}
+
+	public final void modifyCard(CardPile... cardPiles) {
+		CardPile modify = new CardPile();
+		for (var pile : cardPiles) {
+			modify.addAll(pile);
+		}
+		modifyCard(modify);
 	}
 
 	public final void modifyCard(CardPile cardPile) {
