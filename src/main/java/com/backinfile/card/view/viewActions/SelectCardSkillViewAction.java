@@ -5,15 +5,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.backinfile.card.gen.GameMessageHandler.CSSelectSkillToActive;
 import com.backinfile.card.gen.GameMessageHandler.DSkillInfo;
 import com.backinfile.card.view.group.boardView.ButtonInfo;
 import com.backinfile.support.Log;
 
-public class SelectCardSkillAction extends ViewAction {
+public class SelectCardSkillViewAction extends ViewAction {
 
 	private Map<Long, List<DSkillInfo>> skillInfoMap = new HashMap<>();
+	private long selectedSkillId = -1;
 
-	public SelectCardSkillAction(List<DSkillInfo> skillInfos) {
+	public SelectCardSkillViewAction(List<DSkillInfo> skillInfos) {
 		for (var skillInfo : skillInfos) {
 			var list = skillInfoMap.computeIfAbsent(skillInfo.getOwnerId(), key -> new ArrayList<>());
 			list.add(skillInfo);
@@ -42,7 +44,9 @@ public class SelectCardSkillAction extends ViewAction {
 								onSelectSkill(skillInfo.getSkillId());
 							};
 						}
-						gameStage.useCardSkillView.show(cardView.getImagePathString(), buttonInfos);
+						gameStage.showCardView.show(cardView.getImagePathString(),
+								gameStage.buttonsView::setButtonInfos);
+						gameStage.buttonsView.setButtonInfos(buttonInfos);
 					});
 					cardView.setDark(false);
 				}
@@ -52,7 +56,7 @@ public class SelectCardSkillAction extends ViewAction {
 
 	private void onSelectSkill(long skillId) {
 		Log.game.info("use skill {}", skillId);
-		gameStage.useCardSkillView.hide();
+		gameStage.showCardView.hide();
 		for (var entry : skillInfoMap.entrySet()) {
 			long cardId = entry.getKey();
 			if (cardId == 0) {
@@ -65,6 +69,21 @@ public class SelectCardSkillAction extends ViewAction {
 				}
 			}
 		}
+		gameStage.buttonsView.setButtonInfos();
+
+		selectedSkillId = skillId;
+	}
+
+	@Override
+	public boolean isDone() {
+		return selectedSkillId > 0;
+	}
+
+	@Override
+	public void dispose() {
+		CSSelectSkillToActive msg = new CSSelectSkillToActive();
+		msg.setSkillId(selectedSkillId);
+		gameStage.boardView.gameClient.sendMessage(msg);
 	}
 
 }

@@ -15,6 +15,8 @@ import com.backinfile.card.model.Human;
 import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.TargetInfo;
 import com.backinfile.card.model.TargetInfo.SelectCardStepInfo;
+import com.backinfile.card.model.actions.TurnEndAction;
+import com.backinfile.card.model.skills.TurnEndSkill;
 import com.backinfile.card.server.local.HumanOperCache.HumanOperType;
 import com.backinfile.dSync.model.DSyncBaseHandler.DSyncBase;
 import com.backinfile.support.IAlive;
@@ -78,12 +80,7 @@ public class LocalGameServer extends Terminal<MessageWarpper, MessageWarpper> im
 				}
 			} else {
 				// 执行一项Skill
-				List<Skill> activableSkills = board.getActivableSkills(board.curTurnHuman.token);
-				var skillInfos = activableSkills.stream().map(s -> s.toMsg()).collect(Collectors.toList());
-				SCSelectSkillToActive msg = new SCSelectSkillToActive();
-				msg.addAllSkillInfos(skillInfos);
-				sendMessage(board.curTurnHuman, msg);
-				waitingHumanOperList.add(new HumanOperCache(activableSkills));
+				onHumanSelectSkillAttach(board.curTurnHuman);
 			}
 			return;
 		}
@@ -96,6 +93,20 @@ public class LocalGameServer extends Terminal<MessageWarpper, MessageWarpper> im
 			}
 			human.msgCacheQueue.clear();
 		}
+	}
+
+	private void onHumanSelectSkillAttach(Human human) {
+		if (!human.token.equals(token)) {
+			onAISelectSkillAttach(human);
+			return;
+		}
+
+		List<Skill> activableSkills = board.getActivableSkills(human.token);
+		var skillInfos = activableSkills.stream().map(s -> s.toMsg()).collect(Collectors.toList());
+		SCSelectSkillToActive msg = new SCSelectSkillToActive();
+		msg.addAllSkillInfos(skillInfos);
+		sendMessage(human, msg);
+		waitingHumanOperList.add(new HumanOperCache(human, activableSkills));
 	}
 
 	// 玩家需要执行一个操作， 推送消息给玩家
@@ -111,7 +122,7 @@ public class LocalGameServer extends Terminal<MessageWarpper, MessageWarpper> im
 		if (targetInfo.isSelectCardType()) {
 			// 推送卡牌选择消息
 			var info = targetInfo.stepSelectCard(humanOperCache.selected);
-			if (info.isSelectOver()) {
+			if (info.isSelectOver()) { // 不用选择了，直接完成
 				targetInfo.setSelect(humanOperCache.selected);
 				return;
 			}
@@ -123,6 +134,7 @@ public class LocalGameServer extends Terminal<MessageWarpper, MessageWarpper> im
 		switch (targetInfo.targetInfo.getType()) {
 		case None:
 		case Confirm:
+			break;
 		case EmptySlot:
 			break;
 		default:
@@ -188,6 +200,29 @@ public class LocalGameServer extends Terminal<MessageWarpper, MessageWarpper> im
 						}
 						sendMessage(cache.human, newInfo.toMsg());
 					}
+				}
+			}
+		}
+	}
+
+	private void onAISelectSkillAttach(Human human) {
+		TurnEndSkill skill = human.getSkill(TurnEndSkill.class);
+		skill.setContext(board, human, null);
+		skill.apply();
+	}
+
+	public void onClientUseSkill(String token, long skillId) {
+		for (var cache : waitingHumanOperList) {
+			if (cache.type != HumanOperType.Skill) {
+				continue;
+			}
+			if (cache.human.token.equals(token)) {
+				if (cache.skills.stream().anyMatch(s -> s.id == skillId)) {
+					waitingHumanOperList.remove(cache);
+
+					Skill skill = board.getSkillById(skillId);
+					skill.apply();
+					break;
 				}
 			}
 		}

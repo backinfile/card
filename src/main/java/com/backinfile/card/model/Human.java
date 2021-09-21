@@ -33,6 +33,7 @@ public class Human extends SkillCaster {
 	public CardPile drawPile = new CardPile(ECardPileType.DrawPile);
 	public CardPile discardPile = new CardPile(ECardPileType.DiscardPile);
 	public CardPile trashPile = new CardPile(ECardPileType.TrashPile);
+	public CardPile threatenPile = new CardPile(ECardPileType.ThreatenPile);
 	public Map<Integer, CardSlot> cardSlotMap = new HashMap<>();
 	public int actionPoint = 0;
 
@@ -92,6 +93,15 @@ public class Human extends SkillCaster {
 		if (trashPile.remove(card)) {
 			return true;
 		}
+		if (handPile.remove(card)) {
+			return true;
+		}
+		if (threatenPile.remove(card)) {
+			return true;
+		}
+		if (heroPile.remove(card)) {
+			return true;
+		}
 		for (var slot : cardSlotMap.values()) {
 			if (slot.removeCard(card)) {
 				return true;
@@ -111,6 +121,7 @@ public class Human extends SkillCaster {
 		cardPile.addAll(discardPile);
 		cardPile.addAll(trashPile);
 		cardPile.addAll(handPile);
+		cardPile.addAll(threatenPile);
 		for (var slot : cardSlotMap.values()) {
 			cardPile.addAll(slot.getAllCards());
 		}
@@ -128,6 +139,7 @@ public class Human extends SkillCaster {
 		list.add(discardPile);
 		list.add(trashPile);
 		list.add(handPile);
+		list.add(threatenPile);
 		return list;
 	}
 

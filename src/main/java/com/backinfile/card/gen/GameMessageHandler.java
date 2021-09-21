@@ -3464,6 +3464,8 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		SlotPile,
 		/** 英雄牌区 */
 		HeroPile,
+		/** 威慑牌区 */
+		ThreatenPile,
 	}
 	/**
 	 * TargetInfo的类型

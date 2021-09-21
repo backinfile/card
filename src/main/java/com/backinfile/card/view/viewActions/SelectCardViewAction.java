@@ -37,7 +37,7 @@ public class SelectCardViewAction extends ViewAction {
 			buttonInfo.callback = () -> {
 				onSelect(0);
 			};
-			gameStage.boardView.boardUIView.setButtonInfos(buttonInfo);
+			gameStage.buttonsView.setButtonInfos(buttonInfo);
 		}
 	}
 
@@ -52,8 +52,10 @@ public class SelectCardViewAction extends ViewAction {
 			}
 		}
 		if (optional) {
-			gameStage.boardView.boardUIView.setButtonInfos();
+			gameStage.buttonsView.setButtonInfos();
 		}
+
+		isDone = true;
 	}
 
 	@Override
@@ -62,10 +64,5 @@ public class SelectCardViewAction extends ViewAction {
 		CSSelectCard msg = new CSSelectCard();
 		msg.setCardId(this.selected);
 		gameStage.boardView.gameClient.sendMessage(msg);
-	}
-
-	@Override
-	public boolean isDone() {
-		return selected >= 0;
 	}
 }

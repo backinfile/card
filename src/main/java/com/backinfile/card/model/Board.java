@@ -233,11 +233,13 @@ public class Board implements IAlive {
 		for (var human : humans) {
 			var humanSkill = human.getSkill(id);
 			if (humanSkill != null) {
+				humanSkill.setContext(this, human, null);
 				return humanSkill;
 			}
 			for (var card : human.getAllCards()) {
 				var skill = card.getSkill(id);
 				if (skill != null) {
+					skill.setContext(this, human, card);
 					return skill;
 				}
 			}
@@ -332,6 +334,12 @@ public class Board implements IAlive {
 			boardData.setCurActionPlayerName(actionQueue.curAction.human.playerName);
 		}
 		return boardData;
+	}
+
+	public void modifyBoardData() {
+		for (var human : humans) {
+			human.msgCacheQueue.add(getBoardData(human.token));
+		}
 	}
 
 	public final void modifyCard(Card... cards) {

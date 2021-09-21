@@ -24,8 +24,9 @@ class HumanOperCache {
 		type = HumanOperType.Target;
 	}
 
-	public HumanOperCache(List<Skill> skills) {
-		skills.addAll(skills);
+	public HumanOperCache(Human human, List<Skill> skills) {
+		this.human = human;
+		this.skills.addAll(skills);
 		type = HumanOperType.Skill;
 	}
 

@@ -11,11 +11,11 @@ public abstract class BaseView extends Group {
 		setSize(width, height);
 	}
 
-	public final void show() {
+	public void show() {
 		setVisible(true);
 	}
 
-	public final void hide() {
+	public void hide() {
 		setVisible(false);
 	}
 }

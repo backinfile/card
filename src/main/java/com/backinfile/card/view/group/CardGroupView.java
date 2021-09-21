@@ -131,6 +131,7 @@ public class CardGroupView extends BaseView {
 		case DrawPile:
 		case MarkPile:
 		case TrashPile:
+		case ThreatenPile:
 			return false;
 		case HandPile:
 		case HeroPile:
@@ -190,12 +191,22 @@ public class CardGroupView extends BaseView {
 			break;
 		}
 		case MarkPile:
-			break;
-		case None:
+			// 0.365,0.1125
+			// 0.593,0.8450001
+			// 
 			break;
 		case SlotPile:
-			break;
-		case TrashPile:
+			// 0.215,0.37250003
+			// 0.347,0.37875
+			// 0.478,0.38250005
+			// 0.61,0.3775
+			// 0.746,0.37125003
+			
+			// 0.743,0.58500004
+			// 0.611,0.58125
+			// 0.476,0.57500005
+			// 0.346,0.57875
+			// 0.21299997,0.58250004
 			break;
 		default:
 			break;

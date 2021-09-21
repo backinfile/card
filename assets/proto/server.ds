@@ -94,6 +94,7 @@ enum ECardPileType {
 	MarkPile, // 标记牌
 	SlotPile, // 储备牌区
 	HeroPile, // 英雄牌区
+	ThreatenPile, // 威慑牌区
 }
 
 enum ESlotType {

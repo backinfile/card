@@ -13,5 +13,6 @@ public class RestoreActionNumberAction extends TriggerOnceAction {
 	@Override
 	public void run() {
 		human.actionPoint = number;
+		board.modifyBoardData();
 	}
 }

@@ -7,7 +7,7 @@ import com.backinfile.card.model.Skill.EmptySkill;
 
 public abstract class SkillCaster {
 	protected List<Skill> skills = new ArrayList<>();
-	
+
 	public final List<Skill> getSkillList() {
 		return skills;
 	}
@@ -28,6 +28,16 @@ public abstract class SkillCaster {
 			}
 		}
 		return EmptySkill.Instance;
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T extends Skill> T getSkill(Class<T> clazz) {
+		for (var skill : skills) {
+			if (skill.getClass() == clazz) {
+				return (T) skill;
+			}
+		}
+		return null;
 	}
 
 	public final void addSkill(Skill skill) {

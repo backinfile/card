@@ -1,5 +1,6 @@
 package com.backinfile.card.view.group.boardView;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,9 +20,9 @@ public class BoardUIView extends BaseView {
 
 	private Label opponentNameLabel;
 	private Label selfNameLabel;
+	private Label actionPointLabel;
+	private Label tipLabel;
 	private LocalUIString uiString;
-
-	private List<ActionButton> actionButtons;
 
 	public BoardUIView(GameStage gameStage, float width, float height) {
 		super(gameStage, 0, 0);
@@ -41,14 +42,17 @@ public class BoardUIView extends BaseView {
 			selfNameLabel.setPosition(width * 0.02f, height * 0.05f, Align.left);
 			addActor(selfNameLabel);
 		}
-
-		actionButtons = new ArrayList<ActionButton>();
-		for (int i = 0; i < 3; i++) {
-			ActionButton btn = new ActionButton();
-			btn.setVisible(false);
-			btn.setPosition(width * 0.874f, height * (0.197f - i * 0.06f), Align.left);
-			addActor(btn);
-			actionButtons.add(btn);
+		{
+			tipLabel = new Label("", labelStyle);
+			tipLabel.setAlignment(Align.center);
+			tipLabel.setPosition(width * 0.5f, height * 0.24f, Align.center);
+			addActor(selfNameLabel);
+		}
+		{
+			actionPointLabel = new Label(uiString.strs[3], labelStyle);
+			actionPointLabel.setAlignment(Align.left);
+			actionPointLabel.setPosition(width * 0.874f, height * 0.34f, Align.left);
+			addActor(actionPointLabel);
 		}
 	}
 
@@ -56,18 +60,12 @@ public class BoardUIView extends BaseView {
 		selfNameLabel.setText(name);
 		opponentNameLabel.setText(opponentName);
 	}
+	
+	public void setTipText(String tip) {
+		tipLabel.setText(tip);
+	}
 
-	public void setButtonInfos(ButtonInfo... buttonInfos) {
-		for (var i = 0; i < actionButtons.size(); i++) {
-			final var index = i;
-			var btn = actionButtons.get(index);
-			var optional = Arrays.stream(buttonInfos).filter(b -> b.index == index).findAny();
-			if (optional.isPresent()) {
-				btn.setVisible(true);
-				btn.set(optional.get().text, optional.get().callback);
-			} else {
-				btn.setVisible(false);
-			}
-		}
+	public void setActionPoint(int actionPoint) {
+		actionPointLabel.setText(MessageFormat.format(uiString.strs[3], actionPoint));
 	}
 }
