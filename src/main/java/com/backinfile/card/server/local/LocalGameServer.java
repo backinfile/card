@@ -1,16 +1,21 @@
 package com.backinfile.card.server.local;
 
 import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.backinfile.card.gen.GameMessageHandler;
 import com.backinfile.card.gen.GameMessageHandler.DBoardInit;
+import com.backinfile.card.gen.GameMessageHandler.SCSelectSkillToActive;
 import com.backinfile.card.manager.LocalData;
 import com.backinfile.card.model.Board;
 import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
+import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.TargetInfo;
 import com.backinfile.card.model.TargetInfo.SelectCardStepInfo;
+import com.backinfile.card.server.local.HumanOperCache.HumanOperType;
 import com.backinfile.dSync.model.DSyncBaseHandler.DSyncBase;
 import com.backinfile.support.IAlive;
 import com.backinfile.support.Log;
@@ -73,7 +78,12 @@ public class LocalGameServer extends Terminal<MessageWarpper, MessageWarpper> im
 				}
 			} else {
 				// 执行一项Skill
-				// TODO
+				List<Skill> activableSkills = board.getActivableSkills(board.curTurnHuman.token);
+				var skillInfos = activableSkills.stream().map(s -> s.toMsg()).collect(Collectors.toList());
+				SCSelectSkillToActive msg = new SCSelectSkillToActive();
+				msg.addAllSkillInfos(skillInfos);
+				sendMessage(board.curTurnHuman, msg);
+				waitingHumanOperList.add(new HumanOperCache(activableSkills));
 			}
 			return;
 		}
@@ -146,6 +156,9 @@ public class LocalGameServer extends Terminal<MessageWarpper, MessageWarpper> im
 	 */
 	public void onClientSelectCard(String token, long id) {
 		for (var cache : waitingHumanOperList) {
+			if (cache.type != HumanOperType.Target) {
+				continue;
+			}
 			if (cache.targetInfo.isSelected()) {
 				continue;
 			}

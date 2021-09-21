@@ -25,9 +25,6 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		public void onMessage(DBoardSetup data) {
 		}
 		
-		public void onMessage(DActiveSkill data) {
-		}
-		
 		public void onMessage(CSSelectCard data) {
 		}
 		
@@ -73,16 +70,19 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		public void onMessage(DServer data) {
 		}
 		
+		public void onMessage(CSSelectSkillToActive data) {
+		}
+		
 		public void onMessage(DStartPileDataPair data) {
 		}
 		
 		public void onMessage(SCSelectCards data) {
 		}
 		
-		public void onMessage(DSkillInfos data) {
+		public void onMessage(DCardPileInfo data) {
 		}
 		
-		public void onMessage(DCardPileInfo data) {
+		public void onMessage(SCSelectSkillToActive data) {
 		}
 		
 	}
@@ -104,11 +104,6 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		case DBoardSetup.TypeName:
 			for (var listener : listeners) {
 				listener.onMessage(DBoardSetup.parseJSONObject(jsonObject));
-			}
-			break;
-		case DActiveSkill.TypeName:
-			for (var listener : listeners) {
-				listener.onMessage(DActiveSkill.parseJSONObject(jsonObject));
 			}
 			break;
 		case CSSelectCard.TypeName:
@@ -186,6 +181,11 @@ public class GameMessageHandler extends DSyncBaseHandler {
 				listener.onMessage(DServer.parseJSONObject(jsonObject));
 			}
 			break;
+		case CSSelectSkillToActive.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(CSSelectSkillToActive.parseJSONObject(jsonObject));
+			}
+			break;
 		case DStartPileDataPair.TypeName:
 			for (var listener : listeners) {
 				listener.onMessage(DStartPileDataPair.parseJSONObject(jsonObject));
@@ -196,14 +196,14 @@ public class GameMessageHandler extends DSyncBaseHandler {
 				listener.onMessage(SCSelectCards.parseJSONObject(jsonObject));
 			}
 			break;
-		case DSkillInfos.TypeName:
-			for (var listener : listeners) {
-				listener.onMessage(DSkillInfos.parseJSONObject(jsonObject));
-			}
-			break;
 		case DCardPileInfo.TypeName:
 			for (var listener : listeners) {
 				listener.onMessage(DCardPileInfo.parseJSONObject(jsonObject));
+			}
+			break;
+		case SCSelectSkillToActive.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(SCSelectSkillToActive.parseJSONObject(jsonObject));
 			}
 			break;
 		}
@@ -217,8 +217,6 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			return new DBoardInit();
 		case DBoardSetup.TypeName:
 			return new DBoardSetup();
-		case DActiveSkill.TypeName:
-			return new DActiveSkill();
 		case CSSelectCard.TypeName:
 			return new CSSelectCard();
 		case DCardInfo.TypeName:
@@ -249,14 +247,16 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			return new DSkillInfo();
 		case DServer.TypeName:
 			return new DServer();
+		case CSSelectSkillToActive.TypeName:
+			return new CSSelectSkillToActive();
 		case DStartPileDataPair.TypeName:
 			return new DStartPileDataPair();
 		case SCSelectCards.TypeName:
 			return new SCSelectCards();
-		case DSkillInfos.TypeName:
-			return new DSkillInfos();
 		case DCardPileInfo.TypeName:
 			return new DCardPileInfo();
+		case SCSelectSkillToActive.TypeName:
+			return new SCSelectSkillToActive();
 		default:
 			return null;
 		}
@@ -588,124 +588,12 @@ public class GameMessageHandler extends DSyncBaseHandler {
 	}
 	
 	/**
-	 * 使用skill
-	 */
-	public static class DActiveSkill extends DSyncBase {
-		public static final String TypeName = "DActiveSkill";
-		
-		private long skillId;
-		private DTargetSelect targetSelect;
-
-		public static class K {
-			public static final String skillId = "skillId";
-			public static final String targetSelect = "targetSelect";
-		}
-
-		public DActiveSkill() {
-			init();
-		}
-
-		@Override
-		protected void init() {
-			skillId = 0;
-			targetSelect = null;
-		}
-		
-		public long getSkillId() {
-			return skillId;
-		}
-		
-		public void setSkillId(long skillId) {
-			this.skillId = skillId;
-		}
-		
-		public DTargetSelect getTargetSelect() {
-			return targetSelect;
-		}
-		
-		public void setTargetSelect(DTargetSelect targetSelect) {
-			this.targetSelect = targetSelect;
-		}
-		
-
-		static DActiveSkill parseJSONObject(JSONObject jsonObject) {
-			var _value = new DActiveSkill();
-			if (!jsonObject.isEmpty()) {
-				_value.applyRecord(jsonObject);
-			}
-			return _value;
-		}
-		
-		static List<DActiveSkill> parseJSONArray(JSONArray jsonArray) {
-			var list = new ArrayList<DActiveSkill>();
-			for (int i = 0; i < jsonArray.size(); i++) {
-				var _value = new DActiveSkill();
-				var jsonObject = jsonArray.getJSONObject(i);
-				if (!jsonObject.isEmpty()) {
-					_value.applyRecord(jsonObject);
-				}
-				list.add(_value);
-			}
-			return list;
-		}
-
-		@Override
-		protected void getRecord(JSONObject jsonObject) {
-			jsonObject.put(DSyncBase.K.TypeName, TypeName);
-			jsonObject.put(K.skillId, skillId);
-			jsonObject.put(K.targetSelect, getJSONObject(targetSelect));
-		}
-
-		@Override
-		protected void applyRecord(JSONObject jsonObject) {
-			skillId = jsonObject.getLongValue(K.skillId);
-			targetSelect = DTargetSelect.parseJSONObject(jsonObject.getJSONObject(K.targetSelect));
-		}
-		
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj) {
-				return true;
-			}
-			if (obj == null) {
-				return false;
-			}
-			if (!(obj instanceof DActiveSkill)) {
-				return false;
-			}
-			var _value = (DActiveSkill) obj;
-			if (this.skillId != _value.skillId) {
-				return false;
-			}
-			if (!this.targetSelect.equals(_value.targetSelect)) {
-				return false;
-			}
-			return true;
-		}
-		
-		public DActiveSkill copy() {
-			var _value = new DActiveSkill();
-			_value.skillId = this.skillId;
-			_value.targetSelect = this.targetSelect;
-			return _value;
-		}
-		
-		public DActiveSkill deepCopy() {
-			var _value = new DActiveSkill();
-			_value.skillId = this.skillId;
-			if (this.targetSelect != null) {
-				_value.targetSelect = this.targetSelect.deepCopy();
-			}
-			return _value;
-		}
-	}
-	
-	/**
 	 * 客户端选择一张卡牌
 	 */
 	public static class CSSelectCard extends DSyncBase {
 		public static final String TypeName = "CSSelectCard";
 		
+		/** 0表示取消 >0表示选择的卡 */
 		private long cardId;
 
 		public static class K {
@@ -721,10 +609,12 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			cardId = 0;
 		}
 		
+		/** 0表示取消 >0表示选择的卡 */
 		public long getCardId() {
 			return cardId;
 		}
 		
+		/** 0表示取消 >0表示选择的卡 */
 		public void setCardId(long cardId) {
 			this.cardId = cardId;
 		}
@@ -2552,6 +2442,9 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 	}
 	
+	/**
+	 * 技能信息
+	 */
 	public static class DSkillInfo extends DSyncBase {
 		public static final String TypeName = "DSkillInfo";
 		
@@ -2561,11 +2454,13 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		private long skillId;
 		/** 卡牌id -1表示非卡牌skill */
 		private long ownerId;
+		private String tip;
 
 		public static class K {
 			public static final String sn = "sn";
 			public static final String skillId = "skillId";
 			public static final String ownerId = "ownerId";
+			public static final String tip = "tip";
 		}
 
 		public DSkillInfo() {
@@ -2577,6 +2472,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			sn = "";
 			skillId = 0;
 			ownerId = 0;
+			tip = "";
 		}
 		
 		/** 技能sn */
@@ -2609,6 +2505,14 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			this.ownerId = ownerId;
 		}
 		
+		public String getTip() {
+			return tip;
+		}
+		
+		public void setTip(String tip) {
+			this.tip = tip;
+		}
+		
 
 		static DSkillInfo parseJSONObject(JSONObject jsonObject) {
 			var _value = new DSkillInfo();
@@ -2637,6 +2541,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			jsonObject.put(K.sn, sn);
 			jsonObject.put(K.skillId, skillId);
 			jsonObject.put(K.ownerId, ownerId);
+			jsonObject.put(K.tip, tip);
 		}
 
 		@Override
@@ -2644,6 +2549,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			sn = jsonObject.getString(K.sn);
 			skillId = jsonObject.getLongValue(K.skillId);
 			ownerId = jsonObject.getLongValue(K.ownerId);
+			tip = jsonObject.getString(K.tip);
 		}
 		
 		@Override
@@ -2667,6 +2573,9 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			if (this.ownerId != _value.ownerId) {
 				return false;
 			}
+			if (!this.tip.equals(_value.tip)) {
+				return false;
+			}
 			return true;
 		}
 		
@@ -2675,6 +2584,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			_value.sn = this.sn;
 			_value.skillId = this.skillId;
 			_value.ownerId = this.ownerId;
+			_value.tip = this.tip;
 			return _value;
 		}
 		
@@ -2683,6 +2593,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			_value.sn = this.sn;
 			_value.skillId = this.skillId;
 			_value.ownerId = this.ownerId;
+			_value.tip = this.tip;
 			return _value;
 		}
 	}
@@ -2864,6 +2775,96 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			if (this.myRoom != null) {
 				_value.myRoom = this.myRoom.deepCopy();
 			}
+			return _value;
+		}
+	}
+	
+	public static class CSSelectSkillToActive extends DSyncBase {
+		public static final String TypeName = "CSSelectSkillToActive";
+		
+		private long skillId;
+
+		public static class K {
+			public static final String skillId = "skillId";
+		}
+
+		public CSSelectSkillToActive() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			skillId = 0;
+		}
+		
+		public long getSkillId() {
+			return skillId;
+		}
+		
+		public void setSkillId(long skillId) {
+			this.skillId = skillId;
+		}
+		
+
+		static CSSelectSkillToActive parseJSONObject(JSONObject jsonObject) {
+			var _value = new CSSelectSkillToActive();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<CSSelectSkillToActive> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<CSSelectSkillToActive>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new CSSelectSkillToActive();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.skillId, skillId);
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+			skillId = jsonObject.getLongValue(K.skillId);
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof CSSelectSkillToActive)) {
+				return false;
+			}
+			var _value = (CSSelectSkillToActive) obj;
+			if (this.skillId != _value.skillId) {
+				return false;
+			}
+			return true;
+		}
+		
+		public CSSelectSkillToActive copy() {
+			var _value = new CSSelectSkillToActive();
+			_value.skillId = this.skillId;
+			return _value;
+		}
+		
+		public CSSelectSkillToActive deepCopy() {
+			var _value = new CSSelectSkillToActive();
+			_value.skillId = this.skillId;
 			return _value;
 		}
 	}
@@ -3108,123 +3109,6 @@ public class GameMessageHandler extends DSyncBaseHandler {
 	}
 	
 	/**
-	 * 可使用的主动技能
-	 */
-	public static class DSkillInfos extends DSyncBase {
-		public static final String TypeName = "DSkillInfos";
-		
-		private List<DSkillInfo> skillInfos;
-
-		public static class K {
-			public static final String skillInfos = "skillInfos";
-		}
-
-		public DSkillInfos() {
-			init();
-		}
-
-		@Override
-		protected void init() {
-			skillInfos = new ArrayList<>();
-		}
-		
-		public int getSkillInfosCount() {
-			return this.skillInfos.size();
-		}
-		
-		public List<DSkillInfo> getSkillInfosList() {
-			return new ArrayList<>(skillInfos);
-		}
-		
-		public void setSkillInfosList(List<DSkillInfo> _value) {
-			this.skillInfos.clear();
-			this.skillInfos.addAll(_value);
-		}
-
-		public void addSkillInfos(DSkillInfo _value) {
-			this.skillInfos.add(_value);
-		}
-		
-		public void addAllSkillInfos(List<DSkillInfo> _value) {
-			this.skillInfos.addAll(_value);
-		}
-		
-		public void clearSkillInfos() {
-			this.skillInfos.clear();
-		}
-		
-
-		static DSkillInfos parseJSONObject(JSONObject jsonObject) {
-			var _value = new DSkillInfos();
-			if (!jsonObject.isEmpty()) {
-				_value.applyRecord(jsonObject);
-			}
-			return _value;
-		}
-		
-		static List<DSkillInfos> parseJSONArray(JSONArray jsonArray) {
-			var list = new ArrayList<DSkillInfos>();
-			for (int i = 0; i < jsonArray.size(); i++) {
-				var _value = new DSkillInfos();
-				var jsonObject = jsonArray.getJSONObject(i);
-				if (!jsonObject.isEmpty()) {
-					_value.applyRecord(jsonObject);
-				}
-				list.add(_value);
-			}
-			return list;
-		}
-
-		@Override
-		protected void getRecord(JSONObject jsonObject) {
-			jsonObject.put(DSyncBase.K.TypeName, TypeName);
-			jsonObject.put(K.skillInfos, getJSONArray(skillInfos));
-		}
-
-		@Override
-		protected void applyRecord(JSONObject jsonObject) {
-			skillInfos = DSkillInfo.parseJSONArray(jsonObject.getJSONArray(K.skillInfos));
-		}
-		
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj) {
-				return true;
-			}
-			if (obj == null) {
-				return false;
-			}
-			if (!(obj instanceof DSkillInfos)) {
-				return false;
-			}
-			var _value = (DSkillInfos) obj;
-			if (!this.skillInfos.equals(_value.skillInfos)) {
-				return false;
-			}
-			return true;
-		}
-		
-		public DSkillInfos copy() {
-			var _value = new DSkillInfos();
-			_value.skillInfos = new ArrayList<>(this.skillInfos);
-			return _value;
-		}
-		
-		public DSkillInfos deepCopy() {
-			var _value = new DSkillInfos();
-			_value.skillInfos = new ArrayList<>();
-			for(var _f: this.skillInfos) {
-				if (_f != null) {
-					_value.skillInfos.add(_f.deepCopy());
-				} else {
-					_value.skillInfos.add(null);
-				}
-			}
-			return _value;
-		}
-	}
-	
-	/**
 	 * 一张卡所在的位置
 	 */
 	public static class DCardPileInfo extends DSyncBase {
@@ -3442,6 +3326,123 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			_value.ready = this.ready;
 			_value.pileIndex = this.pileIndex;
 			_value.pileSize = this.pileSize;
+			return _value;
+		}
+	}
+	
+	/**
+	 * 通知客户端选择一项技能触发
+	 */
+	public static class SCSelectSkillToActive extends DSyncBase {
+		public static final String TypeName = "SCSelectSkillToActive";
+		
+		private List<DSkillInfo> skillInfos;
+
+		public static class K {
+			public static final String skillInfos = "skillInfos";
+		}
+
+		public SCSelectSkillToActive() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			skillInfos = new ArrayList<>();
+		}
+		
+		public int getSkillInfosCount() {
+			return this.skillInfos.size();
+		}
+		
+		public List<DSkillInfo> getSkillInfosList() {
+			return new ArrayList<>(skillInfos);
+		}
+		
+		public void setSkillInfosList(List<DSkillInfo> _value) {
+			this.skillInfos.clear();
+			this.skillInfos.addAll(_value);
+		}
+
+		public void addSkillInfos(DSkillInfo _value) {
+			this.skillInfos.add(_value);
+		}
+		
+		public void addAllSkillInfos(List<DSkillInfo> _value) {
+			this.skillInfos.addAll(_value);
+		}
+		
+		public void clearSkillInfos() {
+			this.skillInfos.clear();
+		}
+		
+
+		static SCSelectSkillToActive parseJSONObject(JSONObject jsonObject) {
+			var _value = new SCSelectSkillToActive();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<SCSelectSkillToActive> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<SCSelectSkillToActive>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new SCSelectSkillToActive();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.skillInfos, getJSONArray(skillInfos));
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+			skillInfos = DSkillInfo.parseJSONArray(jsonObject.getJSONArray(K.skillInfos));
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof SCSelectSkillToActive)) {
+				return false;
+			}
+			var _value = (SCSelectSkillToActive) obj;
+			if (!this.skillInfos.equals(_value.skillInfos)) {
+				return false;
+			}
+			return true;
+		}
+		
+		public SCSelectSkillToActive copy() {
+			var _value = new SCSelectSkillToActive();
+			_value.skillInfos = new ArrayList<>(this.skillInfos);
+			return _value;
+		}
+		
+		public SCSelectSkillToActive deepCopy() {
+			var _value = new SCSelectSkillToActive();
+			_value.skillInfos = new ArrayList<>();
+			for(var _f: this.skillInfos) {
+				if (_f != null) {
+					_value.skillInfos.add(_f.deepCopy());
+				} else {
+					_value.skillInfos.add(null);
+				}
+			}
 			return _value;
 		}
 	}

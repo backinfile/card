@@ -94,6 +94,6 @@ public class GameStage extends Stage {
 		curViewAction.init();
 		curViewAction.begin();
 		curViewAction.pulse();
-//		Log.game.info("viewAction {} begin", curViewAction.getClass().getSimpleName());
+		Log.game.info("viewAction {} begin", curViewAction.getClass().getSimpleName());
 	}
 }

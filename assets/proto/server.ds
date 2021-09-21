@@ -150,21 +150,12 @@ struct DTargetSelect {
 	int[] slotIndex; // 选择的储备位
 }
 
-// 可使用的主动技能
-struct DSkillInfos {
-	DSkillInfo[] skillInfos;
-}
-
+// 技能信息
 struct DSkillInfo {
 	String sn; // 技能sn
 	long skillId; // 技能id
 	long ownerId; // 卡牌id -1表示非卡牌skill
-}
-
-// 使用skill
-struct DActiveSkill {
-	long skillId;
-	DTargetSelect targetSelect;
+	String tip;
 }
 
 // 通知客户端可以选择其中一张卡牌
@@ -176,6 +167,14 @@ struct SCSelectCards {
 // 客户端选择一张卡牌
 struct CSSelectCard {
 	long cardId; // 0表示取消 >0表示选择的卡
+}
+
+// 通知客户端选择一项技能触发
+struct SCSelectSkillToActive {
+	DSkillInfo[] skillInfos;
+}
+struct CSSelectSkillToActive {
+	long skillId;
 }
 
 //----------------------------------------

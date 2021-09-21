@@ -1,13 +1,16 @@
 package com.backinfile.card.server.local;
 
 import com.backinfile.card.gen.GameMessageHandler;
+import com.backinfile.card.gen.GameMessageHandler.CSSelectSkillToActive;
 import com.backinfile.card.gen.GameMessageHandler.DBoardData;
 import com.backinfile.card.gen.GameMessageHandler.DBoardSetup;
 import com.backinfile.card.gen.GameMessageHandler.DCardInfo;
 import com.backinfile.card.gen.GameMessageHandler.DCardInfoList;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectCards;
+import com.backinfile.card.gen.GameMessageHandler.SCSelectSkillToActive;
 import com.backinfile.card.view.stage.GameStage;
 import com.backinfile.card.view.viewActions.MoveCardViewAction;
+import com.backinfile.card.view.viewActions.SelectCardSkillAction;
 import com.backinfile.card.view.viewActions.SelectCardViewAction;
 
 public class LocalGameClientMessageHandler extends GameMessageHandler.DSyncListener {
@@ -39,8 +42,8 @@ public class LocalGameClientMessageHandler extends GameMessageHandler.DSyncListe
 	}
 
 	@Override
-	public void onMessage(DCardInfo data) {
-		super.onMessage(data);
+	public void onMessage(SCSelectSkillToActive data) {
+		gameStage.addViewAction(new SelectCardSkillAction(data.getSkillInfosList()));
 	}
 
 	@Override

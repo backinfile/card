@@ -1,5 +1,6 @@
 package com.backinfile.card.model;
 
+import com.backinfile.card.gen.GameMessageHandler.DSkillInfo;
 import com.backinfile.card.model.LocalString.LocalSkillString;
 import com.backinfile.support.IdAllot;
 
@@ -18,7 +19,7 @@ public abstract class Skill {
 	public TargetInfo targetInfo = new TargetInfo(null); // 触发条件
 	public SkillDuration duration = SkillDuration.Combat; // 失效方式
 	public SkillTrigger trigger = SkillTrigger.Passive; // 触发方式
-	public SkillAura aura = SkillAura.Combat; // 可触发区域
+	public SkillAura aura = SkillAura.Slot; // 可触发区域
 	public int triggerCostAP = 0; // 使用时需要消耗的行动点
 	public int triggerTimesLimit = -1; // 可触发次数，当恰好==0时清除
 
@@ -39,7 +40,7 @@ public abstract class Skill {
 	// 生效地点
 	public static enum SkillAura {
 		AnyWhere, // 任何地方
-		Combat, // 场上(非手牌)
+		Slot, // 储备位上
 		Hand, // 手牌
 	}
 
@@ -92,6 +93,29 @@ public abstract class Skill {
 
 	public String getDisplayName() {
 		return skillString.name;
+	}
+
+	/**
+	 * 获取技能使用描述
+	 */
+	public String getTip() {
+		if (trigger == SkillTrigger.Active) {
+			return "[" + triggerCostAP + "] " + skillString.tip;
+		}
+		return skillString.tip;
+	}
+
+	public DSkillInfo toMsg() {
+		DSkillInfo skillInfo = new DSkillInfo();
+		if (card != null) {
+			skillInfo.setOwnerId(card.id);
+		} else {
+			skillInfo.setOwnerId(-1);
+		}
+		skillInfo.setSkillId(id);
+		skillInfo.setSn(getClass().getSimpleName());
+		skillInfo.setTip(getTip());
+		return skillInfo;
 	}
 
 	public static class EmptySkill extends Skill {

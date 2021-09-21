@@ -7,6 +7,10 @@ import com.backinfile.card.model.Skill.EmptySkill;
 
 public abstract class SkillCaster {
 	protected List<Skill> skills = new ArrayList<>();
+	
+	public final List<Skill> getSkillList() {
+		return skills;
+	}
 
 	public final Skill getSkill(long id) {
 		for (var skill : skills) {

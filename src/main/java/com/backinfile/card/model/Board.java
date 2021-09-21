@@ -9,6 +9,8 @@ import com.backinfile.card.gen.GameMessageHandler.DBoardSetup;
 import com.backinfile.card.gen.GameMessageHandler.DCardInfo;
 import com.backinfile.card.gen.GameMessageHandler.DCardInfoList;
 import com.backinfile.card.gen.GameMessageHandler.DCardPileInfo;
+import com.backinfile.card.model.Skill.SkillAura;
+import com.backinfile.card.model.Skill.SkillTrigger;
 import com.backinfile.card.model.actions.ChangeBoardStateAction;
 import com.backinfile.card.model.actions.DispatchAction;
 import com.backinfile.support.IAlive;
@@ -192,6 +194,39 @@ public class Board implements IAlive {
 			}
 		}
 		return null;
+	}
+
+	// 获取所有可以触发的技能
+	public List<Skill> getActivableSkills(String token) {
+		List<Skill> activableSkills = new ArrayList<>();
+		var human = getHuman(token);
+		if (human == null) {
+			return activableSkills;
+		}
+		// 玩家身上的技能
+		for (var skill : human.getSkillList()) {
+			if (skill.trigger == SkillTrigger.Active) {
+				if (skill.triggerCostAP <= human.actionPoint) {
+					skill.setContext(this, human, null);
+					activableSkills.add(skill);
+				}
+			}
+		}
+		// 手牌上的技能
+		for (var card : human.handPile) {
+			for (var skill : card.getSkillList()) {
+				if (skill.trigger == SkillTrigger.Active) {
+					if (skill.triggerCostAP <= human.actionPoint) {
+						if (skill.aura == SkillAura.Hand) {
+							skill.setContext(this, human, card);
+							activableSkills.add(skill);
+						}
+					}
+				}
+			}
+		}
+
+		return activableSkills;
 	}
 
 	public Skill getSkillById(long id) {

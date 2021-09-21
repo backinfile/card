@@ -56,7 +56,13 @@
 			"sn":"SaveThreatenAction",
 			"tip":"SaveThreatenActionTip",
 	},],
-	skills:[],
+	skills:[{
+			"sn":"StoreSelfSkill",
+			"tip":"储备",
+	},{
+			"sn":"DrawCardSkill",
+			"tip":"抽1",
+	}],
 	targets:[],
 	ui:[{
 			"sn":"pileView",
