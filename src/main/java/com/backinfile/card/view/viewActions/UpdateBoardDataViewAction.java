@@ -14,6 +14,6 @@ public class UpdateBoardDataViewAction extends ViewAction {
 	public void begin() {
 		gameStage.boardView.boardUIView.setData(LocalData.instance().name, boardData.getOpponentPlayerName());
 		gameStage.boardView.boardUIView.setActionPoint(boardData.getActionPoint());
-		isDone = true;
+		setDone();
 	}
 }

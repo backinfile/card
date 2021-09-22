@@ -11,7 +11,7 @@ public class SelectEmptySlotOper extends HumanOper {
 	private List<Integer> toSelectFrom = new ArrayList<>();
 	private ETargetSlotAimType aimType;
 	private String tip;
-	private boolean opponent;
+	private boolean opponent = false;
 
 	private int selected;
 

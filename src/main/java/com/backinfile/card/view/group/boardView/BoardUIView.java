@@ -41,8 +41,8 @@ public class BoardUIView extends BaseView {
 		{
 			tipLabel = new Label("", labelStyle);
 			tipLabel.setAlignment(Align.center);
-			tipLabel.setPosition(width * 0.5f, height * 0.24f, Align.center);
-			addActor(selfNameLabel);
+			tipLabel.setPosition(width * 0.5f, height * 0.276f, Align.center);
+			addActor(tipLabel);
 		}
 		{
 			actionPointLabel = new Label(uiString.strs[3], labelStyle);

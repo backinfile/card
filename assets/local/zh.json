@@ -65,7 +65,8 @@
 	],
 	actions:[{
 			"sn":"DispatchAction",
-			"tip":"DispatchActionTip",
+			"tip":"调度起手手牌，选择任意张牌重新抽取",
+			"tips":["结束调度"],
 	},{
 			"sn":"SaveThreatenAction",
 			"tip":"SaveThreatenActionTip",
@@ -109,7 +110,7 @@
 	},{
 			"sn":"boardUIView",
 			"strs":[
-				"你的对手", "你", "取消", "行动点:{0}",
+				"你的对手", "你", "取消", "行动点:{0}", ""
 			],
 	},{
 			"sn":"cardTools",

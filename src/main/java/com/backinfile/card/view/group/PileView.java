@@ -35,6 +35,7 @@ public class PileView extends BaseView {
 
 		numberLabel = new Label("0", new LabelStyle(Res.DefaultFont, Color.WHITE));
 		addActor(numberLabel);
+
 	}
 
 	public PileView(GameStage gameStage, float width, float height, ECardPileType type, PilePosition pilePosition) {

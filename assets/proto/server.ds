@@ -80,6 +80,7 @@ struct DCardPileInfo {
 	ESlotType slotType; // 储备区牌类型
 	bool asPlanSlot; // 当前slot是计划区
 	bool ready; // 当前slot已经准备完成
+	int slotIndex; // 第几个储备位
 	int pileIndex; // 处于牌堆中的那个位置 0为最底部
 	int pileSize; // 牌堆中牌的总数
 }
@@ -138,6 +139,7 @@ struct SCSelectCards {
 	long[] cardIds;
 	bool cancel; // 可以取消
 	String tip;
+	String cancelTip; // 取消按钮文字
 }
 // 客户端选择一张卡牌
 struct CSSelectCard {

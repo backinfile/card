@@ -5,7 +5,7 @@ import com.backinfile.support.IAction;
 
 public abstract class ViewAction implements IAction {
 	public GameStage gameStage;
-	protected boolean isDone = false;
+	private boolean isDone = false;
 
 	public ViewAction() {
 	}
@@ -19,6 +19,10 @@ public abstract class ViewAction implements IAction {
 
 	@Override
 	public void pulse() {
+	}
+
+	public final void setDone() {
+		isDone = true;
 	}
 
 	@Override

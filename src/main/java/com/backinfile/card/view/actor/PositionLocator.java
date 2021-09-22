@@ -19,8 +19,8 @@ public class PositionLocator extends Image {
 				var mousePos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
 				var coor = getParent().screenToLocalCoordinates(mousePos);
 				setPosition(coor.x, coor.y, Align.center);
-				Log.game.info("locator rate = {},{}", mousePos.x / getStage().getWidth(),
-						mousePos.y / getStage().getHeight());
+				Log.game.info("locator rate = {},{}", mousePos.x / getParent().getWidth(),
+						mousePos.y / getParent().getHeight());
 			}
 
 			@Override

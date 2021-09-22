@@ -6,12 +6,13 @@ import java.util.List;
 import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
 import com.backinfile.card.manager.GameUtils;
 import com.backinfile.card.server.local.LocalGameClient;
+import com.backinfile.card.view.actor.PositionLocator;
 import com.backinfile.card.view.group.BaseView;
 import com.backinfile.card.view.group.CardGroupView;
 import com.backinfile.card.view.group.PileView;
-import com.backinfile.card.view.group.TestView;
 import com.backinfile.card.view.group.PileView.PilePosition;
 import com.backinfile.card.view.stage.GameStage;
+import com.badlogic.gdx.utils.Align;
 
 // 本地BoardView
 public class LocalBoardView extends BaseView {
@@ -21,8 +22,6 @@ public class LocalBoardView extends BaseView {
 	public BoardUIView boardUIView;
 	private BoardBackgroundView backgroundView;
 	public List<PileView> pileViews;
-
-	private TestView testView;
 
 	public LocalBoardView(GameStage gameStage, float width, float height) {
 		super(gameStage, width, height);
@@ -50,11 +49,15 @@ public class LocalBoardView extends BaseView {
 		cardGroupView = new CardGroupView(gameStage, getWidth(), getHeight());
 		addActor(cardGroupView);
 
+		{
+			PositionLocator locator = new PositionLocator();
+			locator.setSize(16, 16);
+			locator.setPosition(100, getHeight() / 2, Align.center);
+			addActor(locator);
+		}
+
 		boardUIView = new BoardUIView(gameStage, getWidth(), getHeight());
 		addActor(boardUIView);
-
-		testView = new TestView(gameStage, getWidth(), getHeight());
-		addActor(testView);
 	}
 
 	public void startGame() {

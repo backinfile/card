@@ -1,9 +1,9 @@
 package com.backinfile.card.view.group;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.backinfile.card.gen.GameMessageHandler.DCardInfo;
@@ -14,7 +14,10 @@ import com.backinfile.card.view.group.PileView.PilePosition;
 import com.backinfile.card.view.stage.GameStage;
 import com.backinfile.support.Log;
 import com.backinfile.support.ObjectPool;
+import com.backinfile.support.func.Action0;
 import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
@@ -23,11 +26,14 @@ public class CardGroupView extends BaseView {
 	public ObjectPool<CardView> cardActorPool;
 	private HashMap<Long, CardView> cardViews = new HashMap<>(); // 正在显示的牌
 	private HashMap<Long, CardInfo> cardInfoCacheMap = new HashMap<>();
+	private Group cardViewGroup = new Group();
 
-	private List<CardView> helpCardViews = new ArrayList<>();
+	private Map<Integer, CardView> helpCardViews = new HashMap<>();
 
 	public CardGroupView(GameStage gameStage, float width, float height) {
 		super(gameStage, width, height);
+
+		addActor(cardViewGroup);
 		cardActorPool = new ObjectPool<CardView>() {
 			@Override
 			protected CardView newObject() {
@@ -41,12 +47,6 @@ public class CardGroupView extends BaseView {
 						gameStage.showCardView.show(cardView.getImagePathString());
 					}
 				});
-				cardView.addListener(new ClickListener(Buttons.LEFT) {
-					@Override
-					public void clicked(InputEvent event, float x, float y) {
-						cardView.invokeLeftClickCallback();
-					}
-				});
 				return cardView;
 			}
 
@@ -58,6 +58,37 @@ public class CardGroupView extends BaseView {
 			}
 		};
 
+		// 初始化辅助卡
+		String[] helpCardNames = new String[] { "", "slotoccupycard", "slotstorecard" };
+		for (int index = 1; index <= 5; index++) {
+			for (int pos = 0; pos <= 1; pos++) {
+				for (int type = 1; type <= 2; type++) {
+					int key = index * 100 + pos * 10 + type;
+					CardViewState cardViewState = new CardViewState();
+					cardViewState.position.set(getSlotPilePosition(index, pos));
+					cardViewState.dark = false;
+					var cardView = new CardView();
+					cardView.setCardString(LocalString.getCardString(helpCardNames[type]));
+					cardView.setState(cardViewState);
+					cardView.setVisible(false);
+					addActor(cardView);
+					helpCardViews.put(key, cardView);
+				}
+			}
+		}
+	}
+
+	public void setHelpCard(int index, int pos, int type, boolean visible, Action0 callback) {
+		int key = index * 100 + pos * 10 + type;
+		CardView cardView = helpCardViews.get(key);
+		cardView.setVisible(visible);
+		cardView.setLeftClickCallback(callback);
+	}
+
+	public void hideAllHelpCard() {
+		for (var cardView : helpCardViews.values()) {
+			cardView.setVisible(false);
+		}
 	}
 
 	public void updateAllCardInfo(List<DCardInfo> allCardInfo, boolean set) {
@@ -68,11 +99,11 @@ public class CardGroupView extends BaseView {
 	}
 
 	private void adjustCardLayer() {
-		clearChildren();
+		cardViewGroup.clearChildren();
 		List<CardView> sorted = cardViews.values().stream().sorted(Comparator.comparing(CardView::getZIndex))
 				.collect(Collectors.toList());
 		for (var cardView : sorted) {
-			addActor(cardView);
+			cardViewGroup.addActor(cardView);
 		}
 	}
 
@@ -108,7 +139,7 @@ public class CardGroupView extends BaseView {
 		var cardView = cardViews.get(cardInfo.getId());
 		if (cardView == null) {
 			cardView = cardActorPool.obtain();
-			addActor(cardView);
+			cardViewGroup.addActor(cardView);
 			cardView.setCardString(LocalString.getCardString(cardInfo.info.getSn()),
 					cardInfo.getPilePosition().ordinal());
 			cardViews.put(cardInfo.getId(), cardView);
@@ -121,7 +152,7 @@ public class CardGroupView extends BaseView {
 		if (cardView != null) {
 			cardActorPool.free(cardView);
 			cardViews.remove(cardInfo.getId());
-			removeActor(cardView);
+			cardViewGroup.removeActor(cardView);
 		}
 	}
 
@@ -143,10 +174,6 @@ public class CardGroupView extends BaseView {
 			break;
 		}
 		return false;
-	}
-
-	public void setHelpCard() {
-
 	}
 
 	public CardViewState getCardViewState(CardInfo cardInfo) {
@@ -203,48 +230,8 @@ public class CardGroupView extends BaseView {
 			cardViewState.flipOver = true;
 			break;
 		case SlotPile:
-			int index = cardInfo.pileInfo.getPileIndex();
-			if (pilePosition == PilePosition.Self) {
-				switch (index) {
-				case 1:
-					cardViewState.position.set(getWidth() * 0.215f, getHeight() * 0.3725f);
-					break;
-				case 2:
-					cardViewState.position.set(getWidth() * 0.347f, getHeight() * 0.37875f);
-					break;
-				case 3:
-					cardViewState.position.set(getWidth() * 0.478f, getHeight() * 0.3825f);
-					break;
-				case 4:
-					cardViewState.position.set(getWidth() * 0.61f, getHeight() * 0.3775f);
-					break;
-				case 5:
-					cardViewState.position.set(getWidth() * 0.746f, getHeight() * 0.371f);
-					break;
-				default:
-					Log.game.error("unknown pile index for slotPile:{}", index);
-				}
-			} else {
-				switch (index) {
-				case 1:
-					cardViewState.position.set(getWidth() * 0.743f, getHeight() * 0.585f);
-					break;
-				case 2:
-					cardViewState.position.set(getWidth() * 0.611f, getHeight() * 0.581f);
-					break;
-				case 3:
-					cardViewState.position.set(getWidth() * 0.476f, getHeight() * 0.575f);
-					break;
-				case 4:
-					cardViewState.position.set(getWidth() * 0.346f, getHeight() * 0.578f);
-					break;
-				case 5:
-					cardViewState.position.set(getWidth() * 0.2129f, getHeight() * 0.5825f);
-					break;
-				default:
-					Log.game.error("unknown pile index for slotPile:{}", index);
-				}
-			}
+			int index = cardInfo.pileInfo.getSlotIndex();
+			cardViewState.position.set(getSlotPilePosition(index, pilePosition.ordinal()));
 			switch (cardInfo.pileInfo.getSlotType()) {
 			case Store:
 				cardViewState.rotated = !cardInfo.pileInfo.getReady();
@@ -277,6 +264,52 @@ public class CardGroupView extends BaseView {
 			break;
 		}
 		return cardViewState;
+	}
+
+	public Vector2 getSlotPilePosition(int index, int pilePosition) {
+		Vector2 position = new Vector2();
+		if (pilePosition == 0) {
+			switch (index) {
+			case 1:
+				position.set(getWidth() * 0.226f, getHeight() * 0.386f);
+				break;
+			case 2:
+				position.set(getWidth() * 0.359f, getHeight() * 0.394f);
+				break;
+			case 3:
+				position.set(getWidth() * 0.498f, getHeight() * 0.399f);
+				break;
+			case 4:
+				position.set(getWidth() * 0.635f, getHeight() * 0.391f);
+				break;
+			case 5:
+				position.set(getWidth() * 0.777f, getHeight() * 0.389f);
+				break;
+			default:
+				Log.game.error("unknown pile index for slotPile:{}", index);
+			}
+		} else {
+			switch (index) {
+			case 1:
+				position.set(getWidth() * 0.777f, getHeight() * 0.611f);
+				break;
+			case 2:
+				position.set(getWidth() * 0.637f, getHeight() * 0.604f);
+				break;
+			case 3:
+				position.set(getWidth() * 0.497f, getHeight() * 0.600f);
+				break;
+			case 4:
+				position.set(getWidth() * 0.361f, getHeight() * 0.604f);
+				break;
+			case 5:
+				position.set(getWidth() * 0.220f, getHeight() * 0.608f);
+				break;
+			default:
+				Log.game.error("unknown pile index for slotPile:{}", index);
+			}
+		}
+		return position;
 	}
 
 }

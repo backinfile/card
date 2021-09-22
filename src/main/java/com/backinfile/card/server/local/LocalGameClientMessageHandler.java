@@ -5,11 +5,13 @@ import com.backinfile.card.gen.GameMessageHandler.DBoardData;
 import com.backinfile.card.gen.GameMessageHandler.DBoardSetup;
 import com.backinfile.card.gen.GameMessageHandler.DCardInfoList;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectCards;
+import com.backinfile.card.gen.GameMessageHandler.SCSelectEmptySlot;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectSkillToActive;
 import com.backinfile.card.view.stage.GameStage;
 import com.backinfile.card.view.viewActions.MoveCardViewAction;
 import com.backinfile.card.view.viewActions.SelectCardSkillViewAction;
 import com.backinfile.card.view.viewActions.SelectCardViewAction;
+import com.backinfile.card.view.viewActions.SelectEmptySlotViewAction;
 import com.backinfile.card.view.viewActions.UpdateBoardDataViewAction;
 
 public class LocalGameClientMessageHandler extends GameMessageHandler.DSyncListener {
@@ -31,7 +33,7 @@ public class LocalGameClientMessageHandler extends GameMessageHandler.DSyncListe
 
 	@Override
 	public void onMessage(SCSelectCards data) {
-		gameStage.addViewAction(new SelectCardViewAction(data.getCardIdsList(), data.getCancel()));
+		gameStage.addViewAction(new SelectCardViewAction(data));
 	}
 
 	@Override
@@ -46,7 +48,12 @@ public class LocalGameClientMessageHandler extends GameMessageHandler.DSyncListe
 
 	@Override
 	public void onMessage(DCardInfoList data) {
-		super.onMessage(data);
 		gameStage.addViewAction(new MoveCardViewAction(data.getCardsList(), false));
+	}
+
+	@Override
+	public void onMessage(SCSelectEmptySlot data) {
+		gameStage.addViewAction(new SelectEmptySlotViewAction(data));
+
 	}
 }

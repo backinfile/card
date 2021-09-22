@@ -11,19 +11,21 @@ public class SelectCardOper extends HumanOper {
 	private CardPile targetCardPile = new CardPile();
 	private int minNumber;
 	private int maxNumber;
-	private String tip;
+	private String tip = "";
+	private String cancelTip = "";
 
 	private CardPile selectedPile = new CardPile(); // 已选择的牌
 
-	public SelectCardOper(CardPile targetCardPile, String tip, int minNumber, int maxNumber) {
+	public SelectCardOper(CardPile targetCardPile, String tip, String cancelTip, int minNumber, int maxNumber) {
 		this.targetCardPile.addAll(targetCardPile);
 		this.tip = tip;
+		this.cancelTip = cancelTip;
 		this.minNumber = minNumber;
 		this.maxNumber = maxNumber;
 	}
 
 	public SelectCardOper(CardPile targetCardPile, String tip, int number) {
-		this(targetCardPile, tip, number, number);
+		this(targetCardPile, tip, "", number, number);
 	}
 
 	@Override
@@ -58,6 +60,7 @@ public class SelectCardOper extends HumanOper {
 		SCSelectCards msg = new SCSelectCards();
 		msg.setCardIdsList(toSelect.getCardIdList());
 		msg.setTip(tip);
+		msg.setCancelTip(cancelTip);
 		msg.setCancel(selectedPile.size() >= minNumber);
 		human.sendMessage(msg);
 	}

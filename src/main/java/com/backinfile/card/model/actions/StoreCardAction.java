@@ -52,18 +52,22 @@ public class StoreCardAction extends WaitAction {
 	}
 
 	private void replaceCard(Card toReplace) {
+		board.removeCard(card);
 		var slot = human.getCardSlotByCard(toReplace);
 		slot.remove(toReplace);
 		slot.getPile(ESlotType.Store).add(card);
 		slot.ready = fast;
 		board.modifyCard(toReplace, card);
+		setDone();
 	}
 
 	private void selectIndex(int index) {
+		board.removeCard(card);
 		var slot = human.cardSlotMap.get(index);
 		slot.getPile(ESlotType.Store).add(card);
 		slot.ready = fast;
 		board.modifyCard(card);
+		setDone();
 	}
 
 	@Override

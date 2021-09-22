@@ -22,7 +22,7 @@ public class TestView extends BaseView {
 		PositionLocator locator = new PositionLocator();
 		locator.setSize(16, 16);
 		locator.setPosition(100, height / 2, Align.center);
-		addActor(locator);
+//		addActor(locator);
 
 		CardView cardView = new CardView();
 		cardView.setCardString(LocalString.getCardString("attack"));

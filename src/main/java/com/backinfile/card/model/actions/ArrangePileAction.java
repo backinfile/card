@@ -1,6 +1,7 @@
 package com.backinfile.card.model.actions;
 
 import com.backinfile.card.model.CardPile;
+import com.backinfile.card.model.Human;
 
 public class ArrangePileAction extends TriggerOnceAction {
 	private CardPile cardPile = null;
@@ -8,10 +9,12 @@ public class ArrangePileAction extends TriggerOnceAction {
 	/**
 	 * 默认为手牌
 	 */
-	public ArrangePileAction() {
+	public ArrangePileAction(Human human) {
+		this.human = human;
 	}
 
-	public ArrangePileAction(CardPile cardPile) {
+	public ArrangePileAction(Human human, CardPile cardPile) {
+		this.human = human;
 		// 这里比较特殊，用引用传递
 		this.cardPile = cardPile;
 	}

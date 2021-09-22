@@ -312,6 +312,7 @@ public class Board implements IAlive {
 						pileInfo.setSlotType(slotType);
 						pileInfo.setPileSize(pile.size());
 						pileInfo.setPileIndex(index);
+						pileInfo.setSlotIndex(cardSlot.index);
 						pileInfo.setAsPlanSlot(cardSlot.asPlanSlot);
 						pileInfo.setReady(cardSlot.ready);
 						cardInfos.add(cardInfo);

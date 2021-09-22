@@ -7,11 +7,14 @@ import com.backinfile.card.model.LocalString.LocalImagePathString;
 import com.backinfile.card.model.LocalString.LocalUIString;
 import com.backinfile.card.view.actions.TimeoutAction;
 import com.backinfile.support.func.Action0;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
 // 显示一张卡牌
@@ -54,6 +57,13 @@ public class CardView extends Group {
 
 		setSize(CardSize.Normal);
 		setDark(false);
+
+		addListener(new ClickListener(Buttons.LEFT) {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				invokeLeftClickCallback();
+			}
+		});
 	}
 
 	public void setCardString(LocalCardString cardString) {

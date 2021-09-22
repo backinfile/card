@@ -1,14 +1,10 @@
 package com.backinfile.card.view.viewActions;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.backinfile.card.gen.GameMessageHandler.CSSelectEmptySlot;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectEmptySlot;
-import com.backinfile.card.view.group.CardView;
 
 public class SelectEmptySlotViewAction extends ViewAction {
 	private SCSelectEmptySlot data;
-	private List<CardView> cardViews = new ArrayList<>();
 
 	public SelectEmptySlotViewAction(SCSelectEmptySlot data) {
 		this.data = data;
@@ -17,8 +13,19 @@ public class SelectEmptySlotViewAction extends ViewAction {
 	@Override
 	public void begin() {
 		for (var index : data.getSelectFromList()) {
-			
+			gameStage.boardView.cardGroupView.setHelpCard(index, data.getOpponent() ? 1 : 0,
+					data.getAimType().ordinal(), true, () -> {
+						onSelectIndex(index);
+					});
 		}
+	}
+
+	private void onSelectIndex(int index) {
+		gameStage.boardView.cardGroupView.hideAllHelpCard();
+		CSSelectEmptySlot msg = new CSSelectEmptySlot();
+		msg.setSelected(index);
+		gameStage.boardView.gameClient.sendMessage(msg);
+		setDone();
 	}
 
 }
