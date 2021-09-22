@@ -111,32 +111,6 @@ enum ESlotType {
 // 棋盘内交互信息
 //----------------------------------------
 
-// 需求Player执行选择操作
-struct DTargetInfo {
-	ETargetType type;
-	int minNumber; // 最少需求数量
-	int maxNumber; // 最大需求数量 -1表示任意数量
-	ETargetSlotAimType slotAimType; // 指定辅助牌类型
-	String tip; // 提示语
-	bool onlyReady; // 是否限定储备完成的牌
-	bool exceptPlan; // 是否排除计划牌
-	bool opponent; // 是否选对手的
-	bool exceptHand; // 是否排除手牌
-	bool strict; // 严格限制张数，不足张数则不进行选择（默认为尽量达到需求即可）
-}
-
-// TargetInfo的类型
-enum ETargetType {
-	None, // 只需确认
-	Confirm, // 确认/取消
-	EmptySlot, // 空白储备位
-	Store, // 任意储备
-	StoreInSlot, // 限定储备位上的储备
-	HandPile, // 手牌
-	DrawPile, // 牌库
-	DiscardPile, // 弃牌区
-}
-
 // 工具卡牌的类型
 enum ETargetSlotAimType {
 	None,

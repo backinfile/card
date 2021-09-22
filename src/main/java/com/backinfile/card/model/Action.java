@@ -46,9 +46,6 @@ public abstract class Action implements IAction {
 	}
 
 	public void dispose() {
-		if (human != null) {
-			human.targetInfo.clear();
-		}
 	}
 
 	public void setTargetCard(Card targetCard) {

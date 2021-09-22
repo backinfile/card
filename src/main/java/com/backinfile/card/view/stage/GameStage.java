@@ -8,7 +8,6 @@ import com.backinfile.card.view.group.boardView.LocalBoardView;
 import com.backinfile.card.view.group.boardView.ShowCardView;
 import com.backinfile.card.view.viewActions.ViewAction;
 import com.backinfile.support.Log;
-import com.backinfile.support.Time2;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;

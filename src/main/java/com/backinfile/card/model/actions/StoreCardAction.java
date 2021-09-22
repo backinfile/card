@@ -1,11 +1,8 @@
 package com.backinfile.card.model.actions;
 
-import com.backinfile.card.gen.GameMessageHandler.ESlotType;
-import com.backinfile.card.gen.GameMessageHandler.ETargetType;
-import com.backinfile.card.manager.GameUtils;
 import com.backinfile.card.model.Card;
-import com.backinfile.card.model.CardSlot;
 import com.backinfile.card.model.Human;
+import com.backinfile.support.Log;
 
 public class StoreCardAction extends WaitAction {
 	private boolean fast;
@@ -28,62 +25,10 @@ public class StoreCardAction extends WaitAction {
 
 	@Override
 	public void init() {
-		if (human.getEmptySlots(false).isEmpty()) {
-			if (human.getStoreSlots(false, false).isEmpty()) {
-				setDone();
-				return;
-			}
-			mode = Mode.Replace;
-		} else {
-			mode = Mode.EmptySlot;
-		}
-
-		switch (mode) {
-		case EmptySlot: {
-			human.targetInfo.setTargetInfo(GameUtils.newTargetInfo(ETargetType.EmptySlot, 1, actionString.tip));
-			break;
-		}
-		case Replace: {
-			human.targetInfo.setTargetInfo(GameUtils.newTargetInfo(ETargetType.StoreInSlot, 1, actionString.tips[0]));
-			break;
-		}
-		default:
-			break;
-		}
+		Log.game.error("TODO");
 	}
 
 	@Override
 	public void pulse() {
-		if (isDone()) {
-			return;
-		}
-
-		switch (mode) {
-		case EmptySlot: {
-			if (human.targetInfo.isSelected()) {
-				board.removeCard(card);
-				CardSlot cardSlot = human.cardSlotMap.get(human.targetInfo.getSelectSlotIndex());
-				cardSlot.put(ESlotType.Store, card);
-				cardSlot.ready = fast;
-				setDone();
-				return;
-			}
-			break;
-		}
-		case Replace: {
-			if (human.targetInfo.isSelected()) {
-				board.removeCard(card);
-				Card selectedOne = human.targetInfo.getTargetSelectOne();
-				CardSlot cardSlot = human.getCardSlotByCard(selectedOne);
-				cardSlot.put(ESlotType.Store, card);
-				cardSlot.ready = fast;
-				addLast(new DiscardCardAction(human, selectedOne));
-				setDone();
-				return;
-			}
-			break;
-		}
-		}
-
 	}
 }

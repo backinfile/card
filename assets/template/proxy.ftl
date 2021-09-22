@@ -15,6 +15,10 @@ public class ${handlerClassName} extends DSyncBaseHandler {
 		listeners.add(listener);
 	}
 	
+	public void removeListener(DSyncListener listener) {
+		listeners.remove(listener);
+	}
+	
 	public static abstract class DSyncListener {
 <#list structs as struct>
 		public void onMessage(${struct.className} data) {

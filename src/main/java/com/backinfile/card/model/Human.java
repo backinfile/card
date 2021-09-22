@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.backinfile.card.gen.GameMessageHandler;
 import com.backinfile.card.gen.GameMessageHandler.DHumanInit;
 import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
 import com.backinfile.card.gen.GameMessageHandler.ESlotType;
@@ -15,6 +16,7 @@ import com.backinfile.card.model.Card.CardType;
 import com.backinfile.card.model.actions.DrawCardAction;
 import com.backinfile.card.model.actions.RestoreActionNumberAction;
 import com.backinfile.card.model.actions.SaveThreatenAction;
+import com.backinfile.card.server.humanOper.HumanOper;
 import com.backinfile.dSync.model.DSyncBaseHandler.DSyncBase;
 import com.backinfile.support.Log;
 
@@ -23,10 +25,17 @@ public class Human extends SkillCaster {
 	public String token;
 	public String playerName;
 
-	// 被赋值属性
+	// 外部属性
 	public Board board;
 
-	// 可变属性
+	// Human等待发送到客户端的消息队列
+	public LinkedList<DSyncBase> msgCacheQueue = new LinkedList<>();
+
+	// 玩家操作相关
+	public List<HumanOper> humanOpers = new ArrayList<>();
+	public GameMessageHandler humanOperMessageHandler = new GameMessageHandler();
+
+	// 游戏内相关
 	public CardPile heroPile = new CardPile(ECardPileType.HeroPile);
 	public CardPile handPile = new CardPile(ECardPileType.HandPile);
 	public CardPile markPile = new CardPile(ECardPileType.MarkPile);
@@ -37,12 +46,7 @@ public class Human extends SkillCaster {
 	public Map<Integer, CardSlot> cardSlotMap = new HashMap<>();
 	public int actionPoint = 0;
 
-	// 可被外部Server修改的属性
-	public TargetInfo targetInfo; // 当前正在进行的选择
-	public LinkedList<DSyncBase> msgCacheQueue = new LinkedList<>(); // 消息缓存
-
 	public void init(DHumanInit humanInit) {
-		this.targetInfo = new TargetInfo(this);
 		this.token = humanInit.getControllerToken();
 		this.playerName = humanInit.getPlayerName();
 		this.heroPile.add(CardManager.getCard(humanInit.getHeroCard(), token));
@@ -225,7 +229,7 @@ public class Human extends SkillCaster {
 	}
 
 	// 获取对手
-	public Human getOpponent() {
+	public final Human getOpponent() {
 		return board.getOpponent(this);
 	}
 
@@ -235,5 +239,22 @@ public class Human extends SkillCaster {
 
 	public final void addFirst(Action action) {
 		board.getActionQueue().addFirst(action);
+	}
+
+	public final void sendMessage(DSyncBase msg) {
+		msgCacheQueue.add(msg);
+	}
+
+	public final void addHumanOper(HumanOper humanOper) {
+		humanOper.human = this;
+		humanOperMessageHandler.addListener(humanOper);
+		humanOpers.add(humanOper);
+		humanOper.onAttach();
+	}
+
+	public final void removeHumanOper(HumanOper humanOper) {
+		humanOper.onDetach();
+		humanOperMessageHandler.removeListener(humanOper);
+		humanOpers.remove(humanOper);
 	}
 }

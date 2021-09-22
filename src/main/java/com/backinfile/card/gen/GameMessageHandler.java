@@ -15,6 +15,10 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		listeners.add(listener);
 	}
 	
+	public void removeListener(DSyncListener listener) {
+		listeners.remove(listener);
+	}
+	
 	public static abstract class DSyncListener {
 		public void onMessage(CSJoinRoom data) {
 		}
@@ -35,9 +39,6 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 		
 		public void onMessage(DPlayer data) {
-		}
-		
-		public void onMessage(DTargetInfo data) {
 		}
 		
 		public void onMessage(CSSelectConfirm data) {
@@ -136,11 +137,6 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		case DPlayer.TypeName:
 			for (var listener : listeners) {
 				listener.onMessage(DPlayer.parseJSONObject(jsonObject));
-			}
-			break;
-		case DTargetInfo.TypeName:
-			for (var listener : listeners) {
-				listener.onMessage(DTargetInfo.parseJSONObject(jsonObject));
 			}
 			break;
 		case CSSelectConfirm.TypeName:
@@ -257,8 +253,6 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			return new DClientPlayerInfo();
 		case DPlayer.TypeName:
 			return new DPlayer();
-		case DTargetInfo.TypeName:
-			return new DTargetInfo();
 		case CSSelectConfirm.TypeName:
 			return new CSSelectConfirm();
 		case DHumanInit.TypeName:
@@ -1105,291 +1099,6 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			_value.name = this.name;
 			_value.roomToken = this.roomToken;
 			_value.state = this.state;
-			return _value;
-		}
-	}
-	
-	/**
-	 * ----------------------------------------
-	 * 棋盘内交互信息
-	 * ----------------------------------------
-	 * 需求Player执行选择操作
-	 */
-	public static class DTargetInfo extends DSyncBase {
-		public static final String TypeName = "DTargetInfo";
-		
-		private ETargetType type;
-		/** 最少需求数量 */
-		private int minNumber;
-		/** 最大需求数量 -1表示任意数量 */
-		private int maxNumber;
-		/** 指定辅助牌类型 */
-		private ETargetSlotAimType slotAimType;
-		/** 提示语 */
-		private String tip;
-		/** 是否限定储备完成的牌 */
-		private boolean onlyReady;
-		/** 是否排除计划牌 */
-		private boolean exceptPlan;
-		/** 是否选对手的 */
-		private boolean opponent;
-		/** 是否排除手牌 */
-		private boolean exceptHand;
-		/** 严格限制张数，不足张数则不进行选择（默认为尽量达到需求即可） */
-		private boolean strict;
-
-		public static class K {
-			public static final String type = "type";
-			public static final String minNumber = "minNumber";
-			public static final String maxNumber = "maxNumber";
-			public static final String slotAimType = "slotAimType";
-			public static final String tip = "tip";
-			public static final String onlyReady = "onlyReady";
-			public static final String exceptPlan = "exceptPlan";
-			public static final String opponent = "opponent";
-			public static final String exceptHand = "exceptHand";
-			public static final String strict = "strict";
-		}
-
-		public DTargetInfo() {
-			init();
-		}
-
-		@Override
-		protected void init() {
-			type = ETargetType.None;
-			minNumber = 0;
-			maxNumber = 0;
-			slotAimType = ETargetSlotAimType.None;
-			tip = "";
-			onlyReady = false;
-			exceptPlan = false;
-			opponent = false;
-			exceptHand = false;
-			strict = false;
-		}
-		
-		public ETargetType getType() {
-			return type;
-		}
-		
-		public void setType(ETargetType type) {
-			this.type = type;
-		}
-		
-		/** 最少需求数量 */
-		public int getMinNumber() {
-			return minNumber;
-		}
-		
-		/** 最少需求数量 */
-		public void setMinNumber(int minNumber) {
-			this.minNumber = minNumber;
-		}
-		
-		/** 最大需求数量 -1表示任意数量 */
-		public int getMaxNumber() {
-			return maxNumber;
-		}
-		
-		/** 最大需求数量 -1表示任意数量 */
-		public void setMaxNumber(int maxNumber) {
-			this.maxNumber = maxNumber;
-		}
-		
-		/** 指定辅助牌类型 */
-		public ETargetSlotAimType getSlotAimType() {
-			return slotAimType;
-		}
-		
-		/** 指定辅助牌类型 */
-		public void setSlotAimType(ETargetSlotAimType slotAimType) {
-			this.slotAimType = slotAimType;
-		}
-		
-		/** 提示语 */
-		public String getTip() {
-			return tip;
-		}
-		
-		/** 提示语 */
-		public void setTip(String tip) {
-			this.tip = tip;
-		}
-		
-		/** 是否限定储备完成的牌 */
-		public boolean getOnlyReady() {
-			return onlyReady;
-		}
-		
-		/** 是否限定储备完成的牌 */
-		public void setOnlyReady(boolean onlyReady) {
-			this.onlyReady = onlyReady;
-		}
-		
-		/** 是否排除计划牌 */
-		public boolean getExceptPlan() {
-			return exceptPlan;
-		}
-		
-		/** 是否排除计划牌 */
-		public void setExceptPlan(boolean exceptPlan) {
-			this.exceptPlan = exceptPlan;
-		}
-		
-		/** 是否选对手的 */
-		public boolean getOpponent() {
-			return opponent;
-		}
-		
-		/** 是否选对手的 */
-		public void setOpponent(boolean opponent) {
-			this.opponent = opponent;
-		}
-		
-		/** 是否排除手牌 */
-		public boolean getExceptHand() {
-			return exceptHand;
-		}
-		
-		/** 是否排除手牌 */
-		public void setExceptHand(boolean exceptHand) {
-			this.exceptHand = exceptHand;
-		}
-		
-		/** 严格限制张数，不足张数则不进行选择（默认为尽量达到需求即可） */
-		public boolean getStrict() {
-			return strict;
-		}
-		
-		/** 严格限制张数，不足张数则不进行选择（默认为尽量达到需求即可） */
-		public void setStrict(boolean strict) {
-			this.strict = strict;
-		}
-		
-
-		static DTargetInfo parseJSONObject(JSONObject jsonObject) {
-			var _value = new DTargetInfo();
-			if (!jsonObject.isEmpty()) {
-				_value.applyRecord(jsonObject);
-			}
-			return _value;
-		}
-		
-		static List<DTargetInfo> parseJSONArray(JSONArray jsonArray) {
-			var list = new ArrayList<DTargetInfo>();
-			for (int i = 0; i < jsonArray.size(); i++) {
-				var _value = new DTargetInfo();
-				var jsonObject = jsonArray.getJSONObject(i);
-				if (!jsonObject.isEmpty()) {
-					_value.applyRecord(jsonObject);
-				}
-				list.add(_value);
-			}
-			return list;
-		}
-
-		@Override
-		protected void getRecord(JSONObject jsonObject) {
-			jsonObject.put(DSyncBase.K.TypeName, TypeName);
-			jsonObject.put(K.type, type.ordinal());
-			jsonObject.put(K.minNumber, minNumber);
-			jsonObject.put(K.maxNumber, maxNumber);
-			jsonObject.put(K.slotAimType, slotAimType.ordinal());
-			jsonObject.put(K.tip, tip);
-			jsonObject.put(K.onlyReady, onlyReady);
-			jsonObject.put(K.exceptPlan, exceptPlan);
-			jsonObject.put(K.opponent, opponent);
-			jsonObject.put(K.exceptHand, exceptHand);
-			jsonObject.put(K.strict, strict);
-		}
-
-		@Override
-		protected void applyRecord(JSONObject jsonObject) {
-			type = ETargetType.values()[(jsonObject.getIntValue(K.type))];
-			minNumber = jsonObject.getIntValue(K.minNumber);
-			maxNumber = jsonObject.getIntValue(K.maxNumber);
-			slotAimType = ETargetSlotAimType.values()[(jsonObject.getIntValue(K.slotAimType))];
-			tip = jsonObject.getString(K.tip);
-			onlyReady = jsonObject.getBooleanValue(K.onlyReady);
-			exceptPlan = jsonObject.getBooleanValue(K.exceptPlan);
-			opponent = jsonObject.getBooleanValue(K.opponent);
-			exceptHand = jsonObject.getBooleanValue(K.exceptHand);
-			strict = jsonObject.getBooleanValue(K.strict);
-		}
-		
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj) {
-				return true;
-			}
-			if (obj == null) {
-				return false;
-			}
-			if (!(obj instanceof DTargetInfo)) {
-				return false;
-			}
-			var _value = (DTargetInfo) obj;
-			if (!this.type.equals(_value.type)) {
-				return false;
-			}
-			if (this.minNumber != _value.minNumber) {
-				return false;
-			}
-			if (this.maxNumber != _value.maxNumber) {
-				return false;
-			}
-			if (!this.slotAimType.equals(_value.slotAimType)) {
-				return false;
-			}
-			if (!this.tip.equals(_value.tip)) {
-				return false;
-			}
-			if (this.onlyReady != _value.onlyReady) {
-				return false;
-			}
-			if (this.exceptPlan != _value.exceptPlan) {
-				return false;
-			}
-			if (this.opponent != _value.opponent) {
-				return false;
-			}
-			if (this.exceptHand != _value.exceptHand) {
-				return false;
-			}
-			if (this.strict != _value.strict) {
-				return false;
-			}
-			return true;
-		}
-		
-		public DTargetInfo copy() {
-			var _value = new DTargetInfo();
-			_value.type = this.type;
-			_value.minNumber = this.minNumber;
-			_value.maxNumber = this.maxNumber;
-			_value.slotAimType = this.slotAimType;
-			_value.tip = this.tip;
-			_value.onlyReady = this.onlyReady;
-			_value.exceptPlan = this.exceptPlan;
-			_value.opponent = this.opponent;
-			_value.exceptHand = this.exceptHand;
-			_value.strict = this.strict;
-			return _value;
-		}
-		
-		public DTargetInfo deepCopy() {
-			var _value = new DTargetInfo();
-			_value.type = this.type;
-			_value.minNumber = this.minNumber;
-			_value.maxNumber = this.maxNumber;
-			_value.slotAimType = this.slotAimType;
-			_value.tip = this.tip;
-			_value.onlyReady = this.onlyReady;
-			_value.exceptPlan = this.exceptPlan;
-			_value.opponent = this.opponent;
-			_value.exceptHand = this.exceptHand;
-			_value.strict = this.strict;
 			return _value;
 		}
 	}
@@ -3986,27 +3695,6 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		/** 威慑牌区 */
 		ThreatenPile,
 	}
-	/**
-	 * TargetInfo的类型
-	 */
-	public static enum ETargetType {
-		/** 只需确认 */
-		None,
-		/** 确认/取消 */
-		Confirm,
-		/** 空白储备位 */
-		EmptySlot,
-		/** 任意储备 */
-		Store,
-		/** 限定储备位上的储备 */
-		StoreInSlot,
-		/** 手牌 */
-		HandPile,
-		/** 牌库 */
-		DrawPile,
-		/** 弃牌区 */
-		DiscardPile,
-	}
 	public static enum ERoomStage {
 		Normal,
 		Battle,
@@ -4035,6 +3723,9 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		Skill,
 	}
 	/**
+	 * ----------------------------------------
+	 * 棋盘内交互信息
+	 * ----------------------------------------
 	 * 工具卡牌的类型
 	 */
 	public static enum ETargetSlotAimType {

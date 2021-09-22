@@ -1,14 +1,10 @@
 package com.backinfile.card.view.group.boardView;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import com.backinfile.card.manager.Res;
 import com.backinfile.card.model.LocalString;
 import com.backinfile.card.model.LocalString.LocalUIString;
-import com.backinfile.card.view.actor.ActionButton;
 import com.backinfile.card.view.group.BaseView;
 import com.backinfile.card.view.stage.GameStage;
 import com.badlogic.gdx.graphics.Color;
@@ -60,7 +56,7 @@ public class BoardUIView extends BaseView {
 		selfNameLabel.setText(name);
 		opponentNameLabel.setText(opponentName);
 	}
-	
+
 	public void setTipText(String tip) {
 		tipLabel.setText(tip);
 	}

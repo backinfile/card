@@ -13,6 +13,7 @@ import com.backinfile.card.model.Skill.SkillAura;
 import com.backinfile.card.model.Skill.SkillTrigger;
 import com.backinfile.card.model.actions.ChangeBoardStateAction;
 import com.backinfile.card.model.actions.DispatchAction;
+import com.backinfile.card.server.humanOper.InTurnActiveSkillOper;
 import com.backinfile.support.IAlive;
 import com.backinfile.support.Time2;
 import com.backinfile.support.Utils;
@@ -67,22 +68,57 @@ public class Board implements IAlive {
 		startPlayer = getHuman(startPlayerToken);
 	}
 
-	public void pulseLoop() {
-		while (!isWaitingHumanOper()) {
-			pulse();
-		}
-	}
-
+	/**
+	 * 先处理玩家操作，然后检查对局状态，然后逻辑更新 <br/>
+	 * 最后，如果处于回合中的空闲状态，请求玩家启动技能
+	 */
 	@Override
 	public void pulse() {
+		// 处理玩家操作
+		for (var human : humans) {
+			if (!human.humanOpers.isEmpty()) {
+				for (var humanOper : new ArrayList<>(human.humanOpers)) {
+					if (humanOper.isDone()) {
+						human.removeHumanOper(humanOper);
+					}
+				}
+			}
+		}
+
+		// 有操作尚未完成，不进行游戏逻辑更新
+		if (humans.stream().anyMatch(h -> !h.humanOpers.isEmpty())) {
+			return;
+		}
+
+		// 游戏还没开始
 		if (state == BoardState.None) {
 			return;
 		}
+		// 更新对局状态
 		if (state != lastState) {
 			onStateChangeTo(state);
 		}
 		lastState = state;
+
+		// 更新action
 		actionQueue.pulse();
+
+		// 回合中结算完成后，需要玩家主动出牌
+		if (state == BoardState.InTurn && actionQueue.isEmpty()) {
+			if (humans.stream().allMatch(h -> h.humanOpers.isEmpty())) {
+				curTurnHuman.addHumanOper(new InTurnActiveSkillOper());
+			}
+		}
+	}
+
+	/**
+	 * 处理玩家发过来的操作消息
+	 */
+	public final void onMessage(String token, String content) {
+		var human = getHuman(token);
+		if (human != null) {
+			human.humanOperMessageHandler.onMessage(content);
+		}
 	}
 
 	private void onStateChangeTo(BoardState state) {
@@ -141,31 +177,6 @@ public class Board implements IAlive {
 
 	public ActionQueue getActionQueue() {
 		return actionQueue;
-	}
-
-	// 等待玩家进行一项选择
-	public boolean isWaitingHumanSelectTarget() {
-		for (var human : humans) {
-			if (human.targetInfo.needSelect()) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	// 等待玩家操作
-	public boolean isWaitingHumanOper() {
-		// 有人在执行Action, 等待做出选择
-		for (var human : humans) {
-			if (human.targetInfo.needSelect()) {
-				return true;
-			}
-		}
-		// 回合中，等待执行行动
-		if (state == BoardState.InTurn && actionQueue.isEmpty()) {
-			return true;
-		}
-		return false;
 	}
 
 	public Human getHuman(String token) {
@@ -338,7 +349,7 @@ public class Board implements IAlive {
 
 	public void modifyBoardData() {
 		for (var human : humans) {
-			human.msgCacheQueue.add(getBoardData(human.token));
+			human.sendMessage(getBoardData(human.token));
 		}
 	}
 
@@ -361,7 +372,7 @@ public class Board implements IAlive {
 		DCardInfoList cardInfoList = new DCardInfoList();
 		cardInfoList.addAllCards(getAllCardInfo(cardPile));
 		for (var human : humans) {
-			human.msgCacheQueue.add(cardInfoList);
+			human.sendMessage(cardInfoList);
 		}
 	}
 }

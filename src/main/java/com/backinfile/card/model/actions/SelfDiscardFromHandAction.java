@@ -1,8 +1,7 @@
 package com.backinfile.card.model.actions;
 
-import com.backinfile.card.gen.GameMessageHandler.ETargetType;
-import com.backinfile.card.manager.GameUtils;
 import com.backinfile.card.model.Human;
+import com.backinfile.support.Log;
 
 public class SelfDiscardFromHandAction extends WaitAction {
 	private int number;
@@ -14,17 +13,10 @@ public class SelfDiscardFromHandAction extends WaitAction {
 
 	@Override
 	public void init() {
-		human.targetInfo.clear();
-		human.targetInfo.setTargetInfo(GameUtils.newTargetInfo(ETargetType.HandPile, number, actionString.tip));
+		Log.game.error("TODO");
 	}
 
 	@Override
 	public void pulse() {
-		if (!human.targetInfo.isSelected()) {
-			return;
-		}
-
-		addLast(new DiscardCardAction(human, human.targetInfo.getTargetSelected()));
-		setDone();
 	}
 }

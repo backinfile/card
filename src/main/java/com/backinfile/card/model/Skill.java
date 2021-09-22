@@ -16,7 +16,6 @@ public abstract class Skill {
 	public Card card;
 
 	// 触发时效控制
-	public TargetInfo targetInfo = new TargetInfo(null); // 触发条件
 	public SkillDuration duration = SkillDuration.Combat; // 失效方式
 	public SkillTrigger trigger = SkillTrigger.Passive; // 触发方式
 	public SkillAura aura = SkillAura.Slot; // 可触发区域
@@ -60,7 +59,6 @@ public abstract class Skill {
 		this.board = board;
 		this.human = human;
 		this.card = card;
-		targetInfo.human = human;
 	}
 
 	public void setTriggerType(SkillDuration duration, SkillTrigger trigger, SkillAura aura, int cost, int limit) {
@@ -73,11 +71,6 @@ public abstract class Skill {
 
 	public void setTriggerType(SkillDuration duration, SkillTrigger trigger, SkillAura aura, int cost) {
 		setTriggerType(duration, trigger, aura, cost, -1);
-	}
-
-	// 检查是否可以启用
-	public boolean isTargetFit() {
-		return targetInfo.test();
 	}
 
 	public void apply() {

@@ -10,8 +10,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
-import com.backinfile.support.Log;
-import com.backinfile.support.SysException;
 import com.backinfile.support.Tuple2;
 import com.backinfile.support.Utils;
 
@@ -99,6 +97,15 @@ public class CardPile implements Iterable<Card> {
 		return cards.get(index);
 	}
 
+	public Card getCard(long id) {
+		for (var card : cards) {
+			if (card.id == id) {
+				return card;
+			}
+		}
+		return null;
+	}
+
 	public CardPile getTop(int n) {
 		CardPile cardPile = new CardPile();
 		for (int i = 0; i < n; i++) {
@@ -117,6 +124,20 @@ public class CardPile implements Iterable<Card> {
 			cardPile.add(this.get(i));
 		}
 		return cardPile;
+	}
+
+	public CardPile pollRandom(int n) {
+		CardPile polls = new CardPile();
+		for (int i = 0; i < n; i++) {
+			if (isEmpty()) {
+				break;
+			}
+			var card = get(Utils.nextInt(size()));
+			remove(card);
+			polls.add(card);
+		}
+		return polls;
+
 	}
 
 	public boolean isEmpty() {
