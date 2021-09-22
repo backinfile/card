@@ -92,7 +92,7 @@ public class TargetInfo {
 	}
 
 	// 分步进行卡牌选择
-	public static class SelectCardStepInfo {
+	public class SelectCardStepInfo {
 		public CardPile cardPile = new CardPile(); // 为空表示选择完成
 		public boolean optional = false; // 可结束选择了
 
@@ -100,6 +100,7 @@ public class TargetInfo {
 			SCSelectCards msg = new SCSelectCards();
 			msg.addAllCardIds(cardPile.getCardIdList());
 			msg.setCancel(optional);
+			msg.setTip(targetInfo.getTip());
 			return msg;
 		}
 
@@ -115,6 +116,22 @@ public class TargetInfo {
 	public void setSelect(CardPile selected) {
 		targetSelect = new DTargetSelect();
 		targetSelect.addAllSelectedCard(selected.getCardIdList());
+	}
+
+	/**
+	 * 设置所选的储备位，表示这个选择已经完成
+	 */
+	public void setSelect(List<Integer> indexList) {
+		targetSelect = new DTargetSelect();
+		targetSelect.addAllSlotIndex(indexList);
+	}
+
+	/**
+	 * 设置所选的储备位，表示这个选择已经完成
+	 */
+	public void setSelect(boolean confirm) {
+		targetSelect = new DTargetSelect();
+		targetSelect.setConfirm(confirm);
 	}
 
 	// 分步进行卡牌选择

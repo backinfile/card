@@ -40,6 +40,9 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		public void onMessage(DTargetInfo data) {
 		}
 		
+		public void onMessage(CSSelectConfirm data) {
+		}
+		
 		public void onMessage(DHumanInit data) {
 		}
 		
@@ -47,6 +50,9 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 		
 		public void onMessage(CSCreateRoom data) {
+		}
+		
+		public void onMessage(SCSelectEmptySlot data) {
 		}
 		
 		public void onMessage(DRoom data) {
@@ -70,6 +76,9 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		public void onMessage(DServer data) {
 		}
 		
+		public void onMessage(SCSelectConfirm data) {
+		}
+		
 		public void onMessage(CSSelectSkillToActive data) {
 		}
 		
@@ -77,6 +86,9 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 		
 		public void onMessage(SCSelectCards data) {
+		}
+		
+		public void onMessage(CSSelectEmptySlot data) {
 		}
 		
 		public void onMessage(DCardPileInfo data) {
@@ -131,6 +143,11 @@ public class GameMessageHandler extends DSyncBaseHandler {
 				listener.onMessage(DTargetInfo.parseJSONObject(jsonObject));
 			}
 			break;
+		case CSSelectConfirm.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(CSSelectConfirm.parseJSONObject(jsonObject));
+			}
+			break;
 		case DHumanInit.TypeName:
 			for (var listener : listeners) {
 				listener.onMessage(DHumanInit.parseJSONObject(jsonObject));
@@ -144,6 +161,11 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		case CSCreateRoom.TypeName:
 			for (var listener : listeners) {
 				listener.onMessage(CSCreateRoom.parseJSONObject(jsonObject));
+			}
+			break;
+		case SCSelectEmptySlot.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(SCSelectEmptySlot.parseJSONObject(jsonObject));
 			}
 			break;
 		case DRoom.TypeName:
@@ -181,6 +203,11 @@ public class GameMessageHandler extends DSyncBaseHandler {
 				listener.onMessage(DServer.parseJSONObject(jsonObject));
 			}
 			break;
+		case SCSelectConfirm.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(SCSelectConfirm.parseJSONObject(jsonObject));
+			}
+			break;
 		case CSSelectSkillToActive.TypeName:
 			for (var listener : listeners) {
 				listener.onMessage(CSSelectSkillToActive.parseJSONObject(jsonObject));
@@ -194,6 +221,11 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		case SCSelectCards.TypeName:
 			for (var listener : listeners) {
 				listener.onMessage(SCSelectCards.parseJSONObject(jsonObject));
+			}
+			break;
+		case CSSelectEmptySlot.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(CSSelectEmptySlot.parseJSONObject(jsonObject));
 			}
 			break;
 		case DCardPileInfo.TypeName:
@@ -227,12 +259,16 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			return new DPlayer();
 		case DTargetInfo.TypeName:
 			return new DTargetInfo();
+		case CSSelectConfirm.TypeName:
+			return new CSSelectConfirm();
 		case DHumanInit.TypeName:
 			return new DHumanInit();
 		case DCardInfoList.TypeName:
 			return new DCardInfoList();
 		case CSCreateRoom.TypeName:
 			return new CSCreateRoom();
+		case SCSelectEmptySlot.TypeName:
+			return new SCSelectEmptySlot();
 		case DRoom.TypeName:
 			return new DRoom();
 		case DTargetSelect.TypeName:
@@ -247,12 +283,16 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			return new DSkillInfo();
 		case DServer.TypeName:
 			return new DServer();
+		case SCSelectConfirm.TypeName:
+			return new SCSelectConfirm();
 		case CSSelectSkillToActive.TypeName:
 			return new CSSelectSkillToActive();
 		case DStartPileDataPair.TypeName:
 			return new DStartPileDataPair();
 		case SCSelectCards.TypeName:
 			return new SCSelectCards();
+		case CSSelectEmptySlot.TypeName:
+			return new CSSelectEmptySlot();
 		case DCardPileInfo.TypeName:
 			return new DCardPileInfo();
 		case SCSelectSkillToActive.TypeName:
@@ -1354,6 +1394,99 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 	}
 	
+	public static class CSSelectConfirm extends DSyncBase {
+		public static final String TypeName = "CSSelectConfirm";
+		
+		/** 确认 */
+		private boolean confirm;
+
+		public static class K {
+			public static final String confirm = "confirm";
+		}
+
+		public CSSelectConfirm() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			confirm = false;
+		}
+		
+		/** 确认 */
+		public boolean getConfirm() {
+			return confirm;
+		}
+		
+		/** 确认 */
+		public void setConfirm(boolean confirm) {
+			this.confirm = confirm;
+		}
+		
+
+		static CSSelectConfirm parseJSONObject(JSONObject jsonObject) {
+			var _value = new CSSelectConfirm();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<CSSelectConfirm> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<CSSelectConfirm>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new CSSelectConfirm();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.confirm, confirm);
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+			confirm = jsonObject.getBooleanValue(K.confirm);
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof CSSelectConfirm)) {
+				return false;
+			}
+			var _value = (CSSelectConfirm) obj;
+			if (this.confirm != _value.confirm) {
+				return false;
+			}
+			return true;
+		}
+		
+		public CSSelectConfirm copy() {
+			var _value = new CSSelectConfirm();
+			_value.confirm = this.confirm;
+			return _value;
+		}
+		
+		public CSSelectConfirm deepCopy() {
+			var _value = new CSSelectConfirm();
+			_value.confirm = this.confirm;
+			return _value;
+		}
+	}
+	
 	public static class DHumanInit extends DSyncBase {
 		public static final String TypeName = "DHumanInit";
 		
@@ -1712,6 +1845,152 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		
 		public CSCreateRoom deepCopy() {
 			var _value = new CSCreateRoom();
+			return _value;
+		}
+	}
+	
+	/**
+	 * 通知客户端选择一处空储备位
+	 */
+	public static class SCSelectEmptySlot extends DSyncBase {
+		public static final String TypeName = "SCSelectEmptySlot";
+		
+		private ETargetSlotAimType aimType;
+		private List<Integer> selectFrom;
+		private String tip;
+
+		public static class K {
+			public static final String aimType = "aimType";
+			public static final String selectFrom = "selectFrom";
+			public static final String tip = "tip";
+		}
+
+		public SCSelectEmptySlot() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			aimType = ETargetSlotAimType.None;
+			selectFrom = new ArrayList<>();
+			tip = "";
+		}
+		
+		public ETargetSlotAimType getAimType() {
+			return aimType;
+		}
+		
+		public void setAimType(ETargetSlotAimType aimType) {
+			this.aimType = aimType;
+		}
+		
+		public int getSelectFromCount() {
+			return this.selectFrom.size();
+		}
+		
+		public List<Integer> getSelectFromList() {
+			return new ArrayList<>(selectFrom);
+		}
+		
+		public void setSelectFromList(List<Integer> _value) {
+			this.selectFrom.clear();
+			this.selectFrom.addAll(_value);
+		}
+
+		public void addSelectFrom(int _value) {
+			this.selectFrom.add(_value);
+		}
+		
+		public void addAllSelectFrom(List<Integer> _value) {
+			this.selectFrom.addAll(_value);
+		}
+		
+		public void clearSelectFrom() {
+			this.selectFrom.clear();
+		}
+		
+		public String getTip() {
+			return tip;
+		}
+		
+		public void setTip(String tip) {
+			this.tip = tip;
+		}
+		
+
+		static SCSelectEmptySlot parseJSONObject(JSONObject jsonObject) {
+			var _value = new SCSelectEmptySlot();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<SCSelectEmptySlot> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<SCSelectEmptySlot>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new SCSelectEmptySlot();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.aimType, aimType.ordinal());
+			jsonObject.put(K.selectFrom, JSONObject.toJSONString(selectFrom));
+			jsonObject.put(K.tip, tip);
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+			aimType = ETargetSlotAimType.values()[(jsonObject.getIntValue(K.aimType))];
+			selectFrom = JSONObject.parseArray(jsonObject.getString(K.selectFrom), Integer.class);
+			tip = jsonObject.getString(K.tip);
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof SCSelectEmptySlot)) {
+				return false;
+			}
+			var _value = (SCSelectEmptySlot) obj;
+			if (!this.aimType.equals(_value.aimType)) {
+				return false;
+			}
+			if (!this.selectFrom.equals(_value.selectFrom)) {
+				return false;
+			}
+			if (!this.tip.equals(_value.tip)) {
+				return false;
+			}
+			return true;
+		}
+		
+		public SCSelectEmptySlot copy() {
+			var _value = new SCSelectEmptySlot();
+			_value.aimType = this.aimType;
+			_value.selectFrom = new ArrayList<>(this.selectFrom);
+			_value.tip = this.tip;
+			return _value;
+		}
+		
+		public SCSelectEmptySlot deepCopy() {
+			var _value = new SCSelectEmptySlot();
+			_value.aimType = this.aimType;
+			_value.selectFrom = new ArrayList<>(this.selectFrom);
+			_value.tip = this.tip;
 			return _value;
 		}
 	}
@@ -2779,6 +3058,120 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 	}
 	
+	/**
+	 * 通知客户端进行确认
+	 */
+	public static class SCSelectConfirm extends DSyncBase {
+		public static final String TypeName = "SCSelectConfirm";
+		
+		/** 是否可以取消 */
+		private boolean optional;
+		private String tip;
+
+		public static class K {
+			public static final String optional = "optional";
+			public static final String tip = "tip";
+		}
+
+		public SCSelectConfirm() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			optional = false;
+			tip = "";
+		}
+		
+		/** 是否可以取消 */
+		public boolean getOptional() {
+			return optional;
+		}
+		
+		/** 是否可以取消 */
+		public void setOptional(boolean optional) {
+			this.optional = optional;
+		}
+		
+		public String getTip() {
+			return tip;
+		}
+		
+		public void setTip(String tip) {
+			this.tip = tip;
+		}
+		
+
+		static SCSelectConfirm parseJSONObject(JSONObject jsonObject) {
+			var _value = new SCSelectConfirm();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<SCSelectConfirm> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<SCSelectConfirm>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new SCSelectConfirm();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.optional, optional);
+			jsonObject.put(K.tip, tip);
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+			optional = jsonObject.getBooleanValue(K.optional);
+			tip = jsonObject.getString(K.tip);
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof SCSelectConfirm)) {
+				return false;
+			}
+			var _value = (SCSelectConfirm) obj;
+			if (this.optional != _value.optional) {
+				return false;
+			}
+			if (!this.tip.equals(_value.tip)) {
+				return false;
+			}
+			return true;
+		}
+		
+		public SCSelectConfirm copy() {
+			var _value = new SCSelectConfirm();
+			_value.optional = this.optional;
+			_value.tip = this.tip;
+			return _value;
+		}
+		
+		public SCSelectConfirm deepCopy() {
+			var _value = new SCSelectConfirm();
+			_value.optional = this.optional;
+			_value.tip = this.tip;
+			return _value;
+		}
+	}
+	
 	public static class CSSelectSkillToActive extends DSyncBase {
 		public static final String TypeName = "CSSelectSkillToActive";
 		
@@ -2986,10 +3379,12 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		private List<Long> cardIds;
 		/** 可以取消 */
 		private boolean cancel;
+		private String tip;
 
 		public static class K {
 			public static final String cardIds = "cardIds";
 			public static final String cancel = "cancel";
+			public static final String tip = "tip";
 		}
 
 		public SCSelectCards() {
@@ -3000,6 +3395,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		protected void init() {
 			cardIds = new ArrayList<>();
 			cancel = false;
+			tip = "";
 		}
 		
 		public int getCardIdsCount() {
@@ -3037,6 +3433,14 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			this.cancel = cancel;
 		}
 		
+		public String getTip() {
+			return tip;
+		}
+		
+		public void setTip(String tip) {
+			this.tip = tip;
+		}
+		
 
 		static SCSelectCards parseJSONObject(JSONObject jsonObject) {
 			var _value = new SCSelectCards();
@@ -3064,12 +3468,14 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.cardIds, JSONObject.toJSONString(cardIds));
 			jsonObject.put(K.cancel, cancel);
+			jsonObject.put(K.tip, tip);
 		}
 
 		@Override
 		protected void applyRecord(JSONObject jsonObject) {
 			cardIds = JSONObject.parseArray(jsonObject.getString(K.cardIds), Long.class);
 			cancel = jsonObject.getBooleanValue(K.cancel);
+			tip = jsonObject.getString(K.tip);
 		}
 		
 		@Override
@@ -3090,6 +3496,9 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			if (this.cancel != _value.cancel) {
 				return false;
 			}
+			if (!this.tip.equals(_value.tip)) {
+				return false;
+			}
 			return true;
 		}
 		
@@ -3097,6 +3506,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			var _value = new SCSelectCards();
 			_value.cardIds = new ArrayList<>(this.cardIds);
 			_value.cancel = this.cancel;
+			_value.tip = this.tip;
 			return _value;
 		}
 		
@@ -3104,6 +3514,97 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			var _value = new SCSelectCards();
 			_value.cardIds = new ArrayList<>(this.cardIds);
 			_value.cancel = this.cancel;
+			_value.tip = this.tip;
+			return _value;
+		}
+	}
+	
+	public static class CSSelectEmptySlot extends DSyncBase {
+		public static final String TypeName = "CSSelectEmptySlot";
+		
+		private int selected;
+
+		public static class K {
+			public static final String selected = "selected";
+		}
+
+		public CSSelectEmptySlot() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			selected = 0;
+		}
+		
+		public int getSelected() {
+			return selected;
+		}
+		
+		public void setSelected(int selected) {
+			this.selected = selected;
+		}
+		
+
+		static CSSelectEmptySlot parseJSONObject(JSONObject jsonObject) {
+			var _value = new CSSelectEmptySlot();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<CSSelectEmptySlot> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<CSSelectEmptySlot>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new CSSelectEmptySlot();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.selected, selected);
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+			selected = jsonObject.getIntValue(K.selected);
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof CSSelectEmptySlot)) {
+				return false;
+			}
+			var _value = (CSSelectEmptySlot) obj;
+			if (this.selected != _value.selected) {
+				return false;
+			}
+			return true;
+		}
+		
+		public CSSelectEmptySlot copy() {
+			var _value = new CSSelectEmptySlot();
+			_value.selected = this.selected;
+			return _value;
+		}
+		
+		public CSSelectEmptySlot deepCopy() {
+			var _value = new CSSelectEmptySlot();
+			_value.selected = this.selected;
 			return _value;
 		}
 	}
@@ -3337,9 +3838,11 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		public static final String TypeName = "SCSelectSkillToActive";
 		
 		private List<DSkillInfo> skillInfos;
+		private String tip;
 
 		public static class K {
 			public static final String skillInfos = "skillInfos";
+			public static final String tip = "tip";
 		}
 
 		public SCSelectSkillToActive() {
@@ -3349,6 +3852,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		@Override
 		protected void init() {
 			skillInfos = new ArrayList<>();
+			tip = "";
 		}
 		
 		public int getSkillInfosCount() {
@@ -3374,6 +3878,14 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		
 		public void clearSkillInfos() {
 			this.skillInfos.clear();
+		}
+		
+		public String getTip() {
+			return tip;
+		}
+		
+		public void setTip(String tip) {
+			this.tip = tip;
 		}
 		
 
@@ -3402,11 +3914,13 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		protected void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.skillInfos, getJSONArray(skillInfos));
+			jsonObject.put(K.tip, tip);
 		}
 
 		@Override
 		protected void applyRecord(JSONObject jsonObject) {
 			skillInfos = DSkillInfo.parseJSONArray(jsonObject.getJSONArray(K.skillInfos));
+			tip = jsonObject.getString(K.tip);
 		}
 		
 		@Override
@@ -3424,12 +3938,16 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			if (!this.skillInfos.equals(_value.skillInfos)) {
 				return false;
 			}
+			if (!this.tip.equals(_value.tip)) {
+				return false;
+			}
 			return true;
 		}
 		
 		public SCSelectSkillToActive copy() {
 			var _value = new SCSelectSkillToActive();
 			_value.skillInfos = new ArrayList<>(this.skillInfos);
+			_value.tip = this.tip;
 			return _value;
 		}
 		
@@ -3443,6 +3961,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 					_value.skillInfos.add(null);
 				}
 			}
+			_value.tip = this.tip;
 			return _value;
 		}
 	}

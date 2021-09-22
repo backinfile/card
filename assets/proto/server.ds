@@ -163,8 +163,8 @@ struct DSkillInfo {
 struct SCSelectCards {
 	long[] cardIds;
 	bool cancel; // 可以取消
+	String tip;
 }
-
 // 客户端选择一张卡牌
 struct CSSelectCard {
 	long cardId; // 0表示取消 >0表示选择的卡
@@ -173,9 +173,29 @@ struct CSSelectCard {
 // 通知客户端选择一项技能触发
 struct SCSelectSkillToActive {
 	DSkillInfo[] skillInfos;
+	String tip;
 }
 struct CSSelectSkillToActive {
 	long skillId;
+}
+
+// 通知客户端选择一处空储备位
+struct SCSelectEmptySlot {
+	ETargetSlotAimType aimType;
+	int[] selectFrom;
+	String tip;
+}
+struct CSSelectEmptySlot {
+	int selected;
+}
+
+// 通知客户端进行确认
+struct SCSelectConfirm {
+	bool optional; // 是否可以取消
+	String tip;
+}
+struct CSSelectConfirm {
+	bool confirm; // 确认
 }
 
 //----------------------------------------

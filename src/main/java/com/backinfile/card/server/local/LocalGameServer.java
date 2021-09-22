@@ -1,11 +1,13 @@
 package com.backinfile.card.server.local;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.backinfile.card.gen.GameMessageHandler;
 import com.backinfile.card.gen.GameMessageHandler.DBoardInit;
+import com.backinfile.card.gen.GameMessageHandler.SCSelectEmptySlot;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectSkillToActive;
 import com.backinfile.card.manager.LocalData;
 import com.backinfile.card.model.Board;
@@ -130,13 +132,27 @@ public class LocalGameServer extends Terminal<MessageWarpper, MessageWarpper> im
 			waitingHumanOperList.add(humanOperCache);
 			return;
 		}
-		waitingHumanOperList.add(humanOperCache);
 		switch (targetInfo.targetInfo.getType()) {
 		case None:
 		case Confirm:
 			break;
-		case EmptySlot:
+		case EmptySlot: {
+			var targetHuman = targetInfo.targetInfo.getOpponent() ? human.getOpponent() : human;
+			var emptySlots = targetHuman.getEmptySlots(targetInfo.targetInfo.getExceptPlan());
+			if (emptySlots.isEmpty()) { // 找不到合理的位置，直接强制完成
+				Log.game.warn("找不到合理的空储备位，直接强制完成");
+				targetInfo.setSelect(new ArrayList<Integer>());
+				return;
+			}
+			var emptySlotIndexs = emptySlots.stream().map(s -> s.index).collect(Collectors.toList());
+			SCSelectEmptySlot msg = new SCSelectEmptySlot();
+			msg.setAimType(targetInfo.targetInfo.getSlotAimType());
+			msg.setTip(targetInfo.targetInfo.getTip());
+			msg.setSelectFromList(emptySlotIndexs);
+			sendMessage(human, msg);
+			waitingHumanOperList.add(humanOperCache);
 			break;
+		}
 		default:
 			break;
 		}
@@ -228,7 +244,7 @@ public class LocalGameServer extends Terminal<MessageWarpper, MessageWarpper> im
 		}
 	}
 
-	private void sendMessage(Human human, DSyncBase msg) {
+	public void sendMessage(Human human, DSyncBase msg) {
 		outputMsg(MessageWarpper.pack(human, msg));
 	}
 }

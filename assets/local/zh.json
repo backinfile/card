@@ -1,6 +1,20 @@
 {
 	cards: [
 		{
+			"sn":"slotoccupycard",
+			"name":"侵占",
+			"frontImages": [{
+				"path":"image/card/tools/occupy.png"
+			}]
+		},
+		{
+			"sn":"slotstorecard",
+			"name":"储备",
+			"frontImages": [{
+				"path":"image/card/tools/store.png"
+			}]
+		},
+		{
 			"sn":"attack",
 			"name":"强攻",
 			"frontImages": [{

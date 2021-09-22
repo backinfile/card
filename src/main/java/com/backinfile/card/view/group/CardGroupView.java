@@ -145,7 +145,7 @@ public class CardGroupView extends BaseView {
 		return false;
 	}
 
-	private CardViewState getCardViewState(CardInfo cardInfo) {
+	public CardViewState getCardViewState(CardInfo cardInfo) {
 		var pileType = cardInfo.info.getPileInfo().getPileType();
 		var pilePosition = cardInfo.getPilePosition();
 		CardViewState cardViewState = new CardViewState();
@@ -191,22 +191,83 @@ public class CardGroupView extends BaseView {
 			break;
 		}
 		case MarkPile:
-			// 0.365,0.1125
-			// 0.593,0.8450001
-			// 
+			if (pilePosition == PilePosition.Self) {
+				cardViewState.position.set(getWidth() * 0.365f, getHeight() * 0.1125f);
+			} else {
+				cardViewState.position.set(getWidth() * 0.593f, getHeight() * 0.845f);
+			}
+			cardViewState.flipOver = true;
 			break;
 		case SlotPile:
-			// 0.215,0.37250003
-			// 0.347,0.37875
-			// 0.478,0.38250005
-			// 0.61,0.3775
-			// 0.746,0.37125003
-			
-			// 0.743,0.58500004
-			// 0.611,0.58125
-			// 0.476,0.57500005
-			// 0.346,0.57875
-			// 0.21299997,0.58250004
+			int index = cardInfo.pileInfo.getPileIndex();
+			if (pilePosition == PilePosition.Self) {
+				switch (index) {
+				case 1:
+					cardViewState.position.set(getWidth() * 0.215f, getHeight() * 0.3725f);
+					break;
+				case 2:
+					cardViewState.position.set(getWidth() * 0.347f, getHeight() * 0.37875f);
+					break;
+				case 3:
+					cardViewState.position.set(getWidth() * 0.478f, getHeight() * 0.3825f);
+					break;
+				case 4:
+					cardViewState.position.set(getWidth() * 0.61f, getHeight() * 0.3775f);
+					break;
+				case 5:
+					cardViewState.position.set(getWidth() * 0.746f, getHeight() * 0.371f);
+					break;
+				default:
+					Log.game.error("unknown pile index for slotPile:{}", index);
+				}
+			} else {
+				switch (index) {
+				case 1:
+					cardViewState.position.set(getWidth() * 0.743f, getHeight() * 0.585f);
+					break;
+				case 2:
+					cardViewState.position.set(getWidth() * 0.611f, getHeight() * 0.581f);
+					break;
+				case 3:
+					cardViewState.position.set(getWidth() * 0.476f, getHeight() * 0.575f);
+					break;
+				case 4:
+					cardViewState.position.set(getWidth() * 0.346f, getHeight() * 0.578f);
+					break;
+				case 5:
+					cardViewState.position.set(getWidth() * 0.2129f, getHeight() * 0.5825f);
+					break;
+				default:
+					Log.game.error("unknown pile index for slotPile:{}", index);
+				}
+			}
+			switch (cardInfo.pileInfo.getSlotType()) {
+			case Store:
+				cardViewState.rotated = !cardInfo.pileInfo.getReady();
+				cardViewState.zIndex = 1;
+				break;
+			case Seal:
+				cardViewState.flipOver = true;
+				cardViewState.zIndex = 1;
+				break;
+			case Plan:
+				cardViewState.flipOver = true;
+				cardViewState.zIndex = 1;
+				break;
+			case Ride: // 在储备牌之下
+				cardViewState.rotated = true;
+				cardViewState.zIndex = 0;
+				break;
+			case Harass: // 在封印之上
+				cardViewState.rotated = true;
+				cardViewState.zIndex = 2;
+				break;
+			case Charge: // 在储备之上
+				cardViewState.zIndex = 3;
+				break;
+			default:
+				break;
+			}
 			break;
 		default:
 			break;

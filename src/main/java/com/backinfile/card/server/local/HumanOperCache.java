@@ -9,7 +9,7 @@ import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.TargetInfo;
 
 // 玩家操作暂存
-class HumanOperCache {
+public class HumanOperCache {
 	public HumanOperType type;
 
 	public Human human;
@@ -33,4 +33,5 @@ class HumanOperCache {
 	public enum HumanOperType {
 		Target, Skill,
 	}
+
 }
