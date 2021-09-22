@@ -250,11 +250,13 @@ public class Human extends SkillCaster {
 		humanOperMessageHandler.addListener(humanOper);
 		humanOpers.add(humanOper);
 		humanOper.onAttach();
+		Log.game.info("{} onAttach for {}", humanOper.getClass().getSimpleName(), token);
 	}
 
 	public final void removeHumanOper(HumanOper humanOper) {
 		humanOper.onDetach();
 		humanOperMessageHandler.removeListener(humanOper);
 		humanOpers.remove(humanOper);
+		Log.game.info("{} onDetach for {}", humanOper.getClass().getSimpleName(), token);
 	}
 }

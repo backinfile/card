@@ -157,6 +157,7 @@ struct CSSelectSkillToActive {
 struct SCSelectEmptySlot {
 	ETargetSlotAimType aimType;
 	int[] selectFrom;
+	bool opponent;
 	String tip;
 }
 struct CSSelectEmptySlot {

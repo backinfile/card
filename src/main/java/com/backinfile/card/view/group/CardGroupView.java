@@ -1,5 +1,6 @@
 package com.backinfile.card.view.group;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -19,9 +20,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 // 管理所有卡牌
 public class CardGroupView extends BaseView {
-	private ObjectPool<CardView> cardActorPool;
+	public ObjectPool<CardView> cardActorPool;
 	private HashMap<Long, CardView> cardViews = new HashMap<>(); // 正在显示的牌
 	private HashMap<Long, CardInfo> cardInfoCacheMap = new HashMap<>();
+
+	private List<CardView> helpCardViews = new ArrayList<>();
 
 	public CardGroupView(GameStage gameStage, float width, float height) {
 		super(gameStage, width, height);
@@ -41,9 +44,6 @@ public class CardGroupView extends BaseView {
 				cardView.addListener(new ClickListener(Buttons.LEFT) {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
-						if (cardView.isFlipOver()) {
-							return;
-						}
 						cardView.invokeLeftClickCallback();
 					}
 				});
@@ -143,6 +143,10 @@ public class CardGroupView extends BaseView {
 			break;
 		}
 		return false;
+	}
+
+	public void setHelpCard() {
+
 	}
 
 	public CardViewState getCardViewState(CardInfo cardInfo) {

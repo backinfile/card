@@ -34,23 +34,23 @@ public class SelectCardOper extends HumanOper {
 	@Override
 	public void onAIAttach() {
 		selectedPile.addAll(targetCardPile.pollRandom(maxNumber));
-		isDone = true;
+		setDone();
 	}
 
 	private void checkSelectOver() {
-		if (isDone) {
+		if (isDone()) {
 			return;
 		}
 		// 选择数目足够，结束
 		if (selectedPile.size() >= maxNumber) {
-			isDone = true;
+			setDone();
 			return;
 		}
 		// 计算需要进行选择的牌
 		var toSelect = new CardPile(targetCardPile);
 		toSelect.removeAll(selectedPile);
 		if (toSelect.isEmpty()) { // 没有可选的了，结束
-			isDone = true;
+			setDone();
 			return;
 		}
 
@@ -67,7 +67,7 @@ public class SelectCardOper extends HumanOper {
 		long cardId = data.getCardId();
 		if (cardId <= 0 && selectedPile.size() >= minNumber) {
 			// 取消选择
-			isDone = true;
+			setDone();
 		} else if (targetCardPile.contains(cardId)) {
 			var card = targetCardPile.getCard(cardId);
 			selectedPile.add(card);

@@ -1,6 +1,7 @@
 package com.backinfile.card.model.skills;
 
 import com.backinfile.card.model.Skill;
+import com.backinfile.card.model.actions.ArrangePileAction;
 import com.backinfile.card.model.actions.StoreCardAction;
 
 // 储备牌 储备本身的技能
@@ -13,5 +14,6 @@ public class StoreSelfSkill extends Skill {
 	@Override
 	public void apply() {
 		addLast(new StoreCardAction(human, card));
+		addLast(new ArrangePileAction());
 	}
 }

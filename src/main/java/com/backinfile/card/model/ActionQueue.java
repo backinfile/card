@@ -43,17 +43,21 @@ public class ActionQueue implements IAlive {
 			curAction.board = board;
 			// 初始化
 			curAction.init();
+			Log.game.info("action {} init", curAction.getClass().getSimpleName());
+
+			// 完成后回收资源
+			if (curAction.isDone()) {
+				curAction.dispose();
+				curAction = null;
+				return;
+			}
 		}
+
 		// 心跳
-		try {
-			curAction.pulse();
-			Log.game.info("action {} pulse", curAction.getClass().getSimpleName());
-		} catch (Exception e) {
-			Log.game.error("error in action.pulse()", e);
-		}
+		curAction.pulse();
+
 		// 检查是否完成
 		if (curAction.isDone()) {
-			// 完成后回收资源
 			curAction.dispose();
 			curAction = null;
 		}

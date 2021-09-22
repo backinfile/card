@@ -9,7 +9,7 @@ import com.backinfile.support.func.Action0;
 public abstract class HumanOper extends GameMessageHandler.DSyncListener {
 	public Human human;
 	private Action0 callback;
-	protected boolean isDone = false;
+	private boolean isDone = false;
 
 	public void onAttach() {
 		if (GameUtils.isAI(human)) {
@@ -36,6 +36,10 @@ public abstract class HumanOper extends GameMessageHandler.DSyncListener {
 		if (callback != null) {
 			callback.invoke();
 		}
+	}
+
+	public void setDone() {
+		this.isDone = true;
 	}
 
 	/**

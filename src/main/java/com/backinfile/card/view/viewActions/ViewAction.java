@@ -15,7 +15,6 @@ public abstract class ViewAction implements IAction {
 	}
 
 	public void begin() {
-
 	}
 
 	@Override
