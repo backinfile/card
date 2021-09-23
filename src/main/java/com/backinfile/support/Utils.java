@@ -2,6 +2,7 @@ package com.backinfile.support;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -122,5 +123,9 @@ public class Utils {
 			h = 31 * h + str.charAt(i);
 		}
 		return h;
+	}
+
+	public static String format(String pattern, Object... arguments) {
+		return MessageFormat.format(pattern, arguments);
 	}
 }

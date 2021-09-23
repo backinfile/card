@@ -48,7 +48,8 @@ public abstract class Action implements IAction {
 	}
 
 	/**
-	 * 必须要立即执行的动作用addFirst，一般情况下用addLast
+	 * 一般情况下用addLast <br/>
+	 * 必须要立即执行的动作用addFirst，表示这个动作与自己是同一个动作
 	 */
 	public final void addFirst(Action action) {
 		board.getActionQueue().addFirst(action);

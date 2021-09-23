@@ -69,8 +69,17 @@
 			"tips":["结束调度"],
 	},{
 			"sn":"SaveThreatenAction",
-			"tip":"SaveThreatenActionTip",
-	},],
+			"tip":"选择一张加入威慑",
+	},{
+			"sn":"SelectToAttackAction",
+			"tip":"选择{0}张储备释放",
+	},{
+			"sn":"AttackAction",
+			"tips":["侵占一个储备位","选择一项击破"]
+	},{
+			"sn":"SelectToDiscardHandAction",
+			"tip":"选择{0}张手牌弃置"
+	}],
 	skills:[{
 			"sn":"StoreSelfSkill",
 			"tip":"储备",
@@ -83,6 +92,12 @@
 	},{
 			"sn":"TurnEndSkill",
 			"tip":"回合结束",
+	},{
+			"sn":"Release2StoreSkill",
+			"tip":"释放2",
+	},{
+			"sn":"ReleaseAttackStoreSkill",
+			"tip":"特效释放1",
 	}],
 	targets:[],
 	ui:[{

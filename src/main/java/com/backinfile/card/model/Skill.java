@@ -105,7 +105,7 @@ public abstract class Skill {
 	 * 获取技能使用描述
 	 */
 	public String getTip() {
-		if (trigger == SkillTrigger.Active) {
+		if (trigger == SkillTrigger.Active && triggerCostAP > 0) {
 			return "[" + triggerCostAP + "] " + skillString.tip;
 		}
 		return skillString.tip;

@@ -1,12 +1,14 @@
 package com.backinfile.card.model.cards.chapter2;
 
 import com.backinfile.card.model.cards.ActionCard;
-import com.backinfile.card.model.skills.PlayAttackSkill;
+import com.backinfile.card.model.skills.Release2StoreSkill;
+import com.backinfile.card.model.skills.ReleaseAttackStoreSkill;
 
 public class Attack extends ActionCard {
 
 	public Attack() {
 		subType = CardSubType.ACTION_ORDER;
-		addSkill(new PlayAttackSkill());
+		addSkill(new ReleaseAttackStoreSkill());
+		addSkill(new Release2StoreSkill());
 	}
 }

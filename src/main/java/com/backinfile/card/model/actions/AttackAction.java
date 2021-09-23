@@ -5,18 +5,25 @@ import java.util.stream.Collectors;
 import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.gen.GameMessageHandler.ETargetSlotAimType;
 import com.backinfile.card.model.Card;
-import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
 import com.backinfile.card.server.humanOper.SelectCardOper;
 import com.backinfile.card.server.humanOper.SelectEmptySlotOper;
 
 public class AttackAction extends WaitAction {
 	private Human targetHuman;
+	private boolean withAttackEffect = false;
 
 	public AttackAction(Human human, Card card, Human targetHuman) {
 		this.human = human;
 		this.card = card;
 		this.targetHuman = targetHuman;
+	}
+
+	public AttackAction(Human human, Card card, Human targetHuman, boolean withAttackEffect) {
+		this.human = human;
+		this.card = card;
+		this.targetHuman = targetHuman;
+		this.withAttackEffect = withAttackEffect;
 	}
 
 	@Override
@@ -46,9 +53,9 @@ public class AttackAction extends WaitAction {
 	}
 
 	private void onOccupy(int index) {
-		var cardSlot = human.cardSlotMap.get(index);
+		board.removeCard(card);
+		var cardSlot = targetHuman.cardSlotMap.get(index);
 		cardSlot.getPile(ESlotType.Seal).add(card);
-
 		board.modifyCard(card);
 		setDone();
 	}

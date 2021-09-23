@@ -19,6 +19,7 @@ public class SelectEmptySlotOper extends HumanOper {
 		this.toSelectFrom = toSelectFrom;
 		this.aimType = aimType;
 		this.tip = tip;
+		this.opponent = opponent;
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.backinfile.card.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -141,7 +142,11 @@ public class CardPile implements Iterable<Card> {
 			polls.add(card);
 		}
 		return polls;
+	}
 
+	public CardPile reverse() {
+		Collections.reverse(cards);
+		return this;
 	}
 
 	public boolean isEmpty() {
