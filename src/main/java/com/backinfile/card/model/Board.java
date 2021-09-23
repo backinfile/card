@@ -376,4 +376,26 @@ public class Board implements IAlive {
 			human.sendMessage(cardInfoList);
 		}
 	}
+
+	// 使用技能
+	public final void applySkill(Skill skill) {
+		if (skill.trigger == SkillTrigger.Active) {
+			// 消耗行动点
+			if (skill.triggerCostAP > 0) {
+				skill.human.actionPoint -= skill.triggerCostAP;
+				modifyBoardData();
+			}
+		}
+		// 消耗执行次数
+		if (skill.triggerTimesLimit > 0) {
+			skill.triggerTimesLimit--;
+		}
+		// 触发次数如果不足就移除此技能
+		if (skill.triggerTimesLimit == 0) {
+			skill.getSkillOwner().removeSkill(skill.id);
+		}
+		// 执行skill
+		skill.apply();
+
+	}
 }

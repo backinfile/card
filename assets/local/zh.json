@@ -77,6 +77,12 @@
 	},{
 			"sn":"DrawCardSkill",
 			"tip":"抽1",
+	},{
+			"sn":"Pass2CardSkill",
+			"tip":"过牌2",
+	},{
+			"sn":"TurnEndSkill",
+			"tip":"回合结束",
 	}],
 	targets:[],
 	ui:[{

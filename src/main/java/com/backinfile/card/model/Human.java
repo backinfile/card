@@ -13,9 +13,13 @@ import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.manager.CardManager;
 import com.backinfile.card.manager.ConstGame;
 import com.backinfile.card.model.Card.CardType;
+import com.backinfile.card.model.Skill.SkillDuration;
 import com.backinfile.card.model.actions.DrawCardAction;
 import com.backinfile.card.model.actions.RestoreActionNumberAction;
 import com.backinfile.card.model.actions.SaveThreatenAction;
+import com.backinfile.card.model.skills.DrawCardSkill;
+import com.backinfile.card.model.skills.Pass2CardSkill;
+import com.backinfile.card.model.skills.TurnEndSkill;
 import com.backinfile.card.server.humanOper.HumanOper;
 import com.backinfile.dSync.model.DSyncBaseHandler.DSyncBase;
 import com.backinfile.support.Log;
@@ -66,6 +70,11 @@ public class Human extends SkillCaster {
 			cardSlot.index = i;
 			cardSlotMap.put(cardSlot.index, cardSlot);
 		}
+
+		// 自带的人物技能
+		addSkill(new DrawCardSkill());
+		addSkill(new Pass2CardSkill());
+		addSkill(new TurnEndSkill());
 	}
 
 	public final void onGameStart() {
@@ -74,12 +83,24 @@ public class Human extends SkillCaster {
 	}
 
 	public final void onTurnStart() {
+		// 回合开始清理buff
+		removeSkillIf(s -> s.duration == SkillDuration.OwnerStartTurn);
+		for (var card : getAllCards()) {
+			card.removeSkillIf(s -> s.duration == SkillDuration.OwnerStartTurn);
+		}
+
 		addLast(new RestoreActionNumberAction(this, 2));
 		addLast(new DrawCardAction(this, 3));
 		Log.game.info("player {} turnStart", token);
 	}
 
 	public final void onTurnEnd() {
+		// 回合结束清理buff
+		removeSkillIf(s -> s.duration == SkillDuration.OwnerEndTurn);
+		for (var card : getAllCards()) {
+			card.removeSkillIf(s -> s.duration == SkillDuration.OwnerEndTurn);
+		}
+
 		addLast(new SaveThreatenAction());
 		Log.game.info("player {} turnEnd", token);
 	}

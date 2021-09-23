@@ -2,6 +2,7 @@ package com.backinfile.card.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import com.backinfile.card.model.Skill.EmptySkill;
 
@@ -19,6 +20,14 @@ public abstract class SkillCaster {
 			}
 		}
 		return null;
+	}
+
+	public final boolean removeSkill(long id) {
+		return skills.removeIf(s -> s.id == id);
+	}
+
+	public final boolean removeSkillIf(Predicate<Skill> predicate) {
+		return skills.removeIf(predicate);
 	}
 
 	public final Skill getSkillOrEmpty(long id) {

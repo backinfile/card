@@ -15,12 +15,14 @@ public abstract class Skill {
 	public Human human;
 	public Card card;
 
-	// 触发时效控制
-	public SkillDuration duration = SkillDuration.Combat; // 失效方式
+	// 触发时机控制
 	public SkillTrigger trigger = SkillTrigger.Passive; // 触发方式
 	public SkillAura aura = SkillAura.Slot; // 可触发区域
 	public int triggerCostAP = 0; // 使用时需要消耗的行动点
-	public int triggerTimesLimit = -1; // 可触发次数，当恰好==0时清除
+
+	// 移除时机控制
+	public SkillDuration duration = SkillDuration.Combat; // 失效方式
+	public int triggerTimesLimit = -1; // 可触发次数，当恰好==0时清除此技能
 
 	public static enum SkillDuration {
 		Fixed, // 本身固有属性，不会被自动清除
@@ -59,6 +61,13 @@ public abstract class Skill {
 		this.board = board;
 		this.human = human;
 		this.card = card;
+	}
+
+	public SkillCaster getSkillOwner() {
+		if (card != null) {
+			return card;
+		}
+		return human;
 	}
 
 	public void setTriggerType(SkillDuration duration, SkillTrigger trigger, SkillAura aura, int cost, int limit) {

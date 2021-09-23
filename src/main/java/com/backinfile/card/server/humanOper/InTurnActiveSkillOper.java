@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import com.backinfile.card.gen.GameMessageHandler.CSSelectSkillToActive;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectSkillToActive;
 import com.backinfile.card.model.Skill;
+import com.backinfile.card.model.skills.TurnEndSkill;
 
 // 回合进行中，出牌事件
 public class InTurnActiveSkillOper extends HumanOper {
@@ -22,6 +23,7 @@ public class InTurnActiveSkillOper extends HumanOper {
 
 	@Override
 	public void onAIAttach() {
+		human.board.applySkill(human.getSkill(TurnEndSkill.class));
 		setDone();
 	}
 
@@ -34,7 +36,7 @@ public class InTurnActiveSkillOper extends HumanOper {
 		var skillId = data.getSkillId();
 		for (var skill : activableSkills) {
 			if (skill.id == skillId) {
-				skill.apply();
+				human.board.applySkill(skill);
 				setDone();
 				return;
 			}

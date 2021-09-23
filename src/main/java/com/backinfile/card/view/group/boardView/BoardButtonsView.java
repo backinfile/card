@@ -27,11 +27,11 @@ public class BoardButtonsView extends BaseView {
 
 	}
 
-	public void setButtonInfos(ButtonInfo... buttonInfos) {
+	public final void setButtonInfos(List<ButtonInfo> buttonInfos) {
 		for (var i = 0; i < actionButtons.size(); i++) {
 			final var index = i;
 			var btn = actionButtons.get(index);
-			var optional = Arrays.stream(buttonInfos).filter(b -> b.index == index).findAny();
+			var optional = buttonInfos.stream().filter(b -> b.index == index).findAny();
 			if (optional.isPresent()) {
 				btn.setVisible(true);
 				btn.set(optional.get().text, optional.get().callback);
@@ -39,6 +39,10 @@ public class BoardButtonsView extends BaseView {
 				btn.setVisible(false);
 			}
 		}
+	}
+
+	public final void setButtonInfos(ButtonInfo... buttonInfos) {
+		setButtonInfos(Arrays.asList(buttonInfos));
 	}
 
 }

@@ -27,9 +27,7 @@ public class SelectCardSkillViewAction extends ViewAction {
 		for (var entry : skillInfoMap.entrySet()) {
 			var list = entry.getValue();
 			long cardId = entry.getKey();
-			if (cardId == 0) {
-
-			} else {
+			if (cardId != -1) {
 				var cardView = gameStage.boardView.cardGroupView.getCurCardView(cardId);
 				if (cardView != null) {
 					cardView.setLeftClickCallback(() -> {
@@ -44,13 +42,35 @@ public class SelectCardSkillViewAction extends ViewAction {
 								onSelectSkill(skillInfo.getSkillId());
 							};
 						}
-						gameStage.showCardView.show(cardView.getImagePathString(),
-								gameStage.buttonsView::setButtonInfos);
+						gameStage.showCardView.show(cardView.getImagePathString(), () -> {
+							// 卡牌详细界面关闭时，重新显示人物技能
+							setHumanSkillButtons();
+						});
 						gameStage.buttonsView.setButtonInfos(buttonInfos);
 					});
 					cardView.setDark(false);
 				}
 			}
+		}
+
+		setHumanSkillButtons();
+	}
+
+	private void setHumanSkillButtons() {
+		var humanSkillList = skillInfoMap.get(-1L);
+		if (humanSkillList != null && !humanSkillList.isEmpty()) {
+			List<ButtonInfo> buttonInfos = new ArrayList<ButtonInfo>();
+			for (var i = 0; i < humanSkillList.size(); i++) {
+				var skillInfo = humanSkillList.get(i);
+				ButtonInfo buttonInfo = new ButtonInfo();
+				buttonInfo.index = i;
+				buttonInfo.text = skillInfo.getTip();
+				buttonInfo.callback = () -> {
+					onSelectSkill(skillInfo.getSkillId());
+				};
+				buttonInfos.add(buttonInfo);
+			}
+			gameStage.buttonsView.setButtonInfos(buttonInfos);
 		}
 	}
 
