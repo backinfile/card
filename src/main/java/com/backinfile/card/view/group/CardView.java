@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
@@ -23,7 +24,7 @@ public class CardView extends Group {
 
 	private static LocalUIString cardToolsString = LocalString.getUIString("cardTools");
 
-	private Image mainImage;
+	protected Image mainImage;
 	private Image boarderImage;
 
 	private LocalCardString cardString;
@@ -100,12 +101,14 @@ public class CardView extends Group {
 			setDark(state.dark);
 			setFlipOver(state.flipOver);
 		}));
-		addAction(parallelAction);
+		SequenceAction sequenceAction = new SequenceAction();
+		sequenceAction.addAction(parallelAction);
 		if (callback != null) {
 			var runableAction = new RunnableAction();
 			runableAction.setRunnable(callback);
-			addAction(runableAction);
+			sequenceAction.addAction(runableAction);
 		}
+		addAction(sequenceAction);
 
 		setZIndex(state.zIndex);
 	}

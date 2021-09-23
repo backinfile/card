@@ -1,8 +1,14 @@
 package com.backinfile.card.model.actions;
 
+import java.util.stream.Collectors;
+
+import com.backinfile.card.gen.GameMessageHandler.ESlotType;
+import com.backinfile.card.gen.GameMessageHandler.ETargetSlotAimType;
 import com.backinfile.card.model.Card;
+import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
-import com.backinfile.support.Log;
+import com.backinfile.card.server.humanOper.SelectCardOper;
+import com.backinfile.card.server.humanOper.SelectEmptySlotOper;
 
 public class AttackAction extends WaitAction {
 	private Human targetHuman;
@@ -15,15 +21,42 @@ public class AttackAction extends WaitAction {
 
 	@Override
 	public void init() {
-		Log.game.error("TODO");
+		var emptySlots = targetHuman.getEmptySlots(true);
+		if (!emptySlots.isEmpty()) {
+			// 有空位，直接侵占上去
+			var humanOper = new SelectEmptySlotOper(emptySlots.stream().map(s -> s.index).collect(Collectors.toList()),
+					ETargetSlotAimType.Occupy, targetHuman != human, actionString.tips[0]);
+			humanOper.setDetachCallback(() -> {
+				onOccupy(humanOper.getSelected());
+			});
+			human.addHumanOper(humanOper);
+			return;
+		}
+		// 没有空位，选择一项击破
+		var toBreak = targetHuman.getAllStoreInSlot(false, true);
+		if (toBreak.isEmpty()) {
+			setDone();
+			return;
+		}
+		var humanOper = new SelectCardOper(toBreak, actionString.tips[1], 1);
+		humanOper.setDetachCallback(() -> {
+			onBreak(humanOper.getSelectedPile().getAny());
+		});
+		human.addHumanOper(humanOper);
 	}
 
-	@Override
-	public void pulse() {
+	private void onOccupy(int index) {
+		var cardSlot = human.cardSlotMap.get(index);
+		cardSlot.getPile(ESlotType.Seal).add(card);
+
+		board.modifyCard(card);
+		setDone();
 	}
 
-	@Override
-	public void dispose() {
-		super.dispose();
+	private void onBreak(Card breakCard) {
+		addLast(new DiscardCardAction(targetHuman, breakCard));
+		addLast(new DiscardCardAction(human, card));
+		addLast(new DrawCardAction(human, 1));
+		setDone();
 	}
 }

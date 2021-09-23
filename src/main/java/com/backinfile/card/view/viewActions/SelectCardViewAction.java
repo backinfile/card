@@ -2,6 +2,7 @@ package com.backinfile.card.view.viewActions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.backinfile.card.gen.GameMessageHandler.CSSelectCard;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectCards;
@@ -26,15 +27,29 @@ public class SelectCardViewAction extends ViewAction {
 
 	@Override
 	public void begin() {
+		if (selectFrom.stream().anyMatch(id -> gameStage.boardView.cardGroupView.getCurCardView(id) == null)) {
+			// 选择牌库中的牌
+			var cardInfos = selectFrom.stream().map(id -> gameStage.boardView.cardGroupView.getCardInfoCache(id))
+					.collect(Collectors.toList());
+			gameStage.showCardListView.show(cardInfos, cardInfo -> {
+				clearSelectCardListState();
+				onSelect(cardInfo.getId());
+			});
+			return;
+		}
+
+		// 选择手牌，储备位上的牌
 		for (var cardId : selectFrom) {
 			CardView cardView = gameStage.boardView.cardGroupView.getCurCardView(cardId);
 			if (cardView != null) {
 				cardView.setLeftClickCallback(() -> {
+					clearSelectCardState();
 					onSelect(cardId);
 				});
 				cardView.setDark(false);
 			}
 		}
+		gameStage.buttonsView.setButtonInfos();
 		if (optional) {
 			ButtonInfo buttonInfo = new ButtonInfo();
 			buttonInfo.index = 0;
@@ -43,6 +58,7 @@ public class SelectCardViewAction extends ViewAction {
 				buttonInfo.text = data.getCancelTip();
 			}
 			buttonInfo.callback = () -> {
+				clearSelectCardState();
 				onSelect(0);
 			};
 			gameStage.buttonsView.setButtonInfos(buttonInfo);
@@ -51,9 +67,7 @@ public class SelectCardViewAction extends ViewAction {
 		gameStage.boardView.boardUIView.setTipText(data.getTip());
 	}
 
-	private void onSelect(long id) {
-		Log.game.info("select id:{}", id);
-		selected = id;
+	private void clearSelectCardState() {
 		for (var cardId : selectFrom) {
 			CardView cardView = gameStage.boardView.cardGroupView.getCurCardView(cardId);
 			if (cardView != null) {
@@ -61,11 +75,19 @@ public class SelectCardViewAction extends ViewAction {
 				cardView.setDark(true);
 			}
 		}
-		if (optional) {
-			gameStage.buttonsView.setButtonInfos();
-		}
+		gameStage.buttonsView.setButtonInfos();
 		gameStage.boardView.boardUIView.setTipText("");
+	}
 
+	private void clearSelectCardListState() {
+		gameStage.buttonsView.setButtonInfos();
+		gameStage.boardView.boardUIView.setTipText("");
+		gameStage.showCardListView.hide();
+	}
+
+	private void onSelect(long id) {
+		Log.game.info("select id:{}", id);
+		selected = id;
 		setDone();
 	}
 

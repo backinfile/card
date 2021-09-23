@@ -114,6 +114,12 @@
 			"images":[{
 				"path":"image/card/tools/border.png",
 			}],
+	},{
+			"sn":"ShowCardListView",
+			"str":"对手的",
+			"strs":[
+				"", "手牌", "牌库", "弃牌", "废弃牌", "标记", "储备位", "英雄", "威慑",
+			],
 	}],
 	
 }

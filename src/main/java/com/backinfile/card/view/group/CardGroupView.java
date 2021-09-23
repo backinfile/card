@@ -24,7 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 // 管理所有卡牌
 public class CardGroupView extends BaseView {
-	public ObjectPool<CardView> cardActorPool;
+	public ObjectPool<CardView> cardViewPool;
 	private HashMap<Long, CardView> cardViews = new HashMap<>(); // 正在显示的牌
 	private HashMap<Long, CardInfo> cardInfoCacheMap = new HashMap<>();
 	private Group cardViewGroup = new Group();
@@ -39,7 +39,7 @@ public class CardGroupView extends BaseView {
 		this.viewHeight = height;
 
 		addActor(cardViewGroup);
-		cardActorPool = new ObjectPool<CardView>() {
+		cardViewPool = new ObjectPool<CardView>() {
 			@Override
 			protected CardView newObject() {
 				CardView cardView = new CardView();
@@ -100,7 +100,6 @@ public class CardGroupView extends BaseView {
 			updateCard(new CardInfo(cardInfo), set);
 		}
 		adjustCardLayer();
-		Log.game.info("visible size:{}", cardViews.size());
 	}
 
 	private void adjustCardLayer() {
@@ -114,6 +113,10 @@ public class CardGroupView extends BaseView {
 
 	public final CardView getCurCardView(long id) {
 		return cardViews.get(id);
+	}
+
+	public final CardInfo getCardInfoCache(long id) {
+		return cardInfoCacheMap.get(id);
 	}
 
 	private void updateCard(CardInfo cardInfo, boolean set) {
@@ -136,7 +139,9 @@ public class CardGroupView extends BaseView {
 			}
 			var cardView = getCardView(lastCardInfo);
 			cardView.moveToState(getCardViewState(cardInfo), () -> {
-
+				if (!isCardVisible(cardInfo)) {
+					removeCardView(cardInfo);
+				}
 			});
 		}
 		cardInfoCacheMap.put(cardInfo.getId(), cardInfo);
@@ -145,7 +150,7 @@ public class CardGroupView extends BaseView {
 	private final CardView getCardView(CardInfo cardInfo) {
 		var cardView = cardViews.get(cardInfo.getId());
 		if (cardView == null) {
-			cardView = cardActorPool.obtain();
+			cardView = cardViewPool.obtain();
 			cardViewGroup.addActor(cardView);
 			cardView.setCardString(LocalString.getCardString(cardInfo.info.getSn()),
 					cardInfo.getPilePosition().ordinal());
@@ -157,7 +162,7 @@ public class CardGroupView extends BaseView {
 	private final void removeCardView(CardInfo cardInfo) {
 		var cardView = cardViews.get(cardInfo.getId());
 		if (cardView != null) {
-			cardActorPool.free(cardView);
+			cardViewPool.free(cardView);
 			cardViews.remove(cardInfo.getId());
 			cardViewGroup.removeActor(cardView);
 		}

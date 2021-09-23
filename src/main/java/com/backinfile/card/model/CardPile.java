@@ -97,6 +97,10 @@ public class CardPile implements Iterable<Card> {
 		return cards.get(index);
 	}
 
+	public Card getAny() {
+		return get(0);
+	}
+
 	public Card getCard(long id) {
 		for (var card : cards) {
 			if (card.id == id) {

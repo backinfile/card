@@ -220,7 +220,9 @@ public class Board implements IAlive {
 			if (skill.trigger == SkillTrigger.Active) {
 				if (skill.triggerCostAP <= human.actionPoint) {
 					skill.setContext(this, human, null);
-					activableSkills.add(skill);
+					if (skill.triggerable()) {
+						activableSkills.add(skill);
+					}
 				}
 			}
 		}
@@ -231,7 +233,9 @@ public class Board implements IAlive {
 					if (skill.triggerCostAP <= human.actionPoint) {
 						if (skill.aura == SkillAura.Hand) {
 							skill.setContext(this, human, card);
-							activableSkills.add(skill);
+							if (skill.triggerable()) {
+								activableSkills.add(skill);
+							}
 						}
 					}
 				}

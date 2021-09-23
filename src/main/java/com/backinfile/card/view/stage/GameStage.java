@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import com.backinfile.card.manager.Res;
 import com.backinfile.card.view.group.boardView.BoardButtonsView;
 import com.backinfile.card.view.group.boardView.LocalBoardView;
+import com.backinfile.card.view.group.boardView.ShowCardListView;
 import com.backinfile.card.view.group.boardView.ShowCardView;
 import com.backinfile.card.view.viewActions.ViewAction;
 import com.backinfile.support.Log;
@@ -19,6 +20,7 @@ public class GameStage extends Stage {
 	public LocalBoardView boardView;
 	public ShowCardView showCardView;
 	public BoardButtonsView buttonsView;
+	public ShowCardListView showCardListView;
 
 	private LinkedList<ViewAction> viewActionQueue = new LinkedList<>();
 	private ViewAction curViewAction = null;
@@ -49,6 +51,9 @@ public class GameStage extends Stage {
 		boardView = new LocalBoardView(this, getWidth() * (1 - offsetRate), getHeight() * (1 - offsetRate));
 		boardView.setPosition(getWidth() * offsetRate / 2, getHeight() * offsetRate);
 		addActor(boardView);
+
+		showCardListView = new ShowCardListView(this, getWidth(), getHeight());
+		addActor(showCardListView);
 
 		showCardView = new ShowCardView(this, getWidth(), getHeight());
 		addActor(showCardView);

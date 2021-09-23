@@ -57,6 +57,7 @@ public class StoreCardAction extends WaitAction {
 		slot.remove(toReplace);
 		slot.getPile(ESlotType.Store).add(card);
 		slot.ready = fast;
+		addLast(new DiscardCardAction(human, toReplace));
 		board.modifyCard(toReplace, card);
 		setDone();
 	}

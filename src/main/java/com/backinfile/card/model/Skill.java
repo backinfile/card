@@ -97,6 +97,10 @@ public abstract class Skill {
 		return skillString.name;
 	}
 
+	public boolean triggerable() {
+		return true;
+	}
+
 	/**
 	 * 获取技能使用描述
 	 */
