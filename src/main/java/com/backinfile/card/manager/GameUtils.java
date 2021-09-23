@@ -50,7 +50,7 @@ public class GameUtils {
 		{
 			var cards = new DStartPileDataPair();
 			cards.setCard(Dragon.class.getSimpleName());
-			cards.setCount(6);
+			cards.setCount(12);
 			startPile.add(cards);
 		}
 		return startPile;

@@ -17,6 +17,7 @@ import com.backinfile.card.model.Skill.SkillDuration;
 import com.backinfile.card.model.actions.DrawCardAction;
 import com.backinfile.card.model.actions.RestoreActionNumberAction;
 import com.backinfile.card.model.actions.SaveThreatenAction;
+import com.backinfile.card.model.skills.ActAsStoreSkill;
 import com.backinfile.card.model.skills.DrawCardSkill;
 import com.backinfile.card.model.skills.Pass2CardSkill;
 import com.backinfile.card.model.skills.TurnEndSkill;
@@ -228,18 +229,35 @@ public class Human extends SkillCaster {
 	}
 
 	/**
-	 * 获取所有储备 TODO 根据skill实时修改
+	 * 获取所有可以利用的储备
+	 * 
+	 * @param forceStore 必须为储备牌，不能是行动牌
+	 * @param onlyReady  必须是已经准备好的牌
+	 * @param exceptPlan 排除计划区中的牌
+	 * @param exceptHand 排除手牌
+	 * @return
 	 */
-	public CardPile getAllStoreCards(boolean onlyReady, boolean exceptPlan, boolean exceptHand) {
+	public CardPile getAllStoreCards(boolean forceStore, boolean onlyReady, boolean exceptPlan, boolean exceptHand) {
 		CardPile cardPile = new CardPile();
-		cardPile.addAll(getAllStoreInSlot(onlyReady, exceptPlan));
+
+		// 储备位上的储备牌
+		cardPile.addAll(getAllStoreInSlot(forceStore, onlyReady, exceptPlan));
+
+		if (!exceptHand) {
+			// 手牌中
+			for (var card : handPile) {
+				if (card.getSkill(ActAsStoreSkill.class) != null) {
+					cardPile.add(card);
+				}
+			}
+		}
 		return cardPile;
 	}
 
 	/**
 	 * 获取所有储备位上的储备
 	 */
-	public CardPile getAllStoreInSlot(boolean onlyReady, boolean exceptPlan) {
+	public CardPile getAllStoreInSlot(boolean forceStore, boolean onlyReady, boolean exceptPlan) {
 		CardPile cardPile = new CardPile();
 		for (var slot : cardSlotMap.values()) {
 			if (onlyReady && !slot.ready) {
@@ -251,7 +269,9 @@ public class Human extends SkillCaster {
 			cardPile.addAll(slot.getPile(ESlotType.Store));
 			cardPile.addAll(slot.getPile(ESlotType.Plan));
 		}
-		cardPile.removeAll(card -> card.mainType != CardType.STORE);
+		if (forceStore) {
+			cardPile.removeAll(card -> card.mainType != CardType.STORE);
+		}
 		return cardPile;
 	}
 

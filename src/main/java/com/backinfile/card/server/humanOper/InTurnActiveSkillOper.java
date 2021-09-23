@@ -5,8 +5,11 @@ import java.util.stream.Collectors;
 
 import com.backinfile.card.gen.GameMessageHandler.CSSelectSkillToActive;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectSkillToActive;
+import com.backinfile.card.manager.ConstGame;
 import com.backinfile.card.model.Skill;
+import com.backinfile.card.model.skills.StoreSelfSkill;
 import com.backinfile.card.model.skills.TurnEndSkill;
+import com.backinfile.support.Utils;
 
 // 回合进行中，出牌事件
 public class InTurnActiveSkillOper extends HumanOper {
@@ -24,10 +27,26 @@ public class InTurnActiveSkillOper extends HumanOper {
 
 	@Override
 	public void onAIAttach() {
-		var skill = human.getSkill(TurnEndSkill.class);
-		skill.setContext(human.board, human, null);
-		human.board.applySkill(skill);
-		setDone();
+		activableSkills = human.board.getActivableSkills(human.token);
+
+		if (ConstGame.AI_DO_NOTHING) { // 直接回合结束
+			var skill = human.getSkill(TurnEndSkill.class);
+			skill.setContext(human.board, human, null);
+			onSelectSkill(skill);
+			return;
+		}
+
+		if (ConstGame.AI_DO_STORE) { // 一直进行储备
+			var findAny = activableSkills.stream().filter(s -> s instanceof StoreSelfSkill).findAny();
+			if (findAny.isPresent()) {
+				onSelectSkill(findAny.get());
+				return;
+			}
+		}
+
+		// 随机选取
+		var skill = activableSkills.get(Utils.nextInt(activableSkills.size()));
+		onSelectSkill(skill);
 	}
 
 	@Override
@@ -39,10 +58,14 @@ public class InTurnActiveSkillOper extends HumanOper {
 		var skillId = data.getSkillId();
 		for (var skill : activableSkills) {
 			if (skill.id == skillId) {
-				human.board.applySkill(skill);
-				setDone();
+				onSelectSkill(skill);
 				return;
 			}
 		}
+	}
+
+	private void onSelectSkill(Skill skill) {
+		human.board.applySkill(skill);
+		setDone();
 	}
 }

@@ -13,7 +13,7 @@ public class Release2StoreSkill extends Skill {
 
 	@Override
 	public boolean triggerable() {
-		if (human.getAllStoreCards(true, false, false).isEmpty()) {
+		if (human.getAllStoreCards(true, true, false, false).isEmpty()) {
 			return false;
 		}
 		return true;

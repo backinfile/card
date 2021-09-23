@@ -414,10 +414,6 @@ public class Board implements IAlive {
 		if (skill.triggerTimesLimit > 0) {
 			skill.triggerTimesLimit--;
 		}
-		// 触发次数如果不足就移除此技能
-		if (skill.triggerTimesLimit == 0) {
-			skill.getSkillOwner().removeSkill(skill.id);
-		}
 		// 执行skill
 		skill.apply();
 

@@ -28,7 +28,9 @@ import com.badlogic.gdx.utils.Align;
 
 public class ShowCardListView extends BaseView {
 	private Image maskImage;
-	private Group viewGroup = new Group();
+	private Group viewGroup;
+	private Label tipLabel;
+
 	private float curScroolAmount = 0;
 	private float maxScroolAmount = 0;
 
@@ -50,7 +52,12 @@ public class ShowCardListView extends BaseView {
 		maskImage.getColor().a = 0.8f;
 		maskImage.setSize(getWidth(), getHeight());
 		addActor(maskImage);
+		viewGroup = new Group();
 		addActor(viewGroup);
+		tipLabel = new Label("", new LabelStyle(Res.DefaultFont, Color.WHITE));
+		tipLabel.setAlignment(Align.center);
+		tipLabel.setPosition(width / 2f, height / 2f, Align.center);
+		addActor(tipLabel);
 
 		cardViewPool = new ObjectPool<CardView>() {
 			@Override
@@ -77,7 +84,7 @@ public class ShowCardListView extends BaseView {
 		setVisible(false);
 	}
 
-	public void show(List<CardInfo> cardInfos, Action1<CardInfo> callback) {
+	public void show(List<CardInfo> cardInfos, String tip, Action1<CardInfo> callback) {
 		// 初始化
 		this.callback = callback;
 		gameStage.setScrollFocus(this);
@@ -88,6 +95,8 @@ public class ShowCardListView extends BaseView {
 			viewGroup.removeActor(cardView);
 			cardViewPool.free(cardView);
 		}
+		tipLabel.setText(tip);
+
 		// 添加卡牌
 		maxScroolAmount = (float) Math.max(0, Math.ceil(cardInfos.size() * 1f / HNumber) - 3) * (1 / ScroolRate);
 		for (int i = 0; i < cardInfos.size(); i++) {

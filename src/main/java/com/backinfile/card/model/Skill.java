@@ -16,26 +16,28 @@ public abstract class Skill {
 	public Card card;
 
 	// 触发时机控制
-	public SkillTrigger trigger = SkillTrigger.Passive; // 触发方式
+	public SkillTrigger trigger = SkillTrigger.Active; // 触发方式
 	public SkillAura aura = SkillAura.Slot; // 可触发区域
 	public int triggerCostAP = 0; // 使用时需要消耗的行动点
+	public int triggerTimesLimit = -1; // 可触发次数，当恰好==0时不能触发, 回合结束时重置
+	public int triggerTimesLimitValue = -1; // 可触发次数的设置值
 
 	// 移除时机控制
 	public SkillDuration duration = SkillDuration.Combat; // 失效方式
-	public int triggerTimesLimit = -1; // 可触发次数，当恰好==0时清除此技能
 
 	public static enum SkillDuration {
 		Fixed, // 本身固有属性，不会被自动清除
 		Combat, // 本局对战中一直存在
 		OwnerStartTurn, // skill拥有者回合开始清除
 		OwnerEndTurn, // skill拥有者回合结束清除
+		Use, // 触发后移除
 	}
 
 	// 触发方式
 	public static enum SkillTrigger {
 		Active, // 主动激活
-		Passive, // 强制型被动
-		OptionalPassive, // 可选被动
+		ActAsStore, // 可作为readyStore
+		ReplaceRelease, // 替换释放
 	}
 
 	// 生效地点
@@ -76,6 +78,7 @@ public abstract class Skill {
 		this.aura = aura;
 		this.triggerCostAP = cost;
 		this.triggerTimesLimit = limit;
+		this.triggerTimesLimitValue = limit;
 	}
 
 	public void setTriggerType(SkillDuration duration, SkillTrigger trigger, SkillAura aura, int cost) {

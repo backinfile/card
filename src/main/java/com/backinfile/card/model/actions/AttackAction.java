@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.gen.GameMessageHandler.ETargetSlotAimType;
 import com.backinfile.card.model.Card;
+import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
 import com.backinfile.card.server.humanOper.SelectCardOper;
 import com.backinfile.card.server.humanOper.SelectEmptySlotOper;
@@ -40,7 +41,7 @@ public class AttackAction extends WaitAction {
 			return;
 		}
 		// 没有空位，选择一项击破
-		var toBreak = targetHuman.getAllStoreInSlot(false, true);
+		var toBreak = targetHuman.getAllStoreInSlot(false, false, true);
 		if (toBreak.isEmpty()) {
 			setDone();
 			return;
@@ -49,7 +50,7 @@ public class AttackAction extends WaitAction {
 		humanOper.setDetachCallback(() -> {
 			onBreak(humanOper.getSelectedPile().getAny());
 		});
-		human.addHumanOper(humanOper);
+		targetHuman.addHumanOper(humanOper);
 	}
 
 	private void onOccupy(int index) {
@@ -61,8 +62,10 @@ public class AttackAction extends WaitAction {
 	}
 
 	private void onBreak(Card breakCard) {
-		addLast(new DiscardCardAction(targetHuman, breakCard));
-		addLast(new DiscardCardAction(human, card));
+		CardPile discards = new CardPile();
+		discards.addAll(targetHuman.getCardSlotByCard(breakCard).getAllCards());
+		discards.add(card);
+		addLast(new DiscardCardAction(targetHuman, discards));
 		addLast(new DrawCardAction(human, 1));
 		setDone();
 	}

@@ -31,7 +31,7 @@ public class SelectCardViewAction extends ViewAction {
 			// 选择牌库中的牌
 			var cardInfos = selectFrom.stream().map(id -> gameStage.boardView.cardGroupView.getCardInfoCache(id))
 					.collect(Collectors.toList());
-			gameStage.showCardListView.show(cardInfos, cardInfo -> {
+			gameStage.showCardListView.show(cardInfos, data.getTip(), cardInfo -> {
 				clearSelectCardListState();
 				onSelect(cardInfo.getId());
 			});
