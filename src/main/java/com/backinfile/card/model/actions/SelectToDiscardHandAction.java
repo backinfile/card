@@ -17,6 +17,7 @@ public class SelectToDiscardHandAction extends WaitAction {
 			for (var card : humanOper.getSelectedPile().reverse()) {
 				addFirst(new DiscardCardAction(human, card));
 			}
+			setDone();
 		});
 		human.addHumanOper(humanOper);
 	}

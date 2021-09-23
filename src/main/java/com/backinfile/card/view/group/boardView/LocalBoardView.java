@@ -12,11 +12,11 @@ import com.badlogic.gdx.utils.Align;
 // 本地BoardView
 public class LocalBoardView extends BaseView {
 
+	private BoardBackgroundView backgroundView;
 	public LocalGameClient gameClient;
 	public CardGroupView cardGroupView;
 	public BoardUIView boardUIView;
-	private BoardBackgroundView backgroundView;
-	private MulPileView mulPileView;
+	public MulPileView mulPileView;
 
 	public LocalBoardView(GameStage gameStage, float width, float height) {
 		super(gameStage, width, height);

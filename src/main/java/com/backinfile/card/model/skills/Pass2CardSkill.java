@@ -15,7 +15,6 @@ public class Pass2CardSkill extends Skill {
 	@Override
 	public void apply() {
 		addLast(new PassCardAction(human, 2));
-		addLast(new SelectToDiscardHandAction(human, 2));
 	}
 
 }

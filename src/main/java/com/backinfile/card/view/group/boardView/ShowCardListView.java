@@ -95,6 +95,7 @@ public class ShowCardListView extends BaseView {
 			viewGroup.removeActor(cardView);
 			cardViewPool.free(cardView);
 		}
+		visibleVardViews.clear();
 		tipLabel.setText(tip);
 
 		// 添加卡牌
@@ -117,6 +118,7 @@ public class ShowCardListView extends BaseView {
 			var position = getCardPosition(i);
 			cardView.setPosition(position.x, position.y);
 			viewGroup.addActor(cardView);
+			visibleVardViews.add(cardView);
 		}
 	}
 

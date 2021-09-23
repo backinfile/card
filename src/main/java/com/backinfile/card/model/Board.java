@@ -357,7 +357,7 @@ public class Board implements IAlive {
 			for (var human : humans) {
 				for (var cardPile : human.getNormalPiles()) {
 					DPileNumber pileNumber = new DPileNumber();
-					pileNumber.setToken(human.token);
+					pileNumber.setOpponent(!human.token.equals(token));
 					pileNumber.setPileType(cardPile.getPileType());
 					pileNumber.setNumber(cardPile.size());
 					boardData.addPileNumbers(pileNumber);

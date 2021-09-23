@@ -2840,13 +2840,13 @@ public class GameMessageHandler extends DSyncBaseHandler {
 	public static class DPileNumber extends DSyncBase {
 		public static final String TypeName = "DPileNumber";
 		
-		private String token;
 		private ECardPileType pileType;
+		private boolean opponent;
 		private int number;
 
 		public static class K {
-			public static final String token = "token";
 			public static final String pileType = "pileType";
+			public static final String opponent = "opponent";
 			public static final String number = "number";
 		}
 
@@ -2856,17 +2856,9 @@ public class GameMessageHandler extends DSyncBaseHandler {
 
 		@Override
 		protected void init() {
-			token = "";
 			pileType = ECardPileType.None;
+			opponent = false;
 			number = 0;
-		}
-		
-		public String getToken() {
-			return token;
-		}
-		
-		public void setToken(String token) {
-			this.token = token;
 		}
 		
 		public ECardPileType getPileType() {
@@ -2875,6 +2867,14 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		
 		public void setPileType(ECardPileType pileType) {
 			this.pileType = pileType;
+		}
+		
+		public boolean getOpponent() {
+			return opponent;
+		}
+		
+		public void setOpponent(boolean opponent) {
+			this.opponent = opponent;
 		}
 		
 		public int getNumber() {
@@ -2910,15 +2910,15 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		@Override
 		protected void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
-			jsonObject.put(K.token, token);
 			jsonObject.put(K.pileType, pileType.ordinal());
+			jsonObject.put(K.opponent, opponent);
 			jsonObject.put(K.number, number);
 		}
 
 		@Override
 		protected void applyRecord(JSONObject jsonObject) {
-			token = jsonObject.getString(K.token);
 			pileType = ECardPileType.values()[(jsonObject.getIntValue(K.pileType))];
+			opponent = jsonObject.getBooleanValue(K.opponent);
 			number = jsonObject.getIntValue(K.number);
 		}
 		
@@ -2934,10 +2934,10 @@ public class GameMessageHandler extends DSyncBaseHandler {
 				return false;
 			}
 			var _value = (DPileNumber) obj;
-			if (!this.token.equals(_value.token)) {
+			if (!this.pileType.equals(_value.pileType)) {
 				return false;
 			}
-			if (!this.pileType.equals(_value.pileType)) {
+			if (this.opponent != _value.opponent) {
 				return false;
 			}
 			if (this.number != _value.number) {
@@ -2948,16 +2948,16 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		
 		public DPileNumber copy() {
 			var _value = new DPileNumber();
-			_value.token = this.token;
 			_value.pileType = this.pileType;
+			_value.opponent = this.opponent;
 			_value.number = this.number;
 			return _value;
 		}
 		
 		public DPileNumber deepCopy() {
 			var _value = new DPileNumber();
-			_value.token = this.token;
 			_value.pileType = this.pileType;
+			_value.opponent = this.opponent;
 			_value.number = this.number;
 			return _value;
 		}

@@ -12,7 +12,7 @@ public class PassCardAction extends TriggerOnceAction {
 
 	@Override
 	public void run() {
-		addLast(new DrawCardAction(human, number));
-		addLast(new SelectToDiscardHandAction(human, number));
+		addFirst(new SelectToDiscardHandAction(human, number));
+		addFirst(new DrawCardAction(human, number));
 	}
 }

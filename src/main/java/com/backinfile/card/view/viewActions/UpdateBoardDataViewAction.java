@@ -12,6 +12,7 @@ public class UpdateBoardDataViewAction extends ViewAction {
 
 	@Override
 	public void begin() {
+		gameStage.boardView.mulPileView.setPileNumber(boardData.getPileNumbersList());
 		gameStage.boardView.boardUIView.setData(LocalData.instance().name, boardData.getOpponentPlayerName());
 		gameStage.boardView.boardUIView.setActionPoint(boardData.getActionPoint());
 		setDone();

@@ -9,6 +9,7 @@ import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
 import com.backinfile.card.server.humanOper.SelectCardOper;
 import com.backinfile.card.server.humanOper.SelectEmptySlotOper;
+import com.backinfile.support.Log;
 
 public class AttackAction extends WaitAction {
 	private Human targetHuman;
@@ -59,14 +60,16 @@ public class AttackAction extends WaitAction {
 		cardSlot.getPile(ESlotType.Seal).add(card);
 		board.modifyCard(card);
 		setDone();
+		Log.game.info("侵占成功");
 	}
 
 	private void onBreak(Card breakCard) {
 		CardPile discards = new CardPile();
 		discards.addAll(targetHuman.getCardSlotByCard(breakCard).getAllCards());
 		discards.add(card);
-		addLast(new DiscardCardAction(targetHuman, discards));
-		addLast(new DrawCardAction(human, 1));
+		addFirst(new DiscardCardAction(targetHuman, discards));
+		addFirst(new DrawCardAction(human, 1));
 		setDone();
+		Log.game.info("击破");
 	}
 }

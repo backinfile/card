@@ -35,6 +35,20 @@ public class SelectCardViewAction extends ViewAction {
 				clearSelectCardListState();
 				onSelect(cardInfo.getId());
 			});
+			gameStage.buttonsView.setButtonInfos();
+			if (optional) {
+				ButtonInfo buttonInfo = new ButtonInfo();
+				buttonInfo.index = 0;
+				buttonInfo.text = LocalString.getUIString("boardUIView").strs[2];
+				if (!Utils.isNullOrEmpty(data.getCancelTip())) {
+					buttonInfo.text = data.getCancelTip();
+				}
+				buttonInfo.callback = () -> {
+					clearSelectCardListState();
+					onSelect(0);
+				};
+				gameStage.buttonsView.setButtonInfos(buttonInfo);
+			}
 			return;
 		}
 

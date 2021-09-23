@@ -62,8 +62,8 @@ struct DBoardData {
 }
 
 struct DPileNumber {
-	String token;
 	ECardPileType pileType;
+	bool opponent;
 	int number;
 }
 

@@ -34,6 +34,7 @@ public class PileView extends BaseView {
 		addActor(pileButton);
 
 		numberLabel = new Label("0", new LabelStyle(Res.DefaultFont, Color.WHITE));
+		numberLabel.setAlignment(Align.center);
 		addActor(numberLabel);
 
 	}
@@ -60,6 +61,7 @@ public class PileView extends BaseView {
 
 	public void setPileNumber(int number) {
 		numberLabel.setText(String.valueOf(number));
+		setVisible(number > 0);
 	}
 
 	/**
@@ -82,6 +84,7 @@ public class PileView extends BaseView {
 
 		Vector2 position = CardGroupView.getCommonPilePosition(getWidth(), getHeight(), pileType, pilePosition);
 		pileRoated = false;
+		boolean up = false;
 
 		switch (pileType) {
 		case DrawPile:
@@ -89,6 +92,13 @@ public class PileView extends BaseView {
 			pileRoated = true;
 			break;
 		}
+		case ThreatenPile:
+		case MarkPile:
+			if (pilePosition == PilePosition.Self) {
+				up = true;
+			}
+			break;
+
 		default:
 			break;
 		}
@@ -96,7 +106,15 @@ public class PileView extends BaseView {
 		pileButton.setOrigin(Align.center);
 		pileButton.setRotation(pileRoated ? 90 : 0);
 
-		numberLabel.setPosition(position.x, position.y - pileButton.getWidth() / 2, Align.top);
+		float hOffset = pileButton.getHeight() / 2;
+		if (pileRoated) {
+			hOffset = pileButton.getWidth() / 2;
+		}
+		if (up) {
+			numberLabel.setPosition(position.x, position.y + hOffset, Align.center);
+		} else {
+			numberLabel.setPosition(position.x, position.y - hOffset, Align.center);
+		}
 	}
 
 	@Override
