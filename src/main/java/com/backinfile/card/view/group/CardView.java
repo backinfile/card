@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
+import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
@@ -90,7 +91,7 @@ public class CardView extends Group {
 		setZIndex(state.zIndex);
 	}
 
-	public final void moveToState(CardViewState state, boolean hideAtEnd) {
+	public final void moveToState(CardViewState state, Runnable callback) {
 		mainImage.addAction(Actions.sizeTo(state.cardSize.width, state.cardSize.height, Res.BASE_DURATION));
 		ParallelAction parallelAction = new ParallelAction();
 		parallelAction.addAction(Actions.moveTo(state.position.x, state.position.y, Res.BASE_DURATION));
@@ -99,12 +100,12 @@ public class CardView extends Group {
 			setDark(state.dark);
 			setFlipOver(state.flipOver);
 		}));
-		if (hideAtEnd) {
-			parallelAction.addAction(new TimeoutAction(Res.BASE_DURATION, () -> {
-				setVisible(false);
-			}));
-		}
 		addAction(parallelAction);
+		if (callback != null) {
+			var runableAction = new RunnableAction();
+			runableAction.setRunnable(callback);
+			addAction(runableAction);
+		}
 
 		setZIndex(state.zIndex);
 	}

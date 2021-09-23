@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.backinfile.card.gen.GameMessageHandler.DCardInfo;
+import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
 import com.backinfile.card.model.CardInfo;
 import com.backinfile.card.model.LocalString;
 import com.backinfile.card.view.group.CardView.CardViewState;
@@ -29,9 +30,13 @@ public class CardGroupView extends BaseView {
 	private Group cardViewGroup = new Group();
 
 	private Map<Integer, CardView> helpCardViews = new HashMap<>();
+	private float viewWidth;
+	private float viewHeight;
 
 	public CardGroupView(GameStage gameStage, float width, float height) {
-		super(gameStage, width, height);
+		super(gameStage, 0, 0);
+		this.viewWidth = width;
+		this.viewHeight = height;
 
 		addActor(cardViewGroup);
 		cardActorPool = new ObjectPool<CardView>() {
@@ -95,6 +100,7 @@ public class CardGroupView extends BaseView {
 			updateCard(new CardInfo(cardInfo), set);
 		}
 		adjustCardLayer();
+		Log.game.info("visible size:{}", cardViews.size());
 	}
 
 	private void adjustCardLayer() {
@@ -129,7 +135,9 @@ public class CardGroupView extends BaseView {
 				cardView.setState(getCardViewState(lastCardInfo));
 			}
 			var cardView = getCardView(lastCardInfo);
-			cardView.moveToState(getCardViewState(cardInfo), !isCardVisible(cardInfo));
+			cardView.moveToState(getCardViewState(cardInfo), () -> {
+
+			});
 		}
 		cardInfoCacheMap.put(cardInfo.getId(), cardInfo);
 	}
@@ -179,57 +187,36 @@ public class CardGroupView extends BaseView {
 		var pileType = cardInfo.info.getPileInfo().getPileType();
 		var pilePosition = cardInfo.getPilePosition();
 		CardViewState cardViewState = new CardViewState();
+		cardViewState.position.set(getCommonPilePosition(viewWidth, viewHeight, pileType, pilePosition));
 		switch (pileType) {
 		case DiscardPile: {
-			if (pilePosition == PilePosition.Self) {
-				cardViewState.position.set(getWidth() * 0.776f, getHeight() * 0.225f);
-			} else {
-				cardViewState.position.set(getWidth() * 0.22f, getHeight() * 0.77f);
-			}
 			cardViewState.rotated = true;
 			cardViewState.flipOver = true;
 			break;
 		}
 		case DrawPile: {
-			if (pilePosition == PilePosition.Self) {
-				cardViewState.position.set(getWidth() * 0.225f, getHeight() * 0.225f);
-			} else {
-				cardViewState.position.set(getWidth() * 0.77f, getHeight() * 0.77f);
-			}
 			cardViewState.rotated = true;
 			cardViewState.flipOver = true;
 			break;
 		}
 		case HandPile: {
-			if (pilePosition == PilePosition.Self) {
-				cardViewState.position.set(getWidth() * 0.5f, getHeight() * 0f);
-			} else {
-				cardViewState.position.set(getWidth() * 0.5f, getHeight() * 1f);
-				cardViewState.flipOver = true;
-			}
+			cardViewState.flipOver = pilePosition == PilePosition.Opponent;
 			float offset = cardInfo.pileInfo.getPileIndex() - cardInfo.pileInfo.getPileSize() / 2f + 0.5f;
 			cardViewState.position.x += offset * cardViewState.cardSize.width * 0.8f;
 			cardViewState.zIndex = 11000 + cardInfo.pileInfo.getPileIndex();
 			break;
 		}
 		case HeroPile: {
-			if (pilePosition == PilePosition.Self) {
-				cardViewState.position.set(getWidth() * 0.5f, getHeight() * 0.893f);
-			} else {
-				cardViewState.position.set(getWidth() * 0.5f, getHeight() * 0.107f);
-			}
 			break;
 		}
 		case MarkPile:
-			if (pilePosition == PilePosition.Self) {
-				cardViewState.position.set(getWidth() * 0.365f, getHeight() * 0.1125f);
-			} else {
-				cardViewState.position.set(getWidth() * 0.593f, getHeight() * 0.845f);
-			}
 			cardViewState.flipOver = true;
 			break;
+		case ThreatenPile: {
+			cardViewState.flipOver = true;
+			break;
+		}
 		case SlotPile: {
-
 			int index = cardInfo.pileInfo.getSlotIndex();
 			cardViewState.position.set(getSlotPilePosition(index, pilePosition.ordinal()));
 			switch (cardInfo.pileInfo.getSlotType()) {
@@ -261,39 +248,89 @@ public class CardGroupView extends BaseView {
 			}
 			break;
 		}
-		case ThreatenPile: {
-			if (pilePosition == PilePosition.Self) {
-				cardViewState.position.set(getWidth() * 0.6125f, getHeight() * 0.117f);
-			} else {
-				cardViewState.position.set(getWidth() * 0.381f, getHeight() * 0.885f);
-			}
-			cardViewState.flipOver = true;
-			break;
-		}
 		default:
 			break;
 		}
 		return cardViewState;
 	}
 
+	public static Vector2 getCommonPilePosition(float width, float height, ECardPileType type,
+			PilePosition pilePosition) {
+		Vector2 position = new Vector2();
+		switch (type) {
+		case DiscardPile: {
+			if (pilePosition == PilePosition.Self) {
+				position.set(width * 0.776f, height * 0.225f);
+			} else {
+				position.set(width * 0.22f, height * 0.77f);
+			}
+			break;
+		}
+		case DrawPile: {
+			if (pilePosition == PilePosition.Self) {
+				position.set(width * 0.225f, height * 0.225f);
+			} else {
+				position.set(width * 0.77f, height * 0.77f);
+			}
+			break;
+		}
+		case HandPile: {
+			if (pilePosition == PilePosition.Self) {
+				position.set(width * 0.5f, height * 0f);
+			} else {
+				position.set(width * 0.5f, height * 1f);
+			}
+			break;
+		}
+		case HeroPile: {
+			if (pilePosition == PilePosition.Self) {
+				position.set(width * 0.5f, height * 0.893f);
+			} else {
+				position.set(width * 0.5f, height * 0.107f);
+			}
+			break;
+		}
+		case MarkPile:
+			if (pilePosition == PilePosition.Self) {
+				position.set(width * 0.365f, height * 0.1119f);
+			} else {
+				position.set(width * 0.607f, height * 0.89f);
+			}
+			break;
+		case ThreatenPile: {
+			if (pilePosition == PilePosition.Self) {
+				position.set(width * 0.62f, height * 0.118f);
+			} else {
+				position.set(width * 0.381f, height * 0.895f);
+			}
+			break;
+		}
+		default:
+			break;
+		}
+		return position;
+	}
+
 	public Vector2 getSlotPilePosition(int index, int pilePosition) {
+		float width = this.viewWidth;
+		float height = this.viewHeight;
 		Vector2 position = new Vector2();
 		if (pilePosition == 0) {
 			switch (index) {
 			case 1:
-				position.set(getWidth() * 0.226f, getHeight() * 0.386f);
+				position.set(width * 0.226f, height * 0.386f);
 				break;
 			case 2:
-				position.set(getWidth() * 0.359f, getHeight() * 0.394f);
+				position.set(width * 0.359f, height * 0.394f);
 				break;
 			case 3:
-				position.set(getWidth() * 0.498f, getHeight() * 0.399f);
+				position.set(width * 0.498f, height * 0.399f);
 				break;
 			case 4:
-				position.set(getWidth() * 0.635f, getHeight() * 0.391f);
+				position.set(width * 0.635f, height * 0.391f);
 				break;
 			case 5:
-				position.set(getWidth() * 0.777f, getHeight() * 0.389f);
+				position.set(width * 0.777f, height * 0.389f);
 				break;
 			default:
 				Log.game.error("unknown pile index for slotPile:{}", index);
@@ -301,19 +338,19 @@ public class CardGroupView extends BaseView {
 		} else {
 			switch (index) {
 			case 1:
-				position.set(getWidth() * 0.777f, getHeight() * 0.611f);
+				position.set(width * 0.777f, height * 0.611f);
 				break;
 			case 2:
-				position.set(getWidth() * 0.637f, getHeight() * 0.604f);
+				position.set(width * 0.637f, height * 0.604f);
 				break;
 			case 3:
-				position.set(getWidth() * 0.497f, getHeight() * 0.600f);
+				position.set(width * 0.497f, height * 0.600f);
 				break;
 			case 4:
-				position.set(getWidth() * 0.361f, getHeight() * 0.604f);
+				position.set(width * 0.361f, height * 0.604f);
 				break;
 			case 5:
-				position.set(getWidth() * 0.220f, getHeight() * 0.608f);
+				position.set(width * 0.220f, height * 0.608f);
 				break;
 			default:
 				Log.game.error("unknown pile index for slotPile:{}", index);

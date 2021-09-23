@@ -10,7 +10,6 @@ import com.backinfile.card.gen.GameMessageHandler.DCardInfo;
 import com.backinfile.card.gen.GameMessageHandler.DCardInfoList;
 import com.backinfile.card.gen.GameMessageHandler.DCardPileInfo;
 import com.backinfile.card.gen.GameMessageHandler.DPileNumber;
-import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
 import com.backinfile.card.model.Skill.SkillAura;
 import com.backinfile.card.model.Skill.SkillTrigger;
 import com.backinfile.card.model.actions.ChangeBoardStateAction;
@@ -394,7 +393,7 @@ public class Board implements IAlive {
 		cardInfoList.addAllCards(getAllCardInfo(cardPile));
 		for (var human : humans) {
 			cardInfoList.setData(getBoardData(human.token));
-			human.sendMessage(cardInfoList);
+			human.sendMessage(cardInfoList.copy());
 		}
 	}
 

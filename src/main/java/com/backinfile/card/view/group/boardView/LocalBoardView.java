@@ -1,16 +1,11 @@
 package com.backinfile.card.view.group.boardView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
 import com.backinfile.card.manager.GameUtils;
 import com.backinfile.card.server.local.LocalGameClient;
 import com.backinfile.card.view.actor.PositionLocator;
 import com.backinfile.card.view.group.BaseView;
 import com.backinfile.card.view.group.CardGroupView;
-import com.backinfile.card.view.group.PileView;
-import com.backinfile.card.view.group.PileView.PilePosition;
+import com.backinfile.card.view.group.MulPileView;
 import com.backinfile.card.view.stage.GameStage;
 import com.badlogic.gdx.utils.Align;
 
@@ -21,7 +16,7 @@ public class LocalBoardView extends BaseView {
 	public CardGroupView cardGroupView;
 	public BoardUIView boardUIView;
 	private BoardBackgroundView backgroundView;
-	public List<PileView> pileViews;
+	private MulPileView mulPileView;
 
 	public LocalBoardView(GameStage gameStage, float width, float height) {
 		super(gameStage, width, height);
@@ -32,19 +27,8 @@ public class LocalBoardView extends BaseView {
 		backgroundView = new BoardBackgroundView(gameStage, getWidth(), getHeight());
 		addActor(backgroundView);
 
-		{
-			pileViews = new ArrayList<>();
-			pileViews.add(new PileView(gameStage, getWidth(), getHeight(), ECardPileType.DrawPile, PilePosition.Self));
-			pileViews.add(
-					new PileView(gameStage, getWidth(), getHeight(), ECardPileType.DiscardPile, PilePosition.Self));
-			pileViews.add(
-					new PileView(gameStage, getWidth(), getHeight(), ECardPileType.DrawPile, PilePosition.Opponent));
-			pileViews.add(
-					new PileView(gameStage, getWidth(), getHeight(), ECardPileType.DiscardPile, PilePosition.Opponent));
-			for (var pile : pileViews) {
-				addActor(pile);
-			}
-		}
+		mulPileView = new MulPileView(gameStage, getWidth(), getHeight());
+		addActor(mulPileView);
 
 		cardGroupView = new CardGroupView(gameStage, getWidth(), getHeight());
 		addActor(cardGroupView);

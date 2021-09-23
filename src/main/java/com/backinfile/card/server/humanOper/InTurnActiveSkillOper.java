@@ -14,6 +14,7 @@ public class InTurnActiveSkillOper extends HumanOper {
 
 	@Override
 	public void onHumanAttach() {
+		human.sendMessage(human.board.getBoardSetup(human.token));
 		activableSkills = human.board.getActivableSkills(human.token);
 		var skillInfos = activableSkills.stream().map(s -> s.toMsg()).collect(Collectors.toList());
 		SCSelectSkillToActive msg = new SCSelectSkillToActive();

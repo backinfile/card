@@ -18,8 +18,8 @@ import com.badlogic.gdx.utils.Align;
 
 // 管理一个牌堆
 public class PileView extends BaseView {
+	private static final LocalUIString uiString = LocalString.getUIString("PileView");
 	private PileButton pileButton; // 查看牌库按钮
-	private LocalUIString uiString;
 	public ECardPileType pileType;
 	public PilePosition pilePosition;
 	private Label numberLabel;
@@ -44,7 +44,6 @@ public class PileView extends BaseView {
 	}
 
 	public void setPileType(ECardPileType type, PilePosition pilePosition) {
-		this.uiString = LocalString.getUIString("Pile" + type.name());
 		this.pileType = type;
 		this.pilePosition = pilePosition;
 
@@ -81,40 +80,15 @@ public class PileView extends BaseView {
 		var texture = Res.getTexture(uiString.images[pilePosition.ordinal()]);
 		pileButton.setStyle(new ButtonStyle(texture, null, null));
 
-		Vector2 position = new Vector2(getX(), getY());
+		Vector2 position = CardGroupView.getCommonPilePosition(getWidth(), getHeight(), pileType, pilePosition);
 		pileRoated = false;
 
 		switch (pileType) {
+		case DrawPile:
 		case DiscardPile: {
-			if (pilePosition == PilePosition.Self) {
-				position.set(getWidth() * 0.776f, getHeight() * 0.225f);
-			} else {
-				position.set(getWidth() * 0.22f, getHeight() * 0.77f);
-			}
 			pileRoated = true;
 			break;
 		}
-		case DrawPile: {
-			if (pilePosition == PilePosition.Self) {
-				position.set(getWidth() * 0.225f, getHeight() * 0.225f);
-			} else {
-				position.set(getWidth() * 0.77f, getHeight() * 0.77f);
-			}
-			pileRoated = true;
-			break;
-		}
-		case HandPile:
-			break;
-		case HeroPile:
-			break;
-		case MarkPile:
-			break;
-		case None:
-			break;
-		case SlotPile:
-			break;
-		case TrashPile:
-			break;
 		default:
 			break;
 		}

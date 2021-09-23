@@ -37,8 +37,8 @@ public class DispatchAction extends WaitAction {
 			}
 			humans.remove(human);
 			if (!cardPile.isEmpty()) {
-				addLast(new PutbackHandCardAction(human, cardPile));
 				addLast(new DrawCardAction(human, cardPile.size()));
+				addLast(new PutbackHandCardAction(human, cardPile));
 			}
 		}
 
