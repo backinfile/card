@@ -4,6 +4,7 @@ import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
 
+// 将一些牌弃置到弃牌堆
 public class DiscardCardAction extends TriggerOnceAction {
 	private CardPile cards = new CardPile();
 
@@ -20,7 +21,13 @@ public class DiscardCardAction extends TriggerOnceAction {
 	@Override
 	public void run() {
 		for (var card : cards) {
-			human.handPile.remove(card);
+			board.removeCard(card);
+			if (card.oriHumanToken.equals(human.token)) {
+				human.discardPile.add(card);
+			} else {
+				human.getOpponent().discardPile.add(card);
+			}
 		}
+		board.modifyCard(cards);
 	}
 }

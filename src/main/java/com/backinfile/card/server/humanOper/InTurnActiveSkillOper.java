@@ -23,7 +23,9 @@ public class InTurnActiveSkillOper extends HumanOper {
 
 	@Override
 	public void onAIAttach() {
-		human.board.applySkill(human.getSkill(TurnEndSkill.class));
+		var skill = human.getSkill(TurnEndSkill.class);
+		skill.setContext(human.board, human, null);
+		human.board.applySkill(skill);
 		setDone();
 	}
 

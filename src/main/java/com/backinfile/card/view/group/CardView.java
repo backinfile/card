@@ -90,7 +90,7 @@ public class CardView extends Group {
 		setZIndex(state.zIndex);
 	}
 
-	public final void moveToState(CardViewState state) {
+	public final void moveToState(CardViewState state, boolean hideAtEnd) {
 		mainImage.addAction(Actions.sizeTo(state.cardSize.width, state.cardSize.height, Res.BASE_DURATION));
 		ParallelAction parallelAction = new ParallelAction();
 		parallelAction.addAction(Actions.moveTo(state.position.x, state.position.y, Res.BASE_DURATION));
@@ -99,6 +99,11 @@ public class CardView extends Group {
 			setDark(state.dark);
 			setFlipOver(state.flipOver);
 		}));
+		if (hideAtEnd) {
+			parallelAction.addAction(new TimeoutAction(Res.BASE_DURATION, () -> {
+				setVisible(false);
+			}));
+		}
 		addAction(parallelAction);
 
 		setZIndex(state.zIndex);

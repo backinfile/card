@@ -66,7 +66,6 @@ public class CardGroupView extends BaseView {
 					int key = index * 100 + pos * 10 + type;
 					CardViewState cardViewState = new CardViewState();
 					cardViewState.position.set(getSlotPilePosition(index, pos));
-					cardViewState.dark = false;
 					var cardView = new CardView();
 					cardView.setCardString(LocalString.getCardString(helpCardNames[type]));
 					cardView.setState(cardViewState);
@@ -130,7 +129,7 @@ public class CardGroupView extends BaseView {
 				cardView.setState(getCardViewState(lastCardInfo));
 			}
 			var cardView = getCardView(lastCardInfo);
-			cardView.moveToState(getCardViewState(cardInfo));
+			cardView.moveToState(getCardViewState(cardInfo), !isCardVisible(cardInfo));
 		}
 		cardInfoCacheMap.put(cardInfo.getId(), cardInfo);
 	}
@@ -229,7 +228,8 @@ public class CardGroupView extends BaseView {
 			}
 			cardViewState.flipOver = true;
 			break;
-		case SlotPile:
+		case SlotPile: {
+
 			int index = cardInfo.pileInfo.getSlotIndex();
 			cardViewState.position.set(getSlotPilePosition(index, pilePosition.ordinal()));
 			switch (cardInfo.pileInfo.getSlotType()) {
@@ -260,6 +260,16 @@ public class CardGroupView extends BaseView {
 				break;
 			}
 			break;
+		}
+		case ThreatenPile: {
+			if (pilePosition == PilePosition.Self) {
+				cardViewState.position.set(getWidth() * 0.6125f, getHeight() * 0.117f);
+			} else {
+				cardViewState.position.set(getWidth() * 0.381f, getHeight() * 0.885f);
+			}
+			cardViewState.flipOver = true;
+			break;
+		}
 		default:
 			break;
 		}

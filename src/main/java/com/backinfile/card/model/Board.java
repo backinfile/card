@@ -9,6 +9,8 @@ import com.backinfile.card.gen.GameMessageHandler.DBoardSetup;
 import com.backinfile.card.gen.GameMessageHandler.DCardInfo;
 import com.backinfile.card.gen.GameMessageHandler.DCardInfoList;
 import com.backinfile.card.gen.GameMessageHandler.DCardPileInfo;
+import com.backinfile.card.gen.GameMessageHandler.DPileNumber;
+import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
 import com.backinfile.card.model.Skill.SkillAura;
 import com.backinfile.card.model.Skill.SkillTrigger;
 import com.backinfile.card.model.actions.ChangeBoardStateAction;
@@ -325,18 +327,20 @@ public class Board implements IAlive {
 
 	public DBoardSetup getBoardSetup(String token) {
 		DBoardSetup boardSetup = new DBoardSetup();
-		boardSetup.setData(getBoardData(token));
 		DCardInfoList cardInfoList = new DCardInfoList();
 		cardInfoList.addAllCards(getAllCardInfo());
+		cardInfoList.setData(getBoardData(token));
 		boardSetup.setCardInfos(cardInfoList);
 		return boardSetup;
 	}
 
 	public DBoardData getBoardData(String token) {
 		DBoardData boardData = new DBoardData();
-		var human = getHuman(token);
-		if (human != null) {
-			boardData.setOpponentPlayerName(human.getOpponent().playerName);
+		{
+			var human = getHuman(token);
+			if (human != null) {
+				boardData.setOpponentPlayerName(human.getOpponent().playerName);
+			}
 		}
 		if (curTurnHuman != null) {
 			boardData.setCurTurnPlayerName(curTurnHuman.playerName);
@@ -345,19 +349,34 @@ public class Board implements IAlive {
 		if (actionQueue.curAction != null && actionQueue.curAction.human != null) {
 			boardData.setCurActionPlayerName(actionQueue.curAction.human.playerName);
 		}
+		{
+			// 通知各个牌库中牌的数目
+			for (var human : humans) {
+				for (var cardPile : human.getNormalPiles()) {
+					DPileNumber pileNumber = new DPileNumber();
+					pileNumber.setToken(human.token);
+					pileNumber.setPileType(cardPile.getPileType());
+					pileNumber.setNumber(cardPile.size());
+					boardData.addPileNumbers(pileNumber);
+				}
+			}
+		}
 		return boardData;
 	}
 
+	// 推送棋盘数据变更消息
 	public void modifyBoardData() {
 		for (var human : humans) {
 			human.sendMessage(getBoardData(human.token));
 		}
 	}
 
+	// 推送卡牌变更消息
 	public final void modifyCard(Card... cards) {
 		modifyCard(new CardPile(cards));
 	}
 
+	// 推送卡牌变更消息
 	public final void modifyCard(CardPile... cardPiles) {
 		CardPile modify = new CardPile();
 		for (var pile : cardPiles) {
@@ -366,6 +385,7 @@ public class Board implements IAlive {
 		modifyCard(modify);
 	}
 
+	// 推送卡牌变更消息
 	public final void modifyCard(CardPile cardPile) {
 		if (cardPile.isEmpty()) {
 			return;
@@ -373,6 +393,7 @@ public class Board implements IAlive {
 		DCardInfoList cardInfoList = new DCardInfoList();
 		cardInfoList.addAllCards(getAllCardInfo(cardPile));
 		for (var human : humans) {
+			cardInfoList.setData(getBoardData(human.token));
 			human.sendMessage(cardInfoList);
 		}
 	}

@@ -26,7 +26,7 @@ public class LocalGameClientMessageHandler extends GameMessageHandler.DSyncListe
 	@Override
 	public void onMessage(DBoardSetup data) {
 		// 更新卡牌位置
-		gameStage.addViewAction(new UpdateBoardDataViewAction(data.getData()));
+		gameStage.addViewAction(new UpdateBoardDataViewAction(data.getCardInfos().getData()));
 		gameStage.addViewAction(new MoveCardViewAction(data.getCardInfos().getCardsList(), true));
 
 	}
@@ -48,6 +48,7 @@ public class LocalGameClientMessageHandler extends GameMessageHandler.DSyncListe
 
 	@Override
 	public void onMessage(DCardInfoList data) {
+		gameStage.addViewAction(new UpdateBoardDataViewAction(data.getData()));
 		gameStage.addViewAction(new MoveCardViewAction(data.getCardsList(), false));
 	}
 

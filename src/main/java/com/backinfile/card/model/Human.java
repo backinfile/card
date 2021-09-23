@@ -77,11 +77,17 @@ public class Human extends SkillCaster {
 		addSkill(new TurnEndSkill());
 	}
 
+	/**
+	 * 这个函数执行时，保证当前没有action正在执行中，可以直接设置一些值
+	 */
 	public final void onGameStart() {
 		addLast(new DrawCardAction(this, 5));
 		Log.game.info("player {} gameStart", token);
 	}
 
+	/**
+	 * 这个函数执行时，保证当前没有action正在执行中，可以直接设置一些值
+	 */
 	public final void onTurnStart() {
 		// 回合开始清理buff
 		removeSkillIf(s -> s.duration == SkillDuration.OwnerStartTurn);
@@ -94,6 +100,9 @@ public class Human extends SkillCaster {
 		Log.game.info("player {} turnStart", token);
 	}
 
+	/**
+	 * 这个函数执行时，保证当前没有action正在执行中，可以直接设置一些值
+	 */
 	public final void onTurnEnd() {
 		// 回合结束清理buff
 		removeSkillIf(s -> s.duration == SkillDuration.OwnerEndTurn);
@@ -101,7 +110,13 @@ public class Human extends SkillCaster {
 			card.removeSkillIf(s -> s.duration == SkillDuration.OwnerEndTurn);
 		}
 
-		addLast(new SaveThreatenAction());
+		// 所有储备准备完成
+		for (var slot : cardSlotMap.values()) {
+			slot.ready = true;
+			board.modifyCard(slot.getAllCards());
+		}
+
+		addLast(new SaveThreatenAction(this));
 		Log.game.info("player {} turnEnd", token);
 	}
 

@@ -10,27 +10,14 @@ public abstract class Action implements IAction {
 
 	public LocalActionString actionString;
 	public Board board; // 当前棋盘（自动设置）
+
+	// 定义一些变量方便使用，并不强制要求设置
 	public Human human; // 当前正在执行这个动作的human
 	public Card card; // 当前卡
 	public Card targetCard; // 如果需要，目标卡
+	public int number; // 如果需要，数目
 
 	public Action() {
-		this(null, null, null);
-	}
-
-	public Action(Human human) {
-		this(human, null, null);
-	}
-
-	public Action(Human human, Card card) {
-		this(human, card, null);
-	}
-
-	public Action(Human human, Card card, Card targetCard) {
-		this.human = human;
-		this.card = card;
-		this.targetCard = targetCard;
-
 		this.actionString = LocalString.getActionString(getClass().getSimpleName());
 	}
 
