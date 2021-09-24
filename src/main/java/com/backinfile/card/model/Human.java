@@ -202,22 +202,31 @@ public class Human extends SkillCaster {
 
 	/**
 	 * 获取所有具有储备的slot
+	 * 
+	 * @param needReady       仅取储备完成的
+	 * @param exceptPlanSlot  排除计划区
+	 * @param opponentVisible 仅取对手可见的
+	 * @return
 	 */
-	public List<CardSlot> getStoreSlots(boolean needReady, boolean exceptPlanSlot) {
-		List<CardSlot> cardSlots = new ArrayList<>();
-		for (var cardSlot : cardSlotMap.values()) {
-			if (!cardSlot.getPile(ESlotType.Store).isEmpty()) {
-				if (needReady && !cardSlot.ready) {
-					continue;
-				}
-				if (exceptPlanSlot && cardSlot.asPlanSlot) {
-					continue;
-				}
-				cardSlots.add(cardSlot);
-			}
-		}
-		return cardSlots;
-	}
+//	public List<CardSlot> getStoreSlots(boolean needReady, boolean exceptPlanSlot, boolean opponentVisible) {
+//		List<CardSlot> cardSlots = new ArrayList<>();
+//		for (var cardSlot : cardSlotMap.values()) {
+//			if (needReady && !cardSlot.ready) {
+//				continue;
+//			}
+//			if (exceptPlanSlot && cardSlot.asPlanSlot) {
+//				continue;
+//			}
+//			if (!cardSlot.getPile(ESlotType.Store).isEmpty()) {
+//				cardSlots.add(cardSlot);
+//				continue;
+//			}
+//			if (!opponentVisible && !cardSlot.getPile(ESlotType.Plan).isEmpty()) {
+//				cardSlots.add(cardSlot);
+//			}
+//		}
+//		return cardSlots;
+//	}
 
 	public Card getCard(long id) {
 		for (var card : getAllCards()) {
@@ -231,17 +240,19 @@ public class Human extends SkillCaster {
 	/**
 	 * 获取所有可以利用的储备
 	 * 
-	 * @param forceStore 必须为储备牌，不能是行动牌
-	 * @param onlyReady  必须是已经准备好的牌
-	 * @param exceptPlan 排除计划区中的牌
-	 * @param exceptHand 排除手牌
+	 * @param forceStore          必须为储备牌，不能是行动牌
+	 * @param onlyReady           必须是已经准备好的牌
+	 * @param exceptPlan          排除计划区中的牌
+	 * @param exceptHand          排除手牌
+	 * @param onlyOpponentVisible 仅取对手可见的
 	 * @return
 	 */
-	public CardPile getAllStoreCards(boolean forceStore, boolean onlyReady, boolean exceptPlan, boolean exceptHand) {
+	public CardPile getAllStoreCards(boolean forceStore, boolean onlyReady, boolean exceptPlan, boolean exceptHand,
+			boolean onlyOpponentVisible) {
 		CardPile cardPile = new CardPile();
 
 		// 储备位上的储备牌
-		cardPile.addAll(getAllStoreInSlot(forceStore, onlyReady, exceptPlan));
+		cardPile.addAll(getAllStoreInSlot(forceStore, onlyReady, exceptPlan, onlyOpponentVisible));
 
 		if (!exceptHand) {
 			// 手牌中
@@ -257,7 +268,8 @@ public class Human extends SkillCaster {
 	/**
 	 * 获取所有储备位上的储备
 	 */
-	public CardPile getAllStoreInSlot(boolean forceStore, boolean onlyReady, boolean exceptPlan) {
+	public CardPile getAllStoreInSlot(boolean forceStore, boolean onlyReady, boolean exceptPlan,
+			boolean onlyOpponentVisible) {
 		CardPile cardPile = new CardPile();
 		for (var slot : cardSlotMap.values()) {
 			if (onlyReady && !slot.ready) {
@@ -267,7 +279,9 @@ public class Human extends SkillCaster {
 				continue;
 			}
 			cardPile.addAll(slot.getPile(ESlotType.Store));
-			cardPile.addAll(slot.getPile(ESlotType.Plan));
+			if (!onlyOpponentVisible) {
+				cardPile.addAll(slot.getPile(ESlotType.Plan));
+			}
 		}
 		if (forceStore) {
 			cardPile.removeAll(card -> card.mainType != CardType.STORE);

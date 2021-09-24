@@ -56,7 +56,8 @@ public class ShowCardListView extends BaseView {
 		addActor(viewGroup);
 		tipLabel = new Label("", new LabelStyle(Res.DefaultFont, Color.WHITE));
 		tipLabel.setAlignment(Align.center);
-		tipLabel.setPosition(width / 2f, height / 2f, Align.center);
+		tipLabel.setX(width / 2, Align.center);
+		tipLabel.setY(getHeight() / 2 + 1.3f * CardSize.Large.height * LargeRateH, Align.center);
 		addActor(tipLabel);
 
 		cardViewPool = new ObjectPool<CardView>() {

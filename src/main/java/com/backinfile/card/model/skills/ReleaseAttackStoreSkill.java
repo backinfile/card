@@ -12,7 +12,7 @@ public class ReleaseAttackStoreSkill extends Skill {
 
 	@Override
 	public boolean triggerable() {
-		if (human.getAllStoreCards(true, true, false, false).isEmpty()) {
+		if (human.getAllStoreCards(true, true, false, false, false).isEmpty()) {
 			return false;
 		}
 		return true;

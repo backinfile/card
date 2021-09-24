@@ -7,6 +7,7 @@ import com.backinfile.card.gen.GameMessageHandler.ETargetSlotAimType;
 import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
+import com.backinfile.card.model.Skill.SkillTrigger;
 import com.backinfile.card.server.humanOper.SelectCardOper;
 import com.backinfile.card.server.humanOper.SelectEmptySlotOper;
 import com.backinfile.support.Log;
@@ -30,6 +31,25 @@ public class AttackAction extends WaitAction {
 
 	@Override
 	public void init() {
+		if (withAttackEffect) { // 有特效释放
+			var skill = card.getSkill(s -> {
+				if (s.trigger == SkillTrigger.ReplaceRelease) {
+					s.setContext(board, human, card);
+					if (s.triggerCostAP <= human.actionPoint) {
+						if (s.triggerable()) {
+							return true;
+						}
+					}
+				}
+				return false;
+			});
+			if (skill != null) {
+				board.applySkill(skill);
+				setDone();
+				return;
+			}
+		}
+
 		var emptySlots = targetHuman.getEmptySlots(true);
 		if (!emptySlots.isEmpty()) {
 			// 有空位，直接侵占上去
@@ -42,7 +62,7 @@ public class AttackAction extends WaitAction {
 			return;
 		}
 		// 没有空位，选择一项击破
-		var toBreak = targetHuman.getAllStoreInSlot(false, false, true);
+		var toBreak = targetHuman.getAllStoreInSlot(false, false, true, true);
 		if (toBreak.isEmpty()) {
 			setDone();
 			return;

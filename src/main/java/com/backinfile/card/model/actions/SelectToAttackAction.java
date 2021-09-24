@@ -23,7 +23,7 @@ public class SelectToAttackAction extends WaitAction {
 
 	@Override
 	public void init() {
-		var humanOper = new SelectCardOper(human.getAllStoreCards(true, true, false, false),
+		var humanOper = new SelectCardOper(human.getAllStoreCards(true, true, false, false, false),
 				Utils.format(actionString.tip, number), number);
 		humanOper.setDetachCallback(() -> {
 			for (var card : humanOper.getSelectedPile().reverse()) {

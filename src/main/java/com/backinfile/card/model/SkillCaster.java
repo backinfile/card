@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+import org.lwjgl.system.CallbackI.S;
+
 import com.backinfile.card.model.Skill.EmptySkill;
 
 public abstract class SkillCaster {
 	protected List<Skill> skills = new ArrayList<>();
 
-	public final List<Skill> getSkillList() {
-		return skills;
+	public List<Skill> getSkillList() {
+		return new ArrayList<Skill>(skills);
 	}
 
-	public final Skill getSkill(long id) {
+	public Skill getSkill(long id) {
 		for (var skill : skills) {
 			if (skill.id == id) {
 				return skill;
@@ -44,6 +46,15 @@ public abstract class SkillCaster {
 		for (var skill : skills) {
 			if (skill.getClass() == clazz) {
 				return (T) skill;
+			}
+		}
+		return null;
+	}
+
+	public Skill getSkill(Predicate<Skill> predicate) {
+		for (var skill : skills) {
+			if (predicate.test(skill)) {
+				return skill;
 			}
 		}
 		return null;

@@ -37,7 +37,7 @@ public abstract class Skill {
 	public static enum SkillTrigger {
 		Active, // 主动激活
 		ActAsStore, // 可作为readyStore
-		ReplaceRelease, // 替换释放
+		ReplaceRelease, // 当卡牌本身被有特效释放时，替换释放技能
 	}
 
 	// 生效地点

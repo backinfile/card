@@ -403,12 +403,10 @@ public class Board implements IAlive {
 
 	// 使用技能
 	public final void applySkill(Skill skill) {
-		if (skill.trigger == SkillTrigger.Active) {
-			// 消耗行动点
-			if (skill.triggerCostAP > 0) {
-				skill.human.actionPoint -= skill.triggerCostAP;
-				modifyBoardData();
-			}
+		// 消耗行动点
+		if (skill.triggerCostAP > 0) {
+			skill.human.actionPoint = Math.max(0, skill.human.actionPoint - skill.triggerCostAP);
+			modifyBoardData();
 		}
 		// 消耗执行次数
 		if (skill.triggerTimesLimit > 0) {
@@ -416,6 +414,5 @@ public class Board implements IAlive {
 		}
 		// 执行skill
 		skill.apply();
-
 	}
 }
