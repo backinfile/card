@@ -85,8 +85,7 @@ public abstract class Skill {
 		setTriggerType(duration, trigger, aura, cost, -1);
 	}
 
-	public void apply() {
-	}
+	public abstract void apply();
 
 	public final void addLast(Action action) {
 		board.getActionQueue().addLast(action);
@@ -129,5 +128,9 @@ public abstract class Skill {
 
 	public static class EmptySkill extends Skill {
 		public static final EmptySkill Instance = new EmptySkill();
+
+		@Override
+		public void apply() {
+		}
 	}
 }

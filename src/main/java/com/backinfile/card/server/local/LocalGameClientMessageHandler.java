@@ -14,6 +14,7 @@ import com.backinfile.card.view.viewActions.SelectCardViewAction;
 import com.backinfile.card.view.viewActions.SelectEmptySlotViewAction;
 import com.backinfile.card.view.viewActions.UpdateBoardDataViewAction;
 
+@SuppressWarnings("unused")
 public class LocalGameClientMessageHandler extends GameMessageHandler.DSyncListener {
 	private LocalGameClient gameClient;
 	private GameStage gameStage;

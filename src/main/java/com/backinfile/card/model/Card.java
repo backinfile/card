@@ -2,14 +2,15 @@ package com.backinfile.card.model;
 
 import com.backinfile.card.model.LocalString.LocalCardString;
 import com.backinfile.support.IdAllot;
-import com.backinfile.support.Log;
-import com.backinfile.support.SysException;
 
+/**
+ * 卡牌基类 <br/>
+ * 子类要有无参构造函数，用于copy
+ */
 public abstract class Card extends SkillCaster {
 	public long id;
 	public LocalCardString cardString;
 	public CardType mainType = CardType.NONE;
-	public CardSubType subType = CardSubType.NONE;
 	public String oriHumanToken; // 最初归属于谁
 
 	public static enum CardType {
@@ -18,12 +19,6 @@ public abstract class Card extends SkillCaster {
 		ACTION, // 行动卡
 		TOOL, // 辅助用卡，并不实际存在
 		NONE
-	}
-
-	public static enum CardSubType {
-		NONE, // 空
-		ACTION_MAGIC, // 第一章魔法卡
-		ACTION_ORDER, // 指令
 	}
 
 	public Card(LocalCardString cardString) {
@@ -38,23 +33,20 @@ public abstract class Card extends SkillCaster {
 		this(null);
 	}
 
-	public Card copy() {
-		try {
-			// 复制的卡用新的id
-			Card copy = getClass().getConstructor().newInstance();
-			copy.cardString = this.cardString;
-			copy.mainType = this.mainType;
-			copy.subType = this.subType;
-			copy.oriHumanToken = this.oriHumanToken;
-			onCopy(copy);
-			return copy;
-		} catch (Exception e) {
-			Log.game.error("error in copy card", e);
-			throw new SysException("error in copy card");
-		}
-	}
-
-	public void onCopy(Card copyCard) {
-	}
+	// 并不完整，先注掉，以后有用再写
+//	public Card copy() {
+//		try {
+//			// 复制的卡用新的id
+//			Card copy = getClass().getConstructor().newInstance();
+//			copy.cardString = this.cardString;
+//			copy.mainType = this.mainType;
+//			copy.subType = this.subType;
+//			copy.oriHumanToken = this.oriHumanToken;
+//			return copy;
+//		} catch (Exception e) {
+//			Log.game.error("error in copy card", e);
+//			throw new SysException("error in copy card");
+//		}
+//	}
 
 }

@@ -24,6 +24,10 @@ public class SelectCardOper extends HumanOper {
 		this.maxNumber = maxNumber;
 	}
 
+	public SelectCardOper(CardPile targetCardPile, String tip, int minNumber, int maxNumber) {
+		this(targetCardPile, tip, "", minNumber, maxNumber);
+	}
+
 	public SelectCardOper(CardPile targetCardPile, String tip, int number) {
 		this(targetCardPile, tip, "", number, number);
 	}

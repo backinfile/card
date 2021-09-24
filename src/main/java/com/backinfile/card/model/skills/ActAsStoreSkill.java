@@ -7,4 +7,8 @@ public class ActAsStoreSkill extends Skill {
 	public ActAsStoreSkill(SkillDuration duration, SkillAura aura) {
 		setTriggerType(duration, SkillTrigger.ActAsStore, aura, 0);
 	}
+
+	@Override
+	public void apply() {
+	}
 }

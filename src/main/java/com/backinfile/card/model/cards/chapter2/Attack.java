@@ -7,7 +7,6 @@ import com.backinfile.card.model.skills.ReleaseAttackStoreSkill;
 public class Attack extends ActionCard {
 
 	public Attack() {
-		subType = CardSubType.ACTION_ORDER;
 		addSkill(new ReleaseAttackStoreSkill());
 		addSkill(new Release2StoreSkill());
 	}

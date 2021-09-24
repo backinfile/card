@@ -7,6 +7,7 @@ import com.backinfile.card.manager.Res;
 import com.backinfile.card.model.CardInfo;
 import com.backinfile.card.model.LocalString;
 import com.backinfile.card.model.LocalString.LocalUIString;
+import com.backinfile.card.view.actions.TimeoutAction;
 import com.backinfile.card.view.group.BaseView;
 import com.backinfile.card.view.group.CardSize;
 import com.backinfile.card.view.group.PileView.PilePosition;
@@ -57,7 +58,7 @@ public class ShowCardListView extends BaseView {
 		tipLabel = new Label("", new LabelStyle(Res.DefaultFont, Color.WHITE));
 		tipLabel.setAlignment(Align.center);
 		tipLabel.setX(width / 2, Align.center);
-		tipLabel.setY(getHeight() / 2 + 1.3f * CardSize.Large.height * LargeRateH, Align.center);
+		tipLabel.setY(getHeight() / 2 + 1.6f * CardSize.Large.height * LargeRateH, Align.center);
 		addActor(tipLabel);
 
 		cardViewPool = new ObjectPool<CardView>() {
@@ -87,6 +88,7 @@ public class ShowCardListView extends BaseView {
 
 	public void show(List<CardInfo> cardInfos, String tip, Action1<CardInfo> callback) {
 		// 初始化
+		clearActions();
 		this.callback = callback;
 		gameStage.setScrollFocus(this);
 		viewGroup.setPosition(0, 0);
@@ -172,6 +174,12 @@ public class ShowCardListView extends BaseView {
 				pileLabel.setPosition(0, -mainImage.getHeight() / 2, Align.top);
 			}
 		}
+	}
 
+	@Override
+	public void hide() {
+		addAction(new TimeoutAction(0.05f, () -> {
+			setVisible(false);
+		}));
 	}
 }

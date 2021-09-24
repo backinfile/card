@@ -47,6 +47,22 @@
 			}],
 		},
 		{
+			"sn":"bee",
+			"name":"噬魂蜂",
+			"frontImages": [{
+				"path":"image/card/chap2/card1.png",
+				"locate":[5,2,0,0],
+			},{
+				"path":"image/card/chap2/card2.png",
+				"locate":[5,2,0,0],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back1.png"
+			},{
+				"path":"image/card/chap2/back2.png"
+			}],
+		},
+		{
 			"sn":"beekeeper",
 			"name":"养蜂人",
 			"frontImages": [{
@@ -72,7 +88,7 @@
 			"tip":"选择一张加入威慑",
 	},{
 			"sn":"SelectToAttackAction",
-			"tip":"选择{0}张储备释放",
+			"tips":["选择至多{0}张储备释放", "选择至多{0}张储备带特效释放", "选择结束"]
 	},{
 			"sn":"AttackAction",
 			"tips":["侵占一个储备位","选择一项击破"]

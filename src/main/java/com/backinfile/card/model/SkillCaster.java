@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-import org.lwjgl.system.CallbackI.S;
-
 import com.backinfile.card.model.Skill.EmptySkill;
 
 public abstract class SkillCaster {
@@ -63,5 +61,4 @@ public abstract class SkillCaster {
 	public final void addSkill(Skill skill) {
 		skills.add(skill);
 	}
-
 }

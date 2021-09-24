@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.backinfile.card.gen.GameMessageHandler.CSSelectCard;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectCards;
+import com.backinfile.card.manager.ConstGame;
 import com.backinfile.card.model.LocalString;
 import com.backinfile.card.view.group.CardView;
 import com.backinfile.card.view.group.boardView.ButtonInfo;
@@ -27,7 +28,8 @@ public class SelectCardViewAction extends ViewAction {
 
 	@Override
 	public void begin() {
-		if (selectFrom.stream().anyMatch(id -> gameStage.boardView.cardGroupView.getCurCardView(id) == null)) {
+		if (ConstGame.CARD_LIST_VIEW
+				|| selectFrom.stream().anyMatch(id -> gameStage.boardView.cardGroupView.getCurCardView(id) == null)) {
 			// 选择牌库中的牌
 			var cardInfos = selectFrom.stream().map(id -> gameStage.boardView.cardGroupView.getCardInfoCache(id))
 					.collect(Collectors.toList());

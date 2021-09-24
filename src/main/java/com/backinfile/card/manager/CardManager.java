@@ -6,34 +6,33 @@ import java.util.Map;
 import com.backinfile.card.Settings;
 import com.backinfile.card.model.Card;
 import com.backinfile.support.Log;
+import com.backinfile.support.SysException;
 import com.backinfile.support.reflection.ReflectionUtils;
 import com.backinfile.support.reflection.Timing;
 
 // 默认使用卡牌的类的simpleName作为唯一标识
 public class CardManager {
-	private static Map<String, Card> allCards = new HashMap<>();
+	private static Map<String, Class<?>> allCards = new HashMap<>();
 
 	@Timing("init card")
 	public static void init() {
-		Log.game.info("------------- init card start -------------");
 		for (var clazz : ReflectionUtils.getClassesExtendsClass(Settings.PackageName, Card.class)) {
-			try {
-				Card card = (Card) clazz.getConstructor().newInstance();
-				allCards.put(clazz.getSimpleName(), card);
-			} catch (Exception e) {
-				Log.res.warn("create card {} failed, {}", clazz.getSimpleName(), e.getMessage());
-			}
+			allCards.put(clazz.getSimpleName(), clazz);
 		}
-		Log.game.info("------------- init card over -------------");
+		Log.game.info("find {} cards", allCards.size());
 	}
 
 	/**
 	 * 获取一张新的卡牌
 	 */
 	public static Card getCard(String sn, String oriHumanToken) {
-		Card copy = allCards.get(sn).copy();
-		copy.oriHumanToken = oriHumanToken;
-		return copy;
+		try {
+			Card card = (Card) allCards.get(sn).getConstructor().newInstance();
+			card.oriHumanToken = oriHumanToken;
+			return card;
+		} catch (Exception e) {
+			throw new SysException("error in create Card:" + sn);
+		}
 	}
 
 	// 获取卡牌标识

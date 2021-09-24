@@ -12,6 +12,7 @@ import com.backinfile.support.func.Terminal;
  * GameServer管理游戏棋盘，产生数据->转string->传输到client->dSync解析
  * GameClient产生玩家操作->转string->传输到Server->dSync解析
  */
+@SuppressWarnings("unused")
 public class GameServer extends Terminal<String, String> implements IAlive {
 	public static GameServer Instance;
 
