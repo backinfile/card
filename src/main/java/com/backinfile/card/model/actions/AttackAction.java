@@ -6,6 +6,7 @@ import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.gen.GameMessageHandler.ETargetSlotAimType;
 import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardPile;
+import com.backinfile.card.model.CardSlot;
 import com.backinfile.card.model.Human;
 import com.backinfile.card.model.Skill.SkillTrigger;
 import com.backinfile.card.server.humanOper.SelectCardOper;
@@ -15,6 +16,7 @@ import com.backinfile.support.Log;
 public class AttackAction extends WaitAction {
 	private Human targetHuman;
 	private boolean withAttackEffect = false;
+	private AttackResult attackResult = AttackResult.None;
 
 	public AttackAction(Human human, Card card, Human targetHuman) {
 		this.human = human;
@@ -27,6 +29,10 @@ public class AttackAction extends WaitAction {
 		this.card = card;
 		this.targetHuman = targetHuman;
 		this.withAttackEffect = withAttackEffect;
+	}
+
+	public static enum AttackResult {
+		None, Occupy, Break,
 	}
 
 	@Override
@@ -75,7 +81,8 @@ public class AttackAction extends WaitAction {
 	}
 
 	private void onOccupy(int index) {
-		board.removeCard(card);
+		this.attackResult = AttackResult.Occupy;
+		removeStore(card);
 		var cardSlot = targetHuman.cardSlotMap.get(index);
 		cardSlot.getPile(ESlotType.Seal).add(card);
 		board.modifyCard(card);
@@ -84,6 +91,7 @@ public class AttackAction extends WaitAction {
 	}
 
 	private void onBreak(Card breakCard) {
+		this.attackResult = AttackResult.Break;
 		CardPile discards = new CardPile();
 		discards.addAll(targetHuman.getCardSlotByCard(breakCard).getAllCards());
 		discards.add(card);
@@ -91,5 +99,20 @@ public class AttackAction extends WaitAction {
 		addFirst(new DrawCardAction(human, 1));
 		setDone();
 		Log.game.info("击破");
+	}
+
+	public AttackResult getAttackResult() {
+		return attackResult;
+	}
+
+	private void removeStore(Card store) {
+		CardSlot slot = human.getCardSlotByCard(store);
+		if (slot != null) {
+			CardPile allCards = slot.getAllCards();
+			allCards.remove(store);
+			addFirst(new DiscardCardAction(targetHuman, allCards));
+		} else {
+			board.removeCard(store);
+		}
 	}
 }

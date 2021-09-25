@@ -234,7 +234,11 @@ public class CardGroupView extends BaseView {
 				cardViewState.zIndex = 1;
 				break;
 			case Plan:
-				cardViewState.flipOver = true;
+				if (pilePosition == PilePosition.Self) {
+					cardViewState.flipOver = false;
+				} else {
+					cardViewState.flipOver = true;
+				}
 				cardViewState.zIndex = 1;
 				break;
 			case Ride: // 在储备牌之下

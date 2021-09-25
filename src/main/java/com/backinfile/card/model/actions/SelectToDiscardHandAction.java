@@ -14,6 +14,7 @@ public class SelectToDiscardHandAction extends WaitAction {
 	public void init() {
 		var humanOper = new SelectCardOper(human.handPile, Utils.format(actionString.tip, number), number);
 		humanOper.setDetachCallback(() -> {
+			addFirst(new ArrangePileAction(human));
 			for (var card : humanOper.getSelectedPile().reverse()) {
 				addFirst(new DiscardCardAction(human, card));
 			}

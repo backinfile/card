@@ -1,12 +1,12 @@
 package com.backinfile.support.timer;
 
 import com.backinfile.support.Time2;
-import com.backinfile.support.func.Function;
+import com.backinfile.support.func.Function0;
 
 public class Timer {
 	private long interval = -1;
 	private long timeout = -1;
-	private Function<Long> getTimeFunc;
+	private Function0<Long> getTimeFunc;
 
 	public Timer(long delay) {
 		this(-1, delay, null);
@@ -17,7 +17,7 @@ public class Timer {
 
 	}
 
-	public Timer(long interval, long delay, Function<Long> getTimeFunc) {
+	public Timer(long interval, long delay, Function0<Long> getTimeFunc) {
 		this.interval = interval;
 		this.timeout = Time2.currentTimeMillis() + delay;
 		this.getTimeFunc = getTimeFunc;

@@ -1,6 +1,7 @@
 package com.backinfile.card.model.skills;
 
 import com.backinfile.card.model.Skill;
+import com.backinfile.card.model.actions.SelectToRideAction;
 import com.backinfile.card.model.cards.chapter2.MonsterCard;
 import com.backinfile.card.model.cards.chapter2.MonsterCard.MonsterSkillType;
 
@@ -24,5 +25,6 @@ public class RideSkill extends Skill {
 
 	@Override
 	public void apply() {
+		addLast(new SelectToRideAction(human, card));
 	}
 }

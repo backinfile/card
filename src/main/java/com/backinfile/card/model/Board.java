@@ -217,6 +217,9 @@ public class Board implements IAlive {
 		}
 		// 玩家身上的技能
 		for (var skill : human.getSkillList()) {
+			if (skill.triggerTimesLimit == 0) {
+				continue;
+			}
 			if (skill.trigger == SkillTrigger.Active) {
 				if (skill.triggerCostAP <= human.actionPoint) {
 					skill.setContext(this, human, null);
@@ -229,12 +232,35 @@ public class Board implements IAlive {
 		// 手牌上的技能
 		for (var card : human.handPile) {
 			for (var skill : card.getSkillList()) {
+				if (skill.triggerTimesLimit == 0) {
+					continue;
+				}
 				if (skill.trigger == SkillTrigger.Active) {
 					if (skill.triggerCostAP <= human.actionPoint) {
 						if (skill.aura == SkillAura.Hand) {
 							skill.setContext(this, human, card);
 							if (skill.triggerable()) {
 								activableSkills.add(skill);
+							}
+						}
+					}
+				}
+			}
+		}
+		// 储备位上的技能
+		for (var slot : human.cardSlotMap.values()) {
+			for (var card : slot.getAllCards()) {
+				for (var skill : card.getSkillList()) {
+					if (skill.triggerTimesLimit == 0) {
+						continue;
+					}
+					if (skill.trigger == SkillTrigger.Active) {
+						if (skill.triggerCostAP <= human.actionPoint) {
+							if (skill.aura == SkillAura.Slot) {
+								skill.setContext(this, human, card);
+								if (skill.triggerable()) {
+									activableSkills.add(skill);
+								}
 							}
 						}
 					}
@@ -377,6 +403,14 @@ public class Board implements IAlive {
 	// 推送卡牌变更消息
 	public final void modifyCard(Card... cards) {
 		modifyCard(new CardPile(cards));
+	}
+
+	// 推送卡牌变更消息
+	public final void modifyCard(Card card, CardPile cardPile) {
+		CardPile modifyPile = new CardPile();
+		modifyPile.add(card);
+		modifyPile.addAll(cardPile);
+		modifyCard(modifyPile);
 	}
 
 	// 推送卡牌变更消息

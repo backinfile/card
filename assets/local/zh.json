@@ -31,6 +31,54 @@
 			}],
 		},
 		{
+			"sn":"ride",
+			"name":"骑乘",
+			"frontImages": [{
+				"path":"image/card/chap2/card1.png",
+				"locate":[5,2,1,1],
+			},{
+				"path":"image/card/chap2/card2.png",
+				"locate":[5,2,1,1],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back1.png"
+			},{
+				"path":"image/card/chap2/back2.png"
+			}],
+		},
+		{
+			"sn":"harrass",
+			"name":"骚扰",
+			"frontImages": [{
+				"path":"image/card/chap2/card1.png",
+				"locate":[5,2,3,1],
+			},{
+				"path":"image/card/chap2/card2.png",
+				"locate":[5,2,3,1],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back1.png"
+			},{
+				"path":"image/card/chap2/back2.png"
+			}],
+		},
+		{
+			"sn":"recall",
+			"name":"援护",
+			"frontImages": [{
+				"path":"image/card/chap2/card1.png",
+				"locate":[5,2,4,1],
+			},{
+				"path":"image/card/chap2/card2.png",
+				"locate":[5,2,4,1],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back1.png"
+			},{
+				"path":"image/card/chap2/back2.png"
+			}],
+		},
+		{
 			"sn":"dragon",
 			"name":"远古龙",
 			"frontImages": [{
@@ -95,6 +143,15 @@
 	},{
 			"sn":"SelectToDiscardHandAction",
 			"tip":"选择{0}张手牌弃置"
+	},{
+			"sn":"SelectToPlanAction",
+			"tip":"计划1张手牌"
+	},{
+			"sn":"SelectToRideAction",
+			"tip":"选择骑乘目标"
+	},{
+			"sn":"DragonRideAction",
+			"tips":["[振奋] 弃置一张行动牌", "[振奋] 释放一张有攻击特效的牌"]
 	}],
 	skills:[{
 			"sn":"StoreSelfSkill",
@@ -114,6 +171,15 @@
 	},{
 			"sn":"ReleaseAttackStoreSkill",
 			"tip":"特效释放1",
+	},{
+			"sn":"PlanSkill",
+			"tip":"计划",
+	},{
+			"sn":"RideSkill",
+			"tip":"骑乘",
+	},{
+			"sn":"DragonRideSkill",
+			"tip":"振奋",
 	}],
 	targets:[],
 	ui:[{

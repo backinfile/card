@@ -10,6 +10,9 @@ public class ActionQueue implements IAlive {
 	public Action curAction = null;
 	public LinkedList<Action> actions = new LinkedList<>(); // 当前执行队列
 
+	public ActionQueue() {
+	}
+
 	public ActionQueue(Board board) {
 		this.board = board;
 	}

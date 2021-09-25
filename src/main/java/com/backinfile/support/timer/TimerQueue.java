@@ -6,11 +6,11 @@ import java.util.Map;
 
 import com.backinfile.support.Log;
 import com.backinfile.support.func.Action0;
-import com.backinfile.support.func.Function;
+import com.backinfile.support.func.Function0;
 
 public class TimerQueue {
 	private Map<Long, TimeEvent> timers = new HashMap<>();
-	private Function<Long> getTimeFunc = null;
+	private Function0<Long> getTimeFunc = null;
 	private long idMax = 0;
 
 	private static class TimeEvent {
@@ -22,7 +22,7 @@ public class TimerQueue {
 		this(null);
 	}
 
-	public TimerQueue(Function<Long> getTimeFunc) {
+	public TimerQueue(Function0<Long> getTimeFunc) {
 		this.getTimeFunc = getTimeFunc;
 	}
 

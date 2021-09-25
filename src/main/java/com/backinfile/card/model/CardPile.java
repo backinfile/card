@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
 import com.backinfile.support.Tuple2;
@@ -23,6 +24,10 @@ public class CardPile implements Iterable<Card> {
 
 	public CardPile(Iterable<Card> cards) {
 		this.addAll(cards);
+	}
+
+	public CardPile(Iterator<Card> cards) {
+		cards.forEachRemaining(this::add);
 	}
 
 	public CardPile(Card... cards) {
@@ -160,6 +165,14 @@ public class CardPile implements Iterable<Card> {
 	@Override
 	public Iterator<Card> iterator() {
 		return new ArrayList<>(cards).iterator();
+	}
+
+	public CardPile getFiltered(Predicate<Card> predicate) {
+		return new CardPile(cards.stream().filter(predicate).iterator());
+	}
+
+	public Stream<Card> stream() {
+		return cards.stream();
 	}
 
 	public Set<Tuple2<Integer, Card>> cardsWithIndex() {

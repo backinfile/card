@@ -20,6 +20,7 @@ import com.backinfile.card.model.actions.SaveThreatenAction;
 import com.backinfile.card.model.skills.ActAsStoreSkill;
 import com.backinfile.card.model.skills.DrawCardSkill;
 import com.backinfile.card.model.skills.Pass2CardSkill;
+import com.backinfile.card.model.skills.PlanSkill;
 import com.backinfile.card.model.skills.TurnEndSkill;
 import com.backinfile.card.server.humanOper.HumanOper;
 import com.backinfile.dSync.model.DSyncBaseHandler.DSyncBase;
@@ -73,6 +74,7 @@ public class Human extends SkillCaster {
 		}
 
 		// 自带的人物技能
+		addSkill(new PlanSkill());
 		addSkill(new DrawCardSkill());
 		addSkill(new Pass2CardSkill());
 		addSkill(new TurnEndSkill());
@@ -90,10 +92,20 @@ public class Human extends SkillCaster {
 	 * 这个函数执行时，保证当前没有action正在执行中，可以直接设置一些值
 	 */
 	public final void onTurnStart() {
-		// 回合开始清理buff
+		// 回合开始清理技能
 		removeSkillIf(s -> s.duration == SkillDuration.OwnerStartTurn);
 		for (var card : getAllCards()) {
 			card.removeSkillIf(s -> s.duration == SkillDuration.OwnerStartTurn);
+		}
+
+		// 重置技能计数
+		for (var skill : getSkillList()) {
+			skill.triggerTimesLimit = skill.triggerTimesLimitValue;
+		}
+		for (var card : getAllCards()) {
+			for (var skill : card.getSkillList()) {
+				skill.triggerTimesLimit = skill.triggerTimesLimitValue;
+			}
 		}
 
 		addLast(new RestoreActionNumberAction(this, 2));
@@ -227,6 +239,15 @@ public class Human extends SkillCaster {
 //		}
 //		return cardSlots;
 //	}
+
+	public CardSlot getPlanSlot() {
+		for (var slot : cardSlotMap.values()) {
+			if (slot.asPlanSlot) {
+				return slot;
+			}
+		}
+		return null;
+	}
 
 	public Card getCard(long id) {
 		for (var card : getAllCards()) {
