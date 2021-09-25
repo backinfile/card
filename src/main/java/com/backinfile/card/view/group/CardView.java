@@ -1,10 +1,10 @@
 package com.backinfile.card.view.group;
 
+import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.manager.Res;
-import com.backinfile.card.model.LocalString;
-import com.backinfile.card.model.LocalString.LocalCardString;
-import com.backinfile.card.model.LocalString.LocalImagePathString;
-import com.backinfile.card.model.LocalString.LocalUIString;
+import com.backinfile.card.manager.LocalString.LocalCardString;
+import com.backinfile.card.manager.LocalString.LocalImagePathString;
+import com.backinfile.card.manager.LocalString.LocalUIString;
 import com.backinfile.card.view.actions.TimeoutAction;
 import com.backinfile.support.func.Action0;
 import com.badlogic.gdx.Input.Buttons;

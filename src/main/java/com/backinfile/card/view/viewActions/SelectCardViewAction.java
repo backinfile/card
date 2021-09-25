@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import com.backinfile.card.gen.GameMessageHandler.CSSelectCard;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectCards;
 import com.backinfile.card.manager.ConstGame;
-import com.backinfile.card.model.LocalString;
+import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.view.group.CardView;
 import com.backinfile.card.view.group.boardView.ButtonInfo;
 import com.backinfile.support.Log;

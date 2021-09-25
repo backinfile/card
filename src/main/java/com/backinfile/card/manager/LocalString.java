@@ -1,4 +1,4 @@
-package com.backinfile.card.model;
+package com.backinfile.card.manager;
 
 import java.util.ArrayList;
 import java.util.Collection;

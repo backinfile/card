@@ -81,8 +81,10 @@ public class AttackAction extends WaitAction {
 	}
 
 	private void onOccupy(int index) {
+		removeOtherCardsInSlot(card);
+		board.removeCard(card);
+
 		this.attackResult = AttackResult.Occupy;
-		removeStore(card);
 		var cardSlot = targetHuman.cardSlotMap.get(index);
 		cardSlot.getPile(ESlotType.Seal).add(card);
 		board.modifyCard(card);
@@ -91,11 +93,11 @@ public class AttackAction extends WaitAction {
 	}
 
 	private void onBreak(Card breakCard) {
+		removeOtherCardsInSlot(card);
+		addFirst(new DiscardCardAction(human, card));
+
 		this.attackResult = AttackResult.Break;
-		CardPile discards = new CardPile();
-		discards.addAll(targetHuman.getCardSlotByCard(breakCard).getAllCards());
-		discards.add(card);
-		addFirst(new DiscardCardAction(targetHuman, discards));
+		addFirst(new DiscardCardAction(targetHuman, targetHuman.getCardSlotByCard(breakCard).getAllCards()));
 		addFirst(new DrawCardAction(human, 1));
 		setDone();
 		Log.game.info("击破");
@@ -105,14 +107,13 @@ public class AttackAction extends WaitAction {
 		return attackResult;
 	}
 
-	private void removeStore(Card store) {
+	// 移除储备时，骑乘卡等附带卡也要移除
+	private void removeOtherCardsInSlot(Card store) {
 		CardSlot slot = human.getCardSlotByCard(store);
 		if (slot != null) {
-			CardPile allCards = slot.getAllCards();
+			var allCards = slot.getAllCards();
 			allCards.remove(store);
-			addFirst(new DiscardCardAction(targetHuman, allCards));
-		} else {
-			board.removeCard(store);
+			addFirst(new DiscardCardAction(human, allCards));
 		}
 	}
 }

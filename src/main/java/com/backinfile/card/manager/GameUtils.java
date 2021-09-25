@@ -10,6 +10,7 @@ import com.backinfile.card.model.Human;
 import com.backinfile.card.model.cards.chapter2.Attack;
 import com.backinfile.card.model.cards.chapter2.Beekeeper;
 import com.backinfile.card.model.cards.chapter2.Dragon;
+import com.backinfile.card.model.cards.chapter2.Harass;
 import com.backinfile.card.model.cards.chapter2.Ride;
 import com.backinfile.support.Time2;
 
@@ -56,8 +57,14 @@ public class GameUtils {
 		}
 		{
 			var cards = new DStartPileDataPair();
+			cards.setCard(Harass.class.getSimpleName());
+			cards.setCount(6);
+			startPile.add(cards);
+		}
+		{
+			var cards = new DStartPileDataPair();
 			cards.setCard(Dragon.class.getSimpleName());
-			cards.setCount(12);
+			cards.setCount(18);
 			startPile.add(cards);
 		}
 		return startPile;

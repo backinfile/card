@@ -1,8 +1,8 @@
 package com.backinfile.card.view.group.boardView;
 
+import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.manager.Res;
-import com.backinfile.card.model.LocalString;
-import com.backinfile.card.model.LocalString.LocalUIString;
+import com.backinfile.card.manager.LocalString.LocalUIString;
 import com.backinfile.card.view.group.BaseView;
 import com.backinfile.card.view.stage.GameStage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;

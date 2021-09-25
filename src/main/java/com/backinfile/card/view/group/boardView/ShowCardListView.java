@@ -3,10 +3,10 @@ package com.backinfile.card.view.group.boardView;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.manager.Res;
+import com.backinfile.card.manager.LocalString.LocalUIString;
 import com.backinfile.card.model.CardInfo;
-import com.backinfile.card.model.LocalString;
-import com.backinfile.card.model.LocalString.LocalUIString;
 import com.backinfile.card.view.actions.TimeoutAction;
 import com.backinfile.card.view.group.BaseView;
 import com.backinfile.card.view.group.CardSize;

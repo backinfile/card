@@ -4,8 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
-import com.backinfile.card.model.LocalString;
-import com.backinfile.card.model.LocalString.LocalImagePathString;
+import com.backinfile.card.manager.LocalString.LocalImagePathString;
 import com.backinfile.support.FontCharacterCollection;
 import com.backinfile.support.Log;
 import com.backinfile.support.reflection.LogInvokeInfo;
@@ -73,8 +72,8 @@ public class Res {
 		CARD_WIDTH = CARD_HEIGHT * 0.715f;
 		CARD_HEIGHT_L = CARD_HEIGHT * 4 / 3f;
 		CARD_WIDTH_L = CARD_WIDTH * 4 / 3f;
-		CARD_HEIGHT_LL = CARD_HEIGHT * 3.5f;
-		CARD_WIDTH_LL = CARD_WIDTH * 3.5f;
+		CARD_HEIGHT_LL = CARD_HEIGHT * 3.6f;
+		CARD_WIDTH_LL = CARD_WIDTH * 3.6f;
 		CARD_HEIGHT_S = CARD_HEIGHT * 3f / 4f;
 		CARD_WIDTH_S = CARD_WIDTH * 3f / 4f;
 

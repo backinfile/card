@@ -10,10 +10,13 @@ import com.backinfile.card.gen.GameMessageHandler.DCardInfo;
 import com.backinfile.card.gen.GameMessageHandler.DCardInfoList;
 import com.backinfile.card.gen.GameMessageHandler.DCardPileInfo;
 import com.backinfile.card.gen.GameMessageHandler.DPileNumber;
+import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.model.Skill.SkillAura;
 import com.backinfile.card.model.Skill.SkillTrigger;
 import com.backinfile.card.model.actions.ChangeBoardStateAction;
 import com.backinfile.card.model.actions.DispatchAction;
+import com.backinfile.card.model.cards.ActionCard;
+import com.backinfile.card.model.cards.StoreCard;
 import com.backinfile.card.server.humanOper.InTurnActiveSkillOper;
 import com.backinfile.support.IAlive;
 import com.backinfile.support.Time2;
@@ -208,6 +211,16 @@ public class Board implements IAlive {
 		return null;
 	}
 
+	public CardSlot getCardSlotByCard(Card card) {
+		for (var human : humans) {
+			var slot = human.getCardSlotByCard(card);
+			if (slot != null) {
+				return slot;
+			}
+		}
+		return null;
+	}
+
 	// 获取所有可以触发的技能
 	public List<Skill> getActivableSkills(String token) {
 		List<Skill> activableSkills = new ArrayList<>();
@@ -257,6 +270,27 @@ public class Board implements IAlive {
 					if (skill.trigger == SkillTrigger.Active) {
 						if (skill.triggerCostAP <= human.actionPoint) {
 							if (skill.aura == SkillAura.Slot) {
+								skill.setContext(this, human, card);
+								if (skill.triggerable()) {
+									activableSkills.add(skill);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// 计划区里的行动牌当作手牌来看, 不消耗行动点
+		for (var slot : human.cardSlotMap.values()) {
+			if (slot.asPlanSlot && slot.ready) {
+				for (var card : slot.getPile(ESlotType.Plan).getFiltered(c -> c instanceof ActionCard)) {
+					for (var skill : card.getSkillList()) {
+						if (skill.triggerTimesLimit == 0) {
+							continue;
+						}
+						if (skill.trigger == SkillTrigger.Active) {
+							if (skill.aura == SkillAura.Hand) {
 								skill.setContext(this, human, card);
 								if (skill.triggerable()) {
 									activableSkills.add(skill);
@@ -437,10 +471,21 @@ public class Board implements IAlive {
 
 	// 使用技能
 	public final void applySkill(Skill skill) {
-		// 消耗行动点
+		// 消耗行动点 计划卡不用消耗
 		if (skill.triggerCostAP > 0) {
-			skill.human.actionPoint = Math.max(0, skill.human.actionPoint - skill.triggerCostAP);
-			modifyBoardData();
+			boolean isPlanCard = false;
+			if (skill.card != null) {
+				var slot = getCardSlotByCard(skill.card);
+				if (slot != null) {
+					if (slot.getPile(ESlotType.Plan).contains(skill.card)) {
+						isPlanCard = true;
+					}
+				}
+			}
+			if (!isPlanCard) {
+				skill.human.actionPoint = Math.max(0, skill.human.actionPoint - skill.triggerCostAP);
+				modifyBoardData();
+			}
 		}
 		// 消耗执行次数
 		if (skill.triggerTimesLimit > 0) {

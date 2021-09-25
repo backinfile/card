@@ -258,6 +258,17 @@ public class Human extends SkillCaster {
 		return null;
 	}
 
+	public CardPile getAllSealCard(boolean notHarassed) {
+		CardPile cardPile = new CardPile();
+		for (var slot : cardSlotMap.values()) {
+			if (notHarassed && !slot.getPile(ESlotType.Harass).isEmpty()) {
+				continue;
+			}
+			cardPile.addAll(slot.getPile(ESlotType.Seal));
+		}
+		return cardPile;
+	}
+
 	/**
 	 * 获取所有可以利用的储备
 	 * 

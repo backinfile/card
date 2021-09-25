@@ -1,7 +1,8 @@
 package com.backinfile.card.model;
 
 import com.backinfile.card.gen.GameMessageHandler.DSkillInfo;
-import com.backinfile.card.model.LocalString.LocalSkillString;
+import com.backinfile.card.manager.LocalString;
+import com.backinfile.card.manager.LocalString.LocalSkillString;
 import com.backinfile.support.IdAllot;
 
 // 技能 主动触发，或在Action中有交互
@@ -37,7 +38,9 @@ public abstract class Skill {
 	public static enum SkillTrigger {
 		Active, // 主动激活
 		ActAsStore, // 可作为readyStore
-		ReplaceRelease, // 当卡牌本身被有特效释放时，替换释放技能
+		ReplaceRelease, // 当卡牌本身有特效释放时，替换其技能
+		ReplaceHarass, // 当卡牌本身执行骚扰特效时，替换其技能
+		Defend, // 被攻击之前生效
 	}
 
 	// 生效地点

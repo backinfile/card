@@ -1,7 +1,7 @@
 package com.backinfile.card.view.group.boardView;
 
 import com.backinfile.card.manager.Res;
-import com.backinfile.card.model.LocalString.LocalImagePathString;
+import com.backinfile.card.manager.LocalString.LocalImagePathString;
 import com.backinfile.card.view.group.BaseView;
 import com.backinfile.card.view.group.CardSize;
 import com.backinfile.card.view.stage.GameStage;

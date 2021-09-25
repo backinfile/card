@@ -1,6 +1,7 @@
 package com.backinfile.card.model;
 
-import com.backinfile.card.model.LocalString.LocalCardString;
+import com.backinfile.card.manager.LocalString;
+import com.backinfile.card.manager.LocalString.LocalCardString;
 import com.backinfile.support.IdAllot;
 
 /**

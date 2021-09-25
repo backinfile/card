@@ -47,7 +47,7 @@
 			}],
 		},
 		{
-			"sn":"harrass",
+			"sn":"Harass",
 			"name":"骚扰",
 			"frontImages": [{
 				"path":"image/card/chap2/card1.png",
@@ -152,6 +152,12 @@
 	},{
 			"sn":"DragonRideAction",
 			"tips":["[振奋] 弃置一张行动牌", "[振奋] 释放一张有攻击特效的牌"]
+	},{
+			"sn":"SelectToHarassAction",
+			"tips":["选择一个储备进行骚扰", "选择骚扰目标"]
+	},{
+			"sn":"HarassAction",
+			"tips":["选择骚扰目标"]
 	}],
 	skills:[{
 			"sn":"StoreSelfSkill",
@@ -180,6 +186,9 @@
 	},{
 			"sn":"DragonRideSkill",
 			"tip":"振奋",
+	},{
+			"sn":"HarassSkill",
+			"tip":"骚扰",
 	}],
 	targets:[],
 	ui:[{

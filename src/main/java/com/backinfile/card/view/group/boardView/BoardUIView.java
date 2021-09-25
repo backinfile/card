@@ -2,9 +2,9 @@ package com.backinfile.card.view.group.boardView;
 
 import java.text.MessageFormat;
 
+import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.manager.Res;
-import com.backinfile.card.model.LocalString;
-import com.backinfile.card.model.LocalString.LocalUIString;
+import com.backinfile.card.manager.LocalString.LocalUIString;
 import com.backinfile.card.view.group.BaseView;
 import com.backinfile.card.view.stage.GameStage;
 import com.badlogic.gdx.graphics.Color;
@@ -28,14 +28,14 @@ public class BoardUIView extends BaseView {
 
 		{
 			opponentNameLabel = new Label(uiString.strs[0], labelStyle);
-			opponentNameLabel.setAlignment(Align.left);
-			opponentNameLabel.setPosition(width * 0.02f, height * 0.95f, Align.left);
+			opponentNameLabel.setAlignment(Align.center);
+			opponentNameLabel.setPosition(width * 0.056f, height * 0.95f, Align.center);
 			addActor(opponentNameLabel);
 		}
 		{
 			selfNameLabel = new Label(uiString.strs[1], labelStyle);
-			selfNameLabel.setAlignment(Align.left);
-			selfNameLabel.setPosition(width * 0.02f, height * 0.05f, Align.left);
+			selfNameLabel.setAlignment(Align.center);
+			selfNameLabel.setPosition(width * 0.056f, height * 0.05f, Align.center);
 			addActor(selfNameLabel);
 		}
 		{

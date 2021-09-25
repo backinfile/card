@@ -1,6 +1,7 @@
 package com.backinfile.card.model;
 
-import com.backinfile.card.model.LocalString.LocalActionString;
+import com.backinfile.card.manager.LocalString;
+import com.backinfile.card.manager.LocalString.LocalActionString;
 import com.backinfile.support.IAction;
 
 /**

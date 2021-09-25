@@ -1,6 +1,6 @@
 package com.backinfile.card.view.group;
 
-import com.backinfile.card.model.LocalString;
+import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.view.actor.BoardButton;
 import com.backinfile.card.view.actor.PositionLocator;
 import com.backinfile.card.view.group.CardView.CardViewState;

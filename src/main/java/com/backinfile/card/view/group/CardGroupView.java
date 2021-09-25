@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 
 import com.backinfile.card.gen.GameMessageHandler.DCardInfo;
 import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
+import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.model.CardInfo;
-import com.backinfile.card.model.LocalString;
 import com.backinfile.card.view.group.CardView.CardViewState;
 import com.backinfile.card.view.group.PileView.PilePosition;
 import com.backinfile.card.view.stage.GameStage;
@@ -285,9 +285,9 @@ public class CardGroupView extends BaseView {
 		}
 		case HandPile: {
 			if (pilePosition == PilePosition.Self) {
-				position.set(width * 0.5f, height * 0f);
+				position.set(width * 0.5f, height * -0.02f);
 			} else {
-				position.set(width * 0.5f, height * 1f);
+				position.set(width * 0.5f, height * 1.02f);
 			}
 			break;
 		}
