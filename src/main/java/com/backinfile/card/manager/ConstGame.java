@@ -7,7 +7,7 @@ public class ConstGame {
 	public static final String AI_TOKEN = "ai";
 
 	public static boolean AI_DO_NOTHING = false;
-	public static boolean AI_DO_STORE = true;
+	public static boolean AI_DO_STORE = false;
 
 	public static boolean CARD_LIST_VIEW = false;
 }

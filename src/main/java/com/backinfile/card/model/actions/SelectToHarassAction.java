@@ -2,6 +2,7 @@ package com.backinfile.card.model.actions;
 
 import com.backinfile.card.model.Card;
 import com.backinfile.card.model.Human;
+import com.backinfile.card.model.Skill.SkillAura;
 import com.backinfile.card.model.Skill.SkillTrigger;
 import com.backinfile.card.server.humanOper.SelectCardOper;
 
@@ -27,16 +28,7 @@ public class SelectToHarassAction extends WaitAction {
 	// 选择一个储备进行骚扰
 	private void onSelectStore(Card store) {
 		// 有技能可以触发
-		var skill = store.getSkill(s -> {
-			if (s.trigger == SkillTrigger.ReplaceHarass) {
-				if (s.triggerCostAP <= human.actionPoint) {
-					if (s.triggerable()) {
-						return true;
-					}
-				}
-			}
-			return false;
-		});
+		var skill = store.getSkill(s -> s.testTriggerable(SkillTrigger.ReplaceHarass, SkillAura.AnyWhere));
 		if (skill != null) {
 			board.applySkill(skill);
 			setDone();

@@ -44,18 +44,9 @@ public class AttackAction extends WaitAction {
 	public void init() {
 		setDone(false);
 
-		// 有特效释放
+		// 有释放特效
 		if (withAttackEffect) {
-			var skill = card.getSkill(s -> {
-				if (s.trigger == SkillTrigger.ReplaceRelease) {
-					if (s.triggerCostAP <= human.actionPoint) {
-						if (s.triggerable()) {
-							return true;
-						}
-					}
-				}
-				return false;
-			});
+			var skill = card.getSkill(s -> s.testTriggerable(SkillTrigger.ReplaceRelease, SkillAura.AnyWhere));
 			if (skill != null) {
 				board.applySkill(skill);
 				setDone();
@@ -119,20 +110,12 @@ public class AttackAction extends WaitAction {
 		if (triggeredSkillList.contains(skill)) {
 			return false;
 		}
-		if (skill.aura == aura || skill.aura == SkillAura.AnyWhere) {
-			if (skill.triggerTimesLimit != 0) {
-				if (skill.trigger == SkillTrigger.Defend) {
-					if (skill.triggerCostAP <= human.actionPoint) {
-						if (skill.triggerable()) {
-							triggeredSkillList.add(skill);
-							skill.setParam("attackAction", this);
-							board.applySkill(skill);
-							setDone();
-							return true;
-						}
-					}
-				}
-			}
+		if (skill.testTriggerable(SkillTrigger.Defend, aura)) {
+			triggeredSkillList.add(skill);
+			skill.setParam("attackAction", this);
+			board.applySkill(skill);
+			setDone();
+			return true;
 		}
 		return false;
 	}

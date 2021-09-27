@@ -31,7 +31,7 @@ public class CardManager {
 			card.oriHumanToken = oriHumanToken;
 			return card;
 		} catch (Exception e) {
-			throw new SysException("error in create Card:" + sn);
+			throw new SysException("error in create Card:" + sn + " " + e.getMessage());
 		}
 	}
 

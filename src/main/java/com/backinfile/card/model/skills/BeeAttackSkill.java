@@ -4,11 +4,12 @@ import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.actions.AttackAction;
 import com.backinfile.card.model.actions.TriggerOnceAction;
-import com.backinfile.card.model.cards.chapter2.Bee;
+import com.backinfile.card.model.cards.chapter2.MonsterCard.Bee;
 
 public class BeeAttackSkill extends Skill {
 	public BeeAttackSkill() {
 		setTriggerType(SkillDuration.Fixed, SkillTrigger.ReplaceRelease, SkillAura.AnyWhere, 0);
+		marks.add(SkillMark.Release);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.backinfile.card.model.skills;
 
 import com.backinfile.card.model.Skill;
+import com.backinfile.card.model.Skill.SkillMark;
 import com.backinfile.card.model.actions.ArrangePileAction;
 import com.backinfile.card.model.actions.DiscardCardAction;
 import com.backinfile.card.model.actions.SelectToAttackAction;
@@ -8,6 +9,7 @@ import com.backinfile.card.model.actions.SelectToAttackAction;
 public class ReleaseAttackStoreSkill extends Skill {
 	public ReleaseAttackStoreSkill() {
 		setTriggerType(SkillDuration.Fixed, SkillTrigger.Active, SkillAura.Hand, 1);
+		marks.add(SkillMark.Release);
 	}
 
 	@Override

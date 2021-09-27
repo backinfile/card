@@ -9,8 +9,13 @@ import com.backinfile.card.gen.GameMessageHandler.DStartPileDataPair;
 import com.backinfile.card.model.Human;
 import com.backinfile.card.model.cards.chapter2.Attack;
 import com.backinfile.card.model.cards.chapter2.Beekeeper;
-import com.backinfile.card.model.cards.chapter2.Dragon;
 import com.backinfile.card.model.cards.chapter2.Harass;
+import com.backinfile.card.model.cards.chapter2.MonsterCard.Bee;
+import com.backinfile.card.model.cards.chapter2.MonsterCard.Bird;
+import com.backinfile.card.model.cards.chapter2.MonsterCard.Cat;
+import com.backinfile.card.model.cards.chapter2.MonsterCard.Dear;
+import com.backinfile.card.model.cards.chapter2.MonsterCard.Dragon;
+import com.backinfile.card.model.cards.chapter2.MonsterCard.Whale;
 import com.backinfile.card.model.cards.chapter2.Ride;
 import com.backinfile.support.Time2;
 
@@ -64,7 +69,37 @@ public class GameUtils {
 		{
 			var cards = new DStartPileDataPair();
 			cards.setCard(Dragon.class.getSimpleName());
-			cards.setCount(18);
+			cards.setCount(4);
+			startPile.add(cards);
+		}
+		{
+			var cards = new DStartPileDataPair();
+			cards.setCard(Bee.class.getSimpleName());
+			cards.setCount(4);
+			startPile.add(cards);
+		}
+		{
+			var cards = new DStartPileDataPair();
+			cards.setCard(Whale.class.getSimpleName());
+			cards.setCount(4);
+			startPile.add(cards);
+		}
+		{
+			var cards = new DStartPileDataPair();
+			cards.setCard(Dear.class.getSimpleName());
+			cards.setCount(4);
+			startPile.add(cards);
+		}
+		{
+			var cards = new DStartPileDataPair();
+			cards.setCard(Bird.class.getSimpleName());
+			cards.setCount(4);
+			startPile.add(cards);
+		}
+		{
+			var cards = new DStartPileDataPair();
+			cards.setCard(Cat.class.getSimpleName());
+			cards.setCount(4);
 			startPile.add(cards);
 		}
 		return startPile;

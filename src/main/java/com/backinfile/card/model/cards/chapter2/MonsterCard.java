@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.backinfile.card.model.cards.StoreCard;
+import com.backinfile.card.model.skills.BeeAttackSkill;
+import com.backinfile.card.model.skills.DragonAttackSkill;
+import com.backinfile.card.model.skills.DragonRideSkill;
 
 // 第二章特有的储备卡
 public class MonsterCard extends StoreCard {
@@ -22,5 +25,51 @@ public class MonsterCard extends StoreCard {
 		Ride, // 骑乘
 		Recall, // 召回
 		Harass, // 骚扰
+	}
+
+	public static class Whale extends MonsterCard {
+		public Whale() {
+			monsterSkillTypes.add(MonsterSkillType.Recall);
+			monsterSkillTypes.add(MonsterSkillType.Ride);
+		}
+	}
+
+	public static class Dear extends MonsterCard {
+		public Dear() {
+			monsterSkillTypes.add(MonsterSkillType.Attack);
+			monsterSkillTypes.add(MonsterSkillType.Recall);
+		}
+	}
+
+	public static class Bird extends MonsterCard {
+		public Bird() {
+			monsterSkillTypes.add(MonsterSkillType.Harass);
+			monsterSkillTypes.add(MonsterSkillType.Ride);
+		}
+	}
+
+	public static class Dragon extends MonsterCard {
+		public Dragon() {
+			monsterSkillTypes.add(MonsterSkillType.Attack);
+			monsterSkillTypes.add(MonsterSkillType.Ride);
+
+			addSkill(new DragonAttackSkill());
+			addSkill(new DragonRideSkill());
+		}
+	}
+
+	public static class Cat extends MonsterCard {
+		public Cat() {
+			monsterSkillTypes.add(MonsterSkillType.Harass);
+			monsterSkillTypes.add(MonsterSkillType.Recall);
+		}
+	}
+
+	public static class Bee extends MonsterCard {
+		public Bee() {
+			monsterSkillTypes.add(MonsterSkillType.Attack);
+			monsterSkillTypes.add(MonsterSkillType.Harass);
+			addSkill(new BeeAttackSkill());
+		}
 	}
 }

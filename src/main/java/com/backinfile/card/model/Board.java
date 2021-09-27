@@ -446,7 +446,8 @@ public class Board implements IAlive {
 	// 使用技能
 	public final void applySkill(Skill skill) {
 		// 消耗行动点 计划卡不用消耗
-		if (skill.triggerCostAP > 0) {
+		var realCostAP = skill.getRealCostAP();
+		if (realCostAP > 0) {
 			boolean isPlanCard = false;
 			if (skill.card != null) {
 				var slot = getCardSlotByCard(skill.card);
@@ -457,7 +458,7 @@ public class Board implements IAlive {
 				}
 			}
 			if (!isPlanCard) {
-				skill.human.actionPoint = Math.max(0, skill.human.actionPoint - skill.triggerCostAP);
+				skill.human.actionPoint = Math.max(0, skill.human.actionPoint - realCostAP);
 				modifyBoardData();
 			}
 		}

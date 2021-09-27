@@ -111,6 +111,70 @@
 			}],
 		},
 		{
+			"sn":"Bird",
+			"name":"追风鸟",
+			"frontImages": [{
+				"path":"image/card/chap2/card1.png",
+				"locate":[5,2,4,0],
+			},{
+				"path":"image/card/chap2/card2.png",
+				"locate":[5,2,4,0],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back1.png"
+			},{
+				"path":"image/card/chap2/back2.png"
+			}],
+		},
+		{
+			"sn":"Cat",
+			"name":"梦妖",
+			"frontImages": [{
+				"path":"image/card/chap2/card1.png",
+				"locate":[5,2,1,0],
+			},{
+				"path":"image/card/chap2/card2.png",
+				"locate":[5,2,1,0],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back1.png"
+			},{
+				"path":"image/card/chap2/back2.png"
+			}],
+		},
+		{
+			"sn":"Dear",
+			"name":"舍",
+			"frontImages": [{
+				"path":"image/card/chap2/card1.png",
+				"locate":[5,2,3,0],
+			},{
+				"path":"image/card/chap2/card2.png",
+				"locate":[5,2,3,0],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back1.png"
+			},{
+				"path":"image/card/chap2/back2.png"
+			}],
+		},
+		{
+			"sn":"Whale",
+			"name":"填海兽",
+			"frontImages": [{
+				"path":"image/card/chap2/card1.png",
+				"locate":[5,2,2,0],
+			},{
+				"path":"image/card/chap2/card2.png",
+				"locate":[5,2,2,0],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back1.png"
+			},{
+				"path":"image/card/chap2/back2.png"
+			}],
+		},
+		{
 			"sn":"beekeeper",
 			"name":"养蜂人",
 			"frontImages": [{

@@ -1,10 +1,13 @@
 package com.backinfile.card.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.backinfile.card.gen.GameMessageHandler.DSkillInfo;
+import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.manager.LocalString.LocalSkillString;
-import com.backinfile.card.model.Skill.SkillAura;
-import com.backinfile.card.model.Skill.SkillTrigger;
+import com.backinfile.card.model.cards.chapter2.MonsterCard.Bee;
 import com.backinfile.support.IdAllot;
 import com.backinfile.support.Param;
 
@@ -19,6 +22,7 @@ public abstract class Skill {
 	public Human human;
 	public Card card;
 	public Param param;
+	public Set<SkillMark> marks = new HashSet<>();
 
 	// 触发时机控制
 	public SkillTrigger trigger = SkillTrigger.Active; // 触发方式
@@ -54,6 +58,10 @@ public abstract class Skill {
 		Slot, // 储备位上
 		Hand, // 手牌
 		Hero, // 英雄牌上
+	}
+
+	public static enum SkillMark {
+		Release
 	}
 
 	public Skill() {
@@ -108,7 +116,7 @@ public abstract class Skill {
 		}
 		if (aura == SkillAura.AnyWhere || this.aura == SkillAura.AnyWhere || this.aura == aura) {
 			if (this.trigger == trigger) {
-				if (noCost || this.triggerCostAP <= human.actionPoint) {
+				if (noCost || getRealCostAP() <= human.actionPoint) {
 					if (triggerable()) {
 						return true;
 					}
@@ -116,6 +124,16 @@ public abstract class Skill {
 			}
 		}
 		return false;
+	}
+
+	public int getRealCostAP() {
+		var realCost = this.triggerCostAP;
+		if (marks.contains(SkillMark.Release)) {
+			if (!human.getAllHarassCard().filter(c -> c instanceof Bee).isEmpty()) {
+				realCost++;
+			}
+		}
+		return realCost;
 	}
 
 	public boolean triggerable() {
@@ -140,8 +158,9 @@ public abstract class Skill {
 	 * 获取技能使用描述
 	 */
 	public String getTip() {
-		if (trigger == SkillTrigger.Active && triggerCostAP > 0) {
-			return "[" + triggerCostAP + "] " + skillString.tip;
+		var curCost = getRealCostAP();
+		if (curCost > 0) {
+			return "[" + curCost + "] " + skillString.tip;
 		}
 		return skillString.tip;
 	}

@@ -4,6 +4,7 @@ import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
+import com.backinfile.card.model.Skill.SkillAura;
 import com.backinfile.card.model.Skill.SkillTrigger;
 import com.backinfile.card.model.cards.StoreCard;
 import com.backinfile.card.server.humanOper.SelectCardOper;
@@ -51,18 +52,7 @@ public class RecallAction extends WaitAction {
 
 	private void onRecall(Card recallCard) {
 		// 触发recall技能
-		var recallSkill = recallCard.getSkill(skill -> {
-			if (skill.triggerTimesLimit != 0) {
-				if (skill.trigger == SkillTrigger.Recall) {
-					if (skill.triggerCostAP <= human.actionPoint) {
-						if (skill.triggerable()) {
-							return true;
-						}
-					}
-				}
-			}
-			return false;
-		});
+		var recallSkill = recallCard.getSkill(skill -> skill.testTriggerable(SkillTrigger.Recall, SkillAura.AnyWhere));
 		if (recallSkill != null) {
 			board.applySkill(recallSkill);
 		}
