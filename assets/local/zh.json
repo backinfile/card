@@ -203,7 +203,7 @@
 			"tips":["选择至多{0}张储备释放", "选择至多{0}张储备带特效释放", "选择结束"]
 	},{
 			"sn":"AttackAction",
-			"tips":["侵占一个储备位","选择一项击破"]
+			"tips":["侵占一个储备位","选择一张被击破"]
 	},{
 			"sn":"SelectToDiscardHandAction",
 			"tip":"选择{0}张手牌弃置"
@@ -220,8 +220,14 @@
 			"sn":"SelectToHarassAction",
 			"tips":["选择一个储备进行骚扰", "选择骚扰目标"]
 	},{
+			"sn":"StoreCardAction",
+			"tips":["选择储备目标", "选择替换目标"]
+	},{
 			"sn":"HarassAction",
 			"tips":["选择骚扰目标"]
+	},{
+			"sn":"RecallAction",
+			"tip":"选择召回目标"
 	}],
 	skills:[{
 			"sn":"StoreSelfSkill",

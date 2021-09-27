@@ -18,10 +18,13 @@ public class SelectEmptySlotViewAction extends ViewAction {
 						onSelectIndex(index);
 					});
 		}
+		gameStage.boardView.boardUIView.setTipText(data.getTip());
 	}
 
 	private void onSelectIndex(int index) {
 		gameStage.boardView.cardGroupView.hideAllHelpCard();
+		gameStage.boardView.boardUIView.setTipText("");
+
 		CSSelectEmptySlot msg = new CSSelectEmptySlot();
 		msg.setSelected(index);
 		gameStage.boardView.gameClient.sendMessage(msg);

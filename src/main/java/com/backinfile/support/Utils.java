@@ -63,6 +63,11 @@ public class Utils {
 		return RANDOM.nextDouble() * (b - a) + a;
 	}
 
+	public static <T> T randItem(List<T> list) {
+		int index = nextInt(list.size());
+		return list.get(index);
+	}
+
 	public static String getBlankString(int n) {
 		var sb = new StringBuilder();
 		for (int i = 0; i < n; i++) {

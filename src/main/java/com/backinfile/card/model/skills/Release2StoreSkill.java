@@ -9,6 +9,7 @@ import com.backinfile.card.model.actions.SelectToAttackAction;
 public class Release2StoreSkill extends Skill {
 	public Release2StoreSkill() {
 		setTriggerType(SkillDuration.Fixed, SkillTrigger.Active, SkillAura.Hand, 1);
+		marks.add(SkillMark.Release);
 	}
 
 	@Override

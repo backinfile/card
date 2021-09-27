@@ -1,7 +1,9 @@
 package com.backinfile.card.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.backinfile.card.gen.GameMessageHandler.DBoardData;
 import com.backinfile.card.gen.GameMessageHandler.DBoardInit;
@@ -11,6 +13,7 @@ import com.backinfile.card.gen.GameMessageHandler.DCardInfoList;
 import com.backinfile.card.gen.GameMessageHandler.DCardPileInfo;
 import com.backinfile.card.gen.GameMessageHandler.DPileNumber;
 import com.backinfile.card.gen.GameMessageHandler.ESlotType;
+import com.backinfile.card.manager.ConstGame;
 import com.backinfile.card.model.Skill.SkillAura;
 import com.backinfile.card.model.Skill.SkillDuration;
 import com.backinfile.card.model.Skill.SkillTrigger;
@@ -30,6 +33,7 @@ public class Board implements IAlive {
 	public int playerTurnCount; // 玩家轮次之和
 
 	private Human startPlayer; // 先手玩家
+	public Set<BoardMode> modes = new HashSet<>();
 
 	public BoardState state = BoardState.None;
 	public BoardState lastState = BoardState.None;
@@ -40,6 +44,10 @@ public class Board implements IAlive {
 		TurnStart, // 进入回合开始阶段
 		InTurn, // 回合进行中
 		TurnEnd, // 回合结束阶段
+	}
+
+	public static enum BoardMode {
+		Threaten
 	}
 
 	public void init(DBoardInit boardInit) {
@@ -71,6 +79,10 @@ public class Board implements IAlive {
 					skill.setContext(this, human, card);
 				}
 			}
+		}
+
+		if (ConstGame.THREATEN_OPEN) {
+			modes.add(BoardMode.Threaten);
 		}
 	}
 

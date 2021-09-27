@@ -6,6 +6,8 @@ public class ConstGame {
 	public static final int SlotPileNumber = 5; // 默认的储备位个数
 	public static final String AI_TOKEN = "ai";
 
+	public static boolean THREATEN_OPEN = false;
+
 	public static boolean AI_DO_NOTHING = false;
 	public static boolean AI_DO_STORE = false;
 

@@ -37,7 +37,9 @@ public class LocalGameClient extends Terminal<MessageWarpper, MessageWarpper> im
 
 	@Override
 	public void pulse() {
-		gameServer.pulse();
+		for (int i = 0; i < 10; i++) {
+			gameServer.pulse();
+		}
 
 		// 处理消息
 		while (hasMsg()) {

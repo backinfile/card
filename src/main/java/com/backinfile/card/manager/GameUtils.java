@@ -16,6 +16,7 @@ import com.backinfile.card.model.cards.chapter2.MonsterCard.Cat;
 import com.backinfile.card.model.cards.chapter2.MonsterCard.Dear;
 import com.backinfile.card.model.cards.chapter2.MonsterCard.Dragon;
 import com.backinfile.card.model.cards.chapter2.MonsterCard.Whale;
+import com.backinfile.card.model.cards.chapter2.Recall;
 import com.backinfile.card.model.cards.chapter2.Ride;
 import com.backinfile.support.Time2;
 
@@ -63,6 +64,12 @@ public class GameUtils {
 		{
 			var cards = new DStartPileDataPair();
 			cards.setCard(Harass.class.getSimpleName());
+			cards.setCount(6);
+			startPile.add(cards);
+		}
+		{
+			var cards = new DStartPileDataPair();
+			cards.setCard(Recall.class.getSimpleName());
 			cards.setCount(6);
 			startPile.add(cards);
 		}

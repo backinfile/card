@@ -43,9 +43,17 @@ public class InTurnActiveSkillOper extends HumanOper {
 			}
 		}
 
+		// 先从正常打牌中随机选取
+		{
+			var skills = activableSkills.stream().filter(s -> s.card != null).collect(Collectors.toList());
+			if (!skills.isEmpty()) {
+				onSelectSkill(Utils.randItem(skills));
+				return;
+			}
+		}
+
 		// 随机选取
-		var skill = activableSkills.get(Utils.nextInt(activableSkills.size()));
-		onSelectSkill(skill);
+		onSelectSkill(Utils.randItem(activableSkills));
 	}
 
 	@Override

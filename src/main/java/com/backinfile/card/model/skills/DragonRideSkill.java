@@ -14,9 +14,13 @@ public class DragonRideSkill extends Skill {
 		setTriggerType(SkillDuration.Fixed, SkillTrigger.Active, SkillAura.Slot, 1, 1);
 	}
 
+	// 在储备位上，骑乘位上有东西才可以使用
 	@Override
 	public boolean triggerable() {
 		CardSlot slot = human.getCardSlotByCard(card);
+		if (slot == null) {
+			return false;
+		}
 		if (slot.getPile(ESlotType.Store).contains(card)) {
 			if (slot.getPile(ESlotType.Ride).isEmpty()) {
 				return false;

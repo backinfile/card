@@ -33,6 +33,9 @@ public class DiscardCardAction extends TriggerOnceAction {
 
 		for (var card : cards) {
 			board.removeCard(card);
+			if (card == null || card.oriHumanToken == null) {
+				System.out.println();
+			}
 			if (card.oriHumanToken.equals(human.token)) {
 				human.discardPile.add(card);
 			} else {

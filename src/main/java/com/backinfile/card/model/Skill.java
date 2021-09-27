@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.backinfile.card.gen.GameMessageHandler.DSkillInfo;
-import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.manager.LocalString.LocalSkillString;
 import com.backinfile.card.model.cards.chapter2.MonsterCard.Bee;
@@ -61,7 +60,8 @@ public abstract class Skill {
 	}
 
 	public static enum SkillMark {
-		Release
+		Release, // 含有释放效果
+		Unseal, // 含有解封效果
 	}
 
 	public Skill() {
