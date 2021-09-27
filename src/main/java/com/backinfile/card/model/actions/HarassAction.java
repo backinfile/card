@@ -29,5 +29,6 @@ public class HarassAction extends WaitAction {
 		var slot = human.getOpponent().getCardSlotByCard(seal);
 		slot.getPile(ESlotType.Harass).add(card);
 		board.modifyCard(card);
+		addFirst(new RefreshSlotAction());
 	}
 }

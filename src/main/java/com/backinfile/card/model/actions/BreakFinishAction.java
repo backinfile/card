@@ -11,6 +11,7 @@ public class BreakFinishAction extends TriggerOnceAction {
 	@Override
 	public void run() {
 		addFirst(new DrawCardAction(human, 1));
+		addFirst(new RefreshSlotAction());
 	}
 
 }

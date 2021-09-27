@@ -21,8 +21,8 @@ public class DragonRideSkill extends Skill {
 			if (slot.getPile(ESlotType.Ride).isEmpty()) {
 				return false;
 			}
-			if (!human.handPile.getFiltered(c -> c instanceof ActionCard).isEmpty()) {
-				CardPile attackMonsters = human.handPile.getFiltered(
+			if (!human.handPile.filter(c -> c instanceof ActionCard).isEmpty()) {
+				CardPile attackMonsters = human.handPile.filter(
 						c -> c instanceof MonsterCard && ((MonsterCard) c).isMonsterType(MonsterSkillType.Attack));
 				if (!attackMonsters.isEmpty()) {
 					return true;

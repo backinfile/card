@@ -140,6 +140,7 @@ public class LocalString {
 		public String sn = "[SN]";
 		public String name = "[NAME]";
 		public String tip = "[TIP]";
+		public String[] tips = new String[] { "[TIP0]", "[TIP1]", "[TIP2]" };
 	}
 
 	public static class LocalUIString {

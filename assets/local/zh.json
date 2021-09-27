@@ -189,6 +189,10 @@
 	},{
 			"sn":"HarassSkill",
 			"tip":"骚扰",
+	},{
+			"sn":"RecallSkill",
+			"tip":"召回",
+			"tips":["是否执行召回？"]
 	}],
 	targets:[],
 	ui:[{

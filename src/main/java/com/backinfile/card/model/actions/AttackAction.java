@@ -44,6 +44,25 @@ public class AttackAction extends WaitAction {
 	public void init() {
 		setDone(false);
 
+		// 有特效释放
+		if (withAttackEffect) {
+			var skill = card.getSkill(s -> {
+				if (s.trigger == SkillTrigger.ReplaceRelease) {
+					if (s.triggerCostAP <= human.actionPoint) {
+						if (s.triggerable()) {
+							return true;
+						}
+					}
+				}
+				return false;
+			});
+			if (skill != null) {
+				board.applySkill(skill);
+				setDone();
+				return;
+			}
+		}
+
 		// 防御型技能
 		{
 			// 英雄技能
@@ -69,25 +88,6 @@ public class AttackAction extends WaitAction {
 						return;
 					}
 				}
-			}
-		}
-
-		if (withAttackEffect) { // 有特效释放
-			var skill = card.getSkill(s -> {
-				if (s.trigger == SkillTrigger.ReplaceRelease) {
-					s.setContext(board, human, card);
-					if (s.triggerCostAP <= human.actionPoint) {
-						if (s.triggerable()) {
-							return true;
-						}
-					}
-				}
-				return false;
-			});
-			if (skill != null) {
-				board.applySkill(skill);
-				setDone();
-				return;
 			}
 		}
 
@@ -122,7 +122,6 @@ public class AttackAction extends WaitAction {
 		if (skill.aura == aura || skill.aura == SkillAura.AnyWhere) {
 			if (skill.triggerTimesLimit != 0) {
 				if (skill.trigger == SkillTrigger.Defend) {
-					skill.setContext(board, human, card);
 					if (skill.triggerCostAP <= human.actionPoint) {
 						if (skill.triggerable()) {
 							triggeredSkillList.add(skill);
@@ -139,9 +138,8 @@ public class AttackAction extends WaitAction {
 	}
 
 	private void onOccupy(int index) {
-		removeOtherCardsInSlot(card);
+		addFirst(new RefreshSlotAction());
 		board.removeCard(card);
-
 		this.attackResult = AttackResult.Occupy;
 		var cardSlot = targetHuman.cardSlotMap.get(index);
 		cardSlot.getPile(ESlotType.Seal).add(card);
@@ -152,8 +150,6 @@ public class AttackAction extends WaitAction {
 
 	private void onBreak(Card breakCard) {
 		addFirst(new BreakFinishAction(human));
-
-		removeOtherCardsInSlot(card);
 		addFirst(new DiscardCardAction(human, card));
 
 		this.attackResult = AttackResult.Break;
@@ -164,16 +160,6 @@ public class AttackAction extends WaitAction {
 
 	public AttackResult getAttackResult() {
 		return attackResult;
-	}
-
-	// 移除储备时，骑乘卡等附带卡也要移除
-	private void removeOtherCardsInSlot(Card store) {
-		CardSlot slot = human.getCardSlotByCard(store);
-		if (slot != null) {
-			var allCards = slot.getAllCards();
-			allCards.remove(store);
-			addFirst(new DiscardCardAction(human, allCards));
-		}
 	}
 
 	@Override

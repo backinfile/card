@@ -1,5 +1,7 @@
 package com.backinfile.card.model.actions;
 
+import java.util.Arrays;
+
 import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
@@ -11,6 +13,11 @@ public class DiscardCardAction extends TriggerOnceAction {
 	public DiscardCardAction(Human human, Iterable<Card> cards) {
 		this.human = human;
 		this.cards.addAll(cards);
+	}
+
+	public DiscardCardAction(Human human, Card... cards) {
+		this.human = human;
+		this.cards.addAll(Arrays.asList(cards));
 	}
 
 	public DiscardCardAction(Human human, Card card) {

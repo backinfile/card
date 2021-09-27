@@ -5,9 +5,11 @@ import com.backinfile.card.gen.GameMessageHandler.DBoardData;
 import com.backinfile.card.gen.GameMessageHandler.DBoardSetup;
 import com.backinfile.card.gen.GameMessageHandler.DCardInfoList;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectCards;
+import com.backinfile.card.gen.GameMessageHandler.SCSelectConfirm;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectEmptySlot;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectSkillToActive;
 import com.backinfile.card.view.stage.GameStage;
+import com.backinfile.card.view.viewActions.ConfirmViewAction;
 import com.backinfile.card.view.viewActions.MoveCardViewAction;
 import com.backinfile.card.view.viewActions.SelectCardSkillViewAction;
 import com.backinfile.card.view.viewActions.SelectCardViewAction;
@@ -56,6 +58,10 @@ public class LocalGameClientMessageHandler extends GameMessageHandler.DSyncListe
 	@Override
 	public void onMessage(SCSelectEmptySlot data) {
 		gameStage.addViewAction(new SelectEmptySlotViewAction(data));
+	}
 
+	@Override
+	public void onMessage(SCSelectConfirm data) {
+		gameStage.addViewAction(new ConfirmViewAction(data));
 	}
 }

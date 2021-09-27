@@ -18,8 +18,8 @@ public class DragonRideAction extends WaitAction {
 	public void init() {
 
 		// 先选择行动牌
-		var humanOper = new SelectCardOper(human.handPile.getFiltered(c -> c instanceof ActionCard),
-				actionString.tips[0], 1);
+		var humanOper = new SelectCardOper(human.handPile.filter(c -> c instanceof ActionCard), actionString.tips[0],
+				1);
 		humanOper.setDetachCallback(() -> {
 			if (humanOper.getSelectedPile().isEmpty()) {
 				setDone();
@@ -32,7 +32,7 @@ public class DragonRideAction extends WaitAction {
 
 	private void onSelectActionCard(Card actionCard) {
 		CardPile attackMonsters = human.handPile
-				.getFiltered(c -> c instanceof MonsterCard && ((MonsterCard) c).isMonsterType(MonsterSkillType.Attack));
+				.filter(c -> c instanceof MonsterCard && ((MonsterCard) c).isMonsterType(MonsterSkillType.Attack));
 		var humanOper = new SelectCardOper(attackMonsters, actionString.tips[1], 1);
 		humanOper.setDetachCallback(() -> {
 			if (!humanOper.getSelectedPile().isEmpty()) {
@@ -44,6 +44,7 @@ public class DragonRideAction extends WaitAction {
 	}
 
 	private void onSelect(Card actionCard, Card storeCard) {
+		board.removeCard(storeCard);
 		AttackAction attackAction = new AttackAction(human, storeCard, human.getOpponent());
 		addFirst(new ArrangePileAction(human));
 		addFirst(new GainAPAction(human, () -> {

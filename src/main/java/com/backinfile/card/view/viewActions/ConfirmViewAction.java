@@ -40,10 +40,12 @@ public class ConfirmViewAction extends ViewAction {
 			buttonInfos.add(buttonInfo);
 		}
 		gameStage.buttonsView.setButtonInfos(buttonInfos);
+		gameStage.boardView.boardUIView.setTipText(msg.getTip());
 	}
 
 	private void onConfirm(boolean confirm) {
 		gameStage.buttonsView.setButtonInfos();
+		gameStage.boardView.boardUIView.setTipText("");
 
 		CSSelectConfirm msg = new CSSelectConfirm();
 		msg.setConfirm(confirm);

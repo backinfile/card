@@ -60,6 +60,18 @@ public class Board implements IAlive {
 			human.init(dhuman);
 			humans.add(human);
 		}
+
+		// 初始化技能
+		for (var human : humans) {
+			for (var skill : human.getSkillList()) {
+				skill.setContext(this, human, null);
+			}
+			for (var card : human.getAllCards()) {
+				for (var skill : card.getSkillList()) {
+					skill.setContext(this, human, card);
+				}
+			}
+		}
 	}
 
 	public final void start() {
@@ -230,35 +242,15 @@ public class Board implements IAlive {
 		}
 		// 玩家身上的技能
 		for (var skill : human.getSkillList()) {
-			if (skill.triggerTimesLimit == 0) {
-				continue;
-			}
-			if (skill.aura == SkillAura.AnyWhere || skill.aura == SkillAura.Hero) {
-				if (skill.trigger == SkillTrigger.Active) {
-					if (skill.triggerCostAP <= human.actionPoint) {
-						skill.setContext(this, human, null);
-						if (skill.triggerable()) {
-							activableSkills.add(skill);
-						}
-					}
-				}
+			if (skill.testTriggerable(SkillTrigger.Active, SkillAura.Hero)) {
+				activableSkills.add(skill);
 			}
 		}
 		// 手牌上的技能
 		for (var card : human.handPile) {
 			for (var skill : card.getSkillList()) {
-				if (skill.triggerTimesLimit == 0) {
-					continue;
-				}
-				if (skill.trigger == SkillTrigger.Active) {
-					if (skill.triggerCostAP <= human.actionPoint) {
-						if (skill.aura == SkillAura.Hand || skill.aura == SkillAura.AnyWhere) {
-							skill.setContext(this, human, card);
-							if (skill.triggerable()) {
-								activableSkills.add(skill);
-							}
-						}
-					}
+				if (skill.testTriggerable(SkillTrigger.Active, SkillAura.Hand)) {
+					activableSkills.add(skill);
 				}
 			}
 		}
@@ -266,18 +258,8 @@ public class Board implements IAlive {
 		for (var slot : human.cardSlotMap.values()) {
 			for (var card : slot.getAllCards()) {
 				for (var skill : card.getSkillList()) {
-					if (skill.triggerTimesLimit == 0) {
-						continue;
-					}
-					if (skill.trigger == SkillTrigger.Active) {
-						if (skill.triggerCostAP <= human.actionPoint) {
-							if (skill.aura == SkillAura.Slot || skill.aura == SkillAura.AnyWhere) {
-								skill.setContext(this, human, card);
-								if (skill.triggerable()) {
-									activableSkills.add(skill);
-								}
-							}
-						}
+					if (skill.testTriggerable(SkillTrigger.Active, SkillAura.Slot)) {
+						activableSkills.add(skill);
 					}
 				}
 			}
@@ -286,18 +268,10 @@ public class Board implements IAlive {
 		// 计划区里的行动牌当作手牌来看, 不消耗行动点
 		for (var slot : human.cardSlotMap.values()) {
 			if (slot.asPlanSlot && slot.ready) {
-				for (var card : slot.getPile(ESlotType.Plan).getFiltered(c -> c instanceof ActionCard)) {
+				for (var card : slot.getPile(ESlotType.Plan).filter(c -> c instanceof ActionCard)) {
 					for (var skill : card.getSkillList()) {
-						if (skill.triggerTimesLimit == 0) {
-							continue;
-						}
-						if (skill.trigger == SkillTrigger.Active) {
-							if (skill.aura == SkillAura.Hand || skill.aura == SkillAura.AnyWhere) {
-								skill.setContext(this, human, card);
-								if (skill.triggerable()) {
-									activableSkills.add(skill);
-								}
-							}
+						if (skill.testTriggerable(SkillTrigger.Active, SkillAura.Hand)) {
+							activableSkills.add(skill);
 						}
 					}
 				}
@@ -311,13 +285,11 @@ public class Board implements IAlive {
 		for (var human : humans) {
 			var humanSkill = human.getSkill(id);
 			if (humanSkill != null) {
-				humanSkill.setContext(this, human, null);
 				return humanSkill;
 			}
 			for (var card : human.getAllCards()) {
 				var skill = card.getSkill(id);
 				if (skill != null) {
-					skill.setContext(this, human, card);
 					return skill;
 				}
 			}

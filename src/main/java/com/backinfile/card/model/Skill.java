@@ -3,6 +3,8 @@ package com.backinfile.card.model;
 import com.backinfile.card.gen.GameMessageHandler.DSkillInfo;
 import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.manager.LocalString.LocalSkillString;
+import com.backinfile.card.model.Skill.SkillAura;
+import com.backinfile.card.model.Skill.SkillTrigger;
 import com.backinfile.support.IdAllot;
 import com.backinfile.support.Param;
 
@@ -43,6 +45,7 @@ public abstract class Skill {
 		ReplaceRelease, // 当卡牌本身有特效释放时，替换其技能
 		ReplaceHarass, // 当卡牌本身执行骚扰特效时，替换其技能
 		Defend, // 被攻击之前触发
+		Recall, // 被召回后触发
 	}
 
 	// 生效地点
@@ -95,6 +98,30 @@ public abstract class Skill {
 		setTriggerType(duration, trigger, aura, cost, -1);
 	}
 
+	public boolean testTriggerable(SkillTrigger trigger, SkillAura aura) {
+		return testTriggerable(trigger, aura, false);
+	}
+
+	public boolean testTriggerable(SkillTrigger trigger, SkillAura aura, boolean noCost) {
+		if (this.triggerTimesLimit == 0) {
+			return false;
+		}
+		if (aura == SkillAura.AnyWhere || this.aura == SkillAura.AnyWhere || this.aura == aura) {
+			if (this.trigger == trigger) {
+				if (noCost || this.triggerCostAP <= human.actionPoint) {
+					if (triggerable()) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean triggerable() {
+		return true;
+	}
+
 	public abstract void apply();
 
 	public final void addLast(Action action) {
@@ -107,10 +134,6 @@ public abstract class Skill {
 
 	public String getDisplayName() {
 		return skillString.name;
-	}
-
-	public boolean triggerable() {
-		return true;
 	}
 
 	/**

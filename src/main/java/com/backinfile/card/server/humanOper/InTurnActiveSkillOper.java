@@ -31,7 +31,6 @@ public class InTurnActiveSkillOper extends HumanOper {
 
 		if (ConstGame.AI_DO_NOTHING) { // 直接回合结束
 			var skill = human.getSkill(TurnEndSkill.class);
-			skill.setContext(human.board, human, null);
 			onSelectSkill(skill);
 			return;
 		}

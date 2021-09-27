@@ -42,7 +42,7 @@ public class CardPile implements Iterable<Card> {
 
 	public void add(Card card) {
 		if (card != null) {
-			if (!cards.stream().anyMatch(c -> c.id == card.id)) {
+			if (!cards.contains(card)) {
 				cards.add(card);
 			}
 		}
@@ -167,7 +167,7 @@ public class CardPile implements Iterable<Card> {
 		return new ArrayList<>(cards).iterator();
 	}
 
-	public CardPile getFiltered(Predicate<Card> predicate) {
+	public CardPile filter(Predicate<Card> predicate) {
 		return new CardPile(cards.stream().filter(predicate).iterator());
 	}
 

@@ -39,6 +39,7 @@ public class SelectToAttackAction extends WaitAction {
 				maxNumber);
 		humanOper.setDetachCallback(() -> {
 			for (var card : humanOper.getSelectedPile().reverse()) {
+				board.removeCard(card);
 				addFirst(new AttackAction(human, card, targetHuman, withAttackEffect));
 			}
 			setDone();

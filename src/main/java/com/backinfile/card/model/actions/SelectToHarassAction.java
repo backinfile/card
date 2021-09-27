@@ -29,7 +29,6 @@ public class SelectToHarassAction extends WaitAction {
 		// 有技能可以触发
 		var skill = store.getSkill(s -> {
 			if (s.trigger == SkillTrigger.ReplaceHarass) {
-				s.setContext(board, human, store);
 				if (s.triggerCostAP <= human.actionPoint) {
 					if (s.triggerable()) {
 						return true;

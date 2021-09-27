@@ -17,7 +17,7 @@ public class SelectToRideAction extends WaitAction {
 
 	@Override
 	public void init() {
-		CardPile toRide = human.getAllStoreInSlot(true, true, false, false).getFiltered(this::ridable);
+		CardPile toRide = human.getAllStoreInSlot(true, true, false, false).filter(this::ridable);
 		if (toRide.isEmpty()) {
 			setDone();
 			return;
