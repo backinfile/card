@@ -21,10 +21,10 @@ public class DispatchAction extends WaitAction {
 		for (var human : humans) {
 			var humanOper = new SelectCardOper(human.handPile, actionString.tip, actionString.tips[0], 0,
 					human.handPile.size());
-			human.addHumanOper(humanOper);
 			humanOper.setDetachCallback(() -> {
 				selectedCards.put(human, humanOper.getSelectedPile());
 			});
+			human.addHumanOper(humanOper);
 		}
 	}
 
