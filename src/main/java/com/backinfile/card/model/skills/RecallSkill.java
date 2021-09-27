@@ -3,11 +3,10 @@ package com.backinfile.card.model.skills;
 import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.actions.AttackAction;
+import com.backinfile.card.model.actions.RecallAction;
 import com.backinfile.card.model.cards.StoreCard;
 
 public class RecallSkill extends Skill {
-	private AttackAction attackAction;
-
 	public RecallSkill() {
 		setTriggerType(SkillDuration.Fixed, SkillTrigger.Defend, SkillAura.Hand, 0);
 	}
@@ -30,11 +29,9 @@ public class RecallSkill extends Skill {
 		return false;
 	}
 
-	public void setAttackAction(AttackAction attackAction) {
-		this.attackAction = attackAction;
-	}
-
 	@Override
 	public void apply() {
+		AttackAction attackAction = param.get("attackAction");
+		addFirst(new RecallAction(human, card, attackAction));
 	}
 }

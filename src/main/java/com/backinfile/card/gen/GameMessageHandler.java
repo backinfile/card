@@ -2970,12 +2970,16 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		public static final String TypeName = "SCSelectConfirm";
 		
 		/** 是否可以取消 */
-		private boolean optional;
+		private boolean cancel;
 		private String tip;
+		private String confirmTip;
+		private String cancelTip;
 
 		public static class K {
-			public static final String optional = "optional";
+			public static final String cancel = "cancel";
 			public static final String tip = "tip";
+			public static final String confirmTip = "confirmTip";
+			public static final String cancelTip = "cancelTip";
 		}
 
 		public SCSelectConfirm() {
@@ -2984,18 +2988,20 @@ public class GameMessageHandler extends DSyncBaseHandler {
 
 		@Override
 		protected void init() {
-			optional = false;
+			cancel = false;
 			tip = "";
+			confirmTip = "";
+			cancelTip = "";
 		}
 		
 		/** 是否可以取消 */
-		public boolean getOptional() {
-			return optional;
+		public boolean getCancel() {
+			return cancel;
 		}
 		
 		/** 是否可以取消 */
-		public void setOptional(boolean optional) {
-			this.optional = optional;
+		public void setCancel(boolean cancel) {
+			this.cancel = cancel;
 		}
 		
 		public String getTip() {
@@ -3004,6 +3010,22 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		
 		public void setTip(String tip) {
 			this.tip = tip;
+		}
+		
+		public String getConfirmTip() {
+			return confirmTip;
+		}
+		
+		public void setConfirmTip(String confirmTip) {
+			this.confirmTip = confirmTip;
+		}
+		
+		public String getCancelTip() {
+			return cancelTip;
+		}
+		
+		public void setCancelTip(String cancelTip) {
+			this.cancelTip = cancelTip;
 		}
 		
 
@@ -3031,14 +3053,18 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		@Override
 		protected void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
-			jsonObject.put(K.optional, optional);
+			jsonObject.put(K.cancel, cancel);
 			jsonObject.put(K.tip, tip);
+			jsonObject.put(K.confirmTip, confirmTip);
+			jsonObject.put(K.cancelTip, cancelTip);
 		}
 
 		@Override
 		protected void applyRecord(JSONObject jsonObject) {
-			optional = jsonObject.getBooleanValue(K.optional);
+			cancel = jsonObject.getBooleanValue(K.cancel);
 			tip = jsonObject.getString(K.tip);
+			confirmTip = jsonObject.getString(K.confirmTip);
+			cancelTip = jsonObject.getString(K.cancelTip);
 		}
 		
 		@Override
@@ -3053,10 +3079,16 @@ public class GameMessageHandler extends DSyncBaseHandler {
 				return false;
 			}
 			var _value = (SCSelectConfirm) obj;
-			if (this.optional != _value.optional) {
+			if (this.cancel != _value.cancel) {
 				return false;
 			}
 			if (!this.tip.equals(_value.tip)) {
+				return false;
+			}
+			if (!this.confirmTip.equals(_value.confirmTip)) {
+				return false;
+			}
+			if (!this.cancelTip.equals(_value.cancelTip)) {
 				return false;
 			}
 			return true;
@@ -3064,15 +3096,19 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		
 		public SCSelectConfirm copy() {
 			var _value = new SCSelectConfirm();
-			_value.optional = this.optional;
+			_value.cancel = this.cancel;
 			_value.tip = this.tip;
+			_value.confirmTip = this.confirmTip;
+			_value.cancelTip = this.cancelTip;
 			return _value;
 		}
 		
 		public SCSelectConfirm deepCopy() {
 			var _value = new SCSelectConfirm();
-			_value.optional = this.optional;
+			_value.cancel = this.cancel;
 			_value.tip = this.tip;
+			_value.confirmTip = this.confirmTip;
+			_value.cancelTip = this.cancelTip;
 			return _value;
 		}
 	}

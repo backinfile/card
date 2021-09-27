@@ -12,11 +12,11 @@ import com.backinfile.card.gen.GameMessageHandler.DCardPileInfo;
 import com.backinfile.card.gen.GameMessageHandler.DPileNumber;
 import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.model.Skill.SkillAura;
+import com.backinfile.card.model.Skill.SkillDuration;
 import com.backinfile.card.model.Skill.SkillTrigger;
 import com.backinfile.card.model.actions.ChangeBoardStateAction;
 import com.backinfile.card.model.actions.DispatchAction;
 import com.backinfile.card.model.cards.ActionCard;
-import com.backinfile.card.model.cards.StoreCard;
 import com.backinfile.card.server.humanOper.InTurnActiveSkillOper;
 import com.backinfile.support.IAlive;
 import com.backinfile.support.Time2;
@@ -233,11 +233,13 @@ public class Board implements IAlive {
 			if (skill.triggerTimesLimit == 0) {
 				continue;
 			}
-			if (skill.trigger == SkillTrigger.Active) {
-				if (skill.triggerCostAP <= human.actionPoint) {
-					skill.setContext(this, human, null);
-					if (skill.triggerable()) {
-						activableSkills.add(skill);
+			if (skill.aura == SkillAura.AnyWhere || skill.aura == SkillAura.Hero) {
+				if (skill.trigger == SkillTrigger.Active) {
+					if (skill.triggerCostAP <= human.actionPoint) {
+						skill.setContext(this, human, null);
+						if (skill.triggerable()) {
+							activableSkills.add(skill);
+						}
 					}
 				}
 			}
@@ -250,7 +252,7 @@ public class Board implements IAlive {
 				}
 				if (skill.trigger == SkillTrigger.Active) {
 					if (skill.triggerCostAP <= human.actionPoint) {
-						if (skill.aura == SkillAura.Hand) {
+						if (skill.aura == SkillAura.Hand || skill.aura == SkillAura.AnyWhere) {
 							skill.setContext(this, human, card);
 							if (skill.triggerable()) {
 								activableSkills.add(skill);
@@ -269,7 +271,7 @@ public class Board implements IAlive {
 					}
 					if (skill.trigger == SkillTrigger.Active) {
 						if (skill.triggerCostAP <= human.actionPoint) {
-							if (skill.aura == SkillAura.Slot) {
+							if (skill.aura == SkillAura.Slot || skill.aura == SkillAura.AnyWhere) {
 								skill.setContext(this, human, card);
 								if (skill.triggerable()) {
 									activableSkills.add(skill);
@@ -290,7 +292,7 @@ public class Board implements IAlive {
 							continue;
 						}
 						if (skill.trigger == SkillTrigger.Active) {
-							if (skill.aura == SkillAura.Hand) {
+							if (skill.aura == SkillAura.Hand || skill.aura == SkillAura.AnyWhere) {
 								skill.setContext(this, human, card);
 								if (skill.triggerable()) {
 									activableSkills.add(skill);
@@ -493,5 +495,10 @@ public class Board implements IAlive {
 		}
 		// 执行skill
 		skill.apply();
+
+		// 移除skill
+		if (skill.duration == SkillDuration.Use) {
+			skill.getSkillOwner().removeSkill(skill.id);
+		}
 	}
 }

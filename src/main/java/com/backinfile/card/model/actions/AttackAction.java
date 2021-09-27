@@ -1,13 +1,16 @@
 package com.backinfile.card.model.actions;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.gen.GameMessageHandler.ETargetSlotAimType;
 import com.backinfile.card.model.Card;
-import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.CardSlot;
 import com.backinfile.card.model.Human;
+import com.backinfile.card.model.Skill;
+import com.backinfile.card.model.Skill.SkillAura;
 import com.backinfile.card.model.Skill.SkillTrigger;
 import com.backinfile.card.server.humanOper.SelectCardOper;
 import com.backinfile.card.server.humanOper.SelectEmptySlotOper;
@@ -17,6 +20,8 @@ public class AttackAction extends WaitAction {
 	private Human targetHuman;
 	private boolean withAttackEffect = false;
 	private AttackResult attackResult = AttackResult.None;
+	private List<Skill> triggeredSkillList = new ArrayList<>(); // 已经触发过的技能
+	private boolean isAttackDone;
 
 	public AttackAction(Human human, Card card, Human targetHuman) {
 		this.human = human;
@@ -37,6 +42,36 @@ public class AttackAction extends WaitAction {
 
 	@Override
 	public void init() {
+		setDone(false);
+
+		// 防御型技能
+		{
+			// 英雄技能
+			for (var card : targetHuman.heroPile) {
+				for (var skill : card.getSkillList()) {
+					if (checkDefendSkill(targetHuman, card, skill, SkillAura.Hero)) {
+						return;
+					}
+				}
+			}
+			// 手牌里的技能
+			for (var card : targetHuman.handPile) {
+				for (var skill : card.getSkillList()) {
+					if (checkDefendSkill(targetHuman, card, skill, SkillAura.Hand)) {
+						return;
+					}
+				}
+			}
+			// 储备位上的技能
+			for (var card : targetHuman.getAllStoreInSlot(false, false, false, false)) {
+				for (var skill : card.getSkillList()) {
+					if (checkDefendSkill(targetHuman, card, skill, SkillAura.Slot)) {
+						return;
+					}
+				}
+			}
+		}
+
 		if (withAttackEffect) { // 有特效释放
 			var skill = card.getSkill(s -> {
 				if (s.trigger == SkillTrigger.ReplaceRelease) {
@@ -80,6 +115,29 @@ public class AttackAction extends WaitAction {
 		targetHuman.addHumanOper(humanOper);
 	}
 
+	private boolean checkDefendSkill(Human human, Card card, Skill skill, SkillAura aura) {
+		if (triggeredSkillList.contains(skill)) {
+			return false;
+		}
+		if (skill.aura == aura || skill.aura == SkillAura.AnyWhere) {
+			if (skill.triggerTimesLimit != 0) {
+				if (skill.trigger == SkillTrigger.Defend) {
+					skill.setContext(board, human, card);
+					if (skill.triggerCostAP <= human.actionPoint) {
+						if (skill.triggerable()) {
+							triggeredSkillList.add(skill);
+							skill.setParam("attackAction", this);
+							board.applySkill(skill);
+							setDone();
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 	private void onOccupy(int index) {
 		removeOtherCardsInSlot(card);
 		board.removeCard(card);
@@ -93,12 +151,13 @@ public class AttackAction extends WaitAction {
 	}
 
 	private void onBreak(Card breakCard) {
+		addFirst(new BreakFinishAction(human));
+
 		removeOtherCardsInSlot(card);
 		addFirst(new DiscardCardAction(human, card));
 
 		this.attackResult = AttackResult.Break;
 		addFirst(new DiscardCardAction(targetHuman, targetHuman.getCardSlotByCard(breakCard).getAllCards()));
-		addFirst(new DrawCardAction(human, 1));
 		setDone();
 		Log.game.info("击破");
 	}
@@ -115,5 +174,19 @@ public class AttackAction extends WaitAction {
 			allCards.remove(store);
 			addFirst(new DiscardCardAction(human, allCards));
 		}
+	}
+
+	@Override
+	public void setDone() {
+		isAttackDone = true;
+	}
+
+	public void setDone(boolean isAttackDone) {
+		this.isAttackDone = isAttackDone;
+	}
+
+	@Override
+	public boolean isDone() {
+		return isAttackDone;
 	}
 }

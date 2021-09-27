@@ -36,14 +36,6 @@ public abstract class Action implements IAction {
 	public void dispose() {
 	}
 
-	public void setTargetCard(Card targetCard) {
-		this.targetCard = targetCard;
-	}
-
-	public Card getTargetCard() {
-		return targetCard;
-	}
-
 	public final void addLast(Action action) {
 		board.getActionQueue().addLast(action);
 	}

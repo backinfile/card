@@ -43,6 +43,10 @@ public class Utils {
 		RANDOM.setSeed(seed);
 	}
 
+	public static boolean nextBoolean() {
+		return RANDOM.nextBoolean();
+	}
+
 	public static double nextDouble() {
 		return RANDOM.nextDouble();
 	}

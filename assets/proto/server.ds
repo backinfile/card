@@ -175,8 +175,10 @@ struct CSSelectEmptySlot {
 
 // 通知客户端进行确认
 struct SCSelectConfirm {
-	bool optional; // 是否可以取消
+	bool cancel; // 是否可以取消
 	String tip;
+	String confirmTip;
+	String cancelTip;
 }
 struct CSSelectConfirm {
 	bool confirm; // 确认

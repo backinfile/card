@@ -4,6 +4,7 @@ import com.backinfile.card.gen.GameMessageHandler.DSkillInfo;
 import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.manager.LocalString.LocalSkillString;
 import com.backinfile.support.IdAllot;
+import com.backinfile.support.Param;
 
 // 技能 主动触发，或在Action中有交互
 public abstract class Skill {
@@ -15,6 +16,7 @@ public abstract class Skill {
 	public Board board;
 	public Human human;
 	public Card card;
+	public Param param;
 
 	// 触发时机控制
 	public SkillTrigger trigger = SkillTrigger.Active; // 触发方式
@@ -40,7 +42,7 @@ public abstract class Skill {
 		ActAsStore, // 可作为readyStore
 		ReplaceRelease, // 当卡牌本身有特效释放时，替换其技能
 		ReplaceHarass, // 当卡牌本身执行骚扰特效时，替换其技能
-		Defend, // 被攻击之前生效
+		Defend, // 被攻击之前触发
 	}
 
 	// 生效地点
@@ -48,6 +50,7 @@ public abstract class Skill {
 		AnyWhere, // 任何地方
 		Slot, // 储备位上
 		Hand, // 手牌
+		Hero, // 英雄牌上
 	}
 
 	public Skill() {
@@ -66,6 +69,10 @@ public abstract class Skill {
 		this.board = board;
 		this.human = human;
 		this.card = card;
+	}
+
+	public void setParam(Object... params) {
+		this.param = new Param(params);
 	}
 
 	public SkillCaster getSkillOwner() {
