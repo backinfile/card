@@ -86,6 +86,9 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		public void onMessage(CSSelectSkillToActive data) {
 		}
 		
+		public void onMessage(SCGameLog data) {
+		}
+		
 		public void onMessage(DStartPileDataPair data) {
 		}
 		
@@ -217,6 +220,11 @@ public class GameMessageHandler extends DSyncBaseHandler {
 				listener.onMessage(CSSelectSkillToActive.parseJSONObject(jsonObject));
 			}
 			break;
+		case SCGameLog.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(SCGameLog.parseJSONObject(jsonObject));
+			}
+			break;
 		case DStartPileDataPair.TypeName:
 			for (var listener : listeners) {
 				listener.onMessage(DStartPileDataPair.parseJSONObject(jsonObject));
@@ -291,6 +299,8 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			return new SCSelectConfirm();
 		case CSSelectSkillToActive.TypeName:
 			return new CSSelectSkillToActive();
+		case SCGameLog.TypeName:
+			return new SCGameLog();
 		case DStartPileDataPair.TypeName:
 			return new DStartPileDataPair();
 		case SCSelectCards.TypeName:
@@ -3203,6 +3213,135 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 	}
 	
+	/**
+	 * 推送游戏日志
+	 */
+	public static class SCGameLog extends DSyncBase {
+		public static final String TypeName = "SCGameLog";
+		
+		private String playerName;
+		private EGameLogType type;
+		private String log;
+
+		public static class K {
+			public static final String playerName = "playerName";
+			public static final String type = "type";
+			public static final String log = "log";
+		}
+
+		public SCGameLog() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			playerName = "";
+			type = EGameLogType.Turn;
+			log = "";
+		}
+		
+		public String getPlayerName() {
+			return playerName;
+		}
+		
+		public void setPlayerName(String playerName) {
+			this.playerName = playerName;
+		}
+		
+		public EGameLogType getType() {
+			return type;
+		}
+		
+		public void setType(EGameLogType type) {
+			this.type = type;
+		}
+		
+		public String getLog() {
+			return log;
+		}
+		
+		public void setLog(String log) {
+			this.log = log;
+		}
+		
+
+		static SCGameLog parseJSONObject(JSONObject jsonObject) {
+			var _value = new SCGameLog();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<SCGameLog> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<SCGameLog>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new SCGameLog();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.playerName, playerName);
+			jsonObject.put(K.type, type.ordinal());
+			jsonObject.put(K.log, log);
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+			playerName = jsonObject.getString(K.playerName);
+			type = EGameLogType.values()[(jsonObject.getIntValue(K.type))];
+			log = jsonObject.getString(K.log);
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof SCGameLog)) {
+				return false;
+			}
+			var _value = (SCGameLog) obj;
+			if (!this.playerName.equals(_value.playerName)) {
+				return false;
+			}
+			if (!this.type.equals(_value.type)) {
+				return false;
+			}
+			if (!this.log.equals(_value.log)) {
+				return false;
+			}
+			return true;
+		}
+		
+		public SCGameLog copy() {
+			var _value = new SCGameLog();
+			_value.playerName = this.playerName;
+			_value.type = this.type;
+			_value.log = this.log;
+			return _value;
+		}
+		
+		public SCGameLog deepCopy() {
+			var _value = new SCGameLog();
+			_value.playerName = this.playerName;
+			_value.type = this.type;
+			_value.log = this.log;
+			return _value;
+		}
+	}
+	
 	public static class DStartPileDataPair extends DSyncBase {
 		public static final String TypeName = "DStartPileDataPair";
 		
@@ -3987,6 +4126,11 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		Charge,
 		/** 计划牌 */
 		Plan,
+	}
+	public static enum EGameLogType {
+		Turn,
+		Skill,
+		Action,
 	}
 	public static enum EPlayerState {
 		Normal,

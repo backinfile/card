@@ -9,6 +9,7 @@ import java.util.Map;
 import com.backinfile.card.gen.GameMessageHandler;
 import com.backinfile.card.gen.GameMessageHandler.DHumanInit;
 import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
+import com.backinfile.card.gen.GameMessageHandler.EGameLogType;
 import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.manager.CardManager;
 import com.backinfile.card.manager.ConstGame;
@@ -16,10 +17,11 @@ import com.backinfile.card.manager.GameUtils;
 import com.backinfile.card.model.Board.BoardMode;
 import com.backinfile.card.model.Card.CardType;
 import com.backinfile.card.model.Skill.SkillDuration;
+import com.backinfile.card.model.actions.BirdHarassAction;
 import com.backinfile.card.model.actions.DrawCardAction;
-import com.backinfile.card.model.actions.GainAPAction;
 import com.backinfile.card.model.actions.RestoreActionNumberAction;
 import com.backinfile.card.model.actions.SaveThreatenAction;
+import com.backinfile.card.model.cards.chapter2.MonsterCard.Bird;
 import com.backinfile.card.model.skills.ActAsStoreSkill;
 import com.backinfile.card.model.skills.DrawCardSkill;
 import com.backinfile.card.model.skills.Pass2CardSkill;
@@ -54,6 +56,8 @@ public class Human extends SkillCaster {
 	public CardPile threatenPile = new CardPile(ECardPileType.ThreatenPile);
 	public Map<Integer, CardSlot> cardSlotMap = new HashMap<>();
 	public int actionPoint = 0;
+
+	public CardPile drawnCardsInTurnStart = new CardPile(); // 回合开始时抽到的牌
 
 	public void init(DHumanInit humanInit) {
 		this.token = humanInit.getControllerToken();
@@ -120,10 +124,26 @@ public class Human extends SkillCaster {
 		}
 
 		if (GameUtils.isAI(this)) {
-			addLast(new GainAPAction(this, 1));
-			addLast(new DrawCardAction(this, 2));
+//			addLast(new GainAPAction(this, 1));
+//			addLast(new DrawCardAction(this, 2));
 		}
+
 		Log.game.info("player {} turnStart", token);
+		board.gameLog(this, EGameLogType.Turn, "回合开始");
+	}
+
+	public final void enterTurn() {
+		// 如果对手有追风鸟
+		for (var slot : getOpponent().cardSlotMap.values()) {
+			if (!slot.getPile(ESlotType.Ride).isEmpty()) {
+				if (!slot.getPile(ESlotType.Store).isEmpty()) {
+					var bird = slot.getPile(ESlotType.Store).getAny();
+					if (bird instanceof Bird) {
+						addLast(new BirdHarassAction(getOpponent()));
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -146,6 +166,7 @@ public class Human extends SkillCaster {
 			addLast(new SaveThreatenAction(this));
 		}
 		Log.game.info("player {} turnEnd", token);
+		board.gameLog(this, EGameLogType.Turn, "回合结束");
 	}
 
 	public boolean removeCard(Card card) {

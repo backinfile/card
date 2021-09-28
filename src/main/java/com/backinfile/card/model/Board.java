@@ -12,7 +12,9 @@ import com.backinfile.card.gen.GameMessageHandler.DCardInfo;
 import com.backinfile.card.gen.GameMessageHandler.DCardInfoList;
 import com.backinfile.card.gen.GameMessageHandler.DCardPileInfo;
 import com.backinfile.card.gen.GameMessageHandler.DPileNumber;
+import com.backinfile.card.gen.GameMessageHandler.EGameLogType;
 import com.backinfile.card.gen.GameMessageHandler.ESlotType;
+import com.backinfile.card.gen.GameMessageHandler.SCGameLog;
 import com.backinfile.card.manager.ConstGame;
 import com.backinfile.card.model.Skill.SkillAura;
 import com.backinfile.card.model.Skill.SkillDuration;
@@ -20,6 +22,7 @@ import com.backinfile.card.model.Skill.SkillTrigger;
 import com.backinfile.card.model.actions.ChangeBoardStateAction;
 import com.backinfile.card.model.actions.DispatchAction;
 import com.backinfile.card.model.cards.ActionCard;
+import com.backinfile.card.model.skills.ActAsStoreSkill;
 import com.backinfile.card.server.humanOper.InTurnActiveSkillOper;
 import com.backinfile.support.IAlive;
 import com.backinfile.support.Time2;
@@ -177,11 +180,13 @@ public class Board implements IAlive {
 			}
 			// 回合开始
 			playerTurnCount++;
+			curTurnHuman.drawnCardsInTurnStart.clear();
 			curTurnHuman.onTurnStart();
 			actionQueue.addLast(new ChangeBoardStateAction(BoardState.InTurn));
 			break;
 		}
 		case InTurn: {
+			curTurnHuman.enterTurn();
 			break;
 		}
 		case TurnEnd: {
@@ -197,6 +202,15 @@ public class Board implements IAlive {
 	}
 
 	public boolean removeCard(Card card) {
+		{
+			// 清除标记技能
+			for (var skill : card.getSkillList()) {
+				if (skill instanceof ActAsStoreSkill) {
+					card.removeSkill(skill.id);
+				}
+			}
+		}
+
 		for (var human : humans) {
 			if (human.removeCard(card)) {
 				return true;
@@ -486,6 +500,28 @@ public class Board implements IAlive {
 		// 移除skill
 		if (skill.duration == SkillDuration.Use) {
 			skill.getSkillOwner().removeSkill(skill.id);
+		}
+
+		if (skill.card != null) {
+			gameLog(skill.human, EGameLogType.Skill, "使用卡牌{0}的技能[{1}]", skill.card.cardString.name,
+					skill.skillString.name);
+		} else {
+			gameLog(skill.human, EGameLogType.Skill, "使用技能[{0}]", skill.skillString.name);
+		}
+	}
+
+	public void addSkillInCombat(Human human, Card card, Skill skill) {
+		card.addSkill(skill);
+		skill.setContext(this, human, card);
+	}
+
+	public void gameLog(Human targetHuman, EGameLogType type, String log, Object... arguments) {
+		SCGameLog msg = new SCGameLog();
+		msg.setType(type);
+		msg.setPlayerName(targetHuman != null ? targetHuman.playerName : "");
+		msg.setLog(Utils.format(log, arguments));
+		for (var human : humans) {
+			human.sendMessage(msg);
 		}
 	}
 }

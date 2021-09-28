@@ -4,17 +4,14 @@ import com.backinfile.card.model.Action;
 
 // 执行一次然后结束的Action
 public abstract class TriggerOnceAction extends Action {
-	private boolean isDone = false;
-
 	@Override
-	public void pulse() {
+	public void init() {
 		run();
-		isDone = true;
 	}
 
 	@Override
 	public boolean isDone() {
-		return isDone;
+		return true;
 	}
 
 	public abstract void run();

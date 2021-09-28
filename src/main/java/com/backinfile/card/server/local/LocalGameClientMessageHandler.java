@@ -4,6 +4,8 @@ import com.backinfile.card.gen.GameMessageHandler;
 import com.backinfile.card.gen.GameMessageHandler.DBoardData;
 import com.backinfile.card.gen.GameMessageHandler.DBoardSetup;
 import com.backinfile.card.gen.GameMessageHandler.DCardInfoList;
+import com.backinfile.card.gen.GameMessageHandler.EGameLogType;
+import com.backinfile.card.gen.GameMessageHandler.SCGameLog;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectCards;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectConfirm;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectEmptySlot;
@@ -15,6 +17,7 @@ import com.backinfile.card.view.viewActions.SelectCardSkillViewAction;
 import com.backinfile.card.view.viewActions.SelectCardViewAction;
 import com.backinfile.card.view.viewActions.SelectEmptySlotViewAction;
 import com.backinfile.card.view.viewActions.UpdateBoardDataViewAction;
+import com.backinfile.support.Log;
 
 @SuppressWarnings("unused")
 public class LocalGameClientMessageHandler extends GameMessageHandler.DSyncListener {
@@ -63,5 +66,23 @@ public class LocalGameClientMessageHandler extends GameMessageHandler.DSyncListe
 	@Override
 	public void onMessage(SCSelectConfirm data) {
 		gameStage.addViewAction(new ConfirmViewAction(data));
+	}
+
+	@Override
+	public void onMessage(SCGameLog data) {
+		switch (data.getType()) {
+		case Action:
+			Log.gameLog.info("        " + data.getPlayerName() + data.getLog());
+			break;
+		case Skill:
+			Log.gameLog.info("    " + data.getPlayerName() + data.getLog());
+			break;
+		case Turn:
+			Log.gameLog.info("" + data.getPlayerName() + data.getLog());
+			break;
+		default:
+			break;
+
+		}
 	}
 }

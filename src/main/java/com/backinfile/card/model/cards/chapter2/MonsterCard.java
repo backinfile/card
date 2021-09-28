@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.backinfile.card.model.cards.StoreCard;
 import com.backinfile.card.model.skills.BeeAttackSkill;
+import com.backinfile.card.model.skills.BirdHarassSkill;
 import com.backinfile.card.model.skills.CatHarassSkill;
 import com.backinfile.card.model.skills.CatRecallSkill;
 import com.backinfile.card.model.skills.DearAttackSkill;
@@ -59,6 +60,7 @@ public class MonsterCard extends StoreCard {
 		public Bird() {
 			monsterSkillTypes.add(MonsterSkillType.Harass);
 			monsterSkillTypes.add(MonsterSkillType.Ride);
+			addSkill(new BirdHarassSkill());
 		}
 	}
 

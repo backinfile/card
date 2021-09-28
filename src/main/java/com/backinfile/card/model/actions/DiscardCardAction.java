@@ -13,17 +13,11 @@ public class DiscardCardAction extends TriggerOnceAction {
 	public DiscardCardAction(Human human, Iterable<Card> cards) {
 		this.human = human;
 		this.cards.addAll(cards);
-		if (human == null) {
-			System.out.println();
-		}
 	}
 
 	public DiscardCardAction(Human human, Card... cards) {
 		this.human = human;
 		this.cards.addAll(Arrays.asList(cards));
-		if (human == null) {
-			System.out.println();
-		}
 	}
 
 	@Override

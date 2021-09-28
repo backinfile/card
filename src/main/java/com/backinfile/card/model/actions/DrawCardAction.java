@@ -1,5 +1,6 @@
 package com.backinfile.card.model.actions;
 
+import com.backinfile.card.model.Board.BoardState;
 import com.backinfile.card.model.Human;
 import com.backinfile.card.model.cards.chapter2.MonsterCard.Cat;
 
@@ -39,6 +40,10 @@ public class DrawCardAction extends TriggerOnceAction {
 
 		if (card instanceof Cat && !card.oriHumanToken.equals(human.token)) {
 			addFirst(new DiscardCardAction(human, human.handPile));
+		}
+
+		if (board.state == BoardState.TurnStart) {
+			human.drawnCardsInTurnStart.add(card);
 		}
 	}
 }

@@ -18,4 +18,5 @@ public class Log {
 
 	public static Logger game = LoggerFactory.getLogger("GAME");
 	public static Logger level = LoggerFactory.getLogger("LEVEL");
+	public static Logger gameLog = LoggerFactory.getLogger("GAMELOG");
 }

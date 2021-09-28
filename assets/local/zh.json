@@ -240,55 +240,80 @@
 	},{
 			"sn":"FlipStoreAction",
 			"tip":"翻转1张储备"
+	},{
+			"sn":"RemoveOpponentHandAction",
+			"tip":"移除对手{0}张手牌"
+	},{
+			"sn":"SelectToMarkStoreAction",
+			"tip":"标记1张为储备"
+	},{
+			"sn":"BirdHarassAction",
+			"tip":"选择1张重调"
 	}],
 	skills:[{
 			"sn":"StoreSelfSkill",
 			"tip":"储备",
+			"name":"储备自身",
 	},{
 			"sn":"DrawCardSkill",
 			"tip":"抽1",
+			"name":"抽1",
 	},{
 			"sn":"Pass2CardSkill",
 			"tip":"过牌2",
+			"name":"过牌2",
 	},{
 			"sn":"TurnEndSkill",
 			"tip":"回合结束",
+			"name":"回合结束",
 	},{
 			"sn":"Release2StoreSkill",
 			"tip":"释放2",
+			"name":"释放2",
 	},{
 			"sn":"ReleaseAttackStoreSkill",
 			"tip":"特效释放1",
+			"name":"特效释放1",
 	},{
 			"sn":"PlanSkill",
 			"tip":"计划",
+			"name":"计划",
 	},{
 			"sn":"RideSkill",
 			"tip":"骑乘",
+			"name":"骑乘",
 	},{
 			"sn":"DragonRideSkill",
 			"tip":"振奋",
+			"name":"振奋",
 	},{
 			"sn":"HarassSkill",
+			"name":"骚扰",
 			"tip":"骚扰",
 	},{
 			"sn":"RecallSkill",
+			"name":"召回",
 			"tip":"召回",
 			"tips":["是否执行召回？"]
 	},{
 			"sn":"WhaleRecallSkill",
+			"name":"归海",
 			"tip":"归海"
 	},{
 			"sn":"WhaleRideSkill",
+			"name":"吞山",
 			"tip":"吞山"
 	},{
 			"sn":"DearAttackSkill",
+			"name":"舍魂",
 			"tip":"舍魂"
 	},{
 			"sn":"DearRecallSkill",
+			"name":"舍身",
 			"tip":"舍身"
 	},{
 			"sn":"DearAutoReleaseSkill",
+			"name":"自主释放",
 			"tip":"自主释放"
 	}],
 	targets:[],

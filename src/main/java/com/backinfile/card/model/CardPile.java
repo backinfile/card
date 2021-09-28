@@ -136,6 +136,20 @@ public class CardPile implements Iterable<Card> {
 		return cardPile;
 	}
 
+	public CardPile getRandom(int n) {
+		CardPile copy = new CardPile(this);
+		CardPile polls = new CardPile();
+		for (int i = 0; i < n; i++) {
+			if (copy.isEmpty()) {
+				break;
+			}
+			var card = copy.get(Utils.nextInt(copy.size()));
+			copy.remove(card);
+			polls.add(card);
+		}
+		return polls;
+	}
+
 	public CardPile pollRandom(int n) {
 		CardPile polls = new CardPile();
 		for (int i = 0; i < n; i++) {

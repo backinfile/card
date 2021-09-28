@@ -16,7 +16,7 @@ public class Put2OpponentDrawPileAction extends TriggerOnceAction {
 		board.removeCard(card);
 		human.getOpponent().drawPile.add(card);
 		board.modifyCard(card);
-		addFirst(new ShuffleAction(human));
+		addFirst(new ShuffleAction(human.getOpponent()));
 	}
 
 }

@@ -184,6 +184,18 @@ struct CSSelectConfirm {
 	bool confirm; // 确认
 }
 
+// 推送游戏日志
+struct SCGameLog {
+	String playerName;
+	EGameLogType type;
+	String log;
+}
+enum EGameLogType {
+	Turn,
+	Skill,
+	Action,
+}
+
 //----------------------------------------
 // 其他
 //----------------------------------------
