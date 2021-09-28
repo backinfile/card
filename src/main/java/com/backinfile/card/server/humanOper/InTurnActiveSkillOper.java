@@ -1,6 +1,7 @@
 package com.backinfile.card.server.humanOper;
 
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.backinfile.card.gen.GameMessageHandler.CSSelectSkillToActive;
@@ -59,7 +60,12 @@ public class InTurnActiveSkillOper extends HumanOper {
 
 		// 先从正常打牌中随机选取
 		{
-			var skills = activableSkills.stream().filter(s -> s.card != null).collect(Collectors.toList());
+			Predicate<Skill> predicate = s -> s.card != null;
+			if (human.getEmptySlots(false).isEmpty()) {
+				predicate = predicate.and(s -> !(s instanceof StoreSelfSkill));
+			}
+			var skills = activableSkills.stream().filter(predicate).collect(Collectors.toList());
+
 			if (!skills.isEmpty()) {
 				onSelectSkill(Utils.randItem(skills));
 				return;

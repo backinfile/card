@@ -6,6 +6,7 @@ import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
 import com.backinfile.card.model.Skill.SkillAura;
 import com.backinfile.card.model.Skill.SkillTrigger;
+import com.backinfile.card.model.actions.AttackAction.AttackResult;
 import com.backinfile.card.model.cards.StoreCard;
 import com.backinfile.card.server.humanOper.SelectCardOper;
 import com.backinfile.support.Log;
@@ -59,6 +60,7 @@ public class RecallAction extends WaitAction {
 		}
 
 		// 视为对手击破
+		attackAction.setAttackResult(AttackResult.Break);
 		addFirst(new BreakFinishAction(human.getOpponent()));
 		addFirst(new DiscardCardAction(human, card, recallCard, attackAction.card));
 

@@ -6,6 +6,7 @@ import com.backinfile.card.model.actions.AttackAction;
 public class DearAutoReleaseSkill extends Skill {
 	public DearAutoReleaseSkill() {
 		setTriggerType(SkillDuration.Fixed, SkillTrigger.Active, SkillAura.Slot, 1);
+		marks.add(SkillMark.Release);
 	}
 
 	// 需要已经储备完成

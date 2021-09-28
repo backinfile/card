@@ -2,6 +2,7 @@ package com.backinfile.card.model.skills;
 
 import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.actions.SelectToHarassAction;
+import com.backinfile.card.model.cards.chapter2.MonsterCard.Cat;
 
 public class HarassSkill extends Skill {
 
@@ -13,12 +14,21 @@ public class HarassSkill extends Skill {
 	// 对面有封印
 	@Override
 	public boolean triggerable() {
-		// 如果对面有封印，则有储备即可
-		if (!human.getOpponent().getAllSealCard(true).isEmpty()) {
-			return !human.getAllStoreCards(true, true, false, false, false).isEmpty();
+
+		var allStoreCards = human.getAllStoreCards(true, true, false, false, false);
+		if (allStoreCards.isEmpty()) {
+			return false;
 		}
 
-		// TODO 特殊处理：有猫也可
+		// 如果对面有封印即可
+		if (!human.getOpponent().getAllSealCard(true).isEmpty()) {
+			return true;
+		}
+
+		// 有猫也可
+		if (allStoreCards.stream().anyMatch(c -> c instanceof Cat)) {
+			return true;
+		}
 		return false;
 	}
 

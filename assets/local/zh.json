@@ -237,6 +237,9 @@
 	},{
 			"sn":"UnsealAction",
 			"tip":"至多解封{0}"
+	},{
+			"sn":"FlipStoreAction",
+			"tip":"翻转1张储备"
 	}],
 	skills:[{
 			"sn":"StoreSelfSkill",

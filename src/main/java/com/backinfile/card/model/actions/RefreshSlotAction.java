@@ -14,6 +14,7 @@ public class RefreshSlotAction extends TriggerOnceAction {
 			for (var slot : human.cardSlotMap.values()) {
 				if (slot.getPile(ESlotType.Store).isEmpty()) {
 					toDiscard.addAll(slot.getPile(ESlotType.Ride));
+					this.human = human;
 				}
 			}
 		}

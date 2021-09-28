@@ -79,6 +79,18 @@ public class AttackAction extends WaitAction {
 					}
 				}
 			}
+			// 计划区的牌
+			for (var slot : targetHuman.cardSlotMap.values()) {
+				if (slot.asPlanSlot) {
+					for (var card : slot.getPile(ESlotType.Plan)) {
+						for (var skill : card.getSkillList()) {
+							if (checkDefendSkill(targetHuman, card, skill, SkillAura.Hand)) {
+								return;
+							}
+						}
+					}
+				}
+			}
 		}
 
 		var emptySlots = targetHuman.getEmptySlots(true);
@@ -138,6 +150,10 @@ public class AttackAction extends WaitAction {
 		addFirst(new DiscardCardAction(targetHuman, targetHuman.getCardSlotByCard(breakCard).getAllCards()));
 		setDone();
 		Log.game.info("击破");
+	}
+
+	public void setAttackResult(AttackResult attackResult) {
+		this.attackResult = attackResult;
 	}
 
 	public AttackResult getAttackResult() {

@@ -17,6 +17,7 @@ import com.backinfile.card.model.Board.BoardMode;
 import com.backinfile.card.model.Card.CardType;
 import com.backinfile.card.model.Skill.SkillDuration;
 import com.backinfile.card.model.actions.DrawCardAction;
+import com.backinfile.card.model.actions.GainAPAction;
 import com.backinfile.card.model.actions.RestoreActionNumberAction;
 import com.backinfile.card.model.actions.SaveThreatenAction;
 import com.backinfile.card.model.skills.ActAsStoreSkill;
@@ -110,15 +111,16 @@ public class Human extends SkillCaster {
 			}
 		}
 
-		if (GameUtils.isAI(this)) {
-			addLast(new RestoreActionNumberAction(this, 3));
-		} else {
-			addLast(new RestoreActionNumberAction(this, 2));
-		}
+		addLast(new RestoreActionNumberAction(this, 2));
 
 		if (board.modes.contains(BoardMode.Threaten)) {
 			addLast(new DrawCardAction(this, 3));
 		} else {
+			addLast(new DrawCardAction(this, 2));
+		}
+
+		if (GameUtils.isAI(this)) {
+			addLast(new GainAPAction(this, 1));
 			addLast(new DrawCardAction(this, 2));
 		}
 		Log.game.info("player {} turnStart", token);
