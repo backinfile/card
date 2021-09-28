@@ -49,6 +49,7 @@ public abstract class Skill {
 		ReplaceHarass, // 当卡牌本身执行骚扰特效时，替换其技能
 		Defend, // 被攻击之前触发
 		Recall, // 被召回后触发
+		ReplaceAttackedStore, // 储备被侵占，翻转，移除时，可代替上去
 	}
 
 	// 生效地点

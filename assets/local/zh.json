@@ -223,11 +223,20 @@
 			"sn":"StoreCardAction",
 			"tips":["选择储备目标", "选择替换目标"]
 	},{
+			"sn":"SelectToStoreAction",
+			"tips":["选择1张储备", "选择1张快速储备"]
+	},{
 			"sn":"HarassAction",
 			"tips":["选择骚扰目标"]
 	},{
 			"sn":"RecallAction",
 			"tip":"选择召回目标"
+	},{
+			"sn":"WhaleRecallAction",
+			"tip":"[归海] 选择回手目标"
+	},{
+			"sn":"UnsealAction",
+			"tip":"至多解封{0}"
 	}],
 	skills:[{
 			"sn":"StoreSelfSkill",
@@ -263,6 +272,21 @@
 			"sn":"RecallSkill",
 			"tip":"召回",
 			"tips":["是否执行召回？"]
+	},{
+			"sn":"WhaleRecallSkill",
+			"tip":"归海"
+	},{
+			"sn":"WhaleRideSkill",
+			"tip":"吞山"
+	},{
+			"sn":"DearAttackSkill",
+			"tip":"舍魂"
+	},{
+			"sn":"DearRecallSkill",
+			"tip":"舍身"
+	},{
+			"sn":"DearAutoReleaseSkill",
+			"tip":"自主释放"
 	}],
 	targets:[],
 	ui:[{

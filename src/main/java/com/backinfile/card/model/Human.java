@@ -271,6 +271,12 @@ public class Human extends SkillCaster {
 		return null;
 	}
 
+	/**
+	 * 获取所有封禁牌
+	 * 
+	 * @param notHarassed 仅限没有被骚扰的
+	 * @return
+	 */
 	public CardPile getAllSealCard(boolean notHarassed) {
 		CardPile cardPile = new CardPile();
 		for (var slot : cardSlotMap.values()) {
@@ -287,6 +293,14 @@ public class Human extends SkillCaster {
 		for (var slot : cardSlotMap.values()) {
 			cardPile.addAll(slot.getPile(ESlotType.Harass));
 		}
+		// 抽牌堆里也有
+		cardPile.addAll(drawPile.filter(c -> !c.oriHumanToken.equals(token)));
+		return cardPile;
+	}
+
+	public CardPile getAllUnSealableCard() {
+		CardPile cardPile = getAllSealCard(true);
+		cardPile.addAll(getAllHarassCard());
 		return cardPile;
 	}
 
@@ -307,7 +321,7 @@ public class Human extends SkillCaster {
 		// 储备位上的储备牌
 		cardPile.addAll(getAllStoreInSlot(forceStore, onlyReady, exceptPlan, onlyOpponentVisible));
 
-		if (!exceptHand) {
+		if (!exceptHand && !onlyOpponentVisible) {
 			// 手牌中
 			for (var card : handPile) {
 				if (card.getSkill(ActAsStoreSkill.class) != null) {

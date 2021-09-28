@@ -52,9 +52,10 @@ public class RecallAction extends WaitAction {
 
 	private void onRecall(Card recallCard) {
 		// 触发recall技能
-		var recallSkill = recallCard.getSkill(skill -> skill.testTriggerable(SkillTrigger.Recall, SkillAura.AnyWhere));
-		if (recallSkill != null) {
-			board.applySkill(recallSkill);
+		for (var skill : recallCard.getSkillList()) {
+			if (skill.testTriggerable(SkillTrigger.Recall, SkillAura.AnyWhere)) {
+				board.applySkill(skill);
+			}
 		}
 
 		// 视为对手击破

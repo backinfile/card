@@ -1,6 +1,7 @@
 package com.backinfile.card.model.actions;
 
 import com.backinfile.card.model.Human;
+import com.backinfile.card.model.cards.chapter2.MonsterCard.Cat;
 
 public class DrawCardAction extends TriggerOnceAction {
 	public int number;
@@ -35,5 +36,9 @@ public class DrawCardAction extends TriggerOnceAction {
 		var card = human.drawPile.pollTop();
 		human.handPile.add(card);
 		board.modifyCard(human.handPile);
+
+		if (card instanceof Cat && !card.oriHumanToken.equals(human.token)) {
+			addFirst(new DiscardCardAction(human, human.handPile));
+		}
 	}
 }

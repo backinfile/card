@@ -36,12 +36,14 @@ public abstract class Action implements IAction {
 	public void dispose() {
 	}
 
+	/**
+	 * 事件中途触发其他事件，用addLast
+	 */
 	public final void addLast(Action action) {
 		board.getActionQueue().addLast(action);
 	}
 
 	/**
-	 * 一般情况下用addLast <br/>
 	 * 必须要立即执行的动作用addFirst，表示这个动作与自己是同一个动作
 	 */
 	public final void addFirst(Action action) {

@@ -7,8 +7,14 @@ import com.backinfile.card.model.cards.StoreCard;
 import com.backinfile.card.model.skills.BeeAttackSkill;
 import com.backinfile.card.model.skills.CatHarassSkill;
 import com.backinfile.card.model.skills.CatRecallSkill;
+import com.backinfile.card.model.skills.DearAttackSkill;
+import com.backinfile.card.model.skills.DearAutoReleaseSkill;
+import com.backinfile.card.model.skills.DearRecallSkill;
+import com.backinfile.card.model.skills.DearReplaceStoreSkill;
 import com.backinfile.card.model.skills.DragonAttackSkill;
 import com.backinfile.card.model.skills.DragonRideSkill;
+import com.backinfile.card.model.skills.WhaleRecallSkill;
+import com.backinfile.card.model.skills.WhaleRideSkill;
 
 // 第二章特有的储备卡
 public class MonsterCard extends StoreCard {
@@ -33,6 +39,8 @@ public class MonsterCard extends StoreCard {
 		public Whale() {
 			monsterSkillTypes.add(MonsterSkillType.Recall);
 			monsterSkillTypes.add(MonsterSkillType.Ride);
+			addSkill(new WhaleRecallSkill());
+			addSkill(new WhaleRideSkill());
 		}
 	}
 
@@ -40,6 +48,10 @@ public class MonsterCard extends StoreCard {
 		public Dear() {
 			monsterSkillTypes.add(MonsterSkillType.Attack);
 			monsterSkillTypes.add(MonsterSkillType.Recall);
+			addSkill(new DearAttackSkill());
+			addSkill(new DearRecallSkill());
+			addSkill(new DearAutoReleaseSkill());
+			addSkill(new DearReplaceStoreSkill());
 		}
 	}
 

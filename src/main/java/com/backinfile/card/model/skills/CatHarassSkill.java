@@ -14,7 +14,7 @@ public class CatHarassSkill extends Skill {
 	public void apply() {
 		addFirst(new RefreshSlotAction());
 		addFirst(new ArrangePileAction(human));
-		addFirst(new Put2OpponentDiscardPileAction(human, card));
+		addFirst(new Put2OpponentDrawPileAction(human, card));
 	}
 
 }
