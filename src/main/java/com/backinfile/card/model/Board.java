@@ -108,6 +108,8 @@ public class Board implements IAlive {
 				for (var humanOper : new ArrayList<>(human.humanOpers)) {
 					if (humanOper.isDone()) {
 						human.removeHumanOper(humanOper);
+					} else {
+						humanOper.pulse();
 					}
 				}
 			}

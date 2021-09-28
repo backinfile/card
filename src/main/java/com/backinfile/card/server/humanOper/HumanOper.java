@@ -3,10 +3,11 @@ package com.backinfile.card.server.humanOper;
 import com.backinfile.card.gen.GameMessageHandler;
 import com.backinfile.card.manager.GameUtils;
 import com.backinfile.card.model.Human;
+import com.backinfile.support.IAlive;
 import com.backinfile.support.func.Action0;
 
 // 等待玩家执行一个操作
-public abstract class HumanOper extends GameMessageHandler.DSyncListener {
+public abstract class HumanOper extends GameMessageHandler.DSyncListener implements IAlive {
 	public Human human;
 	private Action0 callback;
 	private boolean isDone = false;
@@ -28,6 +29,9 @@ public abstract class HumanOper extends GameMessageHandler.DSyncListener {
 	 * 刚刚被附加到AI上时执行
 	 */
 	public abstract void onAIAttach();
+
+	public void pulse() {
+	}
 
 	/**
 	 * 从Human上移除时执行

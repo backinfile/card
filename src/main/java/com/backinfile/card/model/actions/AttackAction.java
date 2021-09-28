@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.gen.GameMessageHandler.ETargetSlotAimType;
 import com.backinfile.card.model.Card;
-import com.backinfile.card.model.CardSlot;
 import com.backinfile.card.model.Human;
 import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.Skill.SkillAura;

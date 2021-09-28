@@ -1,7 +1,6 @@
 package com.backinfile.card.model.skills;
 
 import com.backinfile.card.model.Skill;
-import com.backinfile.card.model.Skill.SkillMark;
 import com.backinfile.card.model.actions.ArrangePileAction;
 import com.backinfile.card.model.actions.DiscardCardAction;
 import com.backinfile.card.model.actions.SelectToAttackAction;
