@@ -12,6 +12,7 @@ public class ConstGame {
 	public static boolean AI_DO_STORE = false;
 
 	public static final int SlotPileNumber = 5; // 默认的储备位个数
+	public static final int HAND_PILE_MAX_SIZE = 8; // 默认的手牌上限
 
 	public static boolean THREATEN_OPEN = false;
 

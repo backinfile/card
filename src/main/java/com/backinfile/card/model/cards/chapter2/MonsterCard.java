@@ -6,12 +6,12 @@ import java.util.Set;
 import com.backinfile.card.model.cards.StoreCard;
 import com.backinfile.card.model.skills.BeeAttackSkill;
 import com.backinfile.card.model.skills.BirdHarassSkill;
+import com.backinfile.card.model.skills.BirdRideSkill;
 import com.backinfile.card.model.skills.CatHarassSkill;
 import com.backinfile.card.model.skills.CatRecallSkill;
 import com.backinfile.card.model.skills.DearAttackSkill;
 import com.backinfile.card.model.skills.DearAutoReleaseSkill;
 import com.backinfile.card.model.skills.DearRecallSkill;
-import com.backinfile.card.model.skills.DearReplaceStoreSkill;
 import com.backinfile.card.model.skills.DragonAttackSkill;
 import com.backinfile.card.model.skills.DragonRideSkill;
 import com.backinfile.card.model.skills.WhaleRecallSkill;
@@ -52,7 +52,6 @@ public class MonsterCard extends StoreCard {
 			addSkill(new DearAttackSkill());
 			addSkill(new DearRecallSkill());
 			addSkill(new DearAutoReleaseSkill());
-			addSkill(new DearReplaceStoreSkill());
 		}
 	}
 
@@ -61,6 +60,7 @@ public class MonsterCard extends StoreCard {
 			monsterSkillTypes.add(MonsterSkillType.Harass);
 			monsterSkillTypes.add(MonsterSkillType.Ride);
 			addSkill(new BirdHarassSkill());
+			addSkill(new BirdRideSkill());
 		}
 	}
 

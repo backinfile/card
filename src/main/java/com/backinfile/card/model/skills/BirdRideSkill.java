@@ -1,5 +1,7 @@
 package com.backinfile.card.model.skills;
 
+import com.backinfile.card.gen.GameMessageHandler.ESlotType;
+import com.backinfile.card.model.CardSlot;
 import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.actions.SelectToMarkStoreAction;
 import com.backinfile.card.model.cards.chapter2.MonsterCard;
@@ -12,6 +14,16 @@ public class BirdRideSkill extends Skill {
 
 	@Override
 	public boolean triggerable() {
+		CardSlot slot = human.getCardSlotByCard(card);
+		if (slot == null) {
+			return false;
+		}
+		if (!slot.getPile(ESlotType.Store).contains(card)) {
+			return false;
+		}
+		if (slot.getPile(ESlotType.Ride).isEmpty()) {
+			return false;
+		}
 		return !human.handPile.filter(c -> {
 			if (c instanceof MonsterCard) {
 				return ((MonsterCard) c).isMonsterType(MonsterSkillType.Harass);

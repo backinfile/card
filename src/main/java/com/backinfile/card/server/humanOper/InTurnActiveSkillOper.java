@@ -30,19 +30,13 @@ public class InTurnActiveSkillOper extends HumanOper {
 
 	@Override
 	public void onAIAttach() {
-		aiTimer = Time2.getCurMillis() + ConstGame.AI_WAIT_TIME;
-	}
-
-	@Override
-	public void pulse() {
-		if (aiTimer > 0 && Time2.getCurMillis() > aiTimer) {
-			aiPlaySkill();
-			aiTimer = -1;
-		}
-	}
-
-	private void aiPlaySkill() {
 		activableSkills = human.board.getActivableSkills(human.token);
+
+		if (activableSkills.size() == 1) { // 直接回合结束
+			var skill = activableSkills.get(0);
+			onSelectSkill(skill);
+			return;
+		}
 
 		if (ConstGame.AI_DO_NOTHING) { // 直接回合结束
 			var skill = human.getSkill(TurnEndSkill.class);
@@ -50,6 +44,18 @@ public class InTurnActiveSkillOper extends HumanOper {
 			return;
 		}
 
+		aiTimer = Time2.getCurMillis() + ConstGame.AI_WAIT_TIME;
+	}
+
+	@Override
+	public void pulse() {
+		if (aiTimer > 0 && Time2.getCurMillis() > aiTimer) {
+			aiTimer = -1;
+			aiPlaySkill();
+		}
+	}
+
+	private void aiPlaySkill() {
 		if (ConstGame.AI_DO_STORE) { // 一直进行储备
 			var findAny = activableSkills.stream().filter(s -> s instanceof StoreSelfSkill).findAny();
 			if (findAny.isPresent()) {
@@ -61,6 +67,7 @@ public class InTurnActiveSkillOper extends HumanOper {
 		// 先从正常打牌中随机选取
 		{
 			Predicate<Skill> predicate = s -> s.card != null;
+			// 场上没有空位就不要进行储备操作了
 			if (human.getEmptySlots(false).isEmpty()) {
 				predicate = predicate.and(s -> !(s instanceof StoreSelfSkill));
 			}

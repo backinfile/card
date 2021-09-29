@@ -18,6 +18,7 @@ import com.backinfile.card.model.Board.BoardMode;
 import com.backinfile.card.model.Card.CardType;
 import com.backinfile.card.model.Skill.SkillDuration;
 import com.backinfile.card.model.actions.BirdHarassAction;
+import com.backinfile.card.model.actions.DiscardHandToMaxAction;
 import com.backinfile.card.model.actions.DrawCardAction;
 import com.backinfile.card.model.actions.RestoreActionNumberAction;
 import com.backinfile.card.model.actions.SaveThreatenAction;
@@ -26,6 +27,7 @@ import com.backinfile.card.model.skills.ActAsStoreSkill;
 import com.backinfile.card.model.skills.DrawCardSkill;
 import com.backinfile.card.model.skills.Pass2CardSkill;
 import com.backinfile.card.model.skills.PlanSkill;
+import com.backinfile.card.model.skills.RecallSkill;
 import com.backinfile.card.model.skills.TurnEndSkill;
 import com.backinfile.card.server.humanOper.HumanOper;
 import com.backinfile.dSync.model.DSyncBaseHandler.DSyncBase;
@@ -57,6 +59,7 @@ public class Human extends SkillCaster {
 	public Map<Integer, CardSlot> cardSlotMap = new HashMap<>();
 	public int actionPoint = 0;
 
+	public int handPileMaxSize = ConstGame.HAND_PILE_MAX_SIZE;
 	public CardPile drawnCardsInTurnStart = new CardPile(); // 回合开始时抽到的牌
 
 	public void init(DHumanInit humanInit) {
@@ -85,6 +88,7 @@ public class Human extends SkillCaster {
 		addSkill(new DrawCardSkill());
 		addSkill(new Pass2CardSkill());
 		addSkill(new TurnEndSkill());
+		addSkill(new RecallSkill());
 	}
 
 	/**
@@ -156,15 +160,20 @@ public class Human extends SkillCaster {
 			card.removeSkillIf(s -> s.duration == SkillDuration.OwnerEndTurn);
 		}
 
-		// 所有储备准备完成
+		// 将所有储备准备完成
 		for (var slot : cardSlotMap.values()) {
 			slot.ready = true;
 			board.modifyCard(slot.getAllCards());
 		}
 
+		// 放置威慑
 		if (board.modes.contains(BoardMode.Threaten)) {
 			addLast(new SaveThreatenAction(this));
 		}
+
+		// 弃掉多余的手牌
+		addLast(new DiscardHandToMaxAction(this));
+
 		Log.game.info("player {} turnEnd", token);
 		board.gameLog(this, EGameLogType.Turn, "回合结束");
 	}

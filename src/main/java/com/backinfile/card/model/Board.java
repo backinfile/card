@@ -16,6 +16,8 @@ import com.backinfile.card.gen.GameMessageHandler.EGameLogType;
 import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.gen.GameMessageHandler.SCGameLog;
 import com.backinfile.card.manager.ConstGame;
+import com.backinfile.card.manager.LocalString;
+import com.backinfile.card.manager.LocalString.LocalUIString;
 import com.backinfile.card.model.Skill.SkillAura;
 import com.backinfile.card.model.Skill.SkillDuration;
 import com.backinfile.card.model.Skill.SkillTrigger;
@@ -40,6 +42,8 @@ public class Board implements IAlive {
 
 	public BoardState state = BoardState.None;
 	public BoardState lastState = BoardState.None;
+
+	public LocalUIString uiString = LocalString.getUIString("BoardLogic");
 
 	public static enum BoardState {
 		None, // 未开始
@@ -132,16 +136,16 @@ public class Board implements IAlive {
 			onStateChangeTo(state);
 		}
 		lastState = state;
-
-		// 更新action
-		actionQueue.pulse();
-
+		
 		// 回合中结算完成后，需要玩家主动出牌
 		if (state == BoardState.InTurn && actionQueue.isEmpty()) {
 			if (humans.stream().allMatch(h -> h.humanOpers.isEmpty())) {
 				curTurnHuman.addHumanOper(new InTurnActiveSkillOper());
 			}
 		}
+
+		// 更新action
+		actionQueue.pulse();
 	}
 
 	/**
@@ -285,6 +289,9 @@ public class Board implements IAlive {
 		// 储备位上的技能
 		for (var slot : human.cardSlotMap.values()) {
 			for (var card : slot.getAllCards()) {
+				if (!card.oriHumanToken.equals(human.token)) {
+					continue;
+				}
 				for (var skill : card.getSkillList()) {
 					if (skill.testTriggerable(SkillTrigger.Active, SkillAura.Slot)) {
 						activableSkills.add(skill);
@@ -502,11 +509,12 @@ public class Board implements IAlive {
 			skill.getSkillOwner().removeSkill(skill.id);
 		}
 
+		String triggerString = skill.trigger == SkillTrigger.Active ? uiString.strs[0] : uiString.strs[1];
 		if (skill.card != null) {
-			gameLog(skill.human, EGameLogType.Skill, "使用卡牌{0}的技能[{1}]", skill.card.cardString.name,
+			gameLog(skill.human, EGameLogType.Skill, triggerString + uiString.strs[2], skill.card.cardString.name,
 					skill.skillString.name);
 		} else {
-			gameLog(skill.human, EGameLogType.Skill, "使用技能[{0}]", skill.skillString.name);
+			gameLog(skill.human, EGameLogType.Skill, triggerString + uiString.strs[3], skill.skillString.name);
 		}
 	}
 

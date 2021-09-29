@@ -68,6 +68,6 @@ public class ActionQueue implements IAlive {
 	}
 
 	public boolean isEmpty() {
-		return actions.isEmpty();
+		return curAction == null && actions.isEmpty();
 	}
 }

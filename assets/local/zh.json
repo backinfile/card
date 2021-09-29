@@ -200,7 +200,7 @@
 			"tip":"选择一张加入威慑",
 	},{
 			"sn":"SelectToAttackAction",
-			"tips":["选择至多{0}张储备释放", "选择至多{0}张储备带特效释放", "选择结束"]
+			"tips":["选择要释放的储备", "选择要特效释放的储备", "放弃释放"]
 	},{
 			"sn":"AttackAction",
 			"tips":["侵占一个储备位","选择一张被击破"]
@@ -230,7 +230,8 @@
 			"tips":["选择骚扰目标"]
 	},{
 			"sn":"RecallAction",
-			"tip":"选择召回目标"
+			"tip":"选择召回目标",
+			"tips":["是否打出召回？"],
 	},{
 			"sn":"WhaleRecallAction",
 			"tip":"[归海] 选择回手目标"
@@ -239,7 +240,8 @@
 			"tip":"至多解封{0}"
 	},{
 			"sn":"FlipStoreAction",
-			"tip":"翻转1张储备"
+			"tip":"翻转1张储备",
+			"tips":["可选择储备来代替翻转"],
 	},{
 			"sn":"RemoveOpponentHandAction",
 			"tip":"移除对手{0}张手牌"
@@ -249,6 +251,9 @@
 	},{
 			"sn":"BirdHarassAction",
 			"tip":"选择1张重调"
+	},{
+			"sn":"BreakAction",
+			"tip":"可选择储备来代替击破"
 	}],
 	skills:[{
 			"sn":"StoreSelfSkill",
@@ -315,6 +320,18 @@
 			"sn":"DearAutoReleaseSkill",
 			"name":"自主释放",
 			"tip":"自主释放"
+	},{
+			"sn":"BirdRideSkill",
+			"name":"追风",
+			"tip":"追风"
+	},{
+			"sn":"CatRecallSkill",
+			"name":"游梦",
+			"tip":"游梦"
+	},{
+			"sn":"BeeAttackSkill",
+			"name":"蜂灾",
+			"tip":"蜂灾"
 	}],
 	targets:[],
 	ui:[{
@@ -351,6 +368,11 @@
 			"str":"对手的",
 			"strs":[
 				"", "手牌", "牌库", "弃牌", "废弃牌", "标记", "储备位", "英雄", "威慑",
+			],
+	},{
+			"sn":"BoardLogic",
+			"strs":[
+				"使用", "触发", "卡牌{0}的技能[{1}]", "技能[{0}]",
 			],
 	}],
 	

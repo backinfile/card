@@ -1,5 +1,6 @@
 package com.backinfile.card.model.skills;
 
+import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.actions.AttackAction;
 
@@ -14,6 +15,9 @@ public class DearAutoReleaseSkill extends Skill {
 	public boolean triggerable() {
 		var slot = human.getCardSlotByCard(card);
 		if (slot == null) {
+			return false;
+		}
+		if (!slot.getCardInPile(ESlotType.Store, ESlotType.Plan).contains(card)) {
 			return false;
 		}
 		return slot.ready;

@@ -10,6 +10,6 @@ public class CatRecallSkill extends Skill {
 
 	@Override
 	public void apply() {
-		addLast(new PassCardAction(human, 5, 4));
+		addFirst(new PassCardAction(human, 5, 4));
 	}
 }

@@ -13,7 +13,6 @@ public class CardSlot {
 	public boolean ready = false; // 储备完成
 	public Map<ESlotType, CardPile> slotPileMap = new HashMap<>();
 
-
 	public CardPile getAllCards() {
 		CardPile cardPile = new CardPile(ECardPileType.SlotPile);
 		for (var pile : slotPileMap.values()) {
@@ -78,6 +77,14 @@ public class CardSlot {
 			slotPileMap.put(slotType, pile);
 		}
 		return pile;
+	}
+
+	public CardPile getCardInPile(ESlotType... slotTypes) {
+		var cardPile = new CardPile();
+		for (var slotType : slotTypes) {
+			cardPile.addAll(getPile(slotType));
+		}
+		return cardPile;
 	}
 
 	public void clear() {

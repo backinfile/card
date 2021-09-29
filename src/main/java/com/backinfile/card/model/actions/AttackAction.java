@@ -15,12 +15,13 @@ import com.backinfile.card.server.humanOper.SelectCardOper;
 import com.backinfile.card.server.humanOper.SelectEmptySlotOper;
 import com.backinfile.support.Log;
 
+// 触发扳机过多，故将触发逻辑转移至其他行动，这个攻击行动会被反复添加
 public class AttackAction extends WaitAction {
 	private Human targetHuman;
 	private boolean withAttackEffect = false;
 	private AttackResult attackResult = AttackResult.None;
 	private List<Skill> triggeredSkillList = new ArrayList<>(); // 已经触发过的技能
-	private boolean isAttackDone;
+	private boolean isTemporaryDone; // 此次攻击临时结束
 
 	public AttackAction(Human human, Card card, Human targetHuman) {
 		this.human = human;
@@ -41,20 +42,26 @@ public class AttackAction extends WaitAction {
 
 	@Override
 	public void init() {
-		setDone(false);
+		setTemporaryDone(false);
 
 		// 有释放特效
 		if (withAttackEffect) {
 			var skill = card.getSkill(s -> s.testTriggerable(SkillTrigger.ReplaceRelease, SkillAura.AnyWhere));
 			if (skill != null) {
 				board.applySkill(skill);
-				setDone();
+				setTemporaryDone(true);
 				return;
 			}
 		}
 
 		// 防御型技能
 		{
+			// 通用技能
+			for (var skill : targetHuman.getSkillList()) {
+				if (checkDefendSkill(targetHuman, null, skill, SkillAura.AnyWhere)) {
+					return;
+				}
+			}
 			// 英雄技能
 			for (var card : targetHuman.heroPile) {
 				for (var skill : card.getSkillList()) {
@@ -73,6 +80,9 @@ public class AttackAction extends WaitAction {
 			}
 			// 储备位上的技能
 			for (var card : targetHuman.getAllStoreInSlot(false, false, false, false)) {
+				if (!card.oriHumanToken.equals(targetHuman.token)) {
+					continue;
+				}
 				for (var skill : card.getSkillList()) {
 					if (checkDefendSkill(targetHuman, card, skill, SkillAura.Slot)) {
 						return;
@@ -125,7 +135,7 @@ public class AttackAction extends WaitAction {
 			triggeredSkillList.add(skill);
 			skill.setParam("attackAction", this);
 			board.applySkill(skill);
-			setDone();
+			setTemporaryDone(true);
 			return true;
 		}
 		return false;
@@ -143,11 +153,8 @@ public class AttackAction extends WaitAction {
 	}
 
 	private void onBreak(Card breakCard) {
-		addFirst(new BreakFinishAction(human));
-		addFirst(new DiscardCardAction(human, card));
-
 		this.attackResult = AttackResult.Break;
-		addFirst(new DiscardCardAction(targetHuman, targetHuman.getCardSlotByCard(breakCard).getAllCards()));
+		addFirst(new BreakAction(human, card, breakCard));
 		setDone();
 		Log.game.info("击破");
 	}
@@ -160,17 +167,12 @@ public class AttackAction extends WaitAction {
 		return attackResult;
 	}
 
-	@Override
-	public void setDone() {
-		isAttackDone = true;
-	}
-
-	public void setDone(boolean isAttackDone) {
-		this.isAttackDone = isAttackDone;
+	public void setTemporaryDone(boolean isTemporaryDone) {
+		this.isTemporaryDone = isTemporaryDone;
 	}
 
 	@Override
 	public boolean isDone() {
-		return isAttackDone;
+		return isTemporaryDone || super.isDone();
 	}
 }

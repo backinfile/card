@@ -23,6 +23,6 @@ public class ReleaseAttackStoreSkill extends Skill {
 	public void apply() {
 		addLast(new DiscardCardAction(human, card));
 		addLast(new ArrangePileAction(human));
-		addLast(new SelectToAttackAction(human, human.getOpponent(), 1, true));
+		addLast(new SelectToAttackAction(human, true));
 	}
 }

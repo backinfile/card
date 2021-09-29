@@ -10,7 +10,7 @@ public class DearRecallSkill extends Skill {
 
 	@Override
 	public void apply() {
-		addLast(new SelectToAttackAction(human, human.getOpponent(), 1));
+		addLast(new SelectToAttackAction(human));
 	}
 
 }
