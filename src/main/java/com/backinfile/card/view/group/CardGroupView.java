@@ -11,7 +11,7 @@ import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
 import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.model.CardInfo;
 import com.backinfile.card.view.group.CardView.CardViewState;
-import com.backinfile.card.view.group.PileView.PilePosition;
+import com.backinfile.card.view.group.PileView.HumanPosition;
 import com.backinfile.card.view.stage.GameStage;
 import com.backinfile.support.Log;
 import com.backinfile.support.ObjectPool;
@@ -153,7 +153,7 @@ public class CardGroupView extends BaseView {
 			cardView = cardViewPool.obtain();
 			cardViewGroup.addActor(cardView);
 			cardView.setCardString(LocalString.getCardString(cardInfo.info.getSn()),
-					cardInfo.getPilePosition().ordinal());
+					cardInfo.getOwnerPosition().ordinal());
 			cardViews.put(cardInfo.getId(), cardView);
 		}
 		return cardView;
@@ -205,7 +205,7 @@ public class CardGroupView extends BaseView {
 			break;
 		}
 		case HandPile: {
-			cardViewState.flipOver = pilePosition == PilePosition.Opponent;
+			cardViewState.flipOver = pilePosition == HumanPosition.Opponent;
 			float offset = cardInfo.pileInfo.getPileIndex() - cardInfo.pileInfo.getPileSize() / 2f + 0.5f;
 			cardViewState.position.x += offset * cardViewState.cardSize.width * 0.8f;
 			cardViewState.zIndex = 11000 + cardInfo.pileInfo.getPileIndex();
@@ -234,7 +234,7 @@ public class CardGroupView extends BaseView {
 				cardViewState.zIndex = 1;
 				break;
 			case Plan:
-				if (pilePosition == PilePosition.Self) {
+				if (pilePosition == HumanPosition.Self) {
 					cardViewState.flipOver = false;
 				} else {
 					cardViewState.flipOver = true;
@@ -264,11 +264,11 @@ public class CardGroupView extends BaseView {
 	}
 
 	public static Vector2 getCommonPilePosition(float width, float height, ECardPileType type,
-			PilePosition pilePosition) {
+			HumanPosition pilePosition) {
 		Vector2 position = new Vector2();
 		switch (type) {
 		case DiscardPile: {
-			if (pilePosition == PilePosition.Self) {
+			if (pilePosition == HumanPosition.Self) {
 				position.set(width * 0.776f, height * 0.225f);
 			} else {
 				position.set(width * 0.22f, height * 0.77f);
@@ -276,7 +276,7 @@ public class CardGroupView extends BaseView {
 			break;
 		}
 		case DrawPile: {
-			if (pilePosition == PilePosition.Self) {
+			if (pilePosition == HumanPosition.Self) {
 				position.set(width * 0.225f, height * 0.225f);
 			} else {
 				position.set(width * 0.77f, height * 0.77f);
@@ -284,7 +284,7 @@ public class CardGroupView extends BaseView {
 			break;
 		}
 		case HandPile: {
-			if (pilePosition == PilePosition.Self) {
+			if (pilePosition == HumanPosition.Self) {
 				position.set(width * 0.5f, height * -0.02f);
 			} else {
 				position.set(width * 0.5f, height * 1.02f);
@@ -292,7 +292,7 @@ public class CardGroupView extends BaseView {
 			break;
 		}
 		case HeroPile: {
-			if (pilePosition == PilePosition.Self) {
+			if (pilePosition == HumanPosition.Self) {
 				position.set(width * 0.5f, height * 0.893f);
 			} else {
 				position.set(width * 0.5f, height * 0.107f);
@@ -300,14 +300,14 @@ public class CardGroupView extends BaseView {
 			break;
 		}
 		case MarkPile:
-			if (pilePosition == PilePosition.Self) {
+			if (pilePosition == HumanPosition.Self) {
 				position.set(width * 0.365f, height * 0.1119f);
 			} else {
 				position.set(width * 0.607f, height * 0.89f);
 			}
 			break;
 		case ThreatenPile: {
-			if (pilePosition == PilePosition.Self) {
+			if (pilePosition == HumanPosition.Self) {
 				position.set(width * 0.62f, height * 0.118f);
 			} else {
 				position.set(width * 0.381f, height * 0.895f);

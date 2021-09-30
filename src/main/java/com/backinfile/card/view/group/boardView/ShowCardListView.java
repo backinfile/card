@@ -10,7 +10,7 @@ import com.backinfile.card.model.CardInfo;
 import com.backinfile.card.view.actions.TimeoutAction;
 import com.backinfile.card.view.group.BaseView;
 import com.backinfile.card.view.group.CardSize;
-import com.backinfile.card.view.group.PileView.PilePosition;
+import com.backinfile.card.view.group.PileView.HumanPosition;
 import com.backinfile.card.view.stage.GameStage;
 import com.backinfile.support.ObjectPool;
 import com.backinfile.support.func.Action1;
@@ -107,13 +107,13 @@ public class ShowCardListView extends BaseView {
 			var cardInfo = cardInfos.get(i);
 			CardView cardView = cardViewPool.obtain();
 			cardView.setCardString(LocalString.getCardString(cardInfo.info.getSn()),
-					cardInfo.getPilePosition().ordinal());
+					cardInfo.getOwnerPosition().ordinal());
 			cardView.setSize(CardSize.Large);
 			cardView.setDark(false);
 			cardView.setLeftClickCallback(() -> {
 				onClick(cardInfo);
 			});
-			if (cardInfo.getPilePosition() == PilePosition.Self) {
+			if (cardInfo.getPilePosition() == HumanPosition.Self) {
 				cardView.setText(uiString.strs[cardInfo.pileInfo.getPileType().ordinal()]);
 			} else {
 				cardView.setText(uiString.str + uiString.strs[cardInfo.pileInfo.getPileType().ordinal()]);

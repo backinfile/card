@@ -28,6 +28,7 @@ import com.backinfile.card.model.skills.DrawCardSkill;
 import com.backinfile.card.model.skills.Pass2CardSkill;
 import com.backinfile.card.model.skills.PlanSkill;
 import com.backinfile.card.model.skills.RecallSkill;
+import com.backinfile.card.model.skills.ThreatenToAPSkill;
 import com.backinfile.card.model.skills.TurnEndSkill;
 import com.backinfile.card.server.humanOper.HumanOper;
 import com.backinfile.dSync.model.DSyncBaseHandler.DSyncBase;
@@ -89,6 +90,10 @@ public class Human extends SkillCaster {
 		addSkill(new Pass2CardSkill());
 		addSkill(new TurnEndSkill());
 		addSkill(new RecallSkill());
+
+		if (board.modes.contains(BoardMode.Threaten)) {
+			addSkill(new ThreatenToAPSkill());
+		}
 	}
 
 	/**
@@ -119,12 +124,21 @@ public class Human extends SkillCaster {
 			}
 		}
 
-		addLast(new RestoreActionNumberAction(this, 2));
-
-		if (board.modes.contains(BoardMode.Threaten)) {
-			addLast(new DrawCardAction(this, 3));
+		// 先手第一回合1个行动，少抽1，并且不放置威慑
+		if (board.turnCount == 1 && this == board.starter) {
+			addLast(new RestoreActionNumberAction(this, 1));
+			if (board.modes.contains(BoardMode.Threaten)) {
+				addLast(new DrawCardAction(this, 2));
+			} else {
+				addLast(new DrawCardAction(this, 1));
+			}
 		} else {
-			addLast(new DrawCardAction(this, 2));
+			addLast(new RestoreActionNumberAction(this, 2));
+			if (board.modes.contains(BoardMode.Threaten)) {
+				addLast(new DrawCardAction(this, 3));
+			} else {
+				addLast(new DrawCardAction(this, 2));
+			}
 		}
 
 		if (GameUtils.isAI(this)) {
@@ -137,14 +151,13 @@ public class Human extends SkillCaster {
 	}
 
 	public final void enterTurn() {
-		// 如果对手有追风鸟
-		for (var slot : getOpponent().cardSlotMap.values()) {
-			if (!slot.getPile(ESlotType.Ride).isEmpty()) {
-				if (!slot.getPile(ESlotType.Store).isEmpty()) {
-					var bird = slot.getPile(ESlotType.Store).getAny();
-					if (bird instanceof Bird) {
-						addLast(new BirdHarassAction(getOpponent()));
-					}
+		// 如果被追风鸟骚扰
+		for (var slot : this.cardSlotMap.values()) {
+			if (!slot.getPile(ESlotType.Harass).isEmpty()) {
+				var bird = slot.getPile(ESlotType.Harass).getAny();
+				if (bird instanceof Bird) {
+					addLast(new BirdHarassAction(getOpponent()));
+					break;
 				}
 			}
 		}
@@ -166,9 +179,13 @@ public class Human extends SkillCaster {
 			board.modifyCard(slot.getAllCards());
 		}
 
-		// 放置威慑
-		if (board.modes.contains(BoardMode.Threaten)) {
-			addLast(new SaveThreatenAction(this));
+		// 先手第一回合不放置威慑
+		if (board.turnCount == 1 && this == board.starter) {
+
+		} else {
+			if (board.modes.contains(BoardMode.Threaten)) {
+				addLast(new SaveThreatenAction(this));
+			}
 		}
 
 		// 弃掉多余的手牌

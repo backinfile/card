@@ -14,7 +14,7 @@ public class ConstGame {
 	public static final int SlotPileNumber = 5; // 默认的储备位个数
 	public static final int HAND_PILE_MAX_SIZE = 8; // 默认的手牌上限
 
-	public static boolean THREATEN_OPEN = false;
+	public static boolean THREATEN_OPEN = true;
 
 	public static boolean CARD_LIST_VIEW = false;
 }

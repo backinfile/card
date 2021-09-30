@@ -37,7 +37,8 @@ public class Board implements IAlive {
 	public int turnCount; // 公共轮次
 	public int playerTurnCount; // 玩家轮次之和
 
-	private Human startPlayer; // 先手玩家
+	public Human starter; // 先手玩家
+	public Human winner = null; // 获胜者
 	public Set<BoardMode> modes = new HashSet<>();
 
 	public BoardState state = BoardState.None;
@@ -58,6 +59,10 @@ public class Board implements IAlive {
 	}
 
 	public void init(DBoardInit boardInit) {
+		if (ConstGame.THREATEN_OPEN) {
+			modes.add(BoardMode.Threaten);
+		}
+
 		actionQueue = new ActionQueue(this);
 		actionQueue.init();
 
@@ -88,19 +93,16 @@ public class Board implements IAlive {
 			}
 		}
 
-		if (ConstGame.THREATEN_OPEN) {
-			modes.add(BoardMode.Threaten);
-		}
 	}
 
 	public final void start() {
 		state = BoardState.GamePrepare;
-		startPlayer = humans.get(Utils.nextInt(humans.size()));
+		starter = humans.get(Utils.nextInt(humans.size()));
 	}
 
 	public final void start(String startPlayerToken) {
 		state = BoardState.GamePrepare;
-		startPlayer = getHuman(startPlayerToken);
+		starter = getHuman(startPlayerToken);
 	}
 
 	/**
@@ -109,6 +111,11 @@ public class Board implements IAlive {
 	 */
 	@Override
 	public void pulse() {
+
+		if (winner != null) {
+			return;
+		}
+
 		// 处理玩家操作
 		for (var human : humans) {
 			if (!human.humanOpers.isEmpty()) {
@@ -136,7 +143,7 @@ public class Board implements IAlive {
 			onStateChangeTo(state);
 		}
 		lastState = state;
-		
+
 		// 回合中结算完成后，需要玩家主动出牌
 		if (state == BoardState.InTurn && actionQueue.isEmpty()) {
 			if (humans.stream().allMatch(h -> h.humanOpers.isEmpty())) {
@@ -177,7 +184,7 @@ public class Board implements IAlive {
 			}
 			// 回合开始，找到当前回合玩家
 			if (curTurnHuman == null) {
-				curTurnHuman = startPlayer;
+				curTurnHuman = starter;
 			} else {
 				var index = humans.indexOf(curTurnHuman) + 1;
 				curTurnHuman = humans.get(index % humans.size());
@@ -357,6 +364,7 @@ public class Board implements IAlive {
 					var cardInfo = new DCardInfo();
 					cardInfo.setId(card.id);
 					cardInfo.setSn(card.cardString.sn);
+					cardInfo.setOwnerToken(card.oriHumanToken);
 					DCardPileInfo pileInfo = new DCardPileInfo();
 					cardInfo.setPileInfo(pileInfo);
 					pileInfo.setPlayerToken(human.token);
@@ -379,6 +387,7 @@ public class Board implements IAlive {
 						var cardInfo = new DCardInfo();
 						cardInfo.setId(card.id);
 						cardInfo.setSn(card.cardString.sn);
+						cardInfo.setOwnerToken(card.oriHumanToken);
 						DCardPileInfo pileInfo = new DCardPileInfo();
 						cardInfo.setPileInfo(pileInfo);
 						pileInfo.setPlayerToken(human.token);

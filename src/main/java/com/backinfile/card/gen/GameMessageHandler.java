@@ -726,11 +726,13 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		/** 卡牌sn */
 		private String sn;
 		private long id;
+		private String ownerToken;
 		private DCardPileInfo pileInfo;
 
 		public static class K {
 			public static final String sn = "sn";
 			public static final String id = "id";
+			public static final String ownerToken = "ownerToken";
 			public static final String pileInfo = "pileInfo";
 		}
 
@@ -742,6 +744,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		protected void init() {
 			sn = "";
 			id = 0;
+			ownerToken = "";
 			pileInfo = null;
 		}
 		
@@ -761,6 +764,14 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		
 		public void setId(long id) {
 			this.id = id;
+		}
+		
+		public String getOwnerToken() {
+			return ownerToken;
+		}
+		
+		public void setOwnerToken(String ownerToken) {
+			this.ownerToken = ownerToken;
 		}
 		
 		public DCardPileInfo getPileInfo() {
@@ -798,6 +809,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.sn, sn);
 			jsonObject.put(K.id, id);
+			jsonObject.put(K.ownerToken, ownerToken);
 			jsonObject.put(K.pileInfo, getJSONObject(pileInfo));
 		}
 
@@ -805,6 +817,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		protected void applyRecord(JSONObject jsonObject) {
 			sn = jsonObject.getString(K.sn);
 			id = jsonObject.getLongValue(K.id);
+			ownerToken = jsonObject.getString(K.ownerToken);
 			pileInfo = DCardPileInfo.parseJSONObject(jsonObject.getJSONObject(K.pileInfo));
 		}
 		
@@ -826,6 +839,9 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			if (this.id != _value.id) {
 				return false;
 			}
+			if (!this.ownerToken.equals(_value.ownerToken)) {
+				return false;
+			}
 			if (!this.pileInfo.equals(_value.pileInfo)) {
 				return false;
 			}
@@ -836,6 +852,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			var _value = new DCardInfo();
 			_value.sn = this.sn;
 			_value.id = this.id;
+			_value.ownerToken = this.ownerToken;
 			_value.pileInfo = this.pileInfo;
 			return _value;
 		}
@@ -844,6 +861,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			var _value = new DCardInfo();
 			_value.sn = this.sn;
 			_value.id = this.id;
+			_value.ownerToken = this.ownerToken;
 			if (this.pileInfo != null) {
 				_value.pileInfo = this.pileInfo.deepCopy();
 			}
@@ -3716,7 +3734,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 	public static class DCardPileInfo extends DSyncBase {
 		public static final String TypeName = "DCardPileInfo";
 		
-		/** 拥有者token */
+		/** 所处玩家token */
 		private String playerToken;
 		/** 牌库类型 */
 		private ECardPileType pileType;
@@ -3760,12 +3778,12 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			pileSize = 0;
 		}
 		
-		/** 拥有者token */
+		/** 所处玩家token */
 		public String getPlayerToken() {
 			return playerToken;
 		}
 		
-		/** 拥有者token */
+		/** 所处玩家token */
 		public void setPlayerToken(String playerToken) {
 			this.playerToken = playerToken;
 		}

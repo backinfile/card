@@ -7,7 +7,6 @@ import com.backinfile.card.model.Human;
 import com.backinfile.card.model.Skill.SkillAura;
 import com.backinfile.card.model.Skill.SkillTrigger;
 import com.backinfile.card.model.actions.AttackAction.AttackResult;
-import com.backinfile.card.model.cards.StoreCard;
 import com.backinfile.card.model.cards.chapter2.MonsterCard.Cat;
 import com.backinfile.card.model.cards.chapter2.Recall;
 import com.backinfile.card.server.humanOper.SelectCardOper;
@@ -46,8 +45,8 @@ public class RecallAction extends WaitAction {
 			recallFrom.addAll(slot.getPile(ESlotType.Harass));
 		}
 		// 对手弃牌堆中
-		recallFrom.addAll(human.getOpponent().drawPile
-				.filter(c -> c instanceof Cat && c.oriHumanToken.equals(human.token)));
+		recallFrom.addAll(
+				human.getOpponent().drawPile.filter(c -> c instanceof Cat && c.oriHumanToken.equals(human.token)));
 
 		if (recallFrom.isEmpty()) {
 			addFirst(attackAction);

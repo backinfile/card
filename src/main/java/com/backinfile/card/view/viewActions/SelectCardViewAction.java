@@ -10,7 +10,7 @@ import com.backinfile.card.gen.GameMessageHandler.SCSelectCards;
 import com.backinfile.card.manager.ConstGame;
 import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.view.group.CardView;
-import com.backinfile.card.view.group.PileView.PilePosition;
+import com.backinfile.card.view.group.PileView.HumanPosition;
 import com.backinfile.card.view.group.boardView.ButtonInfo;
 import com.backinfile.support.Log;
 import com.backinfile.support.Utils;
@@ -37,7 +37,7 @@ public class SelectCardViewAction extends ViewAction {
 		}
 		if (selectFrom.stream().map(gameStage.boardView.cardGroupView::getCardInfoCache)
 				.anyMatch(info -> info.pileInfo.getPileType() == ECardPileType.HandPile
-						&& info.getPilePosition() == PilePosition.Opponent)) {
+						&& info.getPilePosition() == HumanPosition.Opponent)) {
 			return true;
 		}
 		return false;

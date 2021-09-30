@@ -77,12 +77,13 @@ struct DCardInfoList {
 struct DCardInfo {
 	String sn; // 卡牌sn
 	long id;
+	String ownerToken;
 	DCardPileInfo pileInfo;
 }
 
 // 一张卡所在的位置
 struct DCardPileInfo {
-	String playerToken; // 拥有者token
+	String playerToken; // 所处玩家token
 	ECardPileType pileType; // 牌库类型
 	ESlotType slotType; // 储备区牌类型
 	bool asPlanSlot; // 当前slot是计划区

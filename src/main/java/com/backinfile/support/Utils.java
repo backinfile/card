@@ -137,4 +137,13 @@ public class Utils {
 	public static String format(String pattern, Object... arguments) {
 		return MessageFormat.format(pattern, arguments);
 	}
+
+	public static boolean contains(String[] args, String string) {
+		for (var str : args) {
+			if (str.equals(string)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

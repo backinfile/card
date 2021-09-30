@@ -21,7 +21,7 @@ public class PileView extends BaseView {
 	private static final LocalUIString uiString = LocalString.getUIString("PileView");
 	private PileButton pileButton; // 查看牌库按钮
 	public ECardPileType pileType;
-	public PilePosition pilePosition;
+	public HumanPosition pilePosition;
 	private Label numberLabel;
 
 	private boolean pileRoated = false;
@@ -39,12 +39,12 @@ public class PileView extends BaseView {
 
 	}
 
-	public PileView(GameStage gameStage, float width, float height, ECardPileType type, PilePosition pilePosition) {
+	public PileView(GameStage gameStage, float width, float height, ECardPileType type, HumanPosition pilePosition) {
 		this(gameStage, width, height);
 		setPileType(type, pilePosition);
 	}
 
-	public void setPileType(ECardPileType type, PilePosition pilePosition) {
+	public void setPileType(ECardPileType type, HumanPosition pilePosition) {
 		this.pileType = type;
 		this.pilePosition = pilePosition;
 
@@ -67,7 +67,7 @@ public class PileView extends BaseView {
 	/**
 	 * 这个牌堆属于哪个角色
 	 */
-	public static enum PilePosition {
+	public static enum HumanPosition {
 		Self, Opponent,
 	}
 
@@ -94,7 +94,7 @@ public class PileView extends BaseView {
 		}
 		case ThreatenPile:
 		case MarkPile:
-			if (pilePosition == PilePosition.Self) {
+			if (pilePosition == HumanPosition.Self) {
 				up = true;
 			}
 			break;
