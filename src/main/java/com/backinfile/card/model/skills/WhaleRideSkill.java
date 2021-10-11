@@ -1,11 +1,17 @@
 package com.backinfile.card.model.skills;
 
 import com.backinfile.card.gen.GameMessageHandler.ESlotType;
+import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.CardSlot;
 import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.actions.SelectToDiscardHandAction;
+import com.backinfile.card.model.actions.TakeSpecCardInHandAction;
 import com.backinfile.card.model.actions.UnsealAction;
 import com.backinfile.card.model.cards.ActionCard;
+import com.backinfile.card.model.cards.Chap2ActionCard.Ride;
+import com.backinfile.card.model.cards.Chap2HeroCard.SeaTalker;
+import com.backinfile.card.model.cards.MonsterCard;
+import com.backinfile.card.model.cards.MonsterCard.MonsterSkillType;
 
 public class WhaleRideSkill extends Skill {
 	public WhaleRideSkill() {
@@ -37,5 +43,23 @@ public class WhaleRideSkill extends Skill {
 	public void apply() {
 		addLast(new SelectToDiscardHandAction(human, 1, c -> c instanceof ActionCard));
 		addLast(new UnsealAction(human, 1));
+
+		if (human.getHeroCard() instanceof SeaTalker) {
+			addLast(new TakeSpecCardInHandAction(human, this::toSelect, 0, 1));
+		}
+	}
+
+	private CardPile toSelect() {
+		return human.discardPile.filter(c -> {
+			if (c instanceof Ride) {
+				return true;
+			}
+			if (c instanceof MonsterCard) {
+				if (((MonsterCard) c).isMonsterType(MonsterSkillType.Ride)) {
+					return true;
+				}
+			}
+			return false;
+		});
 	}
 }

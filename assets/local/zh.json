@@ -561,6 +561,10 @@
 			"sn":"BeeKeeperActiveSkill",
 			"name":"养蜂",
 			"tip":"养蜂"
+	},{
+			"sn":"SeaTalkerActiveSkill",
+			"name":"海言",
+			"tip":"海言"
 	}],
 	targets:[],
 	ui:[{

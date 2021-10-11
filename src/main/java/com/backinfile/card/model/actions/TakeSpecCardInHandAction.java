@@ -1,5 +1,7 @@
 package com.backinfile.card.model.actions;
 
+import java.util.function.Supplier;
+
 import com.backinfile.card.gen.GameMessageHandler.EGameLogType;
 import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
@@ -11,6 +13,7 @@ public class TakeSpecCardInHandAction extends WaitAction {
 	private CardPile cardPile = new CardPile();
 	private int minNumber;
 	private int maxNumber;
+	private Supplier<CardPile> cardPileSupplier;
 
 	public TakeSpecCardInHandAction(Human human, CardPile cardPile, int minNumber, int maxNumber) {
 		this.human = human;
@@ -19,8 +22,24 @@ public class TakeSpecCardInHandAction extends WaitAction {
 		this.maxNumber = maxNumber;
 	}
 
+	public TakeSpecCardInHandAction(Human human, Supplier<CardPile> cardPileSupplier, int minNumber, int maxNumber) {
+		this.human = human;
+		this.cardPileSupplier = cardPileSupplier;
+		this.minNumber = minNumber;
+		this.maxNumber = maxNumber;
+	}
+
 	@Override
 	public void init() {
+		if (cardPileSupplier != null) {
+			cardPile.addAll(cardPileSupplier.get());
+		}
+
+		if (cardPile.isEmpty()) {
+			setDone();
+			return;
+		}
+
 		var humanOper = new SelectCardOper(cardPile, Utils.format(actionString.tip, maxNumber), minNumber, maxNumber);
 		humanOper.setDetachCallback(() -> {
 			onSelected(humanOper.getSelectedPile());
