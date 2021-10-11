@@ -1606,12 +1606,17 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		private List<Integer> selectFrom;
 		private boolean opponent;
 		private String tip;
+		/** 是否可以取消 */
+		private boolean cancel;
+		private String cancelTip;
 
 		public static class K {
 			public static final String aimType = "aimType";
 			public static final String selectFrom = "selectFrom";
 			public static final String opponent = "opponent";
 			public static final String tip = "tip";
+			public static final String cancel = "cancel";
+			public static final String cancelTip = "cancelTip";
 		}
 
 		public SCSelectEmptySlot() {
@@ -1624,6 +1629,8 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			selectFrom = new ArrayList<>();
 			opponent = false;
 			tip = "";
+			cancel = false;
+			cancelTip = "";
 		}
 		
 		public ETargetSlotAimType getAimType() {
@@ -1675,6 +1682,24 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			this.tip = tip;
 		}
 		
+		/** 是否可以取消 */
+		public boolean getCancel() {
+			return cancel;
+		}
+		
+		/** 是否可以取消 */
+		public void setCancel(boolean cancel) {
+			this.cancel = cancel;
+		}
+		
+		public String getCancelTip() {
+			return cancelTip;
+		}
+		
+		public void setCancelTip(String cancelTip) {
+			this.cancelTip = cancelTip;
+		}
+		
 
 		static SCSelectEmptySlot parseJSONObject(JSONObject jsonObject) {
 			var _value = new SCSelectEmptySlot();
@@ -1704,6 +1729,8 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			jsonObject.put(K.selectFrom, JSONObject.toJSONString(selectFrom));
 			jsonObject.put(K.opponent, opponent);
 			jsonObject.put(K.tip, tip);
+			jsonObject.put(K.cancel, cancel);
+			jsonObject.put(K.cancelTip, cancelTip);
 		}
 
 		@Override
@@ -1712,6 +1739,8 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			selectFrom = JSONObject.parseArray(jsonObject.getString(K.selectFrom), Integer.class);
 			opponent = jsonObject.getBooleanValue(K.opponent);
 			tip = jsonObject.getString(K.tip);
+			cancel = jsonObject.getBooleanValue(K.cancel);
+			cancelTip = jsonObject.getString(K.cancelTip);
 		}
 		
 		@Override
@@ -1738,6 +1767,12 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			if (!this.tip.equals(_value.tip)) {
 				return false;
 			}
+			if (this.cancel != _value.cancel) {
+				return false;
+			}
+			if (!this.cancelTip.equals(_value.cancelTip)) {
+				return false;
+			}
 			return true;
 		}
 		
@@ -1747,6 +1782,8 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			_value.selectFrom = new ArrayList<>(this.selectFrom);
 			_value.opponent = this.opponent;
 			_value.tip = this.tip;
+			_value.cancel = this.cancel;
+			_value.cancelTip = this.cancelTip;
 			return _value;
 		}
 		
@@ -1756,6 +1793,8 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			_value.selectFrom = new ArrayList<>(this.selectFrom);
 			_value.opponent = this.opponent;
 			_value.tip = this.tip;
+			_value.cancel = this.cancel;
+			_value.cancelTip = this.cancelTip;
 			return _value;
 		}
 	}
@@ -3641,6 +3680,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 	public static class CSSelectEmptySlot extends DSyncBase {
 		public static final String TypeName = "CSSelectEmptySlot";
 		
+		/** -1表示取消 */
 		private int selected;
 
 		public static class K {
@@ -3656,10 +3696,12 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			selected = 0;
 		}
 		
+		/** -1表示取消 */
 		public int getSelected() {
 			return selected;
 		}
 		
+		/** -1表示取消 */
 		public void setSelected(int selected) {
 			this.selected = selected;
 		}

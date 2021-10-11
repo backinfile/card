@@ -12,11 +12,19 @@ import com.backinfile.card.server.humanOper.SelectEmptySlotOper;
 
 public class StoreCardAction extends WaitAction {
 	private boolean fast;
+	private boolean cancel;
+	private int cancelReturnAp;
 
-	public StoreCardAction(Human human, Card card, boolean fast) {
+	public StoreCardAction(Human human, Card card, boolean fast, boolean cancel, int cancelReturnAp) {
 		this.human = human;
 		this.card = card;
 		this.fast = fast;
+		this.cancel = cancel;
+		this.cancelReturnAp = cancelReturnAp;
+	}
+
+	public StoreCardAction(Human human, Card card, boolean fast) {
+		this(human, card, fast, false, 0);
 	}
 
 	public StoreCardAction(Human human, Card card) {
@@ -28,9 +36,13 @@ public class StoreCardAction extends WaitAction {
 		var emptySlots = human.getEmptySlots(false);
 		if (!emptySlots.isEmpty()) {
 			var humanOper = new SelectEmptySlotOper(emptySlots.stream().map(s -> s.index).collect(Collectors.toList()),
-					ETargetSlotAimType.Store, false, actionString.tips[0]);
+					ETargetSlotAimType.Store, false, actionString.tips[0], true);
 			humanOper.setDetachCallback(() -> {
-				selectIndex(humanOper.getSelected());
+				if (humanOper.getSelected() < 0) {
+					onCancel();
+				} else {
+					selectIndex(humanOper.getSelected());
+				}
 			});
 			human.addHumanOper(humanOper);
 		} else {
@@ -43,9 +55,13 @@ public class StoreCardAction extends WaitAction {
 				setDone();
 				return;
 			}
-			var humanOper = new SelectCardOper(toReplace, actionString.tips[1], 1);
+			var humanOper = new SelectCardOper(toReplace, actionString.tips[1], cancel ? 0 : 1, 1);
 			humanOper.setDetachCallback(() -> {
-				replaceCard(humanOper.getSelectedPile().get(0));
+				if (humanOper.getSelectedPile().isEmpty()) {
+					onCancel();
+				} else {
+					replaceCard(humanOper.getSelectedPile().get(0));
+				}
 			});
 			human.addHumanOper(humanOper);
 		}
@@ -68,6 +84,13 @@ public class StoreCardAction extends WaitAction {
 		slot.getPile(ESlotType.Store).add(card);
 		slot.ready = fast;
 		board.modifyCard(card);
+		setDone();
+	}
+
+	private void onCancel() {
+		if (cancelReturnAp > 0) {
+			addLast(new GainAPAction(human, cancelReturnAp));
+		}
 		setDone();
 	}
 

@@ -258,7 +258,7 @@
 	skills:[{
 			"sn":"StoreSelfSkill",
 			"tip":"储备",
-			"name":"储备自身",
+			"name":"储备自身"
 	},{
 			"sn":"DrawCardSkill",
 			"tip":"抽1",

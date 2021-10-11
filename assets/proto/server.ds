@@ -169,9 +169,11 @@ struct SCSelectEmptySlot {
 	int[] selectFrom;
 	bool opponent;
 	String tip;
+	bool cancel; // 是否可以取消
+	String cancelTip;
 }
 struct CSSelectEmptySlot {
-	int selected;
+	int selected; // -1表示取消
 }
 
 // 通知客户端进行确认

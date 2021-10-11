@@ -12,14 +12,28 @@ public class SelectEmptySlotOper extends HumanOper {
 	private ETargetSlotAimType aimType;
 	private String tip;
 	private boolean opponent = false;
+	private boolean cancel = false;
+	private String cancelTip = "";
 
 	private int selected;
 
-	public SelectEmptySlotOper(List<Integer> toSelectFrom, ETargetSlotAimType aimType, boolean opponent, String tip) {
+	public SelectEmptySlotOper(List<Integer> toSelectFrom, ETargetSlotAimType aimType, boolean opponent, String tip,
+			boolean cancel, String cancelTip) {
 		this.toSelectFrom = toSelectFrom;
 		this.aimType = aimType;
 		this.tip = tip;
 		this.opponent = opponent;
+		this.cancel = cancel;
+		this.cancelTip = cancelTip;
+	}
+
+	public SelectEmptySlotOper(List<Integer> toSelectFrom, ETargetSlotAimType aimType, boolean opponent, String tip,
+			boolean cancel) {
+		this(toSelectFrom, aimType, opponent, tip, cancel, "");
+	}
+
+	public SelectEmptySlotOper(List<Integer> toSelectFrom, ETargetSlotAimType aimType, boolean opponent, String tip) {
+		this(toSelectFrom, aimType, opponent, tip, false, "");
 	}
 
 	@Override
@@ -29,6 +43,8 @@ public class SelectEmptySlotOper extends HumanOper {
 		msg.setSelectFromList(toSelectFrom);
 		msg.setTip(tip);
 		msg.setOpponent(opponent);
+		msg.setCancel(cancel);
+		msg.setCancelTip(cancelTip);
 		human.sendMessage(msg);
 	}
 

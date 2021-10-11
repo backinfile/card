@@ -13,7 +13,7 @@ public class StoreSelfSkill extends Skill {
 
 	@Override
 	public void apply() {
-		addLast(new StoreCardAction(human, card));
+		addLast(new StoreCardAction(human, card, false, true, 1));
 		addLast(new ArrangePileAction(human));
 	}
 }

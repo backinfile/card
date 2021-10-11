@@ -2,6 +2,9 @@ package com.backinfile.card.view.viewActions;
 
 import com.backinfile.card.gen.GameMessageHandler.CSSelectEmptySlot;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectEmptySlot;
+import com.backinfile.card.manager.LocalString;
+import com.backinfile.card.view.group.boardView.ButtonInfo;
+import com.backinfile.support.Utils;
 
 public class SelectEmptySlotViewAction extends ViewAction {
 	private SCSelectEmptySlot data;
@@ -19,11 +22,23 @@ public class SelectEmptySlotViewAction extends ViewAction {
 					});
 		}
 		gameStage.boardView.boardUIView.setTipText(data.getTip());
+
+		if (data.getCancel()) {
+			var buttonInfo = new ButtonInfo();
+			buttonInfo.index = 0;
+			buttonInfo.text = Utils.isNullOrEmpty(data.getCancelTip()) ? LocalString.getUIString("boardUIView").strs[2]
+					: data.getCancelTip();
+			buttonInfo.callback = () -> {
+				onSelectIndex(-1);
+			};
+			gameStage.buttonsView.setButtonInfos(buttonInfo);
+		}
 	}
 
 	private void onSelectIndex(int index) {
 		gameStage.boardView.cardGroupView.hideAllHelpCard();
 		gameStage.boardView.boardUIView.setTipText("");
+		gameStage.buttonsView.setButtonInfos();
 
 		CSSelectEmptySlot msg = new CSSelectEmptySlot();
 		msg.setSelected(index);
