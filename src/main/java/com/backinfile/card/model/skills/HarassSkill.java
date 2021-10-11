@@ -2,7 +2,7 @@ package com.backinfile.card.model.skills;
 
 import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.actions.SelectToHarassAction;
-import com.backinfile.card.model.cards.chapter2.MonsterCard.Cat;
+import com.backinfile.card.model.cards.MonsterCard.Cat;
 
 public class HarassSkill extends Skill {
 

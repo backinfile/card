@@ -4,8 +4,8 @@ import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.actions.AttackAction;
 import com.backinfile.card.model.actions.RecallAction;
-import com.backinfile.card.model.cards.chapter2.MonsterCard.Cat;
-import com.backinfile.card.model.cards.chapter2.Recall;
+import com.backinfile.card.model.cards.Chap2ActionCard.Recall;
+import com.backinfile.card.model.cards.MonsterCard.Cat;
 
 public class RecallSkill extends Skill {
 	public RecallSkill() {

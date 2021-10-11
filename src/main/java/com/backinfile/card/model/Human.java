@@ -22,7 +22,7 @@ import com.backinfile.card.model.actions.DiscardHandToMaxAction;
 import com.backinfile.card.model.actions.DrawCardAction;
 import com.backinfile.card.model.actions.RestoreActionNumberAction;
 import com.backinfile.card.model.actions.SaveThreatenAction;
-import com.backinfile.card.model.cards.chapter2.MonsterCard.Bird;
+import com.backinfile.card.model.cards.MonsterCard.Bird;
 import com.backinfile.card.model.skills.ActAsStoreSkill;
 import com.backinfile.card.model.skills.DrawCardSkill;
 import com.backinfile.card.model.skills.Pass2CardSkill;

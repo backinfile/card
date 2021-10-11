@@ -6,13 +6,13 @@ import com.backinfile.support.IdAllot;
 
 /**
  * 卡牌基类 <br/>
- * 子类要有无参构造函数，用于copy
  */
 public abstract class Card extends SkillCaster {
 	public long id;
 	public LocalCardString cardString;
 	public CardType mainType = CardType.NONE;
 	public String oriHumanToken; // 最初归属于谁
+	public int chapter = 1; // 卡牌所属章节
 
 	public static enum CardType {
 		HERO, // 角色卡

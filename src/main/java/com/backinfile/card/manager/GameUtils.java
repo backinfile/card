@@ -7,17 +7,17 @@ import com.backinfile.card.gen.GameMessageHandler.DBoardInit;
 import com.backinfile.card.gen.GameMessageHandler.DHumanInit;
 import com.backinfile.card.gen.GameMessageHandler.DStartPileDataPair;
 import com.backinfile.card.model.Human;
-import com.backinfile.card.model.cards.chapter2.Attack;
-import com.backinfile.card.model.cards.chapter2.Beekeeper;
-import com.backinfile.card.model.cards.chapter2.Harass;
-import com.backinfile.card.model.cards.chapter2.MonsterCard.Bee;
-import com.backinfile.card.model.cards.chapter2.MonsterCard.Bird;
-import com.backinfile.card.model.cards.chapter2.MonsterCard.Cat;
-import com.backinfile.card.model.cards.chapter2.MonsterCard.Dear;
-import com.backinfile.card.model.cards.chapter2.MonsterCard.Dragon;
-import com.backinfile.card.model.cards.chapter2.MonsterCard.Whale;
-import com.backinfile.card.model.cards.chapter2.Recall;
-import com.backinfile.card.model.cards.chapter2.Ride;
+import com.backinfile.card.model.cards.Chap2ActionCard.Attack;
+import com.backinfile.card.model.cards.Chap2ActionCard.Harass;
+import com.backinfile.card.model.cards.Chap2ActionCard.Recall;
+import com.backinfile.card.model.cards.Chap2ActionCard.Ride;
+import com.backinfile.card.model.cards.Chap2HeroCard.Beekeeper;
+import com.backinfile.card.model.cards.MonsterCard.Bee;
+import com.backinfile.card.model.cards.MonsterCard.Bird;
+import com.backinfile.card.model.cards.MonsterCard.Cat;
+import com.backinfile.card.model.cards.MonsterCard.Dear;
+import com.backinfile.card.model.cards.MonsterCard.Dragon;
+import com.backinfile.card.model.cards.MonsterCard.Whale;
 import com.backinfile.support.Time2;
 
 public class GameUtils {

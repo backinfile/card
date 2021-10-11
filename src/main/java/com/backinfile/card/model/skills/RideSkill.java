@@ -2,8 +2,8 @@ package com.backinfile.card.model.skills;
 
 import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.actions.SelectToRideAction;
-import com.backinfile.card.model.cards.chapter2.MonsterCard;
-import com.backinfile.card.model.cards.chapter2.MonsterCard.MonsterSkillType;
+import com.backinfile.card.model.cards.MonsterCard;
+import com.backinfile.card.model.cards.MonsterCard.MonsterSkillType;
 
 public class RideSkill extends Skill {
 	public RideSkill() {

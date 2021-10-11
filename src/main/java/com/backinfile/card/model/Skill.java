@@ -6,7 +6,7 @@ import java.util.Set;
 import com.backinfile.card.gen.GameMessageHandler.DSkillInfo;
 import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.manager.LocalString.LocalSkillString;
-import com.backinfile.card.model.cards.chapter2.MonsterCard.Bee;
+import com.backinfile.card.model.cards.MonsterCard.Bee;
 import com.backinfile.support.IdAllot;
 import com.backinfile.support.Param;
 

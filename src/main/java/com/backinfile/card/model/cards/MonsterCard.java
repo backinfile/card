@@ -1,9 +1,8 @@
-package com.backinfile.card.model.cards.chapter2;
+package com.backinfile.card.model.cards;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import com.backinfile.card.model.cards.StoreCard;
 import com.backinfile.card.model.skills.BeeAttackSkill;
 import com.backinfile.card.model.skills.BirdHarassSkill;
 import com.backinfile.card.model.skills.BirdRideSkill;
@@ -20,6 +19,10 @@ import com.backinfile.card.model.skills.WhaleRideSkill;
 // 第二章特有的储备卡
 public class MonsterCard extends StoreCard {
 	protected Set<MonsterSkillType> monsterSkillTypes = new HashSet<>();
+
+	public MonsterCard() {
+		this.chapter = 2;
+	}
 
 	public boolean isMonsterType(MonsterSkillType type) {
 		return monsterSkillTypes.contains(type);

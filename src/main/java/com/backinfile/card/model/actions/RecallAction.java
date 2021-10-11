@@ -7,8 +7,8 @@ import com.backinfile.card.model.Human;
 import com.backinfile.card.model.Skill.SkillAura;
 import com.backinfile.card.model.Skill.SkillTrigger;
 import com.backinfile.card.model.actions.AttackAction.AttackResult;
-import com.backinfile.card.model.cards.chapter2.MonsterCard.Cat;
-import com.backinfile.card.model.cards.chapter2.Recall;
+import com.backinfile.card.model.cards.Chap2ActionCard.Recall;
+import com.backinfile.card.model.cards.MonsterCard.Cat;
 import com.backinfile.card.server.humanOper.SelectCardOper;
 import com.backinfile.support.Log;
 

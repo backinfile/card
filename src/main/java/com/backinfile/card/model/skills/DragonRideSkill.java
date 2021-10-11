@@ -6,8 +6,8 @@ import com.backinfile.card.model.CardSlot;
 import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.actions.DragonRideAction;
 import com.backinfile.card.model.cards.ActionCard;
-import com.backinfile.card.model.cards.chapter2.MonsterCard;
-import com.backinfile.card.model.cards.chapter2.MonsterCard.MonsterSkillType;
+import com.backinfile.card.model.cards.MonsterCard;
+import com.backinfile.card.model.cards.MonsterCard.MonsterSkillType;
 
 public class DragonRideSkill extends Skill {
 	public DragonRideSkill() {

@@ -4,8 +4,8 @@ import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
 import com.backinfile.card.model.cards.ActionCard;
-import com.backinfile.card.model.cards.chapter2.MonsterCard;
-import com.backinfile.card.model.cards.chapter2.MonsterCard.MonsterSkillType;
+import com.backinfile.card.model.cards.MonsterCard;
+import com.backinfile.card.model.cards.MonsterCard.MonsterSkillType;
 import com.backinfile.card.server.humanOper.SelectCardOper;
 
 public class DragonRideAction extends WaitAction {

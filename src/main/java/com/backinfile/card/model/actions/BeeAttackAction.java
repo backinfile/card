@@ -3,7 +3,7 @@ package com.backinfile.card.model.actions;
 import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.model.Card;
 import com.backinfile.card.model.Human;
-import com.backinfile.card.model.cards.chapter2.MonsterCard.Bee;
+import com.backinfile.card.model.cards.MonsterCard.Bee;
 
 public class BeeAttackAction extends TriggerOnceAction {
 	public BeeAttackAction(Human human, Card card) {
