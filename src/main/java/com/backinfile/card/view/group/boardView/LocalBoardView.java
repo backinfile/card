@@ -17,6 +17,7 @@ public class LocalBoardView extends BaseView {
 	public CardGroupView cardGroupView;
 	public BoardUIView boardUIView;
 	public MulPileView mulPileView;
+	public BoardLogScrollView boardLogScrollView;
 
 	public LocalBoardView(GameStage gameStage, float width, float height) {
 		super(gameStage, width, height);
@@ -40,8 +41,12 @@ public class LocalBoardView extends BaseView {
 			addActor(locator);
 		}
 
+		boardLogScrollView = new BoardLogScrollView(gameStage, getWidth(), getHeight());
+		addActor(boardLogScrollView);
+
 		boardUIView = new BoardUIView(gameStage, getWidth(), getHeight());
 		addActor(boardUIView);
+
 	}
 
 	public void startGame() {

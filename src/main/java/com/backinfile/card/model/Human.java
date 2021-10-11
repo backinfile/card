@@ -147,7 +147,7 @@ public class Human extends SkillCaster {
 		}
 
 		Log.game.info("player {} turnStart", token);
-		board.gameLog(this, EGameLogType.Turn, "回合开始");
+		board.gameLog(this, EGameLogType.Turn, board.uiString.strs[4]);
 	}
 
 	public final void enterTurn() {
@@ -192,7 +192,7 @@ public class Human extends SkillCaster {
 		addLast(new DiscardHandToMaxAction(this));
 
 		Log.game.info("player {} turnEnd", token);
-		board.gameLog(this, EGameLogType.Turn, "回合结束");
+		board.gameLog(this, EGameLogType.Turn, board.uiString.strs[5]);
 	}
 
 	public boolean removeCard(Card card) {

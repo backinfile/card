@@ -1,5 +1,6 @@
 package com.backinfile.card.view.group;
 
+import com.backinfile.card.Settings;
 import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
 import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.manager.Res;
@@ -121,10 +122,12 @@ public class PileView extends BaseView {
 	public void act(float delta) {
 		super.act(delta);
 
-		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
-			numberLabel.setVisible(true);
-		} else {
-			numberLabel.setVisible(false);
+		if (Settings.PILE_NUMBER_AUTO_HIDE) {
+			if (Gdx.input.isKeyPressed(Keys.SPACE)) {
+				numberLabel.setVisible(true);
+			} else {
+				numberLabel.setVisible(false);
+			}
 		}
 	}
 }

@@ -70,19 +70,9 @@ public class LocalGameClientMessageHandler extends GameMessageHandler.DSyncListe
 
 	@Override
 	public void onMessage(SCGameLog data) {
-		switch (data.getType()) {
-		case Action:
-			Log.gameLog.info("        " + data.getPlayerName() + data.getLog());
-			break;
-		case Skill:
-			Log.gameLog.info("    " + data.getPlayerName() + data.getLog());
-			break;
-		case Turn:
-			Log.gameLog.info("" + data.getPlayerName() + data.getLog());
-			break;
-		default:
-			break;
-
-		}
+		String log = "[" + data.getType().name().toUpperCase() + "]\n";
+		log += data.getPlayerName();
+		log += data.getLog();
+		gameStage.boardView.boardLogScrollView.addLog(log);
 	}
 }

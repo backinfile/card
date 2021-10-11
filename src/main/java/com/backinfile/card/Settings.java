@@ -17,6 +17,7 @@ public class Settings {
 	public static final int GAMESERVER_PORT = 18089;
 
 	public static final boolean FULL_SCREEN = false;
+	public static final boolean PILE_NUMBER_AUTO_HIDE = false;
 
 	public static String PackageName = "com.backinfile";
 }

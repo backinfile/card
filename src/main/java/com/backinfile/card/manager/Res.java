@@ -175,8 +175,8 @@ public class Res {
 		fontCharacterCollection.put(FreeTypeFontGenerator.DEFAULT_CHARS);
 		parameter.characters = fontCharacterCollection.getAll();
 
-//		parameter.size = 12;
-//		DefaultFontSmallSamll = generator.generateFont(parameter);
+		parameter.size = 12;
+		DefaultFontSmallSamll = generator.generateFont(parameter);
 //		parameter.size = 16;
 //		DefaultFontSmall = generator.generateFont(parameter);
 		parameter.size = 20;
