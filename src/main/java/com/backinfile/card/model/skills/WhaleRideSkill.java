@@ -10,6 +10,7 @@ import com.backinfile.card.model.cards.ActionCard;
 public class WhaleRideSkill extends Skill {
 	public WhaleRideSkill() {
 		setTriggerType(SkillDuration.Fixed, SkillTrigger.Active, SkillAura.Slot, 1, 1);
+		marks.add(SkillMark.Unseal);
 	}
 
 	// 在储备位上，坐骑状态下有东西才可以使用

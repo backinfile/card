@@ -6,6 +6,7 @@ import java.util.Set;
 import com.backinfile.card.gen.GameMessageHandler.DSkillInfo;
 import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.manager.LocalString.LocalSkillString;
+import com.backinfile.card.model.cards.Chap2HeroCard.Beekeeper;
 import com.backinfile.card.model.cards.MonsterCard.Bee;
 import com.backinfile.support.IdAllot;
 import com.backinfile.support.Param;
@@ -129,7 +130,12 @@ public abstract class Skill {
 	public int getRealCostAP() {
 		var realCost = this.triggerCostAP;
 		if (marks.contains(SkillMark.Release)) {
-			if (!human.getAllHarassCard().filter(c -> c instanceof Bee).isEmpty()) {
+			if (!human.getAllHarassCard().filter(Bee.class).isEmpty()) {
+				realCost++;
+			}
+		} else if (marks.contains(SkillMark.Unseal)) {
+			if (human.getOpponent().getHeroCard() instanceof Beekeeper
+					&& !human.getAllHarassCard().filter(Bee.class).isEmpty()) {
 				realCost++;
 			}
 		}

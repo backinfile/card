@@ -254,6 +254,9 @@
 	},{
 			"sn":"BreakAction",
 			"tip":"可选择储备来代替击破"
+	},{
+			"sn":"TakeSpecCardInHandAction",
+			"tip":"选择至多{0}张置入手牌"
 	}],
 	skills:[{
 			"sn":"StoreSelfSkill",
@@ -332,6 +335,10 @@
 			"sn":"BeeAttackSkill",
 			"name":"蜂灾",
 			"tip":"蜂灾"
+	},{
+			"sn":"BeeKeeperActiveSkill",
+			"name":"养蜂",
+			"tip":"养蜂"
 	}],
 	targets:[],
 	ui:[{

@@ -185,6 +185,10 @@ public class CardPile implements Iterable<Card> {
 		return new CardPile(cards.stream().filter(predicate).iterator());
 	}
 
+	public CardPile filter(Class<? extends Card> clazz) {
+		return new CardPile(cards.stream().filter(c -> clazz.isInstance(c)).iterator());
+	}
+
 	public Stream<Card> stream() {
 		return cards.stream();
 	}

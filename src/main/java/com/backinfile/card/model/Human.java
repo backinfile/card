@@ -414,6 +414,10 @@ public class Human extends SkillCaster {
 		return null;
 	}
 
+	public Card getHeroCard() {
+		return heroPile.get(0);
+	}
+
 	// 获取对手
 	public final Human getOpponent() {
 		return board.getOpponent(this);

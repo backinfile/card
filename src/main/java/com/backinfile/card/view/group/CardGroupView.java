@@ -293,9 +293,9 @@ public class CardGroupView extends BaseView {
 		}
 		case HeroPile: {
 			if (pilePosition == HumanPosition.Self) {
-				position.set(width * 0.5f, height * 0.893f);
-			} else {
 				position.set(width * 0.5f, height * 0.107f);
+			} else {
+				position.set(width * 0.5f, height * 0.893f);
 			}
 			break;
 		}

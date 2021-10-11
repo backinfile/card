@@ -281,8 +281,16 @@ public class Board implements IAlive {
 		}
 		// 玩家身上的技能
 		for (var skill : human.getSkillList()) {
-			if (skill.testTriggerable(SkillTrigger.Active, SkillAura.Hero)) {
+			if (skill.testTriggerable(SkillTrigger.Active, SkillAura.AnyWhere)) {
 				activableSkills.add(skill);
+			}
+		}
+		// 英雄牌的技能
+		for (var card : human.heroPile) {
+			for (var skill : card.getSkillList()) {
+				if (skill.testTriggerable(SkillTrigger.Active, SkillAura.Hero)) {
+					activableSkills.add(skill);
+				}
 			}
 		}
 		// 手牌上的技能

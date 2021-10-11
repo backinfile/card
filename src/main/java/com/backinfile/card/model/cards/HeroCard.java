@@ -10,7 +10,6 @@ public abstract class HeroCard extends Card {
 
 		mainType = CardType.HERO;
 
-//		addSkill(new StoreSelfSkill()); TODO // 基础技能：抽1 过牌2 回合结束
 	}
 
 	public HeroCard() {
