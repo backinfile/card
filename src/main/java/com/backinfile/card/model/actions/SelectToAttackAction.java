@@ -22,7 +22,7 @@ public class SelectToAttackAction extends WaitAction {
 	@Override
 	public void init() {
 		var humanOper = new SelectCardOper(human.getAllStoreCards(true, true, false, false, false),
-				Utils.format(actionString.tips[withAttackEffect ? 1 : 0], 1), actionString.tips[2], 0, 1);
+				Utils.format(actionString.tips[withAttackEffect ? 1 : 0], 1), 0, 1);
 		humanOper.setDetachCallback(() -> {
 			for (var card : humanOper.getSelectedPile().reverse()) {
 				board.removeCard(card);

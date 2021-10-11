@@ -362,6 +362,8 @@
 			"sn":"cardTools",
 			"images":[{
 				"path":"image/card/tools/border.png",
+			},{
+				"path":"image/check_mark.png",
 			}],
 	},{
 			"sn":"ShowCardListView",

@@ -26,6 +26,7 @@ public class CardView extends Group {
 
 	protected Image mainImage;
 	private Image boarderImage;
+	private Image checkMarkImage;
 
 	private LocalCardString cardString;
 	private boolean flipOver = false;
@@ -44,6 +45,7 @@ public class CardView extends Group {
 
 	public CardView() {
 		boarderImage = new Image(Res.getTexture(cardToolsString.images[0]));
+		checkMarkImage = new Image(Res.getTexture(cardToolsString.images[1]));
 		mainImage = new Image() {
 			@Override
 			public void setSize(float width, float height) {
@@ -52,13 +54,17 @@ public class CardView extends Group {
 
 				boarderImage.setSize(width, height);
 				boarderImage.setPosition(0, 0, Align.center);
+				checkMarkImage.setSize(height / 4, height / 4);
+				checkMarkImage.setPosition(0, 0, Align.center);
 			}
 		};
 		addActor(mainImage);
 		addActor(boarderImage);
+		addActor(checkMarkImage);
 
 		setSize(CardSize.Normal);
 		setDark(false);
+		checkMarkImage.setVisible(false);
 
 		addListener(new ClickListener(Buttons.LEFT) {
 			@Override
@@ -156,6 +162,10 @@ public class CardView extends Group {
 
 	public void setDark(boolean dark) {
 		boarderImage.setVisible(!dark);
+	}
+
+	public void setChecked(boolean checked) {
+		checkMarkImage.setVisible(checked);
 	}
 
 	private void updateView() {

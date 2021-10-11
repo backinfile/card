@@ -4,28 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.backinfile.card.gen.GameMessageHandler.CSSelectCard;
+import com.backinfile.card.gen.GameMessageHandler.CSSelectCards;
 import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectCards;
 import com.backinfile.card.manager.ConstGame;
 import com.backinfile.card.manager.LocalString;
+import com.backinfile.card.model.CardInfo;
 import com.backinfile.card.view.group.CardView;
 import com.backinfile.card.view.group.PileView.HumanPosition;
 import com.backinfile.card.view.group.boardView.ButtonInfo;
 import com.backinfile.support.Log;
-import com.backinfile.support.Utils;
 
 public class SelectCardViewAction extends ViewAction {
-	private long selected = -1; // -1表示尚未选择 0表示忽略 >0表示已做出选择
 
 	private SCSelectCards data;
 	private List<Long> selectFrom = new ArrayList<>();
-	private boolean optional;
+
+	private List<Long> selected = new ArrayList<>();
 
 	public SelectCardViewAction(SCSelectCards data) {
 		this.data = data;
 		this.selectFrom = data.getCardIdsList();
-		this.optional = data.getCancel();
 	}
 
 	private boolean isShowList() {
@@ -49,54 +48,32 @@ public class SelectCardViewAction extends ViewAction {
 			// 选择牌库中的牌
 			var cardInfos = selectFrom.stream().map(id -> gameStage.boardView.cardGroupView.getCardInfoCache(id))
 					.collect(Collectors.toList());
-			gameStage.showCardListView.show(cardInfos, data.getTip(), cardInfo -> {
-				clearSelectCardListState();
-				onSelect(cardInfo.getId());
-			});
-			gameStage.buttonsView.setButtonInfos();
-			if (optional) {
-				ButtonInfo buttonInfo = new ButtonInfo();
-				buttonInfo.index = 0;
-				buttonInfo.text = LocalString.getUIString("boardUIView").strs[2];
-				if (!Utils.isNullOrEmpty(data.getCancelTip())) {
-					buttonInfo.text = data.getCancelTip();
-				}
-				buttonInfo.callback = () -> {
-					clearSelectCardListState();
-					onSelect(0);
-				};
-				gameStage.buttonsView.setButtonInfos(buttonInfo);
-			}
+			gameStage.showCardListView.show(cardInfos, data.getTip(), data.getMinNumber(), data.getMaxNumber(),
+					cardInfo -> {
+						onSelect(cardInfo);
+					});
 			return;
 		}
 
 		// 选择手牌，储备位上的牌
-		for (var cardId : selectFrom) {
+		for (Long cardId : selectFrom) {
 			CardView cardView = gameStage.boardView.cardGroupView.getCurCardView(cardId);
 			if (cardView != null) {
 				cardView.setLeftClickCallback(() -> {
-					clearSelectCardState();
-					onSelect(cardId);
+					if (selected.contains(cardId)) {
+						selected.remove(cardId);
+						cardView.setChecked(false);
+					} else {
+						selected.add(cardId);
+						cardView.setChecked(true);
+					}
+					onCardClick();
 				});
 				cardView.setDark(false);
 			}
 		}
-		gameStage.buttonsView.setButtonInfos();
-		if (optional) {
-			ButtonInfo buttonInfo = new ButtonInfo();
-			buttonInfo.index = 0;
-			buttonInfo.text = LocalString.getUIString("boardUIView").strs[2];
-			if (!Utils.isNullOrEmpty(data.getCancelTip())) {
-				buttonInfo.text = data.getCancelTip();
-			}
-			buttonInfo.callback = () -> {
-				clearSelectCardState();
-				onSelect(0);
-			};
-			gameStage.buttonsView.setButtonInfos(buttonInfo);
-		}
-
 		gameStage.boardView.boardUIView.setTipText(data.getTip());
+		onCardClick();
 	}
 
 	private void clearSelectCardState() {
@@ -105,6 +82,7 @@ public class SelectCardViewAction extends ViewAction {
 			if (cardView != null) {
 				cardView.setLeftClickCallback(null);
 				cardView.setDark(true);
+				cardView.setChecked(false);
 			}
 		}
 		gameStage.buttonsView.setButtonInfos();
@@ -117,17 +95,38 @@ public class SelectCardViewAction extends ViewAction {
 		gameStage.showCardListView.hide();
 	}
 
-	private void onSelect(long id) {
-		Log.game.info("select id:{}", id);
-		selected = id;
+	private void onCardClick() {
+		if (data.getMinNumber() <= selected.size() && selected.size() <= data.getMaxNumber()) {
+			// 出现确认按钮
+			var buttonInfo = new ButtonInfo();
+			buttonInfo.index = 0;
+			buttonInfo.text = LocalString.getUIString("boardUIView").strs[4];
+			buttonInfo.callback = this::onSelectOver;
+			gameStage.buttonsView.setButtonInfos(buttonInfo);
+		} else {
+			gameStage.buttonsView.setButtonInfos();
+		}
+	}
+
+	private void onSelectOver() {
+		clearSelectCardState();
+
+		Log.game.info("select id:{}", selected);
+		CSSelectCards msg = new CSSelectCards();
+		msg.addAllCardIds(selected);
+		gameStage.boardView.gameClient.sendMessage(msg);
 		setDone();
 	}
 
-	@Override
-	public void dispose() {
-		// 发送回server
-		CSSelectCard msg = new CSSelectCard();
-		msg.setCardId(this.selected);
+	private void onSelect(List<CardInfo> cardInfos) {
+		clearSelectCardListState();
+
+		CSSelectCards msg = new CSSelectCards();
+		for (var cardInfo : cardInfos) {
+			msg.addCardIds(cardInfo.getId());
+		}
+		Log.game.info("select id:{}", msg.getCardIdsList());
 		gameStage.boardView.gameClient.sendMessage(msg);
+		setDone();
 	}
 }

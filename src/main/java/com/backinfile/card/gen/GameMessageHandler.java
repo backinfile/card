@@ -29,9 +29,6 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		public void onMessage(DBoardSetup data) {
 		}
 		
-		public void onMessage(CSSelectCard data) {
-		}
-		
 		public void onMessage(DCardInfo data) {
 		}
 		
@@ -72,6 +69,9 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 		
 		public void onMessage(DSkillInfo data) {
+		}
+		
+		public void onMessage(CSSelectCards data) {
 		}
 		
 		public void onMessage(DServer data) {
@@ -123,11 +123,6 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		case DBoardSetup.TypeName:
 			for (var listener : listeners) {
 				listener.onMessage(DBoardSetup.parseJSONObject(jsonObject));
-			}
-			break;
-		case CSSelectCard.TypeName:
-			for (var listener : listeners) {
-				listener.onMessage(CSSelectCard.parseJSONObject(jsonObject));
 			}
 			break;
 		case DCardInfo.TypeName:
@@ -200,6 +195,11 @@ public class GameMessageHandler extends DSyncBaseHandler {
 				listener.onMessage(DSkillInfo.parseJSONObject(jsonObject));
 			}
 			break;
+		case CSSelectCards.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(CSSelectCards.parseJSONObject(jsonObject));
+			}
+			break;
 		case DServer.TypeName:
 			for (var listener : listeners) {
 				listener.onMessage(DServer.parseJSONObject(jsonObject));
@@ -261,8 +261,6 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			return new DBoardInit();
 		case DBoardSetup.TypeName:
 			return new DBoardSetup();
-		case CSSelectCard.TypeName:
-			return new CSSelectCard();
 		case DCardInfo.TypeName:
 			return new DCardInfo();
 		case DClientPlayerInfo.TypeName:
@@ -291,6 +289,8 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			return new Root();
 		case DSkillInfo.TypeName:
 			return new DSkillInfo();
+		case CSSelectCards.TypeName:
+			return new CSSelectCards();
 		case DServer.TypeName:
 			return new DServer();
 		case DPileNumber.TypeName:
@@ -617,102 +617,6 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			if (this.cardInfos != null) {
 				_value.cardInfos = this.cardInfos.deepCopy();
 			}
-			return _value;
-		}
-	}
-	
-	/**
-	 * 客户端选择一张卡牌
-	 */
-	public static class CSSelectCard extends DSyncBase {
-		public static final String TypeName = "CSSelectCard";
-		
-		/** 0表示取消 >0表示选择的卡 */
-		private long cardId;
-
-		public static class K {
-			public static final String cardId = "cardId";
-		}
-
-		public CSSelectCard() {
-			init();
-		}
-
-		@Override
-		protected void init() {
-			cardId = 0;
-		}
-		
-		/** 0表示取消 >0表示选择的卡 */
-		public long getCardId() {
-			return cardId;
-		}
-		
-		/** 0表示取消 >0表示选择的卡 */
-		public void setCardId(long cardId) {
-			this.cardId = cardId;
-		}
-		
-
-		static CSSelectCard parseJSONObject(JSONObject jsonObject) {
-			var _value = new CSSelectCard();
-			if (!jsonObject.isEmpty()) {
-				_value.applyRecord(jsonObject);
-			}
-			return _value;
-		}
-		
-		static List<CSSelectCard> parseJSONArray(JSONArray jsonArray) {
-			var list = new ArrayList<CSSelectCard>();
-			for (int i = 0; i < jsonArray.size(); i++) {
-				var _value = new CSSelectCard();
-				var jsonObject = jsonArray.getJSONObject(i);
-				if (!jsonObject.isEmpty()) {
-					_value.applyRecord(jsonObject);
-				}
-				list.add(_value);
-			}
-			return list;
-		}
-
-		@Override
-		protected void getRecord(JSONObject jsonObject) {
-			jsonObject.put(DSyncBase.K.TypeName, TypeName);
-			jsonObject.put(K.cardId, cardId);
-		}
-
-		@Override
-		protected void applyRecord(JSONObject jsonObject) {
-			cardId = jsonObject.getLongValue(K.cardId);
-		}
-		
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj) {
-				return true;
-			}
-			if (obj == null) {
-				return false;
-			}
-			if (!(obj instanceof CSSelectCard)) {
-				return false;
-			}
-			var _value = (CSSelectCard) obj;
-			if (this.cardId != _value.cardId) {
-				return false;
-			}
-			return true;
-		}
-		
-		public CSSelectCard copy() {
-			var _value = new CSSelectCard();
-			_value.cardId = this.cardId;
-			return _value;
-		}
-		
-		public CSSelectCard deepCopy() {
-			var _value = new CSSelectCard();
-			_value.cardId = this.cardId;
 			return _value;
 		}
 	}
@@ -2724,6 +2628,123 @@ public class GameMessageHandler extends DSyncBaseHandler {
 	}
 	
 	/**
+	 * 客户端选择n张卡牌
+	 */
+	public static class CSSelectCards extends DSyncBase {
+		public static final String TypeName = "CSSelectCards";
+		
+		/** 选择的卡 */
+		private List<Long> cardIds;
+
+		public static class K {
+			public static final String cardIds = "cardIds";
+		}
+
+		public CSSelectCards() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			cardIds = new ArrayList<>();
+		}
+		
+		/** 选择的卡 */
+		public int getCardIdsCount() {
+			return this.cardIds.size();
+		}
+		
+		/** 选择的卡 */
+		public List<Long> getCardIdsList() {
+			return new ArrayList<>(cardIds);
+		}
+		
+		/** 选择的卡 */
+		public void setCardIdsList(List<Long> _value) {
+			this.cardIds.clear();
+			this.cardIds.addAll(_value);
+		}
+
+		/** 选择的卡 */
+		public void addCardIds(long _value) {
+			this.cardIds.add(_value);
+		}
+		
+		/** 选择的卡 */
+		public void addAllCardIds(List<Long> _value) {
+			this.cardIds.addAll(_value);
+		}
+		
+		/** 选择的卡 */
+		public void clearCardIds() {
+			this.cardIds.clear();
+		}
+		
+
+		static CSSelectCards parseJSONObject(JSONObject jsonObject) {
+			var _value = new CSSelectCards();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<CSSelectCards> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<CSSelectCards>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new CSSelectCards();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.cardIds, JSONObject.toJSONString(cardIds));
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+			cardIds = JSONObject.parseArray(jsonObject.getString(K.cardIds), Long.class);
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof CSSelectCards)) {
+				return false;
+			}
+			var _value = (CSSelectCards) obj;
+			if (!this.cardIds.equals(_value.cardIds)) {
+				return false;
+			}
+			return true;
+		}
+		
+		public CSSelectCards copy() {
+			var _value = new CSSelectCards();
+			_value.cardIds = new ArrayList<>(this.cardIds);
+			return _value;
+		}
+		
+		public CSSelectCards deepCopy() {
+			var _value = new CSSelectCards();
+			_value.cardIds = new ArrayList<>(this.cardIds);
+			return _value;
+		}
+	}
+	
+	/**
 	 * ----------------------------------------
 	 * 服务器信息
 	 * ----------------------------------------
@@ -3508,23 +3529,23 @@ public class GameMessageHandler extends DSyncBaseHandler {
 	}
 	
 	/**
-	 * 通知客户端可以选择其中一张卡牌
+	 * 通知客户端可以选择其中n张卡牌
 	 */
 	public static class SCSelectCards extends DSyncBase {
 		public static final String TypeName = "SCSelectCards";
 		
 		private List<Long> cardIds;
-		/** 可以取消 */
-		private boolean cancel;
 		private String tip;
-		/** 取消按钮文字 */
-		private String cancelTip;
+		/** 最小数量 */
+		private int minNumber;
+		/** 最大数量 */
+		private int maxNumber;
 
 		public static class K {
 			public static final String cardIds = "cardIds";
-			public static final String cancel = "cancel";
 			public static final String tip = "tip";
-			public static final String cancelTip = "cancelTip";
+			public static final String minNumber = "minNumber";
+			public static final String maxNumber = "maxNumber";
 		}
 
 		public SCSelectCards() {
@@ -3534,9 +3555,9 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		@Override
 		protected void init() {
 			cardIds = new ArrayList<>();
-			cancel = false;
 			tip = "";
-			cancelTip = "";
+			minNumber = 0;
+			maxNumber = 0;
 		}
 		
 		public int getCardIdsCount() {
@@ -3564,16 +3585,6 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			this.cardIds.clear();
 		}
 		
-		/** 可以取消 */
-		public boolean getCancel() {
-			return cancel;
-		}
-		
-		/** 可以取消 */
-		public void setCancel(boolean cancel) {
-			this.cancel = cancel;
-		}
-		
 		public String getTip() {
 			return tip;
 		}
@@ -3582,14 +3593,24 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			this.tip = tip;
 		}
 		
-		/** 取消按钮文字 */
-		public String getCancelTip() {
-			return cancelTip;
+		/** 最小数量 */
+		public int getMinNumber() {
+			return minNumber;
 		}
 		
-		/** 取消按钮文字 */
-		public void setCancelTip(String cancelTip) {
-			this.cancelTip = cancelTip;
+		/** 最小数量 */
+		public void setMinNumber(int minNumber) {
+			this.minNumber = minNumber;
+		}
+		
+		/** 最大数量 */
+		public int getMaxNumber() {
+			return maxNumber;
+		}
+		
+		/** 最大数量 */
+		public void setMaxNumber(int maxNumber) {
+			this.maxNumber = maxNumber;
 		}
 		
 
@@ -3618,17 +3639,17 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		protected void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.cardIds, JSONObject.toJSONString(cardIds));
-			jsonObject.put(K.cancel, cancel);
 			jsonObject.put(K.tip, tip);
-			jsonObject.put(K.cancelTip, cancelTip);
+			jsonObject.put(K.minNumber, minNumber);
+			jsonObject.put(K.maxNumber, maxNumber);
 		}
 
 		@Override
 		protected void applyRecord(JSONObject jsonObject) {
 			cardIds = JSONObject.parseArray(jsonObject.getString(K.cardIds), Long.class);
-			cancel = jsonObject.getBooleanValue(K.cancel);
 			tip = jsonObject.getString(K.tip);
-			cancelTip = jsonObject.getString(K.cancelTip);
+			minNumber = jsonObject.getIntValue(K.minNumber);
+			maxNumber = jsonObject.getIntValue(K.maxNumber);
 		}
 		
 		@Override
@@ -3646,13 +3667,13 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			if (!this.cardIds.equals(_value.cardIds)) {
 				return false;
 			}
-			if (this.cancel != _value.cancel) {
-				return false;
-			}
 			if (!this.tip.equals(_value.tip)) {
 				return false;
 			}
-			if (!this.cancelTip.equals(_value.cancelTip)) {
+			if (this.minNumber != _value.minNumber) {
+				return false;
+			}
+			if (this.maxNumber != _value.maxNumber) {
 				return false;
 			}
 			return true;
@@ -3661,18 +3682,18 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		public SCSelectCards copy() {
 			var _value = new SCSelectCards();
 			_value.cardIds = new ArrayList<>(this.cardIds);
-			_value.cancel = this.cancel;
 			_value.tip = this.tip;
-			_value.cancelTip = this.cancelTip;
+			_value.minNumber = this.minNumber;
+			_value.maxNumber = this.maxNumber;
 			return _value;
 		}
 		
 		public SCSelectCards deepCopy() {
 			var _value = new SCSelectCards();
 			_value.cardIds = new ArrayList<>(this.cardIds);
-			_value.cancel = this.cancel;
 			_value.tip = this.tip;
-			_value.cancelTip = this.cancelTip;
+			_value.minNumber = this.minNumber;
+			_value.maxNumber = this.maxNumber;
 			return _value;
 		}
 	}

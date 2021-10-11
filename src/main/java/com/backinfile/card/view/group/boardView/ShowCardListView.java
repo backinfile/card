@@ -13,6 +13,7 @@ import com.backinfile.card.view.group.CardSize;
 import com.backinfile.card.view.group.PileView.HumanPosition;
 import com.backinfile.card.view.stage.GameStage;
 import com.backinfile.support.ObjectPool;
+import com.backinfile.support.Utils;
 import com.backinfile.support.func.Action1;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.Color;
@@ -38,7 +39,11 @@ public class ShowCardListView extends BaseView {
 	private ObjectPool<CardView> cardViewPool;
 	private List<CardView> visibleVardViews = new ArrayList<>();
 
-	private Action1<CardInfo> callback;
+	private Action1<List<CardInfo>> callback;
+	private List<CardInfo> selected = new ArrayList<>();
+	private int minNumber;
+	private int maxNumber;
+	private String confirmTip;
 
 	private static final LocalUIString uiString = LocalString.getUIString(ShowCardListView.class.getSimpleName());
 	private static final float LargeRateW = 1.3f;
@@ -86,10 +91,14 @@ public class ShowCardListView extends BaseView {
 		setVisible(false);
 	}
 
-	public void show(List<CardInfo> cardInfos, String tip, Action1<CardInfo> callback) {
+	public void show(List<CardInfo> cardInfos, String tip, int minNumber, int maxNumber,
+			Action1<List<CardInfo>> callback) {
 		// 初始化
 		clearActions();
+		this.minNumber = minNumber;
+		this.maxNumber = maxNumber;
 		this.callback = callback;
+		this.selected.clear();
 		gameStage.setScrollFocus(this);
 		viewGroup.setPosition(0, 0);
 		curScroolAmount = 0;
@@ -110,8 +119,16 @@ public class ShowCardListView extends BaseView {
 					cardInfo.getOwnerPosition().ordinal());
 			cardView.setSize(CardSize.Large);
 			cardView.setDark(false);
+			cardView.setChecked(false);
 			cardView.setLeftClickCallback(() -> {
-				onClick(cardInfo);
+				if (selected.contains(cardInfo)) {
+					selected.remove(cardInfo);
+					cardView.setChecked(false);
+				} else {
+					selected.add(cardInfo);
+					cardView.setChecked(true);
+				}
+				onCardClick();
 			});
 			if (cardInfo.getPilePosition() == HumanPosition.Self) {
 				cardView.setText(uiString.strs[cardInfo.pileInfo.getPileType().ordinal()]);
@@ -123,6 +140,7 @@ public class ShowCardListView extends BaseView {
 			viewGroup.addActor(cardView);
 			visibleVardViews.add(cardView);
 		}
+		onCardClick();
 	}
 
 	private Vector2 getCardPosition(int index) {
@@ -140,9 +158,24 @@ public class ShowCardListView extends BaseView {
 		viewGroup.setY(curScroolAmount * CardSize.Large.height * ScroolRate);
 	}
 
-	private void onClick(CardInfo cardInfo) {
+	private void onCardClick() {
+		if (minNumber <= selected.size() && selected.size() <= maxNumber) {
+			// 出现确认按钮
+			var buttonInfo = new ButtonInfo();
+			buttonInfo.index = 0;
+			buttonInfo.text = Utils.isNullOrEmpty(confirmTip) ? LocalString.getUIString("boardUIView").strs[4]
+					: confirmTip;
+			buttonInfo.callback = this::onFinish;
+			gameStage.buttonsView.setButtonInfos(buttonInfo);
+		} else {
+			gameStage.buttonsView.setButtonInfos();
+		}
+	}
+
+	private void onFinish() {
+		gameStage.buttonsView.setButtonInfos();
 		if (callback != null) {
-			callback.invoke(cardInfo);
+			callback.invoke(selected);
 		}
 	}
 
