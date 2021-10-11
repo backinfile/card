@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import com.backinfile.card.gen.GameMessageHandler;
 import com.backinfile.card.gen.GameMessageHandler.DHumanInit;
@@ -20,9 +21,12 @@ import com.backinfile.card.model.Skill.SkillDuration;
 import com.backinfile.card.model.actions.BirdHarassAction;
 import com.backinfile.card.model.actions.DiscardHandToMaxAction;
 import com.backinfile.card.model.actions.DrawCardAction;
+import com.backinfile.card.model.actions.DreamBuilderLandAction;
 import com.backinfile.card.model.actions.RestoreActionNumberAction;
 import com.backinfile.card.model.actions.SaveThreatenAction;
+import com.backinfile.card.model.cards.Chap2HeroCard.DreamBuilder;
 import com.backinfile.card.model.cards.MonsterCard.Bird;
+import com.backinfile.card.model.cards.MonsterCard.Cat;
 import com.backinfile.card.model.skills.ActAsStoreSkill;
 import com.backinfile.card.model.skills.DrawCardSkill;
 import com.backinfile.card.model.skills.Pass2CardSkill;
@@ -62,6 +66,7 @@ public class Human extends SkillCaster {
 
 	public int handPileMaxSize = ConstGame.HAND_PILE_MAX_SIZE;
 	public CardPile drawnCardsInTurnStart = new CardPile(); // 回合开始时抽到的牌
+	public int turnStartDrawNumber = 3;
 
 	public void init(DHumanInit humanInit) {
 		this.token = humanInit.getControllerToken();
@@ -124,22 +129,28 @@ public class Human extends SkillCaster {
 			}
 		}
 
-		// 先手第一回合1个行动，少抽1，并且不放置威慑
+		// 计算手牌数目
 		if (board.turnCount == 1 && this == board.starter) {
+			// 先手第一回合1个行动，少抽1，并且不放置威慑
 			addLast(new RestoreActionNumberAction(this, 1));
 			if (board.modes.contains(BoardMode.Threaten)) {
-				addLast(new DrawCardAction(this, 2));
+				turnStartDrawNumber = 2;
 			} else {
-				addLast(new DrawCardAction(this, 1));
+				turnStartDrawNumber = 1;
 			}
 		} else {
 			addLast(new RestoreActionNumberAction(this, 2));
 			if (board.modes.contains(BoardMode.Threaten)) {
-				addLast(new DrawCardAction(this, 3));
+				turnStartDrawNumber = 3;
 			} else {
-				addLast(new DrawCardAction(this, 2));
+				turnStartDrawNumber = 2;
 			}
 		}
+		// 如果被梦主的梦妖骚扰了
+		if (getOpponent().getHeroCard() instanceof DreamBuilder && !getAllHarassCard().filter(Cat.class).isEmpty()) {
+			addLast(new DreamBuilderLandAction(getOpponent()));
+		}
+		addLast(new DrawCardAction(this, () -> turnStartDrawNumber));
 
 		if (GameUtils.isAI(this)) {
 //			addLast(new GainAPAction(this, 1));

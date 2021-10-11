@@ -32,18 +32,6 @@ public class InTurnActiveSkillOper extends HumanOper {
 	public void onAIAttach() {
 		activableSkills = human.board.getActivableSkills(human.token);
 
-		if (activableSkills.size() == 1) { // 直接回合结束
-			var skill = activableSkills.get(0);
-			onSelectSkill(skill);
-			return;
-		}
-
-		if (ConstGame.AI_DO_NOTHING) { // 直接回合结束
-			var skill = human.getSkill(TurnEndSkill.class);
-			onSelectSkill(skill);
-			return;
-		}
-
 		aiTimer = Time2.getCurMillis() + ConstGame.AI_WAIT_TIME;
 	}
 
@@ -56,6 +44,19 @@ public class InTurnActiveSkillOper extends HumanOper {
 	}
 
 	private void aiPlaySkill() {
+
+		if (activableSkills.size() == 1) { // 直接回合结束
+			var skill = activableSkills.get(0);
+			onSelectSkill(skill);
+			return;
+		}
+
+		if (ConstGame.AI_DO_NOTHING) { // 直接回合结束
+			var skill = human.getSkill(TurnEndSkill.class);
+			onSelectSkill(skill);
+			return;
+		}
+
 		if (ConstGame.AI_DO_STORE) { // 一直进行储备
 			var findAny = activableSkills.stream().filter(s -> s instanceof StoreSelfSkill).findAny();
 			if (findAny.isPresent()) {

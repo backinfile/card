@@ -190,6 +190,214 @@
 				"path":"image/card/chap2/back_hero.png"
 			}],
 		},
+		{
+			"sn":"DreamBuilder",
+			"name":"筑梦师",
+			"frontImages": [{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,1,0],
+			},{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,1,0],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back_hero.png"
+			},{
+				"path":"image/card/chap2/back_hero.png"
+			}],
+		},
+		{
+			"sn":"SeaTalker",
+			"name":"海言者",
+			"frontImages": [{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,2,0],
+			},{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,2,0],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back_hero.png"
+			},{
+				"path":"image/card/chap2/back_hero.png"
+			}],
+		},
+		{
+			"sn":"HeartFire",
+			"name":"焚心之火",
+			"frontImages": [{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,3,0],
+			},{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,3,0],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back_hero.png"
+			},{
+				"path":"image/card/chap2/back_hero.png"
+			}],
+		},
+		{
+			"sn":"Windseeker",
+			"name":"逐风者",
+			"frontImages": [{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,4,0],
+			},{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,4,0],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back_hero.png"
+			},{
+				"path":"image/card/chap2/back_hero.png"
+			}],
+		},
+		{
+			"sn":"DragonKnight",
+			"name":"龙骑士",
+			"frontImages": [{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,5,0],
+			},{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,5,0],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back_hero.png"
+			},{
+				"path":"image/card/chap2/back_hero.png"
+			}],
+		},
+		{
+			"sn":"BeastWarrior",
+			"name":"兽武者",
+			"frontImages": [{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,6,0],
+			},{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,6,0],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back_hero.png"
+			},{
+				"path":"image/card/chap2/back_hero.png"
+			}],
+		},
+		{
+			"sn":"BeastTalker",
+			"name":"兽语者",
+			"frontImages": [{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,0,1],
+			},{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,0,1],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back_hero.png"
+			},{
+				"path":"image/card/chap2/back_hero.png"
+			}],
+		},
+		{
+			"sn":"RedPhoenix",
+			"name":"朱雀使者",
+			"frontImages": [{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,1,1],
+			},{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,1,1],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back_hero.png"
+			},{
+				"path":"image/card/chap2/back_hero.png"
+			}],
+		},
+		{
+			"sn":"BlackTurtle",
+			"name":"玄武使者",
+			"frontImages": [{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,2,1],
+			},{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,2,1],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back_hero.png"
+			},{
+				"path":"image/card/chap2/back_hero.png"
+			}],
+		},
+		{
+			"sn":"BlackTurtle",
+			"name":"玄武使者",
+			"frontImages": [{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,2,1],
+			},{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,2,1],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back_hero.png"
+			},{
+				"path":"image/card/chap2/back_hero.png"
+			}],
+		},
+		{
+			"sn":"WhiteTiger",
+			"name":"白虎使者",
+			"frontImages": [{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,3,1],
+			},{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,3,1],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back_hero.png"
+			},{
+				"path":"image/card/chap2/back_hero.png"
+			}],
+		},
+		{
+			"sn":"CyanDragon",
+			"name":"青龙使者",
+			"frontImages": [{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,4,1],
+			},{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,4,1],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back_hero.png"
+			},{
+				"path":"image/card/chap2/back_hero.png"
+			}],
+		},
+		{
+			"sn":"BrokenBladeKnight",
+			"name":"断刃骑士",
+			"frontImages": [{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,5,1],
+			},{
+				"path":"image/card/chap2/hero.png",
+				"locate":[7,2,5,1],
+			}],
+			"backImages": [{
+				"path":"image/card/chap2/back_hero.png"
+			},{
+				"path":"image/card/chap2/back_hero.png"
+			}],
+		},
 	],
 	actions:[{
 			"sn":"DispatchAction",
@@ -257,6 +465,20 @@
 	},{
 			"sn":"TakeSpecCardInHandAction",
 			"tip":"选择至多{0}张置入手牌"
+	},{
+			"sn":"DreamBuilderDrawCatAction",
+			"tip":"[梦兆] 摸到梦妖，是否展示？",
+			"tips":["展示摸到的梦妖，触发英雄技能[梦兆]"]
+	},{
+			"sn":"ShuffleAction",
+			"tip":"牌库洗牌"
+	},{
+			"sn":"DreamBuilderLandAction",
+			"tip":"[梦主] 令对手少补1或者抽牌结束后过牌4/4",
+			"tips":["少补1", "过牌4/4", "触发[梦主]，选择令对手"]
+	},{
+			"sn":"DrawCardAction",
+			"tips":["摸到梦妖，弃置所有手牌"]
 	}],
 	skills:[{
 			"sn":"StoreSelfSkill",

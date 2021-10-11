@@ -1,15 +1,32 @@
 package com.backinfile.card.model.actions;
 
+import java.util.function.Supplier;
+
+import com.backinfile.card.gen.GameMessageHandler.EGameLogType;
 import com.backinfile.card.model.Board.BoardState;
+import com.backinfile.card.model.cards.Chap2HeroCard.DreamBuilder;
 import com.backinfile.card.model.cards.MonsterCard.Cat;
 import com.backinfile.card.model.Human;
 
 public class DrawCardAction extends TriggerOnceAction {
-	public int number;
+	private Supplier<Integer> numberSupplier;
 
 	public DrawCardAction(Human human, int number) {
 		this.human = human;
 		this.number = number;
+	}
+
+	public DrawCardAction(Human human, Supplier<Integer> numberSupplier) {
+		this.human = human;
+		this.numberSupplier = numberSupplier;
+	}
+
+	@Override
+	public void init() {
+		if (numberSupplier != null) {
+			this.number = numberSupplier.get();
+		}
+		super.init();
 	}
 
 	@Override
@@ -38,10 +55,21 @@ public class DrawCardAction extends TriggerOnceAction {
 		human.handPile.add(card);
 		board.modifyCard(human.handPile);
 
-		if (card instanceof Cat && !card.oriHumanToken.equals(human.token)) {
-			addFirst(new DiscardCardAction(human, human.handPile));
+		if (board.state != BoardState.GamePrepare) {
+			// 摸到对手的梦妖
+			if (card instanceof Cat && !card.oriHumanToken.equals(human.token)) {
+				addFirst(new DiscardCardAction(human, human.handPile));
+				board.gameLog(human, EGameLogType.Action, actionString.tips[0]);
+			}
+
+			// 筑梦师摸到梦妖
+			if (human.getHeroCard() instanceof DreamBuilder && card instanceof Cat
+					&& card.oriHumanToken.equals(human.token)) {
+				addFirst(new DreamBuilderDrawCatAction(human, card));
+			}
 		}
 
+		// 记录回合开始阶段抽到的牌
 		if (board.state == BoardState.TurnStart) {
 			human.drawnCardsInTurnStart.add(card);
 		}

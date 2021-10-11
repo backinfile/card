@@ -12,6 +12,7 @@ import com.backinfile.card.model.cards.Chap2ActionCard.Harass;
 import com.backinfile.card.model.cards.Chap2ActionCard.Recall;
 import com.backinfile.card.model.cards.Chap2ActionCard.Ride;
 import com.backinfile.card.model.cards.Chap2HeroCard.Beekeeper;
+import com.backinfile.card.model.cards.Chap2HeroCard.DreamBuilder;
 import com.backinfile.card.model.cards.MonsterCard.Bee;
 import com.backinfile.card.model.cards.MonsterCard.Bird;
 import com.backinfile.card.model.cards.MonsterCard.Cat;
@@ -32,7 +33,7 @@ public class GameUtils {
 			DHumanInit humanInit = new DHumanInit();
 			humanInit.setControllerToken(LocalData.instance().token);
 			humanInit.setPlayerName(LocalData.instance().name);
-			humanInit.setHeroCard(Beekeeper.class.getSimpleName());
+			humanInit.setHeroCard(DreamBuilder.class.getSimpleName());
 			humanInit.setPileList(getStartPile());
 			boardInit.addHumanInits(humanInit);
 		}
@@ -106,7 +107,7 @@ public class GameUtils {
 		{
 			var cards = new DStartPileDataPair();
 			cards.setCard(Cat.class.getSimpleName());
-			cards.setCount(4);
+			cards.setCount(14);
 			startPile.add(cards);
 		}
 		return startPile;

@@ -1,5 +1,6 @@
 package com.backinfile.card.model.actions;
 
+import com.backinfile.card.gen.GameMessageHandler.EGameLogType;
 import com.backinfile.card.model.Human;
 
 public class ShuffleAction extends TriggerOnceAction {
@@ -11,6 +12,7 @@ public class ShuffleAction extends TriggerOnceAction {
 	@Override
 	public void run() {
 		this.human.drawPile.shuffle();
+		this.human.board.gameLog(human, EGameLogType.Action, actionString.tip);
 	}
 
 }

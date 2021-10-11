@@ -12,4 +12,9 @@ public class Chap2HeroCard extends HeroCard {
 			addSkill(new BeeKeeperActiveSkill());
 		}
 	}
+
+	public static class DreamBuilder extends Chap2HeroCard {
+		public DreamBuilder() {
+		}
+	}
 }

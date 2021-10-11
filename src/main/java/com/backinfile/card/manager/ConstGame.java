@@ -7,7 +7,7 @@ public class ConstGame {
 
 	// AI相关
 	public static final String AI_TOKEN = "ai";
-	public static long AI_WAIT_TIME = Time2.SEC;
+	public static long AI_WAIT_TIME = Time2.SEC * 2;
 	public static boolean AI_DO_NOTHING = false;
 	public static boolean AI_DO_STORE = false;
 

@@ -1,7 +1,9 @@
 package com.backinfile.card.model.actions;
 
+import com.backinfile.card.gen.GameMessageHandler.EGameLogType;
 import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
+import com.backinfile.card.model.cards.MonsterCard.Cat;
 import com.backinfile.card.server.humanOper.SelectCardOper;
 import com.backinfile.support.Utils;
 
@@ -31,6 +33,15 @@ public class TakeSpecCardInHandAction extends WaitAction {
 			board.removeCard(card);
 		}
 		human.handPile.addAll(selected);
+
+		// 摸到对手的梦妖
+		for (var card : selected) {
+			if (card instanceof Cat && !card.oriHumanToken.equals(human.token)) {
+				addFirst(new DiscardCardAction(human, human.handPile));
+				board.gameLog(human, EGameLogType.Action, actionString.tips[0]);
+			}
+		}
+
 		addFirst(new ArrangePileAction(human));
 		setDone();
 	}
