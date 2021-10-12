@@ -43,9 +43,9 @@ public class BoardLogScrollView extends BaseView {
 	public void addText(String text) {
 		boardLogTextArea.appendText("\n" + text);
 		boardLogTextArea.setPrefRows(boardLogTextArea.getLines());
-		scrollPane.scrollTo(0, 0, 0, 0);
 		scrollPane.updateVisualScroll();
 		scrollPane.layout();
+		scrollPane.scrollTo(0, 0, 0, 0);
 	}
 
 	public void clearLog() {
@@ -57,6 +57,8 @@ public class BoardLogScrollView extends BaseView {
 
 	@Override
 	public void act(float delta) {
+		super.act(delta);
+
 		if (!addLogQueue.isEmpty() && Time2.getCurMillis() >= timer) {
 			timer = Time2.getCurMillis() + 100;
 			addText(addLogQueue.pollFirst());
