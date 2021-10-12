@@ -2,6 +2,7 @@ package com.backinfile.card.model.cards;
 
 import com.backinfile.card.model.skills.BeeKeeperActiveSkill;
 import com.backinfile.card.model.skills.SeaTalkerActiveSkill;
+import com.backinfile.card.model.skills.WindSeekerSkill;
 
 public class Chap2HeroCard extends HeroCard {
 	public Chap2HeroCard() {
@@ -27,6 +28,12 @@ public class Chap2HeroCard extends HeroCard {
 
 	public static class HeartFire extends Chap2HeroCard {
 		public HeartFire() {
+		}
+	}
+
+	public static class WindSeeker extends Chap2HeroCard {
+		public WindSeeker() {
+			addSkill(new WindSeekerSkill());
 		}
 	}
 }

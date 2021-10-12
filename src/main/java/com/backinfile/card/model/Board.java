@@ -23,8 +23,11 @@ import com.backinfile.card.model.Skill.SkillDuration;
 import com.backinfile.card.model.Skill.SkillTrigger;
 import com.backinfile.card.model.actions.ChangeBoardStateAction;
 import com.backinfile.card.model.actions.DispatchAction;
+import com.backinfile.card.model.actions.WindSeekSkipAction;
 import com.backinfile.card.model.cards.ActionCard;
+import com.backinfile.card.model.cards.MonsterCard.Bird;
 import com.backinfile.card.model.skills.ActAsStoreSkill;
+import com.backinfile.card.model.skills.WindSeekerSkill;
 import com.backinfile.card.server.humanOper.InTurnActiveSkillOper;
 import com.backinfile.support.IAlive;
 import com.backinfile.support.Time2;
@@ -499,7 +502,7 @@ public class Board implements IAlive {
 	public final void applySkill(Skill skill) {
 		// 消耗行动点 计划卡不用消耗
 		var realCostAP = skill.getRealCostAP();
-		if (realCostAP > 0) {
+		if (realCostAP > 0) { // 跳过追风者技能时不用再扣行动力了
 			boolean isPlanCard = false;
 			if (skill.card != null) {
 				var slot = getCardSlotByCard(skill.card);
@@ -516,6 +519,25 @@ public class Board implements IAlive {
 				modifyBoardData();
 			}
 		}
+
+		// 追风者技能
+		if (skill.card instanceof ActionCard) {
+			var opponent = skill.human.getOpponent();
+			var windSeekerSkill = opponent.getHeroSkill(WindSeekerSkill.class);
+			if (windSeekerSkill != null) {
+				if (windSeekerSkill.triggerTimesLimit > 0) {
+					if (!skill.human.getAllHarassCard().filter(Bird.class).isEmpty()) {
+						addFirst(new WindSeekSkipAction(opponent, skill));
+						return;
+					}
+				}
+			}
+		}
+
+		applySkillNoAPCost(skill);
+	}
+
+	public void applySkillNoAPCost(Skill skill) {
 		// 消耗执行次数
 		if (skill.triggerTimesLimit > 0) {
 			skill.triggerTimesLimit--;

@@ -6,7 +6,6 @@ import com.backinfile.card.model.actions.UnsealAction;
 import com.backinfile.card.model.cards.MonsterCard.Whale;
 
 public class SeaTalkerActiveSkill extends Skill {
-
 	public SeaTalkerActiveSkill() {
 		setTriggerType(SkillDuration.Fixed, SkillTrigger.Active, SkillAura.Hero, 1);
 		marks.add(SkillMark.Unseal);

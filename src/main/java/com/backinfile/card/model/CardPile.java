@@ -124,6 +124,10 @@ public class CardPile implements Iterable<Card> {
 		return cardPile;
 	}
 
+	public Card getTop() {
+		return cards.getLast();
+	}
+
 	public Card pollTop() {
 		return cards.pollLast();
 	}

@@ -29,7 +29,7 @@ public abstract class Skill {
 	public SkillAura aura = SkillAura.Slot; // 可触发区域
 	public int triggerCostAP = 0; // 使用时需要消耗的行动点
 	public int triggerTimesLimit = -1; // 可触发次数，当恰好==0时不能触发, 回合结束时重置
-	public int triggerTimesLimitValue = -1; // 可触发次数的设置值
+	public int triggerTimesLimitSetValue = -1; // 可触发次数的设置值
 
 	// 移除时机控制
 	public SkillDuration duration = SkillDuration.Combat; // 失效方式
@@ -50,6 +50,7 @@ public abstract class Skill {
 		ReplaceHarass, // 当卡牌本身执行骚扰特效时，替换其技能
 		Defend, // 被攻击之前触发
 		Recall, // 被召回后触发
+		Passive, // 自定义被动触发
 	}
 
 	// 生效地点
@@ -100,7 +101,7 @@ public abstract class Skill {
 		this.aura = aura;
 		this.triggerCostAP = cost;
 		this.triggerTimesLimit = limit;
-		this.triggerTimesLimitValue = limit;
+		this.triggerTimesLimitSetValue = limit;
 	}
 
 	public void setTriggerType(SkillDuration duration, SkillTrigger trigger, SkillAura aura, int cost) {

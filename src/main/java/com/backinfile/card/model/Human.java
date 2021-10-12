@@ -121,11 +121,11 @@ public class Human extends SkillCaster {
 
 		// 重置技能计数
 		for (var skill : getSkillList()) {
-			skill.triggerTimesLimit = skill.triggerTimesLimitValue;
+			skill.triggerTimesLimit = skill.triggerTimesLimitSetValue;
 		}
 		for (var card : getAllCards()) {
 			for (var skill : card.getSkillList()) {
-				skill.triggerTimesLimit = skill.triggerTimesLimitValue;
+				skill.triggerTimesLimit = skill.triggerTimesLimitSetValue;
 			}
 		}
 
@@ -432,6 +432,16 @@ public class Human extends SkillCaster {
 			}
 		}
 		return false;
+	}
+
+	public Skill getHeroSkill(Class<? extends Skill> clazz) {
+		for (var card : heroPile) {
+			var skill = card.getSkill(clazz);
+			if (skill != null) {
+				return skill;
+			}
+		}
+		return null;
 	}
 
 	public Card getHeroCard() {

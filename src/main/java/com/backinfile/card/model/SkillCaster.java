@@ -42,7 +42,7 @@ public abstract class SkillCaster {
 	@SuppressWarnings("unchecked")
 	public <T extends Skill> T getSkill(Class<T> clazz) {
 		for (var skill : skills) {
-			if (skill.getClass() == clazz) {
+			if (clazz.isInstance(skill)) {
 				return (T) skill;
 			}
 		}

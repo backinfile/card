@@ -12,8 +12,7 @@ import com.backinfile.card.model.cards.Chap2ActionCard.Harass;
 import com.backinfile.card.model.cards.Chap2ActionCard.Recall;
 import com.backinfile.card.model.cards.Chap2ActionCard.Ride;
 import com.backinfile.card.model.cards.Chap2HeroCard.Beekeeper;
-import com.backinfile.card.model.cards.Chap2HeroCard.HeartFire;
-import com.backinfile.card.model.cards.Chap2HeroCard.SeaTalker;
+import com.backinfile.card.model.cards.Chap2HeroCard.WindSeeker;
 import com.backinfile.card.model.cards.MonsterCard.Bee;
 import com.backinfile.card.model.cards.MonsterCard.Bird;
 import com.backinfile.card.model.cards.MonsterCard.Cat;
@@ -34,7 +33,7 @@ public class GameUtils {
 			DHumanInit humanInit = new DHumanInit();
 			humanInit.setControllerToken(LocalData.instance().token);
 			humanInit.setPlayerName(LocalData.instance().name);
-			humanInit.setHeroCard(HeartFire.class.getSimpleName());
+			humanInit.setHeroCard(WindSeeker.class.getSimpleName());
 			humanInit.setPileList(getStartPile());
 			boardInit.addHumanInits(humanInit);
 		}

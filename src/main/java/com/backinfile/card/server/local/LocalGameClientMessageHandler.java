@@ -10,6 +10,7 @@ import com.backinfile.card.gen.GameMessageHandler.SCSelectCards;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectConfirm;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectEmptySlot;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectSkillToActive;
+import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.view.stage.GameStage;
 import com.backinfile.card.view.viewActions.ConfirmViewAction;
 import com.backinfile.card.view.viewActions.MoveCardViewAction;
@@ -70,9 +71,23 @@ public class LocalGameClientMessageHandler extends GameMessageHandler.DSyncListe
 
 	@Override
 	public void onMessage(SCGameLog data) {
-		String log = "[" + data.getType().name().toUpperCase() + "]\n";
+		String log = "[" + getTypeName(data.getType()) + "]\n";
 		log += data.getPlayerName();
 		log += data.getLog();
 		gameStage.boardView.boardLogScrollView.addLog(log);
+	}
+
+	private String getTypeName(EGameLogType type) {
+		switch (type) {
+		case Action:
+			return LocalString.getUIString("BoardLogic").strs[8];
+		case Skill:
+			return LocalString.getUIString("BoardLogic").strs[7];
+		case Turn:
+			return LocalString.getUIString("BoardLogic").strs[6];
+		default:
+			break;
+		}
+		return type.name().toUpperCase();
 	}
 }
