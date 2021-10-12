@@ -35,6 +35,9 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		public void onMessage(DClientPlayerInfo data) {
 		}
 		
+		public void onMessage(SCGameOver data) {
+		}
+		
 		public void onMessage(DPlayer data) {
 		}
 		
@@ -133,6 +136,11 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		case DClientPlayerInfo.TypeName:
 			for (var listener : listeners) {
 				listener.onMessage(DClientPlayerInfo.parseJSONObject(jsonObject));
+			}
+			break;
+		case SCGameOver.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(SCGameOver.parseJSONObject(jsonObject));
 			}
 			break;
 		case DPlayer.TypeName:
@@ -265,6 +273,8 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			return new DCardInfo();
 		case DClientPlayerInfo.TypeName:
 			return new DClientPlayerInfo();
+		case SCGameOver.TypeName:
+			return new SCGameOver();
 		case DPlayer.TypeName:
 			return new DPlayer();
 		case CSSelectConfirm.TypeName:
@@ -877,6 +887,81 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			var _value = new DClientPlayerInfo();
 			_value.token = this.token;
 			_value.name = this.name;
+			return _value;
+		}
+	}
+	
+	/**
+	 * 通知客户端游戏结束
+	 */
+	public static class SCGameOver extends DSyncBase {
+		public static final String TypeName = "SCGameOver";
+		
+
+		public static class K {
+		}
+
+		public SCGameOver() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+		}
+		
+
+		static SCGameOver parseJSONObject(JSONObject jsonObject) {
+			var _value = new SCGameOver();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<SCGameOver> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<SCGameOver>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new SCGameOver();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof SCGameOver)) {
+				return false;
+			}
+			var _value = (SCGameOver) obj;
+			return true;
+		}
+		
+		public SCGameOver copy() {
+			var _value = new SCGameOver();
+			return _value;
+		}
+		
+		public SCGameOver deepCopy() {
+			var _value = new SCGameOver();
 			return _value;
 		}
 	}

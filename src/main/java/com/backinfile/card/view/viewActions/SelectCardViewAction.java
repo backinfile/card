@@ -100,7 +100,7 @@ public class SelectCardViewAction extends ViewAction {
 			// 出现确认按钮
 			var buttonInfo = new ButtonInfo();
 			buttonInfo.index = 0;
-			buttonInfo.text = LocalString.getUIString("boardUIView").strs[4];
+			buttonInfo.text = LocalString.getUIString("boardUIView").strs[selected.isEmpty() ? 2 : 4];
 			buttonInfo.callback = this::onSelectOver;
 			gameStage.buttonsView.setButtonInfos(buttonInfo);
 		} else {

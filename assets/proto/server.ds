@@ -187,6 +187,10 @@ struct CSSelectConfirm {
 	bool confirm; // 确认
 }
 
+// 通知客户端游戏结束
+struct SCGameOver {
+}
+
 // 推送游戏日志
 struct SCGameLog {
 	String playerName;

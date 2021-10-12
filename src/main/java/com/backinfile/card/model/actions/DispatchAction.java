@@ -18,6 +18,14 @@ public class DispatchAction extends WaitAction {
 
 	@Override
 	public void init() {
+		CardPile drawnAll = new CardPile();
+		for (var human : humans) {
+			var drawn = human.drawPile.pollTop(5);
+			human.handPile.addAll(drawn);
+			drawnAll.addAll(drawn);
+		}
+		board.modifyCard(drawnAll);
+
 		for (var human : humans) {
 			var humanOper = new SelectCardOper(human.handPile, actionString.tip, 0, human.handPile.size());
 			humanOper.setDetachCallback(() -> {
@@ -36,8 +44,13 @@ public class DispatchAction extends WaitAction {
 			}
 			humans.remove(human);
 			if (!cardPile.isEmpty()) {
-				addFirst(new PutbackHandCardAction(human, cardPile));
-				addFirst(new DrawCardAction(human, cardPile.size()));
+				var drawn = human.drawPile.pollTop(cardPile.size());
+				human.handPile.addAll(drawn);
+				board.modifyCard(human.handPile);
+				human.handPile.removeAll(cardPile);
+				human.drawPile.addAll(cardPile);
+				board.modifyCard(human.drawPile, human.handPile);
+				addFirst(new ShuffleAction(human));
 			}
 		}
 

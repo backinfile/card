@@ -103,7 +103,6 @@ public class Human extends SkillCaster {
 	 * 这个函数执行时，保证当前没有action正在执行中，可以直接设置一些值
 	 */
 	public final void onGameStart() {
-		addLast(new DrawCardAction(this, 5));
 		Log.game.info("player {} gameStart", token);
 	}
 
@@ -185,8 +184,8 @@ public class Human extends SkillCaster {
 		// 将所有储备准备完成
 		for (var slot : cardSlotMap.values()) {
 			slot.ready = true;
-			board.modifyCard(slot.getAllCards());
 		}
+		board.modifyCard(getAllCardInSlot());
 
 		// 先手第一回合不放置威慑
 		if (board.turnCount == 1 && this == board.starter) {
@@ -265,6 +264,14 @@ public class Human extends SkillCaster {
 		list.add(handPile);
 		list.add(threatenPile);
 		return list;
+	}
+
+	public CardPile getAllCardInSlot() {
+		CardPile cardPile = new CardPile();
+		for (var slot : cardSlotMap.values()) {
+			cardPile.addAll(slot.getAllCards());
+		}
+		return cardPile;
 	}
 
 	/**

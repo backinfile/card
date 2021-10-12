@@ -140,6 +140,14 @@ public class CardPile implements Iterable<Card> {
 		return cardPile;
 	}
 
+	public CardPile pollTop(int n) {
+		var cardPile = getTop(n);
+		for (var card : cardPile) {
+			remove(card);
+		}
+		return cardPile;
+	}
+
 	public CardPile getRandom(int n) {
 		CardPile copy = new CardPile(this);
 		CardPile polls = new CardPile();

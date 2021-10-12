@@ -7,6 +7,7 @@ import com.backinfile.card.model.Human;
 import com.backinfile.card.model.cards.Chap2HeroCard.HeartFire;
 import com.backinfile.card.model.cards.MonsterCard.Dear;
 import com.backinfile.card.server.humanOper.SelectCardOper;
+import com.backinfile.support.Utils;
 
 public class FlipStoreAction extends WaitAction {
 	private Human targetHuman;
@@ -42,7 +43,7 @@ public class FlipStoreAction extends WaitAction {
 		}
 		dears.remove(flipCard);
 
-		var humanOper = new SelectCardOper(dears, actionString.tips[0], 0, 1);
+		var humanOper = new SelectCardOper(dears, Utils.format(actionString.tips[0], flipCard.cardString.name), 0, 1);
 		humanOper.setDetachCallback(() -> {
 			if (!humanOper.getSelectedPile().isEmpty()) {
 				onReplaceFlipCard(humanOper.getSelectedPile().getAny());

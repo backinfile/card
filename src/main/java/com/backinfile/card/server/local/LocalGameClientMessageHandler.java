@@ -71,7 +71,7 @@ public class LocalGameClientMessageHandler extends GameMessageHandler.DSyncListe
 
 	@Override
 	public void onMessage(SCGameLog data) {
-		String log = "[" + getTypeName(data.getType()) + "]\n";
+		String log = "#" + getTypeName(data.getType()) + "#\n";
 		log += data.getPlayerName();
 		log += data.getLog();
 		gameStage.boardView.boardLogScrollView.addLog(log);

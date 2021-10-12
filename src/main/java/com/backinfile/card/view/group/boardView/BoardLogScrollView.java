@@ -1,8 +1,11 @@
 package com.backinfile.card.view.group.boardView;
 
+import java.util.LinkedList;
+
 import com.backinfile.card.manager.Res;
 import com.backinfile.card.view.group.BaseView;
 import com.backinfile.card.view.stage.GameStage;
+import com.backinfile.support.Time2;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -13,6 +16,8 @@ import com.badlogic.gdx.utils.Align;
 public class BoardLogScrollView extends BaseView {
 	private TextArea boardLogTextArea;
 	private ScrollPane scrollPane;
+	private LinkedList<String> addLogQueue = new LinkedList<>();
+	private long timer = 0;
 
 	public BoardLogScrollView(GameStage gameStage, float width, float height) {
 		super(gameStage, 0, 0);
@@ -32,7 +37,11 @@ public class BoardLogScrollView extends BaseView {
 	}
 
 	public void addLog(String log) {
-		boardLogTextArea.appendText("\n" + log);
+		addLogQueue.add(log);
+	}
+
+	public void addText(String text) {
+		boardLogTextArea.appendText("\n" + text);
 		boardLogTextArea.setPrefRows(boardLogTextArea.getLines());
 		scrollPane.scrollTo(0, 0, 0, 0);
 		scrollPane.updateVisualScroll();
@@ -40,9 +49,18 @@ public class BoardLogScrollView extends BaseView {
 	}
 
 	public void clearLog() {
+		addLogQueue.clear();
 		boardLogTextArea.setText("--------");
 		boardLogTextArea.setPrefRows(boardLogTextArea.getLines());
 		scrollPane.layout();
+	}
+
+	@Override
+	public void act(float delta) {
+		if (!addLogQueue.isEmpty() && Time2.getCurMillis() >= timer) {
+			timer = Time2.getCurMillis() + 100;
+			addText(addLogQueue.pollFirst());
+		}
 	}
 
 }

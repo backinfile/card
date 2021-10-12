@@ -2,11 +2,14 @@ package com.backinfile.card.model.actions;
 
 import java.util.stream.Collectors;
 
+import com.backinfile.card.gen.GameMessageHandler.EGameLogType;
 import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.gen.GameMessageHandler.ETargetSlotAimType;
 import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
+import com.backinfile.card.model.cards.Chap2HeroCard.DragonKnight;
+import com.backinfile.card.model.cards.MonsterCard.Dragon;
 import com.backinfile.card.server.humanOper.SelectCardOper;
 import com.backinfile.card.server.humanOper.SelectEmptySlotOper;
 
@@ -67,7 +70,15 @@ public class StoreCardAction extends WaitAction {
 		}
 	}
 
+	private void storeBefore() {
+		if (card instanceof Dragon && human.isHero(DragonKnight.class)) {
+			addLast(new DragonKnightStoreDragonAction(human));
+		}
+	}
+
 	private void replaceCard(Card toReplace) {
+		storeBefore();
+
 		board.removeCard(card);
 		var slot = human.getCardSlotByCard(toReplace);
 		slot.remove(toReplace);
@@ -79,6 +90,8 @@ public class StoreCardAction extends WaitAction {
 	}
 
 	private void selectIndex(int index) {
+		storeBefore();
+
 		board.removeCard(card);
 		var slot = human.cardSlotMap.get(index);
 		slot.getPile(ESlotType.Store).add(card);

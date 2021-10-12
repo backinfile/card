@@ -40,4 +40,9 @@ public class Chap2HeroCard extends HeroCard {
 			addSkill(new WindSeekerSkill());
 		}
 	}
+
+	public static class DragonKnight extends Chap2HeroCard {
+		public DragonKnight() {
+		}
+	}
 }

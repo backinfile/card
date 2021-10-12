@@ -7,6 +7,7 @@ import com.backinfile.card.model.Human;
 import com.backinfile.card.model.cards.Chap2HeroCard.HeartFire;
 import com.backinfile.card.model.cards.MonsterCard.Dear;
 import com.backinfile.card.server.humanOper.SelectCardOper;
+import com.backinfile.support.Utils;
 
 public class BreakAction extends WaitAction {
 	private Card breakCard;
@@ -27,7 +28,7 @@ public class BreakAction extends WaitAction {
 		}
 		dears.remove(breakCard);
 
-		var humanOper = new SelectCardOper(dears, actionString.tip, 0, 1);
+		var humanOper = new SelectCardOper(dears, Utils.format(actionString.tip, breakCard.cardString.name), 0, 1);
 		humanOper.setDetachCallback(() -> {
 			if (!humanOper.getSelectedPile().isEmpty()) {
 				onBreak(humanOper.getSelectedPile().getAny());

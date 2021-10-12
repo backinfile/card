@@ -15,6 +15,7 @@ import com.backinfile.card.gen.GameMessageHandler.DPileNumber;
 import com.backinfile.card.gen.GameMessageHandler.EGameLogType;
 import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.gen.GameMessageHandler.SCGameLog;
+import com.backinfile.card.gen.GameMessageHandler.SCGameOver;
 import com.backinfile.card.manager.ConstGame;
 import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.manager.LocalString.LocalUIString;
@@ -41,7 +42,8 @@ public class Board implements IAlive {
 	public int playerTurnCount; // 玩家轮次之和
 
 	public Human starter; // 先手玩家
-	public Human winner = null; // 获胜者
+	public boolean gameOver = false; // 游戏结束
+	public List<Human> failedHumans = new ArrayList<>();
 	public Set<BoardMode> modes = new HashSet<>();
 
 	public BoardState state = BoardState.None;
@@ -115,8 +117,39 @@ public class Board implements IAlive {
 	@Override
 	public void pulse() {
 
-		if (winner != null) {
+		if (gameOver) {
 			return;
+		}
+
+		// 检查胜利，失败条件
+		{
+			for (var human : humans) {
+				var failed = true;
+				for (var slot : human.cardSlotMap.values()) {
+					if (!slot.asPlanSlot) {
+						if (slot.getPile(ESlotType.Seal).isEmpty()) {
+							failed = false;
+							break;
+						}
+					}
+				}
+				if (failed) {
+					failedHumans.add(human);
+					gameLog(human, EGameLogType.Turn, uiString.strs[9]);
+				}
+			}
+			if (!failedHumans.isEmpty()) {
+				gameOver = true;
+				for (var human : humans) {
+					if (!failedHumans.contains(human)) {
+						gameLog(human, EGameLogType.Turn, uiString.strs[10]);
+					}
+				}
+				for (var human : humans) {
+					human.sendMessage(new SCGameOver());
+				}
+				return;
+			}
 		}
 
 		// 处理玩家操作

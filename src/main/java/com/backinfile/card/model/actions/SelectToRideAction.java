@@ -1,11 +1,14 @@
 package com.backinfile.card.model.actions;
 
+import com.backinfile.card.gen.GameMessageHandler.EGameLogType;
 import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.CardSlot;
 import com.backinfile.card.model.Human;
+import com.backinfile.card.model.cards.Chap2HeroCard.DragonKnight;
 import com.backinfile.card.model.cards.MonsterCard;
+import com.backinfile.card.model.cards.MonsterCard.Dragon;
 import com.backinfile.card.model.cards.MonsterCard.MonsterSkillType;
 import com.backinfile.card.server.humanOper.SelectCardOper;
 
@@ -33,6 +36,8 @@ public class SelectToRideAction extends WaitAction {
 	}
 
 	private void onSelected(Card store) {
+		addFirst(new ArrangePileAction(human));
+
 		// 卸掉所有骑乘牌
 		var discards = new CardPile();
 		for (var cardSlot : human.cardSlotMap.values()) {
@@ -51,6 +56,12 @@ public class SelectToRideAction extends WaitAction {
 		// 如果骑上的是计划卡，将其转移到储备区
 		slot.getPile(ESlotType.Store).addAll(slot.getPile(ESlotType.Plan));
 		slot.getPile(ESlotType.Plan).clear();
+
+		// 龙骑士技能
+		if (store instanceof Dragon && human.isHero(DragonKnight.class)) {
+			addLast(new ReturnOpponentStoreOrMarkAction(human));
+			board.gameLog(human, EGameLogType.Skill, actionString.tips[0]);
+		}
 	}
 
 	private boolean ridable(Card card) {
