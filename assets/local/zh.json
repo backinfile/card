@@ -494,6 +494,9 @@
 	},{
 			"sn":"WindSeekSkipAction",
 			"tips":["对手即将打出{0}，是否发动[识破]?", "猜测牌库顶牌", "行动牌", "储备牌","发动[识破]", "牌库顶牌是：{0}","发动[识破]成功", "发动[识破]失败"]
+	},{
+			"sn":"BirdRideOutTurnAction",
+			"tip":"正在被攻击，是否发动[追风]?"
 	}],
 	skills:[{
 			"sn":"StoreSelfSkill",

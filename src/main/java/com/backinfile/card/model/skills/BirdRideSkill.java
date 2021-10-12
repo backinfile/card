@@ -56,7 +56,7 @@ public class BirdRideSkill extends Skill {
 			human.board.gameLog(human, EGameLogType.Action, skillString.tips[0]);
 		}
 
-		addLast(new SelectToMarkStoreAction(human, selectFrom));
+		addFirst(new SelectToMarkStoreAction(human, selectFrom));
 	}
 
 }

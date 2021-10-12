@@ -9,7 +9,7 @@ import com.backinfile.card.model.cards.MonsterCard.Cat;
 
 public class RecallSkill extends Skill {
 	public RecallSkill() {
-		setTriggerType(SkillDuration.Fixed, SkillTrigger.Defend, SkillAura.AnyWhere, 0);
+		setTriggerType(SkillDuration.Fixed, SkillTrigger.Defend, SkillAura.Hero, 0);
 	}
 
 	@Override

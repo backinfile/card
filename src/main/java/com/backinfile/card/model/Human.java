@@ -31,7 +31,6 @@ import com.backinfile.card.model.skills.ActAsStoreSkill;
 import com.backinfile.card.model.skills.DrawCardSkill;
 import com.backinfile.card.model.skills.Pass2CardSkill;
 import com.backinfile.card.model.skills.PlanSkill;
-import com.backinfile.card.model.skills.RecallSkill;
 import com.backinfile.card.model.skills.ThreatenToAPSkill;
 import com.backinfile.card.model.skills.TurnEndSkill;
 import com.backinfile.card.server.humanOper.HumanOper;
@@ -94,7 +93,6 @@ public class Human extends SkillCaster {
 		addSkill(new DrawCardSkill());
 		addSkill(new Pass2CardSkill());
 		addSkill(new TurnEndSkill());
-		addSkill(new RecallSkill());
 
 		if (board.modes.contains(BoardMode.Threaten)) {
 			addSkill(new ThreatenToAPSkill());
