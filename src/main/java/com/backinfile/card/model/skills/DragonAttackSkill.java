@@ -14,7 +14,7 @@ public class DragonAttackSkill extends Skill {
 	public boolean triggerable() {
 		return !human.getOpponent().getAllStoreInSlot(false, false, false, true).isEmpty();
 	}
-
+	
 	@Override
 	public void apply() {
 		addFirst(new DiscardCardAction(human, card));

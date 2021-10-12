@@ -3,6 +3,8 @@ package com.backinfile.card.model.skills;
 import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.actions.AttackAction;
+import com.backinfile.card.model.actions.HeartFirePassive1Action;
+import com.backinfile.card.model.cards.Chap2HeroCard.HeartFire;
 
 public class DearAutoReleaseSkill extends Skill {
 	public DearAutoReleaseSkill() {
@@ -26,5 +28,9 @@ public class DearAutoReleaseSkill extends Skill {
 	@Override
 	public void apply() {
 		addLast(new AttackAction(human, card, human.getOpponent()));
+
+		if (human.isHero(HeartFire.class)) {
+			addLast(new HeartFirePassive1Action(human));
+		}
 	}
 }

@@ -4,6 +4,7 @@ import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
+import com.backinfile.card.model.cards.Chap2HeroCard.HeartFire;
 import com.backinfile.card.model.cards.MonsterCard.Dear;
 import com.backinfile.card.server.humanOper.SelectCardOper;
 
@@ -30,6 +31,11 @@ public class BreakAction extends WaitAction {
 		humanOper.setDetachCallback(() -> {
 			if (!humanOper.getSelectedPile().isEmpty()) {
 				onBreak(humanOper.getSelectedPile().getAny());
+
+				// 焚心之火技能
+				if (human.getOpponent().isHero(HeartFire.class)) {
+					addLast(new HeartFirePassive1Action(human.getOpponent()));
+				}
 			} else {
 				onBreak(breakCard);
 			}

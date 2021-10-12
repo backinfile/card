@@ -482,6 +482,15 @@
 	},{
 			"sn":"DiscardThreatenAction",
 			"tips":["弃置{0}张威慑"]
+	},{
+			"sn":"HeartFirePassive1Action",
+			"tips":["触发[舍得]"]
+	},{
+			"sn":"HeartFirePassive2Action",
+			"tips":["触发[释然]"]
+	},{
+			"sn":"RemoveOpponentStoreOrMarkAction",
+			"tips":["移除对手一张储备或标记"]
 	}],
 	skills:[{
 			"sn":"StoreSelfSkill",
@@ -576,6 +585,10 @@
 			"sn":"ThreatenToAPSkill",
 			"name":"弃置威慑",
 			"tip":"弃置威慑"
+	},{
+			"sn":"DragonAttackSkill",
+			"name":"吐息",
+			"tip":"吐息"
 	}],
 	targets:[],
 	ui:[{

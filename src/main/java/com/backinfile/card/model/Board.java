@@ -509,7 +509,9 @@ public class Board implements IAlive {
 					}
 				}
 			}
-			if (!isPlanCard) {
+			if (isPlanCard && skill.aura == SkillAura.Hand) {
+				// 从计划区打出行动，不消耗行动力
+			} else {
 				skill.human.actionPoint = Math.max(0, skill.human.actionPoint - realCostAP);
 				modifyBoardData();
 			}

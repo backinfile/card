@@ -24,4 +24,9 @@ public class Chap2HeroCard extends HeroCard {
 			addSkill(new SeaTalkerActiveSkill());
 		}
 	}
+
+	public static class HeartFire extends Chap2HeroCard {
+		public HeartFire() {
+		}
+	}
 }
