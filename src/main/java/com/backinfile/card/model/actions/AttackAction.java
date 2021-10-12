@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.backinfile.card.gen.GameMessageHandler.EGameLogType;
 import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.gen.GameMessageHandler.ETargetSlotAimType;
 import com.backinfile.card.model.Card;
@@ -43,6 +44,7 @@ public class AttackAction extends WaitAction {
 	@Override
 	public void init() {
 		setTemporaryDone(false);
+		board.gameLog(human, EGameLogType.Action, actionString.tips[2], card.cardString.name);
 
 		// 有释放特效
 		if (withAttackEffect) {
@@ -103,6 +105,8 @@ public class AttackAction extends WaitAction {
 			}
 		}
 
+		// 正式开始释放
+		board.gameLog(human, EGameLogType.Action, actionString.tips[3], card.cardString.name);
 		var emptySlots = targetHuman.getEmptySlots(true);
 		if (!emptySlots.isEmpty()) {
 			// 有空位，直接侵占上去

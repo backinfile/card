@@ -134,8 +134,7 @@ public abstract class Skill {
 				realCost++;
 			}
 		} else if (marks.contains(SkillMark.Unseal)) {
-			if (human.getOpponent().getHeroCard() instanceof Beekeeper
-					&& !human.getAllHarassCard().filter(Bee.class).isEmpty()) {
+			if (human.getOpponent().isHero(Beekeeper.class) && !human.getAllHarassCard().filter(Bee.class).isEmpty()) {
 				realCost++;
 			}
 		}

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 import com.backinfile.card.gen.GameMessageHandler;
 import com.backinfile.card.gen.GameMessageHandler.DHumanInit;
@@ -25,6 +24,7 @@ import com.backinfile.card.model.actions.DreamBuilderLandAction;
 import com.backinfile.card.model.actions.RestoreActionNumberAction;
 import com.backinfile.card.model.actions.SaveThreatenAction;
 import com.backinfile.card.model.cards.Chap2HeroCard.DreamBuilder;
+import com.backinfile.card.model.cards.HeroCard;
 import com.backinfile.card.model.cards.MonsterCard.Bird;
 import com.backinfile.card.model.cards.MonsterCard.Cat;
 import com.backinfile.card.model.skills.ActAsStoreSkill;
@@ -147,7 +147,7 @@ public class Human extends SkillCaster {
 			}
 		}
 		// 如果被梦主的梦妖骚扰了
-		if (getOpponent().getHeroCard() instanceof DreamBuilder && !getAllHarassCard().filter(Cat.class).isEmpty()) {
+		if (getOpponent().isHero(DreamBuilder.class) && !getAllHarassCard().filter(Cat.class).isEmpty()) {
 			addLast(new DreamBuilderLandAction(getOpponent()));
 		}
 		addLast(new DrawCardAction(this, () -> turnStartDrawNumber));
@@ -423,6 +423,15 @@ public class Human extends SkillCaster {
 			}
 		}
 		return null;
+	}
+
+	public boolean isHero(Class<? extends HeroCard> clazz) {
+		for (var card : heroPile) {
+			if (clazz.isInstance(card)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public Card getHeroCard() {

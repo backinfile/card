@@ -411,7 +411,7 @@
 			"tips":["选择要释放的储备", "选择要特效释放的储备", "放弃释放"]
 	},{
 			"sn":"AttackAction",
-			"tips":["侵占一个储备位","选择一张被击破"]
+			"tips":["侵占一个储备位","选择一张被击破", "准备释放[{0}]", "释放[{0}]"]
 	},{
 			"sn":"SelectToDiscardHandAction",
 			"tip":"选择{0}张手牌弃置"
@@ -479,6 +479,9 @@
 	},{
 			"sn":"DrawCardAction",
 			"tips":["摸到梦妖，弃置所有手牌"]
+	},{
+			"sn":"DiscardThreatenAction",
+			"tips":["弃置{0}张威慑"]
 	}],
 	skills:[{
 			"sn":"StoreSelfSkill",
@@ -565,6 +568,14 @@
 			"sn":"SeaTalkerActiveSkill",
 			"name":"海言",
 			"tip":"海言"
+	},{
+			"sn":"CatHarassSkill",
+			"name":"识梦",
+			"tip":"识梦"
+	},{
+			"sn":"ThreatenToAPSkill",
+			"name":"弃置威慑",
+			"tip":"弃置威慑"
 	}],
 	targets:[],
 	ui:[{

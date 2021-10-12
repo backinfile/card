@@ -44,7 +44,7 @@ public class WhaleRideSkill extends Skill {
 		addLast(new SelectToDiscardHandAction(human, 1, c -> c instanceof ActionCard));
 		addLast(new UnsealAction(human, 1));
 
-		if (human.getHeroCard() instanceof SeaTalker) {
+		if (human.isHero(SeaTalker.class)) {
 			addLast(new TakeSpecCardInHandAction(human, this::toSelect, 0, 1));
 		}
 	}

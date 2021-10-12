@@ -63,8 +63,7 @@ public class DrawCardAction extends TriggerOnceAction {
 			}
 
 			// 筑梦师摸到梦妖
-			if (human.getHeroCard() instanceof DreamBuilder && card instanceof Cat
-					&& card.oriHumanToken.equals(human.token)) {
+			if (human.isHero(DreamBuilder.class) && card instanceof Cat && card.oriHumanToken.equals(human.token)) {
 				addFirst(new DreamBuilderDrawCatAction(human, card));
 			}
 		}
