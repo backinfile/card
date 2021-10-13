@@ -2,7 +2,6 @@ package com.backinfile.card.model.actions;
 
 import java.util.stream.Collectors;
 
-import com.backinfile.card.gen.GameMessageHandler.EGameLogType;
 import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.gen.GameMessageHandler.ETargetSlotAimType;
 import com.backinfile.card.model.Card;

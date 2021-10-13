@@ -38,6 +38,9 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		public void onMessage(SCGameOver data) {
 		}
 		
+		public void onMessage(CSSelectOption data) {
+		}
+		
 		public void onMessage(DPlayer data) {
 		}
 		
@@ -54,6 +57,9 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 		
 		public void onMessage(SCSelectEmptySlot data) {
+		}
+		
+		public void onMessage(SCSelectOption data) {
 		}
 		
 		public void onMessage(DRoom data) {
@@ -143,6 +149,11 @@ public class GameMessageHandler extends DSyncBaseHandler {
 				listener.onMessage(SCGameOver.parseJSONObject(jsonObject));
 			}
 			break;
+		case CSSelectOption.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(CSSelectOption.parseJSONObject(jsonObject));
+			}
+			break;
 		case DPlayer.TypeName:
 			for (var listener : listeners) {
 				listener.onMessage(DPlayer.parseJSONObject(jsonObject));
@@ -171,6 +182,11 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		case SCSelectEmptySlot.TypeName:
 			for (var listener : listeners) {
 				listener.onMessage(SCSelectEmptySlot.parseJSONObject(jsonObject));
+			}
+			break;
+		case SCSelectOption.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(SCSelectOption.parseJSONObject(jsonObject));
 			}
 			break;
 		case DRoom.TypeName:
@@ -275,6 +291,8 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			return new DClientPlayerInfo();
 		case SCGameOver.TypeName:
 			return new SCGameOver();
+		case CSSelectOption.TypeName:
+			return new CSSelectOption();
 		case DPlayer.TypeName:
 			return new DPlayer();
 		case CSSelectConfirm.TypeName:
@@ -287,6 +305,8 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			return new CSCreateRoom();
 		case SCSelectEmptySlot.TypeName:
 			return new SCSelectEmptySlot();
+		case SCSelectOption.TypeName:
+			return new SCSelectOption();
 		case DRoom.TypeName:
 			return new DRoom();
 		case DTargetSelect.TypeName:
@@ -962,6 +982,96 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		
 		public SCGameOver deepCopy() {
 			var _value = new SCGameOver();
+			return _value;
+		}
+	}
+	
+	public static class CSSelectOption extends DSyncBase {
+		public static final String TypeName = "CSSelectOption";
+		
+		private int index;
+
+		public static class K {
+			public static final String index = "index";
+		}
+
+		public CSSelectOption() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			index = 0;
+		}
+		
+		public int getIndex() {
+			return index;
+		}
+		
+		public void setIndex(int index) {
+			this.index = index;
+		}
+		
+
+		static CSSelectOption parseJSONObject(JSONObject jsonObject) {
+			var _value = new CSSelectOption();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<CSSelectOption> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<CSSelectOption>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new CSSelectOption();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.index, index);
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+			index = jsonObject.getIntValue(K.index);
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof CSSelectOption)) {
+				return false;
+			}
+			var _value = (CSSelectOption) obj;
+			if (this.index != _value.index) {
+				return false;
+			}
+			return true;
+		}
+		
+		public CSSelectOption copy() {
+			var _value = new CSSelectOption();
+			_value.index = this.index;
+			return _value;
+		}
+		
+		public CSSelectOption deepCopy() {
+			var _value = new CSSelectOption();
+			_value.index = this.index;
 			return _value;
 		}
 	}
@@ -1784,6 +1894,134 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			_value.tip = this.tip;
 			_value.cancel = this.cancel;
 			_value.cancelTip = this.cancelTip;
+			return _value;
+		}
+	}
+	
+	/**
+	 * 通知客户端选择一项
+	 */
+	public static class SCSelectOption extends DSyncBase {
+		public static final String TypeName = "SCSelectOption";
+		
+		private String tip;
+		private List<String> options;
+
+		public static class K {
+			public static final String tip = "tip";
+			public static final String options = "options";
+		}
+
+		public SCSelectOption() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			tip = "";
+			options = new ArrayList<>();
+		}
+		
+		public String getTip() {
+			return tip;
+		}
+		
+		public void setTip(String tip) {
+			this.tip = tip;
+		}
+		
+		public int getOptionsCount() {
+			return this.options.size();
+		}
+		
+		public List<String> getOptionsList() {
+			return new ArrayList<>(options);
+		}
+		
+		public void setOptionsList(List<String> _value) {
+			this.options.clear();
+			this.options.addAll(_value);
+		}
+
+		public void addOptions(String _value) {
+			this.options.add(_value);
+		}
+		
+		public void addAllOptions(List<String> _value) {
+			this.options.addAll(_value);
+		}
+		
+		public void clearOptions() {
+			this.options.clear();
+		}
+		
+
+		static SCSelectOption parseJSONObject(JSONObject jsonObject) {
+			var _value = new SCSelectOption();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<SCSelectOption> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<SCSelectOption>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new SCSelectOption();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.tip, tip);
+			jsonObject.put(K.options, JSONObject.toJSONString(options));
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+			tip = jsonObject.getString(K.tip);
+			options = JSONObject.parseArray(jsonObject.getString(K.options), String.class);
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof SCSelectOption)) {
+				return false;
+			}
+			var _value = (SCSelectOption) obj;
+			if (!this.tip.equals(_value.tip)) {
+				return false;
+			}
+			if (!this.options.equals(_value.options)) {
+				return false;
+			}
+			return true;
+		}
+		
+		public SCSelectOption copy() {
+			var _value = new SCSelectOption();
+			_value.tip = this.tip;
+			_value.options = new ArrayList<>(this.options);
+			return _value;
+		}
+		
+		public SCSelectOption deepCopy() {
+			var _value = new SCSelectOption();
+			_value.tip = this.tip;
+			_value.options = new ArrayList<>(this.options);
 			return _value;
 		}
 	}

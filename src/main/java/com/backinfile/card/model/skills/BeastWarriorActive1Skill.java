@@ -7,7 +7,7 @@ import com.backinfile.card.model.actions.SaveMarkAction;
 public class BeastWarriorActive1Skill extends Skill {
 
 	public BeastWarriorActive1Skill() {
-		setTriggerType(SkillDuration.Fixed, SkillTrigger.Active, SkillAura.Hero, 0);
+		setTriggerType(SkillDuration.Fixed, SkillTrigger.Active, SkillAura.Hero, 0, 1);
 	}
 
 	@Override

@@ -187,6 +187,15 @@ struct CSSelectConfirm {
 	bool confirm; // 确认
 }
 
+// 通知客户端选择一项
+struct SCSelectOption {
+	String tip;
+	String[] options;
+}
+struct CSSelectOption {
+	int index;
+}
+
 // 通知客户端游戏结束
 struct SCGameOver {
 }

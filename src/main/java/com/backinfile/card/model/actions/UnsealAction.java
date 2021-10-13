@@ -4,7 +4,6 @@ import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
 import com.backinfile.card.server.humanOper.SelectCardOper;
-import com.backinfile.support.Utils;
 
 public class UnsealAction extends WaitAction {
 	public UnsealAction(Human human, int number) {
@@ -21,7 +20,7 @@ public class UnsealAction extends WaitAction {
 		}
 
 		// 转化为一次解封1张
-		var humanOper = new SelectCardOper(toUnseal, Utils.format(actionString.tip, number), 0, 1);
+		var humanOper = new SelectCardOper(toUnseal, actionString.tip, 0, 1);
 		humanOper.setDetachCallback(() -> {
 			if (!humanOper.getSelectedPile().isEmpty()) {
 				onUnseal(humanOper.getSelectedPile().getAny());

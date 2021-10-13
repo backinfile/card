@@ -1,6 +1,7 @@
 package com.backinfile.card.server.local;
 
 import com.backinfile.card.gen.GameMessageHandler;
+import com.backinfile.card.gen.GameMessageHandler.CSSelectOption;
 import com.backinfile.card.gen.GameMessageHandler.DBoardData;
 import com.backinfile.card.gen.GameMessageHandler.DBoardSetup;
 import com.backinfile.card.gen.GameMessageHandler.DCardInfoList;
@@ -9,6 +10,7 @@ import com.backinfile.card.gen.GameMessageHandler.SCGameLog;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectCards;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectConfirm;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectEmptySlot;
+import com.backinfile.card.gen.GameMessageHandler.SCSelectOption;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectSkillToActive;
 import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.view.stage.GameStage;
@@ -17,6 +19,7 @@ import com.backinfile.card.view.viewActions.MoveCardViewAction;
 import com.backinfile.card.view.viewActions.SelectCardSkillViewAction;
 import com.backinfile.card.view.viewActions.SelectCardViewAction;
 import com.backinfile.card.view.viewActions.SelectEmptySlotViewAction;
+import com.backinfile.card.view.viewActions.SelectOptionViewAction;
 import com.backinfile.card.view.viewActions.UpdateBoardDataViewAction;
 import com.backinfile.support.Log;
 
@@ -62,6 +65,11 @@ public class LocalGameClientMessageHandler extends GameMessageHandler.DSyncListe
 	@Override
 	public void onMessage(SCSelectEmptySlot data) {
 		gameStage.addViewAction(new SelectEmptySlotViewAction(data));
+	}
+
+	@Override
+	public void onMessage(SCSelectOption data) {
+		gameStage.addViewAction(new SelectOptionViewAction(data));
 	}
 
 	@Override

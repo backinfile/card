@@ -446,7 +446,7 @@
 			"tip":"[归海] 选择回手目标"
 	},{
 			"sn":"UnsealAction",
-			"tip":"至多解封{0}"
+			"tip":"选择解封目标"
 	},{
 			"sn":"FlipStoreAction",
 			"tip":"翻转1张储备",
@@ -495,13 +495,19 @@
 			"tips":["移除对手一张储备或标记", "回手对手一张储备或标记", "对手要移除你的{0}，可选择储备来代替", "对手要回手你的{0}，可选择储备来代替"]
 	},{
 			"sn":"WindSeekSkipAction",
-			"tips":["对手即将打出{0}，是否发动[识破]?", "猜测牌库顶牌", "行动牌", "储备牌","发动[识破]", "牌库顶牌是：{0}","发动[识破]成功", "发动[识破]失败"]
+			"tips":["对手即将打出{0}，是否发动[识破]?", "猜测牌库顶牌", "行动牌", "资源牌","发动[识破]", "牌库顶牌是：{0}","发动[识破]成功", "发动[识破]失败"]
 	},{
 			"sn":"BirdRideOutTurnAction",
 			"tip":"正在被攻击，是否发动[追风]?"
 	},{
 			"sn":"DragonKnightStoreDragonAction",
 			"tips":["触发[龙威]"]
+	},{
+			"sn":"BeastWarriorActive2Action",
+			"tips":["取消", "行动", "资源", "[魂印之力] 弃置标记"]
+	},{
+			"sn":"SaveMarkAction",
+			"tip":"选择一张作为标记"
 	}],
 	skills:[{
 			"sn":"StoreSelfSkill",
@@ -601,6 +607,14 @@
 			"sn":"DragonAttackSkill",
 			"name":"吐息",
 			"tip":"吐息"
+	},{
+			"sn":"BeastWarriorActive1Skill",
+			"name":"兽魂印记",
+			"tip":"兽魂印记"
+	},{
+			"sn":"BeastWarriorActive2Skill",
+			"name":"魂印之力",
+			"tip":"魂印之力"
 	}],
 	targets:[],
 	ui:[{

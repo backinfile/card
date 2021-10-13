@@ -15,7 +15,7 @@ public class BeastWarriorActive2Skill extends Skill {
 
 	@Override
 	public void apply() {
-		addLast(new BeastWarriorActive2Action()); 
+		addLast(new BeastWarriorActive2Action(human));
 	}
 
 }
