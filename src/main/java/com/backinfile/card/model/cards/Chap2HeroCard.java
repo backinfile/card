@@ -1,5 +1,7 @@
 package com.backinfile.card.model.cards;
 
+import com.backinfile.card.model.skills.BeastTalkerActive1Skill;
+import com.backinfile.card.model.skills.BeastTalkerActive2Skill;
 import com.backinfile.card.model.skills.BeastWarriorActive1Skill;
 import com.backinfile.card.model.skills.BeastWarriorActive2Skill;
 import com.backinfile.card.model.skills.BeeKeeperActiveSkill;
@@ -52,6 +54,13 @@ public class Chap2HeroCard extends HeroCard {
 		public BeastWarrior() {
 			addSkill(new BeastWarriorActive1Skill());
 			addSkill(new BeastWarriorActive2Skill());
+		}
+	}
+
+	public static class BeastTalker extends Chap2HeroCard {
+		public BeastTalker() {
+			addSkill(new BeastTalkerActive1Skill());
+			addSkill(new BeastTalkerActive2Skill());
 		}
 	}
 }

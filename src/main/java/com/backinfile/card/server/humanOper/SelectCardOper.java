@@ -1,8 +1,13 @@
 package com.backinfile.card.server.humanOper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.backinfile.card.gen.GameMessageHandler.CSSelectCards;
+import com.backinfile.card.gen.GameMessageHandler.DCombination;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectCards;
 import com.backinfile.card.model.CardPile;
+import com.backinfile.support.Utils;
 
 /**
  * 从 {@code #targetCardPile} 中选择n张不重复的牌
@@ -12,14 +17,26 @@ public class SelectCardOper extends HumanOper {
 	private int minNumber;
 	private int maxNumber;
 	private String tip = "";
+	private List<DCombination> combinations = new ArrayList<>();
 
 	private CardPile selectedPile = new CardPile(); // 已选择的牌
 
-	public SelectCardOper(CardPile targetCardPile, String tip, int minNumber, int maxNumber) {
+	public SelectCardOper(CardPile targetCardPile, String tip, int minNumber, int maxNumber,
+			List<DCombination> combinations) {
 		this.targetCardPile.addAll(targetCardPile);
 		this.tip = tip;
 		this.minNumber = minNumber;
 		this.maxNumber = maxNumber;
+		this.combinations.addAll(combinations);
+
+		if (!combinations.isEmpty()) {
+			this.targetCardPile = this.targetCardPile
+					.filter(c -> combinations.stream().anyMatch(com -> com.getIdListList().contains(c.id)));
+		}
+	}
+
+	public SelectCardOper(CardPile targetCardPile, String tip, int minNumber, int maxNumber) {
+		this(targetCardPile, tip, minNumber, maxNumber, new ArrayList<>());
 	}
 
 	public SelectCardOper(CardPile targetCardPile, String tip, int number) {
@@ -33,7 +50,12 @@ public class SelectCardOper extends HumanOper {
 
 	@Override
 	public void onAIAttach() {
-		selectedPile.addAll(targetCardPile.pollRandom(maxNumber));
+		if (!combinations.isEmpty()) {
+			var idList = combinations.get(Utils.nextInt(combinations.size())).getIdListList();
+			selectedPile.addAll(targetCardPile.filter(c -> idList.contains(c.id)));
+		} else {
+			selectedPile.addAll(targetCardPile.pollRandom(maxNumber));
+		}
 		setDone();
 	}
 
@@ -54,6 +76,7 @@ public class SelectCardOper extends HumanOper {
 		msg.setTip(tip);
 		msg.setMinNumber(minNumber);
 		msg.setMaxNumber(maxNumber);
+		msg.setCombinationsList(combinations);
 		human.sendMessage(msg);
 	}
 

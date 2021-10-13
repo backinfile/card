@@ -430,7 +430,7 @@
 			"tips":["选择一个储备进行骚扰", "选择骚扰目标"]
 	},{
 			"sn":"StoreCardAction",
-			"tips":["选择储备目标", "选择替换目标", "触发[龙威]"]
+			"tips":["选择{0}的储备位置", "选择{0}的储备位置", "触发[龙威]"]
 	},{
 			"sn":"SelectToStoreAction",
 			"tips":["选择1张储备", "选择1张快速储备"]
@@ -508,6 +508,12 @@
 	},{
 			"sn":"SaveMarkAction",
 			"tip":"选择一张作为标记"
+	},{
+			"sn":"BeastTalkerActive1Action",
+			"tip":"选择2张指令特效不重复的资源牌"
+	},{
+			"sn":"BeastTalkerActive2Action",
+			"tips":["选择1张展示", "展示了{0}", "选择1张快速储备上场"]
 	}],
 	skills:[{
 			"sn":"StoreSelfSkill",
@@ -615,6 +621,14 @@
 			"sn":"BeastWarriorActive2Skill",
 			"name":"魂印之力",
 			"tip":"魂印之力"
+	},{
+			"sn":"BeastTalkerActive1Skill",
+			"name":"通魂",
+			"tip":"通魂"
+	},{
+			"sn":"BeastTalkerActive2Skill",
+			"name":"魂语",
+			"tip":"魂语"
 	}],
 	targets:[],
 	ui:[{

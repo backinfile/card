@@ -11,6 +11,7 @@ import com.backinfile.card.model.cards.Chap2ActionCard.Attack;
 import com.backinfile.card.model.cards.Chap2ActionCard.Harass;
 import com.backinfile.card.model.cards.Chap2ActionCard.Recall;
 import com.backinfile.card.model.cards.Chap2ActionCard.Ride;
+import com.backinfile.card.model.cards.Chap2HeroCard.BeastTalker;
 import com.backinfile.card.model.cards.Chap2HeroCard.BeastWarrior;
 import com.backinfile.card.model.cards.Chap2HeroCard.Beekeeper;
 import com.backinfile.card.model.cards.MonsterCard.Bee;
@@ -33,7 +34,7 @@ public class GameUtils {
 			DHumanInit humanInit = new DHumanInit();
 			humanInit.setControllerToken(LocalData.instance().token);
 			humanInit.setPlayerName(LocalData.instance().name);
-			humanInit.setHeroCard(BeastWarrior.class.getSimpleName());
+			humanInit.setHeroCard(BeastTalker.class.getSimpleName());
 			humanInit.setPileList(getStartPile());
 			boardInit.addHumanInits(humanInit);
 		}

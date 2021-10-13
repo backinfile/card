@@ -11,6 +11,7 @@ import com.backinfile.card.model.cards.Chap2HeroCard.DragonKnight;
 import com.backinfile.card.model.cards.MonsterCard.Dragon;
 import com.backinfile.card.server.humanOper.SelectCardOper;
 import com.backinfile.card.server.humanOper.SelectEmptySlotOper;
+import com.backinfile.support.Utils;
 
 public class StoreCardAction extends WaitAction {
 	private boolean fast;
@@ -38,7 +39,7 @@ public class StoreCardAction extends WaitAction {
 		var emptySlots = human.getEmptySlots(false);
 		if (!emptySlots.isEmpty()) {
 			var humanOper = new SelectEmptySlotOper(emptySlots.stream().map(s -> s.index).collect(Collectors.toList()),
-					ETargetSlotAimType.Store, false, actionString.tips[0], true);
+					ETargetSlotAimType.Store, false, Utils.format(actionString.tips[0], card.cardString.name), true);
 			humanOper.setDetachCallback(() -> {
 				if (humanOper.getSelected() < 0) {
 					onCancel();
@@ -57,7 +58,8 @@ public class StoreCardAction extends WaitAction {
 				setDone();
 				return;
 			}
-			var humanOper = new SelectCardOper(toReplace, actionString.tips[1], cancel ? 0 : 1, 1);
+			var humanOper = new SelectCardOper(toReplace, Utils.format(actionString.tips[1], card.cardString.name),
+					cancel ? 0 : 1, 1);
 			humanOper.setDetachCallback(() -> {
 				if (humanOper.getSelectedPile().isEmpty()) {
 					onCancel();

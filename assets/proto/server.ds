@@ -148,10 +148,16 @@ struct SCSelectCards {
 	String tip;
 	int minNumber; // 最小数量
 	int maxNumber; // 最大数量
+	
+	DCombination[] combinations; // 可选的组合，为空时忽略此选项
 }
 // 客户端选择n张卡牌
 struct CSSelectCards {
 	long[] cardIds; // 选择的卡
+}
+
+struct DCombination {
+	long[] idList; // 从小到大排列
 }
 
 // 通知客户端选择一项技能触发

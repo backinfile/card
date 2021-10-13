@@ -1,6 +1,7 @@
 package com.backinfile.card.view.viewActions;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,9 +50,7 @@ public class SelectCardViewAction extends ViewAction {
 			var cardInfos = selectFrom.stream().map(id -> gameStage.boardView.cardGroupView.getCardInfoCache(id))
 					.collect(Collectors.toList());
 			gameStage.showCardListView.show(cardInfos, data.getTip(), data.getMinNumber(), data.getMaxNumber(),
-					cardInfo -> {
-						onSelect(cardInfo);
-					});
+					this::onSelect);
 			return;
 		}
 
@@ -96,16 +95,24 @@ public class SelectCardViewAction extends ViewAction {
 	}
 
 	private void onCardClick() {
-		if (data.getMinNumber() <= selected.size() && selected.size() <= data.getMaxNumber()) {
-			// 出现确认按钮
-			var buttonInfo = new ButtonInfo();
-			buttonInfo.index = 0;
-			buttonInfo.text = LocalString.getUIString("boardUIView").strs[selected.isEmpty() ? 2 : 4];
-			buttonInfo.callback = this::onSelectOver;
-			gameStage.buttonsView.setButtonInfos(buttonInfo);
-		} else {
+		if (selected.size() < data.getMinNumber() || selected.size() > data.getMaxNumber()) {
 			gameStage.buttonsView.setButtonInfos();
+			return;
 		}
+		// 需求一定的组合
+		if (data.getCombinationsCount() != 0) {
+			Collections.sort(selected);
+			if (!data.getCombinationsList().stream().anyMatch(c -> c.getIdListList().equals(selected))) {
+				gameStage.buttonsView.setButtonInfos();
+				return;
+			}
+		}
+		// 出现确认按钮
+		var buttonInfo = new ButtonInfo();
+		buttonInfo.index = 0;
+		buttonInfo.text = LocalString.getUIString("boardUIView").strs[selected.isEmpty() ? 2 : 4];
+		buttonInfo.callback = this::onSelectOver;
+		gameStage.buttonsView.setButtonInfos(buttonInfo);
 	}
 
 	private void onSelectOver() {

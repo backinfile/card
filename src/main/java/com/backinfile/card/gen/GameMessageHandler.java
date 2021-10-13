@@ -29,6 +29,9 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		public void onMessage(DBoardSetup data) {
 		}
 		
+		public void onMessage(DCombination data) {
+		}
+		
 		public void onMessage(DCardInfo data) {
 		}
 		
@@ -132,6 +135,11 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		case DBoardSetup.TypeName:
 			for (var listener : listeners) {
 				listener.onMessage(DBoardSetup.parseJSONObject(jsonObject));
+			}
+			break;
+		case DCombination.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(DCombination.parseJSONObject(jsonObject));
 			}
 			break;
 		case DCardInfo.TypeName:
@@ -285,6 +293,8 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			return new DBoardInit();
 		case DBoardSetup.TypeName:
 			return new DBoardSetup();
+		case DCombination.TypeName:
+			return new DCombination();
 		case DCardInfo.TypeName:
 			return new DCardInfo();
 		case DClientPlayerInfo.TypeName:
@@ -647,6 +657,120 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			if (this.cardInfos != null) {
 				_value.cardInfos = this.cardInfos.deepCopy();
 			}
+			return _value;
+		}
+	}
+	
+	public static class DCombination extends DSyncBase {
+		public static final String TypeName = "DCombination";
+		
+		/** 从小到大排列 */
+		private List<Long> idList;
+
+		public static class K {
+			public static final String idList = "idList";
+		}
+
+		public DCombination() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			idList = new ArrayList<>();
+		}
+		
+		/** 从小到大排列 */
+		public int getIdListCount() {
+			return this.idList.size();
+		}
+		
+		/** 从小到大排列 */
+		public List<Long> getIdListList() {
+			return new ArrayList<>(idList);
+		}
+		
+		/** 从小到大排列 */
+		public void setIdListList(List<Long> _value) {
+			this.idList.clear();
+			this.idList.addAll(_value);
+		}
+
+		/** 从小到大排列 */
+		public void addIdList(long _value) {
+			this.idList.add(_value);
+		}
+		
+		/** 从小到大排列 */
+		public void addAllIdList(List<Long> _value) {
+			this.idList.addAll(_value);
+		}
+		
+		/** 从小到大排列 */
+		public void clearIdList() {
+			this.idList.clear();
+		}
+		
+
+		static DCombination parseJSONObject(JSONObject jsonObject) {
+			var _value = new DCombination();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<DCombination> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<DCombination>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new DCombination();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		protected void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.idList, JSONObject.toJSONString(idList));
+		}
+
+		@Override
+		protected void applyRecord(JSONObject jsonObject) {
+			idList = JSONObject.parseArray(jsonObject.getString(K.idList), Long.class);
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof DCombination)) {
+				return false;
+			}
+			var _value = (DCombination) obj;
+			if (!this.idList.equals(_value.idList)) {
+				return false;
+			}
+			return true;
+		}
+		
+		public DCombination copy() {
+			var _value = new DCombination();
+			_value.idList = new ArrayList<>(this.idList);
+			return _value;
+		}
+		
+		public DCombination deepCopy() {
+			var _value = new DCombination();
+			_value.idList = new ArrayList<>(this.idList);
 			return _value;
 		}
 	}
@@ -3863,12 +3987,15 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		private int minNumber;
 		/** 最大数量 */
 		private int maxNumber;
+		/** 可选的组合，为空时忽略此选项 */
+		private List<DCombination> combinations;
 
 		public static class K {
 			public static final String cardIds = "cardIds";
 			public static final String tip = "tip";
 			public static final String minNumber = "minNumber";
 			public static final String maxNumber = "maxNumber";
+			public static final String combinations = "combinations";
 		}
 
 		public SCSelectCards() {
@@ -3881,6 +4008,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			tip = "";
 			minNumber = 0;
 			maxNumber = 0;
+			combinations = new ArrayList<>();
 		}
 		
 		public int getCardIdsCount() {
@@ -3936,6 +4064,37 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			this.maxNumber = maxNumber;
 		}
 		
+		/** 可选的组合，为空时忽略此选项 */
+		public int getCombinationsCount() {
+			return this.combinations.size();
+		}
+		
+		/** 可选的组合，为空时忽略此选项 */
+		public List<DCombination> getCombinationsList() {
+			return new ArrayList<>(combinations);
+		}
+		
+		/** 可选的组合，为空时忽略此选项 */
+		public void setCombinationsList(List<DCombination> _value) {
+			this.combinations.clear();
+			this.combinations.addAll(_value);
+		}
+
+		/** 可选的组合，为空时忽略此选项 */
+		public void addCombinations(DCombination _value) {
+			this.combinations.add(_value);
+		}
+		
+		/** 可选的组合，为空时忽略此选项 */
+		public void addAllCombinations(List<DCombination> _value) {
+			this.combinations.addAll(_value);
+		}
+		
+		/** 可选的组合，为空时忽略此选项 */
+		public void clearCombinations() {
+			this.combinations.clear();
+		}
+		
 
 		static SCSelectCards parseJSONObject(JSONObject jsonObject) {
 			var _value = new SCSelectCards();
@@ -3965,6 +4124,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			jsonObject.put(K.tip, tip);
 			jsonObject.put(K.minNumber, minNumber);
 			jsonObject.put(K.maxNumber, maxNumber);
+			jsonObject.put(K.combinations, getJSONArray(combinations));
 		}
 
 		@Override
@@ -3973,6 +4133,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			tip = jsonObject.getString(K.tip);
 			minNumber = jsonObject.getIntValue(K.minNumber);
 			maxNumber = jsonObject.getIntValue(K.maxNumber);
+			combinations = DCombination.parseJSONArray(jsonObject.getJSONArray(K.combinations));
 		}
 		
 		@Override
@@ -3999,6 +4160,9 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			if (this.maxNumber != _value.maxNumber) {
 				return false;
 			}
+			if (!this.combinations.equals(_value.combinations)) {
+				return false;
+			}
 			return true;
 		}
 		
@@ -4008,6 +4172,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			_value.tip = this.tip;
 			_value.minNumber = this.minNumber;
 			_value.maxNumber = this.maxNumber;
+			_value.combinations = new ArrayList<>(this.combinations);
 			return _value;
 		}
 		
@@ -4017,6 +4182,14 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			_value.tip = this.tip;
 			_value.minNumber = this.minNumber;
 			_value.maxNumber = this.maxNumber;
+			_value.combinations = new ArrayList<>();
+			for(var _f: this.combinations) {
+				if (_f != null) {
+					_value.combinations.add(_f.deepCopy());
+				} else {
+					_value.combinations.add(null);
+				}
+			}
 			return _value;
 		}
 	}
