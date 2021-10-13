@@ -12,6 +12,7 @@ import com.backinfile.card.model.Human;
 import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.Skill.SkillAura;
 import com.backinfile.card.model.Skill.SkillTrigger;
+import com.backinfile.card.model.cards.Chap2HeroCard.RedPhoenix;
 import com.backinfile.card.server.humanOper.SelectCardOper;
 import com.backinfile.card.server.humanOper.SelectEmptySlotOper;
 import com.backinfile.support.Log;
@@ -154,6 +155,10 @@ public class AttackAction extends WaitAction {
 		board.modifyCard(card);
 		setDone();
 		Log.game.info("侵占成功");
+		
+		if (human.isHero(RedPhoenix.class)) {
+			addFirst(new RedPhoenixSealOpponentAction(targetHuman));
+		}
 	}
 
 	private void onBreak(Card breakCard) {

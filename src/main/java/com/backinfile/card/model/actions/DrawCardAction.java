@@ -4,7 +4,9 @@ import java.util.function.Supplier;
 
 import com.backinfile.card.gen.GameMessageHandler.EGameLogType;
 import com.backinfile.card.model.Board.BoardState;
+import com.backinfile.card.model.cards.Chap2ActionCard.Harass;
 import com.backinfile.card.model.cards.Chap2HeroCard.DreamBuilder;
+import com.backinfile.card.model.cards.Chap2HeroCard.RedPhoenix;
 import com.backinfile.card.model.cards.MonsterCard.Cat;
 import com.backinfile.card.model.Human;
 
@@ -65,6 +67,11 @@ public class DrawCardAction extends TriggerOnceAction {
 			// 筑梦师摸到梦妖
 			if (human.isHero(DreamBuilder.class) && card instanceof Cat && card.oriHumanToken.equals(human.token)) {
 				addFirst(new DreamBuilderDrawCatAction(human, card));
+			}
+
+			// 朱雀摸到骚扰
+			if (human.isHero(RedPhoenix.class) && card instanceof Harass) {
+				addFirst(new RedPhoenixDrawHarassAction(human, card));
 			}
 		}
 

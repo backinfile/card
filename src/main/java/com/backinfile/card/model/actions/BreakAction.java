@@ -46,8 +46,7 @@ public class BreakAction extends WaitAction {
 
 	private void onBreak(Card selectedCard) {
 		addFirst(new BreakFinishAction(human));
-		addFirst(new DiscardCardAction(human, card));
-		addFirst(new DiscardCardAction(human, human.getOpponent().getCardSlotByCard(selectedCard).getAllCards()));
+		addFirst(new DiscardCardAction(human, card, selectedCard));
 		setDone();
 	}
 }

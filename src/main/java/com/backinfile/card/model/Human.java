@@ -24,6 +24,7 @@ import com.backinfile.card.model.actions.DreamBuilderLandAction;
 import com.backinfile.card.model.actions.RestoreActionNumberAction;
 import com.backinfile.card.model.actions.SaveThreatenAction;
 import com.backinfile.card.model.cards.Chap2HeroCard.DreamBuilder;
+import com.backinfile.card.model.cards.Chap2HeroCard.RedPhoenix;
 import com.backinfile.card.model.cards.HeroCard;
 import com.backinfile.card.model.cards.MonsterCard.Bird;
 import com.backinfile.card.model.cards.MonsterCard.Cat;
@@ -393,6 +394,10 @@ public class Human extends SkillCaster {
 					cardPile.add(card);
 				}
 			}
+		}
+		// 朱雀使者技能
+		if (isHero(RedPhoenix.class)) {
+			cardPile.addAll(markPile);
 		}
 		return cardPile;
 	}

@@ -14,6 +14,7 @@ import com.backinfile.card.model.cards.Chap2ActionCard.Ride;
 import com.backinfile.card.model.cards.Chap2HeroCard.BeastTalker;
 import com.backinfile.card.model.cards.Chap2HeroCard.BeastWarrior;
 import com.backinfile.card.model.cards.Chap2HeroCard.Beekeeper;
+import com.backinfile.card.model.cards.Chap2HeroCard.RedPhoenix;
 import com.backinfile.card.model.cards.MonsterCard.Bee;
 import com.backinfile.card.model.cards.MonsterCard.Bird;
 import com.backinfile.card.model.cards.MonsterCard.Cat;
@@ -34,7 +35,7 @@ public class GameUtils {
 			DHumanInit humanInit = new DHumanInit();
 			humanInit.setControllerToken(LocalData.instance().token);
 			humanInit.setPlayerName(LocalData.instance().name);
-			humanInit.setHeroCard(BeastTalker.class.getSimpleName());
+			humanInit.setHeroCard(RedPhoenix.class.getSimpleName());
 			humanInit.setPileList(getStartPile());
 			boardInit.addHumanInits(humanInit);
 		}

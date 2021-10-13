@@ -5,6 +5,7 @@ import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
 import com.backinfile.card.model.cards.Chap2HeroCard.HeartFire;
+import com.backinfile.card.model.cards.Chap2HeroCard.RedPhoenix;
 import com.backinfile.card.model.cards.MonsterCard.Dear;
 import com.backinfile.card.server.humanOper.SelectCardOper;
 import com.backinfile.support.Utils;
@@ -65,5 +66,9 @@ public class FlipStoreAction extends WaitAction {
 		addFirst(new DiscardCardAction(human, slot.getAllCards()));
 		slot.getPile(ESlotType.Seal).add(flipCard);
 		board.modifyCard(flipCard);
+
+		if (human.isHero(RedPhoenix.class)) {
+			addFirst(new RedPhoenixSealOpponentAction(targetHuman));
+		}
 	}
 }

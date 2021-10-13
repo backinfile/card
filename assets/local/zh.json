@@ -335,22 +335,6 @@
 			}],
 		},
 		{
-			"sn":"BlackTurtle",
-			"name":"玄武使者",
-			"frontImages": [{
-				"path":"image/card/chap2/hero.png",
-				"locate":[7,2,2,1],
-			},{
-				"path":"image/card/chap2/hero.png",
-				"locate":[7,2,2,1],
-			}],
-			"backImages": [{
-				"path":"image/card/chap2/back_hero.png"
-			},{
-				"path":"image/card/chap2/back_hero.png"
-			}],
-		},
-		{
 			"sn":"WhiteTiger",
 			"name":"白虎使者",
 			"frontImages": [{
@@ -514,6 +498,14 @@
 	},{
 			"sn":"BeastTalkerActive2Action",
 			"tips":["选择1张展示", "展示了{0}", "选择1张快速储备上场"]
+	},{
+			"sn":"RedPhoenixDrawHarassAction",
+			"tip":"是否发动[朱雀契约]?",
+			"tips":["[朱雀契约] 展示摸到的{0}"]
+	},{
+			"sn":"RedPhoenixSealOpponentAction",
+			"tip":"是否发动[朱雀契约]?",
+			"tips":["是否发动[朱雀召唤]?", "触发[朱雀召唤]"]
 	}],
 	skills:[{
 			"sn":"StoreSelfSkill",

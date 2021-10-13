@@ -63,4 +63,9 @@ public class Chap2HeroCard extends HeroCard {
 			addSkill(new BeastTalkerActive2Skill());
 		}
 	}
+
+	public static class RedPhoenix extends Chap2HeroCard {
+		public RedPhoenix() {
+		}
+	}
 }
