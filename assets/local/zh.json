@@ -405,7 +405,7 @@
 	},{
 			"sn":"SelectToRideAction",
 			"tip":"选择骑乘目标",
-			"tips":["触发[龙啸]"]
+			"tips":["触发[龙啸]", "触发[白虎契约]"]
 	},{
 			"sn":"DragonRideAction",
 			"tips":["[振奋] 弃置一张行动牌", "[振奋] 释放一张有攻击特效的牌"]
@@ -509,6 +509,9 @@
 	},{
 			"sn":"BlackTurtleDefendAction",
 			"tip":"触发[玄武召唤]，选择标记来抵挡侵占",
+	},{
+			"sn":"RefreshSlotAction",
+			"tips":["触发[白虎召唤]，可以选择标记进入守护状态", "触发[白虎召唤]"]
 	}],
 	skills:[{
 			"sn":"StoreSelfSkill",

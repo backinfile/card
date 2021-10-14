@@ -7,9 +7,11 @@ import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.CardSlot;
 import com.backinfile.card.model.Human;
 import com.backinfile.card.model.cards.Chap2HeroCard.DragonKnight;
+import com.backinfile.card.model.cards.Chap2HeroCard.WhiteTiger;
 import com.backinfile.card.model.cards.MonsterCard;
 import com.backinfile.card.model.cards.MonsterCard.Dragon;
 import com.backinfile.card.model.cards.MonsterCard.MonsterSkillType;
+import com.backinfile.card.model.cards.StoreCard;
 import com.backinfile.card.server.humanOper.SelectCardOper;
 
 public class SelectToRideAction extends WaitAction {
@@ -61,6 +63,11 @@ public class SelectToRideAction extends WaitAction {
 		if (store instanceof Dragon && human.isHero(DragonKnight.class)) {
 			addLast(new ReturnOpponentStoreOrMarkAction(human));
 			board.gameLog(human, EGameLogType.Skill, actionString.tips[0]);
+		}
+		// 白虎使者技能
+		if (human.isHero(WhiteTiger.class)) {
+			addLast(new SaveMarkAction(human, () -> human.handPile.filter(StoreCard.class)));
+			board.gameLog(human, EGameLogType.Skill, actionString.tips[1]);
 		}
 	}
 

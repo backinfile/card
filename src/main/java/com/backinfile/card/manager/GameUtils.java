@@ -15,6 +15,7 @@ import com.backinfile.card.model.cards.Chap2HeroCard.Beekeeper;
 import com.backinfile.card.model.cards.Chap2HeroCard.BlackTurtle;
 import com.backinfile.card.model.cards.Chap2HeroCard.HeartFire;
 import com.backinfile.card.model.cards.Chap2HeroCard.RedPhoenix;
+import com.backinfile.card.model.cards.Chap2HeroCard.WhiteTiger;
 import com.backinfile.card.model.cards.MonsterCard.Bee;
 import com.backinfile.card.model.cards.MonsterCard.Bird;
 import com.backinfile.card.model.cards.MonsterCard.Cat;
@@ -35,7 +36,7 @@ public class GameUtils {
 			DHumanInit humanInit = new DHumanInit();
 			humanInit.setControllerToken(LocalData.instance().token);
 			humanInit.setPlayerName(LocalData.instance().name);
-			humanInit.setHeroCard(BlackTurtle.class.getSimpleName());
+			humanInit.setHeroCard(WhiteTiger.class.getSimpleName());
 			humanInit.setPileList(getStartPile());
 			boardInit.addHumanInits(humanInit);
 		}
@@ -73,7 +74,7 @@ public class GameUtils {
 		{
 			var cards = new DStartPileDataPair();
 			cards.setCard(Recall.class.getSimpleName());
-			cards.setCount(16);
+			cards.setCount(6);
 			startPile.add(cards);
 		}
 		{
@@ -97,7 +98,7 @@ public class GameUtils {
 		{
 			var cards = new DStartPileDataPair();
 			cards.setCard(Dear.class.getSimpleName());
-			cards.setCount(24);
+			cards.setCount(4);
 			startPile.add(cards);
 		}
 		{
