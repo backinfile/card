@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import com.backinfile.card.gen.GameMessageHandler.CSSelectSkillToActive;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectSkillToActive;
-import com.backinfile.card.manager.ConstGame;
+import com.backinfile.card.manager.LocalData;
 import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.skills.StoreSelfSkill;
 import com.backinfile.card.model.skills.TurnEndSkill;
@@ -35,13 +35,13 @@ public class InTurnActiveSkillOper extends HumanOper {
 			return;
 		}
 
-		if (ConstGame.AI_DO_NOTHING) { // 直接回合结束
+		if (LocalData.instance().AILevel == 0) { // 直接回合结束
 			var skill = human.getSkill(TurnEndSkill.class);
 			onSelectSkill(skill);
 			return;
 		}
 
-		if (ConstGame.AI_DO_STORE) { // 一直进行储备
+		if (LocalData.instance().AILevel == 1) { // 一直进行储备
 			var findAny = activableSkills.stream().filter(s -> s instanceof StoreSelfSkill).findAny();
 			if (findAny.isPresent()) {
 				onSelectSkill(findAny.get());

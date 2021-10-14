@@ -7,7 +7,6 @@ import com.alibaba.fastjson.JSON;
 import com.backinfile.card.manager.LocalString.LocalImagePathString;
 import com.backinfile.support.FontCharacterCollection;
 import com.backinfile.support.Log;
-import com.backinfile.support.reflection.LogInvokeInfo;
 import com.backinfile.support.reflection.Timing;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -62,7 +61,6 @@ public class Res {
 	private static Map<LocalImagePathString, TextureRegionDrawable> cardImageMap = new HashMap<>();
 
 	@Timing("res init")
-	@LogInvokeInfo
 	public static void init() {
 
 		STAGE_HEIGHT = Gdx.graphics.getHeight();
@@ -83,8 +81,6 @@ public class Res {
 
 		initImage();
 		initFont(); // 一定要在所有string加载后执行
-
-		LocalData.load();
 	}
 
 	public static TextureRegionDrawable getTexture(String path) {
@@ -103,7 +99,6 @@ public class Res {
 		return EMPTY_DRAWABLE;
 	}
 
-	@LogInvokeInfo
 	private static void initImage() {
 		TEX_WHITE = getDrawable(newColorPixmap(8, 8, Color.WHITE));
 		TEX_BLACK = getDrawable(newColorPixmap(8, 8, Color.BLACK));
@@ -124,7 +119,6 @@ public class Res {
 				Texture texture = new Texture(path);
 				texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 				textureMap.put(path, texture);
-				Log.res.info("load texture {}", path);
 			}
 		}
 		// 获取drawable
@@ -146,6 +140,7 @@ public class Res {
 				cardImageMap.put(imageString, new TextureRegionDrawable(texture));
 			}
 		}
+		Log.res.info("load texture {}", textureMap.size());
 	}
 
 	private static Pixmap newColorPixmap(int width, int height, Color color) {

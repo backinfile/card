@@ -37,7 +37,6 @@ public class LocalString {
 
 			if (!Utils.isNullOrEmpty(cardString.sn)) {
 				cardStringMap.put(cardString.sn, cardString);
-				Log.res.info("read card string: {}", cardString.sn);
 			}
 		}
 		for (var skillString : localString.getJSONArray("skills").toJavaList(LocalSkillString.class)) {
@@ -66,6 +65,11 @@ public class LocalString {
 				}
 			}
 		}
+		Log.res.info("read card string: {}", cardStringMap.size());
+		Log.res.info("read skill string: {}", skillStringMap.size());
+		Log.res.info("read action string: {}", actionStringMap.size());
+		Log.res.info("read ui string: {}", uiStringMap.size());
+		Log.res.info("read image path string: {}", imagePathStringList.size());
 	}
 
 	public static LocalCardString getCardString(String sn) {

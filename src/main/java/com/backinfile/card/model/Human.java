@@ -14,6 +14,7 @@ import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.manager.CardManager;
 import com.backinfile.card.manager.ConstGame;
 import com.backinfile.card.manager.GameUtils;
+import com.backinfile.card.manager.LocalData;
 import com.backinfile.card.model.Board.BoardMode;
 import com.backinfile.card.model.Card.CardType;
 import com.backinfile.card.model.Skill.SkillDuration;
@@ -21,6 +22,7 @@ import com.backinfile.card.model.actions.BirdHarassAction;
 import com.backinfile.card.model.actions.DiscardHandToMaxAction;
 import com.backinfile.card.model.actions.DrawCardAction;
 import com.backinfile.card.model.actions.DreamBuilderLandAction;
+import com.backinfile.card.model.actions.GainAPAction;
 import com.backinfile.card.model.actions.RestoreActionNumberAction;
 import com.backinfile.card.model.actions.SaveThreatenAction;
 import com.backinfile.card.model.cards.Chap2HeroCard.DreamBuilder;
@@ -151,9 +153,9 @@ public class Human extends SkillCaster {
 		}
 		addLast(new DrawCardAction(this, () -> turnStartDrawNumber));
 
-		if (GameUtils.isAI(this)) {
-//			addLast(new GainAPAction(this, 1));
-//			addLast(new DrawCardAction(this, 2));
+		if (GameUtils.isAI(this) && LocalData.instance().AILevel == 3) {
+			addLast(new GainAPAction(this, 1));
+			addLast(new DrawCardAction(this, 2));
 		}
 
 		Log.game.info("player {} turnStart", token);

@@ -82,6 +82,13 @@ public class CardGroupView extends BaseView {
 		}
 	}
 
+	public void clearAllCard() {
+		for (var cardInfo : cardInfoCacheMap.values()) {
+			removeCardView(cardInfo);
+		}
+		cardInfoCacheMap.clear();
+	}
+
 	public void setHelpCard(int index, int pos, int type, boolean visible, Action0 callback) {
 		int key = index * 100 + pos * 10 + type;
 		CardView cardView = helpCardViews.get(key);

@@ -63,7 +63,7 @@ public class GameStage extends Stage {
 		buttonsView = new BoardButtonsView(this, getWidth(), getHeight());
 		addActor(buttonsView);
 
-		boardView.startGame();
+		boardView.hide();
 	}
 
 	@Override

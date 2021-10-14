@@ -55,10 +55,18 @@ public class LocalBoardView extends BaseView {
 		gameClient.startGame(GameUtils.getDefaultBoardInit());
 	}
 
+	public void clearGame() {
+		hide();
+		gameClient = null;
+		cardGroupView.clearAllCard();
+	}
+
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-		gameClient.pulse();
+		if (gameClient != null) {
+			gameClient.pulse();
+		}
 	}
 
 }

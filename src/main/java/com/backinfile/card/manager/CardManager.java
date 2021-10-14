@@ -20,7 +20,7 @@ public class CardManager {
 
 	@Timing("init card")
 	public static void init() {
-		for (var clazz : ReflectionUtils.getClassesExtendsClass(Settings.PackageName, Card.class)) {
+		for (var clazz : ReflectionUtils.getClassesExtendsClass(Settings.PACKAGE_NAME, Card.class)) {
 			var sn = clazz.getSimpleName();
 			allCards.put(sn, clazz);
 			try {

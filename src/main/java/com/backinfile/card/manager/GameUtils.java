@@ -1,6 +1,7 @@
 package com.backinfile.card.manager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.backinfile.card.gen.GameMessageHandler.DBoardInit;
@@ -9,7 +10,6 @@ import com.backinfile.card.gen.GameMessageHandler.DStartPileDataPair;
 import com.backinfile.card.model.Human;
 import com.backinfile.card.model.cards.Chap2ActionCard;
 import com.backinfile.card.model.cards.Chap2HeroCard;
-import com.backinfile.card.model.cards.Chap2HeroCard.CyanDragon;
 import com.backinfile.card.model.cards.MonsterCard;
 import com.backinfile.support.Time2;
 
@@ -25,7 +25,7 @@ public class GameUtils {
 			DHumanInit humanInit = new DHumanInit();
 			humanInit.setControllerToken(LocalData.instance().token);
 			humanInit.setPlayerName(LocalData.instance().name);
-			humanInit.setHeroCard(CyanDragon.class.getSimpleName());
+			humanInit.setHeroCard(LocalData.instance().startHeroCard);
 			humanInit.setPileList(getStartPile());
 			boardInit.addHumanInits(humanInit);
 		}
@@ -38,6 +38,18 @@ public class GameUtils {
 			boardInit.addHumanInits(aiInit);
 		}
 		return boardInit;
+	}
+
+	public static HashMap<String, Integer> getDefaultStartPile() {
+		HashMap<String, Integer> pile = new HashMap<>();
+		for (var card : CardManager.getAllOriCards().values()) {
+			if (card instanceof Chap2ActionCard) {
+				pile.put(card.getClass().getSimpleName(), 6);
+			} else if (card instanceof MonsterCard) {
+				pile.put(card.getClass().getSimpleName(), 4);
+			}
+		}
+		return pile;
 	}
 
 	private static List<DStartPileDataPair> getStartPile() {
