@@ -61,14 +61,16 @@ public class FlipStoreAction extends WaitAction {
 	}
 
 	private void onReplaceFlipCard(Card flipCard) {
-		var slot = targetHuman.getCardSlotByCard(flipCard);
-		slot.remove(flipCard);
-		addFirst(new DiscardCardAction(human, slot.getAllCards()));
-		slot.getPile(ESlotType.Seal).add(flipCard);
-		board.modifyCard(flipCard);
 
 		if (human.isHero(RedPhoenix.class)) {
-			addFirst(new RedPhoenixSealOpponentAction(targetHuman));
+			addFirst(new RedPhoenixSealOpponentAction(human));
 		}
+
+		addFirst(new RefreshSlotAction());
+		
+		var slot = targetHuman.getCardSlotByCard(flipCard);
+		board.removeCard(flipCard);
+		slot.getPile(ESlotType.Seal).add(flipCard);
+		board.modifyCard(flipCard);
 	}
 }

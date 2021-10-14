@@ -504,7 +504,7 @@
 			"tips":["[朱雀契约] 展示摸到的{0}"]
 	},{
 			"sn":"RedPhoenixSealOpponentAction",
-			"tip":"是否发动[朱雀契约]?",
+			"tip":"是否发动[朱雀召唤]?",
 			"tips":["是否发动[朱雀召唤]?", "触发[朱雀召唤]"]
 	}],
 	skills:[{
@@ -621,6 +621,10 @@
 			"sn":"BeastTalkerActive2Skill",
 			"name":"魂语",
 			"tip":"魂语"
+	},{
+			"sn":"BirdHarassSkill",
+			"name":"凝视",
+			"tip":"凝视"
 	}],
 	targets:[],
 	ui:[{

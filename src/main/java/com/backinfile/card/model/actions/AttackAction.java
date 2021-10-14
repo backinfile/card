@@ -147,7 +147,13 @@ public class AttackAction extends WaitAction {
 	}
 
 	private void onOccupy(int index) {
+
+		if (human.isHero(RedPhoenix.class)) {
+			addFirst(new RedPhoenixSealOpponentAction(human));
+		}
+
 		addFirst(new RefreshSlotAction());
+		addFirst(new ArrangePileAction(human));
 		board.removeCard(card);
 		this.attackResult = AttackResult.Occupy;
 		var cardSlot = targetHuman.cardSlotMap.get(index);
@@ -155,10 +161,6 @@ public class AttackAction extends WaitAction {
 		board.modifyCard(card);
 		setDone();
 		Log.game.info("侵占成功");
-		
-		if (human.isHero(RedPhoenix.class)) {
-			addFirst(new RedPhoenixSealOpponentAction(targetHuman));
-		}
 	}
 
 	private void onBreak(Card breakCard) {
