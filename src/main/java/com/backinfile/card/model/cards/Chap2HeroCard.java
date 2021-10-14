@@ -6,6 +6,8 @@ import com.backinfile.card.model.skills.BeastWarriorActive1Skill;
 import com.backinfile.card.model.skills.BeastWarriorActive2Skill;
 import com.backinfile.card.model.skills.BeeKeeperActiveSkill;
 import com.backinfile.card.model.skills.BirdRideOutTurnSkill;
+import com.backinfile.card.model.skills.BlackTurtleDefendSkill;
+import com.backinfile.card.model.skills.BlackTurtleRecallSkill;
 import com.backinfile.card.model.skills.RecallSkill;
 import com.backinfile.card.model.skills.SeaTalkerActiveSkill;
 import com.backinfile.card.model.skills.WindSeekerSkill;
@@ -66,6 +68,23 @@ public class Chap2HeroCard extends HeroCard {
 
 	public static class RedPhoenix extends Chap2HeroCard {
 		public RedPhoenix() {
+		}
+	}
+
+	public static class BlackTurtle extends Chap2HeroCard {
+		public BlackTurtle() {
+			addSkill(new BlackTurtleRecallSkill());
+			addSkill(new BlackTurtleDefendSkill());
+		}
+	}
+
+	public static class WhiteTiger extends Chap2HeroCard {
+		public WhiteTiger() {
+		}
+	}
+
+	public static class CyanDragon extends Chap2HeroCard {
+		public CyanDragon() {
 		}
 	}
 }

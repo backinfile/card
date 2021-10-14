@@ -74,6 +74,15 @@ public class RecallAction extends WaitAction {
 			}
 		}
 
+		// 触发HeroRecall
+		for (var card : human.heroPile) {
+			for (var skill : card.getSkillList()) {
+				if (skill.testTriggerable(SkillTrigger.HeroRecall, SkillAura.Hero)) {
+					board.applySkill(skill);
+				}
+			}
+		}
+
 		// 视为对手击破
 		attackAction.setAttackResult(AttackResult.Break);
 		addFirst(new BreakFinishAction(human.getOpponent()));

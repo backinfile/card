@@ -476,7 +476,7 @@
 			"tips":["触发[释然]"]
 	},{
 			"sn":"RemoveOpponentStoreOrMarkAction",
-			"tips":["移除对手一张储备或标记", "回手对手一张储备或标记", "对手要移除你的{0}，可选择储备来代替", "对手要回手你的{0}，可选择储备来代替"]
+			"tips":["移除对手一张储备或标记", "回手对手一张储备或标记", "对手要移除你的{0}，可选择储备来代替", "对手要回手你的{0}，可选择储备来代替", "触发[玄武召唤]", "[玄武召唤] 对手要移除你的{0}，可选择标记来抵消移除"]
 	},{
 			"sn":"WindSeekSkipAction",
 			"tips":["对手即将打出{0}，是否发动[识破]?", "猜测牌库顶牌", "行动牌", "资源牌","发动[识破]", "牌库顶牌是：{0}","发动[识破]成功", "发动[识破]失败"]
@@ -506,6 +506,9 @@
 			"sn":"RedPhoenixSealOpponentAction",
 			"tip":"是否发动[朱雀召唤]?",
 			"tips":["是否发动[朱雀召唤]?", "触发[朱雀召唤]"]
+	},{
+			"sn":"BlackTurtleDefendAction",
+			"tip":"触发[玄武召唤]，选择标记来抵挡侵占",
 	}],
 	skills:[{
 			"sn":"StoreSelfSkill",
@@ -625,6 +628,14 @@
 			"sn":"BirdHarassSkill",
 			"name":"凝视",
 			"tip":"凝视"
+	},{
+			"sn":"BlackTurtleRecallSkill",
+			"name":"玄武契约",
+			"tip":"玄武契约",
+	},{
+			"sn":"BlackTurtleDefendSkill",
+			"name":"玄武召唤",
+			"tip":"玄武召唤",
 	}],
 	targets:[],
 	ui:[{

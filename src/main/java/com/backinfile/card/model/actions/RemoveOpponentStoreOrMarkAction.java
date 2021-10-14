@@ -1,9 +1,11 @@
 package com.backinfile.card.model.actions;
 
+import com.backinfile.card.gen.GameMessageHandler.EGameLogType;
 import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
+import com.backinfile.card.model.cards.Chap2HeroCard.BlackTurtle;
 import com.backinfile.card.model.cards.Chap2HeroCard.HeartFire;
 import com.backinfile.card.model.cards.MonsterCard.Dear;
 import com.backinfile.card.server.humanOper.SelectCardOper;
@@ -23,6 +25,10 @@ public class RemoveOpponentStoreOrMarkAction extends WaitAction {
 
 	@Override
 	public void init() {
+		toSelectTarget();
+	}
+
+	private void toSelectTarget() {
 		CardPile selectFrom = new CardPile();
 		selectFrom.addAll(human.getOpponent().markPile);
 		selectFrom.addAll(human.getOpponent().getAllStoreCards(false, false, false, true, true));
@@ -72,6 +78,27 @@ public class RemoveOpponentStoreOrMarkAction extends WaitAction {
 	}
 
 	private void onFinalSelect(Card card) {
+		// 玄武使者技能
+		var opponent = human.getOpponent();
+		if (opponent.isHero(BlackTurtle.class) && !opponent.markPile.isEmpty()) {
+			board.gameLog(opponent, EGameLogType.Skill, actionString.tips[4]);
+			var humanOper = new SelectCardOper(opponent.markPile,
+					Utils.format(actionString.tips[5], card.cardString.name), 0, 1);
+			humanOper.setDetachCallback(() -> {
+				if (humanOper.getSelectedPile().isEmpty()) {
+					toRemove(card);
+				} else {
+					addFirst(new DiscardCardAction(human, humanOper.getSelectedPile().getAny()));
+					setDone();
+				}
+			});
+			opponent.addHumanOper(humanOper);
+		} else {
+			toRemove(card);
+		}
+	}
+
+	private void toRemove(Card card) {
 		board.removeCard(card);
 
 		addFirst(new RefreshSlotAction());
