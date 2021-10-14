@@ -130,17 +130,32 @@ public class ShowCardListView extends BaseView {
 				}
 				onCardClick();
 			});
-			if (cardInfo.getPilePosition() == HumanPosition.Self) {
-				cardView.setText(uiString.strs[cardInfo.pileInfo.getPileType().ordinal()]);
-			} else {
-				cardView.setText(uiString.str + uiString.strs[cardInfo.pileInfo.getPileType().ordinal()]);
-			}
+			cardView.setText(getPositionText(cardInfo));
 			var position = getCardPosition(i);
 			cardView.setPosition(position.x, position.y);
 			viewGroup.addActor(cardView);
 			visibleVardViews.add(cardView);
 		}
 		onCardClick();
+	}
+
+	private String getPositionText(CardInfo cardInfo) {
+		var pileInfo = cardInfo.pileInfo;
+		var positionText = uiString.strs[pileInfo.getPileType().ordinal()];
+		if (cardInfo.getPilePosition() == HumanPosition.Opponent) {
+			positionText = uiString.str + positionText;
+		}
+		switch (pileInfo.getPileType()) {
+		case SlotPile:
+			positionText += "#" + pileInfo.getSlotIndex();
+			break;
+		case HandPile:
+			positionText += "#" + pileInfo.getPileIndex();
+			break;
+		default:
+			break;
+		}
+		return positionText;
 	}
 
 	private Vector2 getCardPosition(int index) {
@@ -186,7 +201,7 @@ public class ShowCardListView extends BaseView {
 		public CardView() {
 			super();
 
-			LabelStyle labelStyle = new LabelStyle(Res.DefaultFont, Color.WHITE);
+			LabelStyle labelStyle = new LabelStyle(Res.DefaultFontSmall, Color.WHITE);
 			pileLabel = new Label("12345", labelStyle);
 			pileLabel.setAlignment(Align.center);
 			addActor(pileLabel);

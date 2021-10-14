@@ -67,7 +67,7 @@ public class BeastWarriorActive2Action extends WaitAction {
 					addFirst(new UnsealAction(human, selectNumber / 2));
 				} else {
 					for (int i = 0; i < selectNumber / 2; i++) {
-						addFirst(new FlipStoreAction(human, human.getOpponent()));
+						addFirst(new FlipStoreAction(human));
 					}
 				}
 				addFirst(new DiscardCardAction(human, humanOper.getSelectedPile()));

@@ -14,10 +14,10 @@ public class DragonAttackSkill extends Skill {
 	public boolean triggerable() {
 		return !human.getOpponent().getAllStoreInSlot(false, false, false, true).isEmpty();
 	}
-	
+
 	@Override
 	public void apply() {
+		addFirst(new FlipStoreAction(human));
 		addFirst(new DiscardCardAction(human, card));
-		addFirst(new FlipStoreAction(human, human.getOpponent()));
 	}
 }

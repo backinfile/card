@@ -177,8 +177,8 @@ public class Res {
 
 		parameter.size = 12;
 		DefaultFontSmallSamll = generator.generateFont(parameter);
-//		parameter.size = 16;
-//		DefaultFontSmall = generator.generateFont(parameter);
+		parameter.size = 16;
+		DefaultFontSmall = generator.generateFont(parameter);
 		parameter.size = 20;
 		DefaultFont = generator.generateFont(parameter);
 //		parameter.size = 24;

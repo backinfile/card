@@ -13,9 +13,9 @@ import com.backinfile.support.Utils;
 public class FlipStoreAction extends WaitAction {
 	private Human targetHuman;
 
-	public FlipStoreAction(Human human, Human targetHuman) {
+	public FlipStoreAction(Human human) {
 		this.human = human;
-		this.targetHuman = targetHuman;
+		this.targetHuman = human.getOpponent();
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class FlipStoreAction extends WaitAction {
 		}
 
 		addFirst(new RefreshSlotAction());
-		
+
 		var slot = targetHuman.getCardSlotByCard(flipCard);
 		board.removeCard(flipCard);
 		slot.getPile(ESlotType.Seal).add(flipCard);

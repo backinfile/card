@@ -11,8 +11,6 @@ import com.backinfile.card.model.cards.Chap2ActionCard.Attack;
 import com.backinfile.card.model.cards.Chap2ActionCard.Harass;
 import com.backinfile.card.model.cards.Chap2ActionCard.Recall;
 import com.backinfile.card.model.cards.Chap2ActionCard.Ride;
-import com.backinfile.card.model.cards.Chap2HeroCard.BeastTalker;
-import com.backinfile.card.model.cards.Chap2HeroCard.BeastWarrior;
 import com.backinfile.card.model.cards.Chap2HeroCard.Beekeeper;
 import com.backinfile.card.model.cards.Chap2HeroCard.RedPhoenix;
 import com.backinfile.card.model.cards.MonsterCard.Bee;
