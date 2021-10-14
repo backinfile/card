@@ -13,6 +13,7 @@ import com.backinfile.card.model.cards.Chap2ActionCard.Recall;
 import com.backinfile.card.model.cards.Chap2ActionCard.Ride;
 import com.backinfile.card.model.cards.Chap2HeroCard.Beekeeper;
 import com.backinfile.card.model.cards.Chap2HeroCard.BlackTurtle;
+import com.backinfile.card.model.cards.Chap2HeroCard.CyanDragon;
 import com.backinfile.card.model.cards.Chap2HeroCard.HeartFire;
 import com.backinfile.card.model.cards.Chap2HeroCard.RedPhoenix;
 import com.backinfile.card.model.cards.Chap2HeroCard.WhiteTiger;
@@ -36,7 +37,7 @@ public class GameUtils {
 			DHumanInit humanInit = new DHumanInit();
 			humanInit.setControllerToken(LocalData.instance().token);
 			humanInit.setPlayerName(LocalData.instance().name);
-			humanInit.setHeroCard(WhiteTiger.class.getSimpleName());
+			humanInit.setHeroCard(CyanDragon.class.getSimpleName());
 			humanInit.setPileList(getStartPile());
 			boardInit.addHumanInits(humanInit);
 		}

@@ -512,6 +512,9 @@
 	},{
 			"sn":"RefreshSlotAction",
 			"tips":["触发[白虎召唤]，可以选择标记进入守护状态", "触发[白虎召唤]"]
+	},{
+			"sn":"CyanDragonAttackAction",
+			"tips":["无特效释放2张[青龙]"]
 	}],
 	skills:[{
 			"sn":"StoreSelfSkill",
@@ -533,10 +536,12 @@
 			"sn":"Release2StoreSkill",
 			"tip":"释放2",
 			"name":"释放2",
+			"tips":["触发[青龙契约]"]
 	},{
 			"sn":"ReleaseAttackStoreSkill",
 			"tip":"特效释放1",
 			"name":"特效释放1",
+			"tips":["触发[青龙契约]"]
 	},{
 			"sn":"PlanSkill",
 			"tip":"计划",
@@ -639,6 +644,10 @@
 			"sn":"BlackTurtleDefendSkill",
 			"name":"玄武召唤",
 			"tip":"玄武召唤",
+	},{
+			"sn":"CyanDragonAttackSkill",
+			"name":"青龙召唤",
+			"tip":"青龙召唤",
 	}],
 	targets:[],
 	ui:[{

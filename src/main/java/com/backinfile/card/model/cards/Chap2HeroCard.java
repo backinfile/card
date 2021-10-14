@@ -8,6 +8,7 @@ import com.backinfile.card.model.skills.BeeKeeperActiveSkill;
 import com.backinfile.card.model.skills.BirdRideOutTurnSkill;
 import com.backinfile.card.model.skills.BlackTurtleDefendSkill;
 import com.backinfile.card.model.skills.BlackTurtleRecallSkill;
+import com.backinfile.card.model.skills.CyanDragonAttackSkill;
 import com.backinfile.card.model.skills.RecallSkill;
 import com.backinfile.card.model.skills.SeaTalkerActiveSkill;
 import com.backinfile.card.model.skills.WindSeekerSkill;
@@ -85,6 +86,7 @@ public class Chap2HeroCard extends HeroCard {
 
 	public static class CyanDragon extends Chap2HeroCard {
 		public CyanDragon() {
+			addSkill(new CyanDragonAttackSkill());
 		}
 	}
 }

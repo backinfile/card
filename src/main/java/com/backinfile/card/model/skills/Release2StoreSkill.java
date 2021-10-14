@@ -1,9 +1,12 @@
 package com.backinfile.card.model.skills;
 
+import com.backinfile.card.gen.GameMessageHandler.EGameLogType;
 import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.actions.ArrangePileAction;
 import com.backinfile.card.model.actions.DiscardCardAction;
+import com.backinfile.card.model.actions.SaveMarkAction;
 import com.backinfile.card.model.actions.SelectToAttackAction;
+import com.backinfile.card.model.cards.Chap2HeroCard.CyanDragon;
 
 // 强攻释放两张储备技能
 public class Release2StoreSkill extends Skill {
@@ -26,5 +29,10 @@ public class Release2StoreSkill extends Skill {
 		addLast(new ArrangePileAction(human));
 		addLast(new SelectToAttackAction(human));
 		addLast(new SelectToAttackAction(human));
+
+		if (human.isHero(CyanDragon.class)) {
+			addLast(new SaveMarkAction(human, () -> human.handPile));
+			board.gameLog(human, EGameLogType.Skill, skillString.tips[0]);
+		}
 	}
 }
