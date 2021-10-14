@@ -180,6 +180,20 @@ public class Board implements IAlive {
 		}
 		lastState = state;
 
+		// 检查威慑胜利条件
+		{
+			if (state == BoardState.TurnStart) {
+				if (curTurnHuman.threatenPile.size() >= ConstGame.THREATHEN_WIN_NUMBER) {
+					gameOver = true;
+					gameLog(curTurnHuman, EGameLogType.Turn, uiString.strs[10]);
+					for (var human : humans) {
+						human.sendMessage(new SCGameOver());
+					}
+					return;
+				}
+			}
+		}
+
 		// 回合中结算完成后，需要玩家主动出牌
 		if (state == BoardState.InTurn && actionQueue.isEmpty()) {
 			if (humans.stream().allMatch(h -> h.humanOpers.isEmpty())) {

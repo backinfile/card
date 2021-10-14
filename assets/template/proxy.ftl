@@ -172,7 +172,7 @@ public class ${handlerClassName} extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 <#list struct.fields as field>
 <#if field.array>
@@ -194,7 +194,7 @@ public class ${handlerClassName} extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 <#list struct.fields as field>
 <#if field.array>
 <#if field.baseType>

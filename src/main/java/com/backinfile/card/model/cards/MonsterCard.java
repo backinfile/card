@@ -17,7 +17,7 @@ import com.backinfile.card.model.skills.WhaleRecallSkill;
 import com.backinfile.card.model.skills.WhaleRideSkill;
 
 // 第二章特有的储备卡
-public class MonsterCard extends StoreCard {
+public abstract class MonsterCard extends StoreCard {
 	protected Set<MonsterSkillType> monsterSkillTypes = new HashSet<>();
 
 	public MonsterCard() {

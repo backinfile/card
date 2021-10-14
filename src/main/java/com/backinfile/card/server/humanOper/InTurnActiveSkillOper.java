@@ -10,13 +10,11 @@ import com.backinfile.card.manager.ConstGame;
 import com.backinfile.card.model.Skill;
 import com.backinfile.card.model.skills.StoreSelfSkill;
 import com.backinfile.card.model.skills.TurnEndSkill;
-import com.backinfile.support.Time2;
 import com.backinfile.support.Utils;
 
 // 回合进行中，出牌事件
 public class InTurnActiveSkillOper extends HumanOper {
 	private List<Skill> activableSkills;
-	private long aiTimer = -1;
 
 	@Override
 	public void onHumanAttach() {
@@ -31,20 +29,6 @@ public class InTurnActiveSkillOper extends HumanOper {
 	@Override
 	public void onAIAttach() {
 		activableSkills = human.board.getActivableSkills(human.token);
-
-		aiTimer = Time2.getCurMillis() + ConstGame.AI_WAIT_TIME;
-	}
-
-	@Override
-	public void pulse() {
-		if (aiTimer > 0 && Time2.getCurMillis() > aiTimer) {
-			aiTimer = -1;
-			aiPlaySkill();
-		}
-	}
-
-	private void aiPlaySkill() {
-
 		if (activableSkills.size() == 1) { // 直接回合结束
 			var skill = activableSkills.get(0);
 			onSelectSkill(skill);

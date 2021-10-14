@@ -6,7 +6,7 @@ import com.backinfile.card.model.skills.Release2StoreSkill;
 import com.backinfile.card.model.skills.ReleaseAttackStoreSkill;
 import com.backinfile.card.model.skills.RideSkill;
 
-public class Chap2ActionCard extends ActionCard {
+public abstract class Chap2ActionCard extends ActionCard {
 	protected MonsterSkillType monsterSkillType;
 
 	public Chap2ActionCard() {

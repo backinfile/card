@@ -2,22 +2,32 @@ package com.backinfile.card.manager;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import com.backinfile.card.Settings;
 import com.backinfile.card.model.Card;
 import com.backinfile.support.Log;
 import com.backinfile.support.SysException;
+import com.backinfile.support.Utils;
 import com.backinfile.support.reflection.ReflectionUtils;
 import com.backinfile.support.reflection.Timing;
 
 // 默认使用卡牌的类的simpleName作为唯一标识
 public class CardManager {
 	private static Map<String, Class<?>> allCards = new HashMap<>();
+	private static Map<String, Card> allOriCards = new HashMap<>();
 
 	@Timing("init card")
 	public static void init() {
 		for (var clazz : ReflectionUtils.getClassesExtendsClass(Settings.PackageName, Card.class)) {
-			allCards.put(clazz.getSimpleName(), clazz);
+			var sn = clazz.getSimpleName();
+			allCards.put(sn, clazz);
+			try {
+				allOriCards.put(clazz.getSimpleName(), (Card) clazz.getConstructor().newInstance());
+			} catch (Exception e) {
+				throw new SysException("error in create Card:" + clazz.getSimpleName() + " " + e.getMessage());
+			}
 		}
 		Log.game.info("find {} cards", allCards.size());
 	}
@@ -33,6 +43,15 @@ public class CardManager {
 		} catch (Exception e) {
 			throw new SysException("error in create Card:" + sn + " " + e.getMessage());
 		}
+	}
+
+	public static Map<String, Card> getAllOriCards() {
+		return allOriCards;
+	}
+
+	public static String getRandomCard(Predicate<Card> predicate) {
+		var cards = allOriCards.values().stream().filter(predicate).collect(Collectors.toList());
+		return cards.get(Utils.nextInt(cards.size())).getClass().getSimpleName();
 	}
 
 	// 获取卡牌标识

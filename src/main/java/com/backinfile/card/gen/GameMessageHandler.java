@@ -394,12 +394,12 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 		}
 		
 		@Override
@@ -508,14 +508,14 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.seed, seed);
 			jsonObject.put(K.humanInits, getJSONArray(humanInits));
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			seed = jsonObject.getLongValue(K.seed);
 			humanInits = DHumanInit.parseJSONArray(jsonObject.getJSONArray(K.humanInits));
 		}
@@ -618,13 +618,13 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.cardInfos, getJSONObject(cardInfos));
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			cardInfos = DCardInfoList.parseJSONObject(jsonObject.getJSONObject(K.cardInfos));
 		}
 		
@@ -734,13 +734,13 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.idList, JSONObject.toJSONString(idList));
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			idList = JSONObject.parseArray(jsonObject.getString(K.idList), Long.class);
 		}
 		
@@ -863,7 +863,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.sn, sn);
 			jsonObject.put(K.id, id);
@@ -872,7 +872,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			sn = jsonObject.getString(K.sn);
 			id = jsonObject.getLongValue(K.id);
 			ownerToken = jsonObject.getString(K.ownerToken);
@@ -987,14 +987,14 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.token, token);
 			jsonObject.put(K.name, name);
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			token = jsonObject.getString(K.token);
 			name = jsonObject.getString(K.name);
 		}
@@ -1076,12 +1076,12 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 		}
 		
 		@Override
@@ -1159,13 +1159,13 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.index, index);
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			index = jsonObject.getIntValue(K.index);
 		}
 		
@@ -1282,7 +1282,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.token, token);
 			jsonObject.put(K.name, name);
@@ -1291,7 +1291,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			token = jsonObject.getString(K.token);
 			name = jsonObject.getString(K.name);
 			roomToken = jsonObject.getString(K.roomToken);
@@ -1396,13 +1396,13 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.confirm, confirm);
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			confirm = jsonObject.getBooleanValue(K.confirm);
 		}
 		
@@ -1536,7 +1536,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.controllerToken, controllerToken);
 			jsonObject.put(K.playerName, playerName);
@@ -1545,7 +1545,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			controllerToken = jsonObject.getString(K.controllerToken);
 			playerName = jsonObject.getString(K.playerName);
 			heroCard = jsonObject.getString(K.heroCard);
@@ -1685,14 +1685,14 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.data, getJSONObject(data));
 			jsonObject.put(K.cards, getJSONArray(cards));
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			data = DBoardData.parseJSONObject(jsonObject.getJSONObject(K.data));
 			cards = DCardInfo.parseJSONArray(jsonObject.getJSONArray(K.cards));
 		}
@@ -1785,12 +1785,12 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 		}
 		
 		@Override
@@ -1946,7 +1946,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.aimType, aimType.ordinal());
 			jsonObject.put(K.selectFrom, JSONObject.toJSONString(selectFrom));
@@ -1957,7 +1957,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			aimType = ETargetSlotAimType.values()[(jsonObject.getIntValue(K.aimType))];
 			selectFrom = JSONObject.parseArray(jsonObject.getString(K.selectFrom), Integer.class);
 			opponent = jsonObject.getBooleanValue(K.opponent);
@@ -2102,14 +2102,14 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.tip, tip);
 			jsonObject.put(K.options, JSONObject.toJSONString(options));
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			tip = jsonObject.getString(K.tip);
 			options = JSONObject.parseArray(jsonObject.getString(K.options), String.class);
 		}
@@ -2277,7 +2277,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.token, token);
 			jsonObject.put(K.state, state.ordinal());
@@ -2287,7 +2287,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			token = jsonObject.getString(K.token);
 			state = ERoomStage.values()[(jsonObject.getIntValue(K.state))];
 			hide = jsonObject.getBooleanValue(K.hide);
@@ -2485,7 +2485,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.confirm, confirm);
 			jsonObject.put(K.selectedCard, JSONObject.toJSONString(selectedCard));
@@ -2493,7 +2493,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			confirm = jsonObject.getBooleanValue(K.confirm);
 			selectedCard = JSONObject.parseArray(jsonObject.getString(K.selectedCard), Long.class);
 			slotIndex = JSONObject.parseArray(jsonObject.getString(K.slotIndex), Integer.class);
@@ -2600,14 +2600,14 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.type, type.ordinal());
 			jsonObject.put(K.skillId, skillId);
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			type = EOperType.values()[(jsonObject.getIntValue(K.type))];
 			skillId = jsonObject.getLongValue(K.skillId);
 		}
@@ -2770,7 +2770,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.opponentPlayerName, opponentPlayerName);
 			jsonObject.put(K.curTurnPlayerName, curTurnPlayerName);
@@ -2780,7 +2780,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			opponentPlayerName = jsonObject.getString(K.opponentPlayerName);
 			curTurnPlayerName = jsonObject.getString(K.curTurnPlayerName);
 			curActionPlayerName = jsonObject.getString(K.curActionPlayerName);
@@ -2884,12 +2884,12 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 		}
 		
 		@Override
@@ -3012,7 +3012,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.sn, sn);
 			jsonObject.put(K.skillId, skillId);
@@ -3021,7 +3021,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			sn = jsonObject.getString(K.sn);
 			skillId = jsonObject.getLongValue(K.skillId);
 			ownerId = jsonObject.getLongValue(K.ownerId);
@@ -3150,13 +3150,13 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.cardIds, JSONObject.toJSONString(cardIds));
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			cardIds = JSONObject.parseArray(jsonObject.getString(K.cardIds), Long.class);
 		}
 		
@@ -3301,7 +3301,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.onlinePlayerList, getJSONArray(onlinePlayerList));
 			jsonObject.put(K.roomList, getJSONArray(roomList));
@@ -3309,7 +3309,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			onlinePlayerList = DPlayer.parseJSONArray(jsonObject.getJSONArray(K.onlinePlayerList));
 			roomList = DRoom.parseJSONArray(jsonObject.getJSONArray(K.roomList));
 			myRoom = DRoom.parseJSONObject(jsonObject.getJSONObject(K.myRoom));
@@ -3443,7 +3443,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.pileType, pileType.ordinal());
 			jsonObject.put(K.opponent, opponent);
@@ -3451,7 +3451,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			pileType = ECardPileType.values()[(jsonObject.getIntValue(K.pileType))];
 			opponent = jsonObject.getBooleanValue(K.opponent);
 			number = jsonObject.getIntValue(K.number);
@@ -3586,7 +3586,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.cancel, cancel);
 			jsonObject.put(K.tip, tip);
@@ -3595,7 +3595,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			cancel = jsonObject.getBooleanValue(K.cancel);
 			tip = jsonObject.getString(K.tip);
 			confirmTip = jsonObject.getString(K.confirmTip);
@@ -3697,13 +3697,13 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.skillId, skillId);
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			skillId = jsonObject.getLongValue(K.skillId);
 		}
 		
@@ -3812,7 +3812,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.playerName, playerName);
 			jsonObject.put(K.type, type.ordinal());
@@ -3820,7 +3820,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			playerName = jsonObject.getString(K.playerName);
 			type = EGameLogType.values()[(jsonObject.getIntValue(K.type))];
 			log = jsonObject.getString(K.log);
@@ -3927,14 +3927,14 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.card, card);
 			jsonObject.put(K.count, count);
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			card = jsonObject.getString(K.card);
 			count = jsonObject.getIntValue(K.count);
 		}
@@ -4118,7 +4118,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.cardIds, JSONObject.toJSONString(cardIds));
 			jsonObject.put(K.tip, tip);
@@ -4128,7 +4128,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			cardIds = JSONObject.parseArray(jsonObject.getString(K.cardIds), Long.class);
 			tip = jsonObject.getString(K.tip);
 			minNumber = jsonObject.getIntValue(K.minNumber);
@@ -4246,13 +4246,13 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.selected, selected);
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			selected = jsonObject.getIntValue(K.selected);
 		}
 		
@@ -4440,7 +4440,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.playerToken, playerToken);
 			jsonObject.put(K.pileType, pileType.ordinal());
@@ -4453,7 +4453,7 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			playerToken = jsonObject.getString(K.playerToken);
 			pileType = ECardPileType.values()[(jsonObject.getIntValue(K.pileType))];
 			slotType = ESlotType.values()[(jsonObject.getIntValue(K.slotType))];
@@ -4610,14 +4610,14 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 
 		@Override
-		protected void getRecord(JSONObject jsonObject) {
+		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
 			jsonObject.put(K.skillInfos, getJSONArray(skillInfos));
 			jsonObject.put(K.tip, tip);
 		}
 
 		@Override
-		protected void applyRecord(JSONObject jsonObject) {
+		public void applyRecord(JSONObject jsonObject) {
 			skillInfos = DSkillInfo.parseJSONArray(jsonObject.getJSONArray(K.skillInfos));
 			tip = jsonObject.getString(K.tip);
 		}
