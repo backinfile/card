@@ -1,6 +1,7 @@
 package com.backinfile.card.model.skills;
 
 import com.backinfile.card.model.Skill;
+import com.backinfile.card.model.actions.DiscardCardAction;
 import com.backinfile.card.model.actions.SelectToHarassAction;
 import com.backinfile.card.model.cards.MonsterCard.Cat;
 
@@ -34,6 +35,7 @@ public class HarassSkill extends Skill {
 
 	@Override
 	public void apply() {
+		addLast(new DiscardCardAction(human, card));
 		addLast(new SelectToHarassAction(human));
 	}
 
