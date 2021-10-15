@@ -34,12 +34,12 @@ public class LocalBoardView extends BaseView {
 		cardGroupView = new CardGroupView(gameStage, getWidth(), getHeight());
 		addActor(cardGroupView);
 
-		{
-			PositionLocator locator = new PositionLocator();
-			locator.setSize(16, 16);
-			locator.setPosition(100, getHeight() / 2, Align.center);
-			addActor(locator);
-		}
+//		{
+//			PositionLocator locator = new PositionLocator();
+//			locator.setSize(16, 16);
+//			locator.setPosition(100, getHeight() / 2, Align.center);
+//			addActor(locator);
+//		}
 
 		boardLogScrollView = new BoardLogScrollView(gameStage, getWidth(), getHeight());
 		addActor(boardLogScrollView);

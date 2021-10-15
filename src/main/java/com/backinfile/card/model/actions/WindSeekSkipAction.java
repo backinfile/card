@@ -45,7 +45,7 @@ public class WindSeekSkipAction extends WaitAction {
 				toSkip();
 			} else {
 				board.gameLog(human, EGameLogType.Action, actionString.tips[7]);
-				notSkip();
+				failSkip();
 			}
 			addFirst(new DiscardCardAction(human, topCard));
 		});
@@ -58,6 +58,13 @@ public class WindSeekSkipAction extends WaitAction {
 
 		addFirst(new ArrangePileAction(human));
 		addFirst(new DiscardCardAction(human, skill.card));
+		setDone();
+	}
+
+	private void failSkip() {
+		var heroSkill = human.getHeroSkill(WindSeekerSkill.class);
+		heroSkill.triggerTimesLimit = Math.min(0, heroSkill.triggerTimesLimit - 1);
+		board.applySkillNoAPCost(skill);
 		setDone();
 	}
 
