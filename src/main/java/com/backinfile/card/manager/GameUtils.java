@@ -26,13 +26,13 @@ public class GameUtils {
 			humanInit.setControllerToken(LocalData.instance().token);
 			humanInit.setPlayerName(LocalData.instance().name);
 			humanInit.setHeroCard(LocalData.instance().startHeroCard);
-			humanInit.setPileList(getStartPile());
+			humanInit.setPileList(getLocalStartPile());
 			boardInit.addHumanInits(humanInit);
 		}
 		{
 			DHumanInit aiInit = new DHumanInit();
 			aiInit.setControllerToken(ConstGame.AI_TOKEN);
-			aiInit.setPlayerName("AI01");
+			aiInit.setPlayerName(LocalString.getUIString("AILevel").strs[LocalData.instance().AILevel]);
 			aiInit.setHeroCard(CardManager.getRandomCard(c -> c instanceof Chap2HeroCard));
 			aiInit.setPileList(getStartPile());
 			boardInit.addHumanInits(aiInit);
@@ -50,6 +50,18 @@ public class GameUtils {
 			}
 		}
 		return pile;
+	}
+
+	private static List<DStartPileDataPair> getLocalStartPile() {
+		List<DStartPileDataPair> startPile = new ArrayList<>();
+		for (var entry : LocalData.instance().startPile.entrySet()) {
+			var cards = new DStartPileDataPair();
+			cards.setCard(entry.getKey());
+			cards.setCount(entry.getValue());
+			startPile.add(cards);
+		}
+		return startPile;
+
 	}
 
 	private static List<DStartPileDataPair> getStartPile() {

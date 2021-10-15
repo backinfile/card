@@ -231,4 +231,5 @@ public class ShowCardListView extends BaseView {
 			setVisible(false);
 		}));
 	}
+
 }

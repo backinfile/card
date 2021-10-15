@@ -1,6 +1,7 @@
 package com.backinfile.card.manager;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -52,6 +53,10 @@ public class CardManager {
 	public static String getRandomCard(Predicate<Card> predicate) {
 		var cards = allOriCards.values().stream().filter(predicate).collect(Collectors.toList());
 		return cards.get(Utils.nextInt(cards.size())).getClass().getSimpleName();
+	}
+
+	public static List<Card> getSpecOriCards(Predicate<Card> predicate) {
+		return allOriCards.values().stream().filter(predicate).collect(Collectors.toList());
 	}
 
 	// 获取卡牌标识

@@ -8,11 +8,6 @@ import com.backinfile.card.view.group.boardView.LocalBoardView;
 import com.backinfile.card.view.group.boardView.ShowCardListView;
 import com.backinfile.card.view.group.boardView.ShowCardView;
 import com.backinfile.card.view.viewActions.ViewAction;
-import com.backinfile.support.timer.TimerQueue;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -24,28 +19,11 @@ public class GameStage extends Stage {
 
 	private LinkedList<ViewAction> viewActionQueue = new LinkedList<>();
 	private ViewAction curViewAction = null;
-	private TimerQueue timerQueue;
 
 	public GameStage(Viewport viewport) {
 		super(viewport);
-		timerQueue = new TimerQueue();
 
 		initView();
-		initLogic();
-	}
-
-	private void initLogic() {
-
-		addListener(new InputListener() {
-			@Override
-			public boolean keyUp(InputEvent event, int keycode) {
-				if (keycode == Keys.ESCAPE) {
-					Gdx.app.exit();
-					return true;
-				}
-				return super.keyUp(event, keycode);
-			}
-		});
 	}
 
 	private void initView() {
@@ -75,7 +53,6 @@ public class GameStage extends Stage {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-		timerQueue.update();
 		pulseViewActionQueue();
 	}
 
@@ -104,7 +81,8 @@ public class GameStage extends Stage {
 //		Log.game.info("viewAction {} begin", curViewAction.getClass().getSimpleName());
 	}
 
-	public TimerQueue getTimerQueue() {
-		return timerQueue;
+	public void clearAllViewAction() {
+		curViewAction = null;
+		viewActionQueue.clear();
 	}
 }

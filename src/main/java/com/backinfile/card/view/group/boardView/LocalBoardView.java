@@ -59,6 +59,11 @@ public class LocalBoardView extends BaseView {
 		hide();
 		gameClient = null;
 		cardGroupView.clearAllCard();
+		gameStage.clearAllViewAction();
+		boardLogScrollView.clearLog();
+		gameStage.buttonsView.setButtonInfos();
+		gameStage.showCardListView.hide();
+		gameStage.showCardView.hide();
 	}
 
 	@Override

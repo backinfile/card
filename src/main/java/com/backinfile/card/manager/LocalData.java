@@ -32,7 +32,7 @@ public class LocalData {
 		FileHandle file = Gdx.files.internal(Res.PATH_LOCAL_DATA);
 		if (file.exists()) {
 			localData = (LocalData) JSON.parseObject(file.readString(), LocalData.class);
-			if (LOCALDATA_VERSION.equals(localData.version)) {
+			if (localData != null && LOCALDATA_VERSION.equals(localData.version)) {
 				Log.res.info("read local data");
 				return;
 			}
