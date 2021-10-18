@@ -5,6 +5,7 @@ import java.util.Arrays;
 import com.backinfile.card.manager.CardManager;
 import com.backinfile.card.manager.LocalData;
 import com.backinfile.card.manager.Res;
+import com.backinfile.card.manager.SoundManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.Input.Keys;
@@ -26,6 +27,7 @@ public class GameScreen extends ScreenAdapter {
 	public GameScreen() {
 		Instance = this;
 		Res.init();
+		SoundManager.init();
 		CardManager.init();
 		LocalData.load();
 

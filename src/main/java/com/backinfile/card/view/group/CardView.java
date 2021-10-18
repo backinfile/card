@@ -2,6 +2,7 @@ package com.backinfile.card.view.group;
 
 import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.manager.Res;
+import com.backinfile.card.manager.SoundManager;
 import com.backinfile.card.manager.LocalString.LocalCardString;
 import com.backinfile.card.manager.LocalString.LocalImagePathString;
 import com.backinfile.card.manager.LocalString.LocalUIString;
@@ -69,7 +70,14 @@ public class CardView extends Group {
 		addListener(new ClickListener(Buttons.LEFT) {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				SoundManager.playCardMove();
 				invokeLeftClickCallback();
+			}
+		});
+		addListener(new ClickListener(Buttons.RIGHT) {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				SoundManager.playCardMove();
 			}
 		});
 	}
@@ -115,6 +123,7 @@ public class CardView extends Group {
 			sequenceAction.addAction(runableAction);
 		}
 		addAction(sequenceAction);
+		SoundManager.playCardMove();
 
 		setZIndex(state.zIndex);
 	}
