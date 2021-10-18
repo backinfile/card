@@ -145,6 +145,7 @@ public class IntroStage extends Stage {
 		addActor(table);
 	}
 
+	@SuppressWarnings("unused")
 	private void reset() {
 		LocalData.instance().startPile = GameUtils.getDefaultStartPile();
 		LocalData.instance().save();

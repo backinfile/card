@@ -1,8 +1,6 @@
 package com.backinfile.card.model.actions;
 
-import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.model.Card;
-import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
 import com.backinfile.card.model.cards.Chap2HeroCard.HeartFire;
 import com.backinfile.card.model.cards.MonsterCard.Dear;
@@ -20,12 +18,7 @@ public class BreakAction extends WaitAction {
 
 	@Override
 	public void init() {
-		var dears = new CardPile();
-		for (var slot : human.getOpponent().cardSlotMap.values()) {
-			if (slot.ready) {
-				dears.addAll(slot.getCardInPile(ESlotType.Store, ESlotType.Plan).filter(c -> c instanceof Dear));
-			}
-		}
+		var dears = human.getOpponent().getAllStoreCards(true, true, false, false, false).filter(Dear.class);
 		dears.remove(breakCard);
 
 		var humanOper = new SelectCardOper(dears, Utils.format(actionString.tip, breakCard.cardString.name), 0, 1);

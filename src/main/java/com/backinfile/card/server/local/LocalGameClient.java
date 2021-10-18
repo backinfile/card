@@ -6,7 +6,7 @@ import com.backinfile.card.manager.LocalData;
 import com.backinfile.card.view.stage.GameStage;
 import com.backinfile.dSync.model.DSyncBaseHandler.DSyncBase;
 import com.backinfile.support.IAlive;
-import com.backinfile.support.func.Terminal;
+import com.backinfile.support.Terminal;
 
 //进行一局本地游戏
 public class LocalGameClient extends Terminal<MessageWarpper, MessageWarpper> implements IAlive {

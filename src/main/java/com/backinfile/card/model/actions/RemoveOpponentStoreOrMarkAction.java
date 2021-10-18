@@ -1,7 +1,6 @@
 package com.backinfile.card.model.actions;
 
 import com.backinfile.card.gen.GameMessageHandler.EGameLogType;
-import com.backinfile.card.gen.GameMessageHandler.ESlotType;
 import com.backinfile.card.model.Card;
 import com.backinfile.card.model.CardPile;
 import com.backinfile.card.model.Human;
@@ -52,12 +51,7 @@ public class RemoveOpponentStoreOrMarkAction extends WaitAction {
 
 	private void onDearChangeTarget(Card targetCard) {
 		var opponent = human.getOpponent();
-		var dears = new CardPile();
-		for (var slot : human.getOpponent().cardSlotMap.values()) {
-			if (slot.ready) {
-				dears.addAll(slot.getCardInPile(ESlotType.Store, ESlotType.Plan).filter(c -> c instanceof Dear));
-			}
-		}
+		var dears = human.getOpponent().getAllStoreCards(true, true, false, false, false).filter(Dear.class);
 		dears.remove(targetCard);
 
 		var humanOper = new SelectCardOper(dears,

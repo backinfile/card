@@ -6,7 +6,7 @@ import com.backinfile.card.model.Board;
 import com.backinfile.card.model.Human;
 import com.backinfile.dSync.model.DSyncBaseHandler.DSyncBase;
 import com.backinfile.support.IAlive;
-import com.backinfile.support.func.Terminal;
+import com.backinfile.support.Terminal;
 
 public class LocalGameServer extends Terminal<MessageWarpper, MessageWarpper> implements IAlive {
 	public Board board;

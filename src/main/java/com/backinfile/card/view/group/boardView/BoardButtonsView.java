@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.backinfile.card.Settings;
 import com.backinfile.card.view.actor.ActionButton;
 import com.backinfile.card.view.group.BaseView;
 import com.backinfile.card.view.stage.GameStage;
@@ -17,7 +18,7 @@ public class BoardButtonsView extends BaseView {
 		super(gameStage, 0, 0);
 
 		actionButtons = new ArrayList<ActionButton>();
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < Settings.UI_BUTTON_NUMBER; i++) {
 			ActionButton btn = new ActionButton();
 			btn.setVisible(false);
 			btn.setPosition(width * 0.856f, height * (0.36f - i * 0.06f), Align.left);

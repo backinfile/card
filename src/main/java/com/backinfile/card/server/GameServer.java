@@ -5,8 +5,8 @@ import java.util.Map;
 
 import com.backinfile.card.gen.GameMessageHandler.DPlayer;
 import com.backinfile.support.IAlive;
+import com.backinfile.support.Terminal;
 import com.backinfile.support.Utils;
-import com.backinfile.support.func.Terminal;
 
 /**
  * GameServer管理游戏棋盘，产生数据->转string->传输到client->dSync解析

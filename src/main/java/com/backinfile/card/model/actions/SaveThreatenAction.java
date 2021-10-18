@@ -14,7 +14,7 @@ public class SaveThreatenAction extends WaitAction {
 	@Override
 	public void init() {
 		if (human.handPile.isEmpty()) {
-			addLast(new DiscardThreatenAction(human, 1));
+			addFirst(new DiscardThreatenAction(human, 1));
 			setDone();
 			return;
 		}

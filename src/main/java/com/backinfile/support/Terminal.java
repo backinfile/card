@@ -1,8 +1,10 @@
-package com.backinfile.support.func;
+package com.backinfile.support;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import com.backinfile.support.func.Action1;
 
 /**
  * 处理消息，产生数据的终端
