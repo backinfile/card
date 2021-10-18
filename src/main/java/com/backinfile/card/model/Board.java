@@ -375,10 +375,18 @@ public class Board implements IAlive {
 			if (slot.asPlanSlot && slot.ready) {
 				for (var card : slot.getPile(ESlotType.Plan).filter(c -> c instanceof ActionCard)) {
 					for (var skill : card.getSkillList()) {
-						if (skill.testTriggerable(SkillTrigger.Active, SkillAura.Hand)) {
+						if (skill.testTriggerable(SkillTrigger.Active, SkillAura.Hand, true)) {
 							activableSkills.add(skill);
 						}
 					}
+				}
+			}
+		}
+		// 储备的技能
+		for (var card : human.getAllStoreCards(false, true, false, false, false)) {
+			for (var skill : card.getSkillList()) {
+				if (skill.testTriggerable(SkillTrigger.Active, SkillAura.Store)) {
+					activableSkills.add(skill);
 				}
 			}
 		}

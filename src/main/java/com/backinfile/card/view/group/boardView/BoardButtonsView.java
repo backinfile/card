@@ -20,7 +20,7 @@ public class BoardButtonsView extends BaseView {
 		for (int i = 0; i < 5; i++) {
 			ActionButton btn = new ActionButton();
 			btn.setVisible(false);
-			btn.setPosition(width * 0.856f, height * (0.30f - i * 0.06f), Align.left);
+			btn.setPosition(width * 0.856f, height * (0.36f - i * 0.06f), Align.left);
 			addActor(btn);
 			actionButtons.add(btn);
 		}

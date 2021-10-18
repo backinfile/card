@@ -60,6 +60,7 @@ public abstract class Skill {
 		Slot, // 储备位上
 		Hand, // 手牌
 		Hero, // 英雄牌上
+		Store, // 作为储备完成的储备
 	}
 
 	public static enum SkillMark {
