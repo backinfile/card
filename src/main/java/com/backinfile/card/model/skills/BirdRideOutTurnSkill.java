@@ -19,7 +19,7 @@ public class BirdRideOutTurnSkill extends Skill {
 			return false;
 		}
 
-		if (!bird.getSkill(BirdRideSkill.class).testTriggerable(SkillTrigger.Active, SkillAura.AnyWhere, true)) {
+		if (!bird.getSkill(BirdRideSkill.class).testTriggerable(SkillTrigger.Active, SkillAura.AnyWhere, true, 0)) {
 			return false;
 		}
 

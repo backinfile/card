@@ -6,9 +6,7 @@ import com.backinfile.card.model.actions.ArrangePileAction;
 import com.backinfile.card.model.actions.DiscardCardAction;
 import com.backinfile.card.model.actions.SaveMarkAction;
 import com.backinfile.card.model.actions.SelectToAttackAction;
-import com.backinfile.card.model.cards.MonsterCard;
 import com.backinfile.card.model.cards.Chap2HeroCard.CyanDragon;
-import com.backinfile.card.model.cards.MonsterCard.MonsterSkillType;
 
 public class ReleaseAttackStoreSkill extends Skill {
 	public ReleaseAttackStoreSkill() {
@@ -19,12 +17,15 @@ public class ReleaseAttackStoreSkill extends Skill {
 	@Override
 	public boolean triggerable() {
 		var allStoreCards = human.getAllStoreCards(true, true, false, false, false);
-		if (allStoreCards
-				.filter(c -> c instanceof MonsterCard && ((MonsterCard) c).isMonsterType(MonsterSkillType.Attack))
-				.isEmpty()) {
-			return false;
+		for (var card : allStoreCards) {
+			Skill skill = card.getSkill(s -> s.trigger == SkillTrigger.ReplaceRelease);
+			if (skill != null) {
+				if (skill.testTriggerable(SkillTrigger.ReplaceRelease, SkillAura.AnyWhere, false, this.triggerCostAP)) {
+					return true;
+				}
+			}
 		}
-		return true;
+		return false;
 	}
 
 	@Override

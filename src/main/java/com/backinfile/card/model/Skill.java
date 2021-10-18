@@ -111,16 +111,16 @@ public abstract class Skill {
 	}
 
 	public boolean testTriggerable(SkillTrigger trigger, SkillAura aura) {
-		return testTriggerable(trigger, aura, false);
+		return testTriggerable(trigger, aura, false, 0);
 	}
 
-	public boolean testTriggerable(SkillTrigger trigger, SkillAura aura, boolean noCost) {
+	public boolean testTriggerable(SkillTrigger trigger, SkillAura aura, boolean noCost, int addCost) {
 		if (this.triggerTimesLimit == 0) {
 			return false;
 		}
 		if (aura == SkillAura.AnyWhere || this.aura == SkillAura.AnyWhere || this.aura == aura) {
 			if (this.trigger == trigger) {
-				if (noCost || getRealCostAP() <= human.actionPoint) {
+				if (noCost || getRealCostAP() + addCost <= human.actionPoint) {
 					if (triggerable()) {
 						return true;
 					}

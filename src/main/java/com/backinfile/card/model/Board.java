@@ -375,7 +375,7 @@ public class Board implements IAlive {
 			if (slot.asPlanSlot && slot.ready) {
 				for (var card : slot.getPile(ESlotType.Plan).filter(c -> c instanceof ActionCard)) {
 					for (var skill : card.getSkillList()) {
-						if (skill.testTriggerable(SkillTrigger.Active, SkillAura.Hand, true)) {
+						if (skill.testTriggerable(SkillTrigger.Active, SkillAura.Hand, true, 0)) {
 							activableSkills.add(skill);
 						}
 					}
