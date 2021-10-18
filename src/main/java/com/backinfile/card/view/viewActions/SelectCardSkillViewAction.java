@@ -7,11 +7,13 @@ import java.util.Map;
 
 import com.backinfile.card.gen.GameMessageHandler.CSSelectSkillToActive;
 import com.backinfile.card.gen.GameMessageHandler.DSkillInfo;
+import com.backinfile.card.manager.LocalString;
+import com.backinfile.card.model.CardInfo;
 import com.backinfile.card.view.group.boardView.ButtonInfo;
 import com.backinfile.support.Log;
 
 public class SelectCardSkillViewAction extends ViewAction {
-
+	private Map<Long, List<DSkillInfo>> hideSkillInfoMap = new HashMap<>();
 	private Map<Long, List<DSkillInfo>> skillInfoMap = new HashMap<>();
 	private long selectedSkillId = -1;
 
@@ -24,6 +26,16 @@ public class SelectCardSkillViewAction extends ViewAction {
 
 	@Override
 	public void begin() {
+		for (var entry : skillInfoMap.entrySet()) {
+			long cardId = entry.getKey();
+			if (cardId != -1) {
+				var cardView = gameStage.boardView.cardGroupView.getCurCardView(cardId);
+				if (cardView == null) {
+					hideSkillInfoMap.put(cardId, entry.getValue());
+				}
+			}
+		}
+
 		for (var entry : skillInfoMap.entrySet()) {
 			var list = entry.getValue();
 			long cardId = entry.getKey();
@@ -57,21 +69,43 @@ public class SelectCardSkillViewAction extends ViewAction {
 	}
 
 	private void setHumanSkillButtons() {
-		var humanSkillList = skillInfoMap.get(-1L);
-		if (humanSkillList != null && !humanSkillList.isEmpty()) {
-			List<ButtonInfo> buttonInfos = new ArrayList<ButtonInfo>();
-			for (var i = 0; i < humanSkillList.size(); i++) {
-				var skillInfo = humanSkillList.get(i);
-				ButtonInfo buttonInfo = new ButtonInfo();
-				buttonInfo.index = i;
-				buttonInfo.text = skillInfo.getTip();
-				buttonInfo.callback = () -> {
-					onSelectSkill(skillInfo.getSkillId());
-				};
-				buttonInfos.add(buttonInfo);
+		List<ButtonInfo> buttonInfos = new ArrayList<ButtonInfo>();
+
+		// 隐藏区域中的技能
+		{
+			for (var skillList : hideSkillInfoMap.values()) {
+				for (var skillInfo : skillList) {
+					CardInfo cardInfo = gameStage.boardView.cardGroupView.getCardInfoCache(skillInfo.getOwnerId());
+					var pileType = cardInfo.pileInfo.getPileType();
+					var name = LocalString.getCardString(cardInfo.info.getSn()).name;
+					ButtonInfo buttonInfo = new ButtonInfo();
+					buttonInfo.index = buttonInfos.size();
+					buttonInfo.text = "[" + LocalString.getUIString("ShowCardListView").strs[pileType.ordinal()] + ":"
+							+ name + "]" + skillInfo.getTip();
+					buttonInfo.callback = () -> {
+						onSelectSkill(skillInfo.getSkillId());
+					};
+					buttonInfos.add(buttonInfo);
+				}
 			}
-			gameStage.buttonsView.setButtonInfos(buttonInfos);
 		}
+
+		// 人物技能
+		{
+			var humanSkillList = skillInfoMap.get(-1L);
+			if (humanSkillList != null && !humanSkillList.isEmpty()) {
+				for (var skillInfo : humanSkillList) {
+					ButtonInfo buttonInfo = new ButtonInfo();
+					buttonInfo.index = buttonInfos.size();
+					buttonInfo.text = skillInfo.getTip();
+					buttonInfo.callback = () -> {
+						onSelectSkill(skillInfo.getSkillId());
+					};
+					buttonInfos.add(buttonInfo);
+				}
+			}
+		}
+		gameStage.buttonsView.setButtonInfos(buttonInfos);
 	}
 
 	private void onSelectSkill(long skillId) {
