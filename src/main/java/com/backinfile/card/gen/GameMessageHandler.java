@@ -53,6 +53,9 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		public void onMessage(DHumanInit data) {
 		}
 		
+		public void onMessage(DBoardHumanData data) {
+		}
+		
 		public void onMessage(DCardInfoList data) {
 		}
 		
@@ -175,6 +178,11 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		case DHumanInit.TypeName:
 			for (var listener : listeners) {
 				listener.onMessage(DHumanInit.parseJSONObject(jsonObject));
+			}
+			break;
+		case DBoardHumanData.TypeName:
+			for (var listener : listeners) {
+				listener.onMessage(DBoardHumanData.parseJSONObject(jsonObject));
 			}
 			break;
 		case DCardInfoList.TypeName:
@@ -309,6 +317,8 @@ public class GameMessageHandler extends DSyncBaseHandler {
 			return new CSSelectConfirm();
 		case DHumanInit.TypeName:
 			return new DHumanInit();
+		case DBoardHumanData.TypeName:
+			return new DBoardHumanData();
 		case DCardInfoList.TypeName:
 			return new DCardInfoList();
 		case CSCreateRoom.TypeName:
@@ -1605,6 +1615,135 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		}
 	}
 	
+	public static class DBoardHumanData extends DSyncBase {
+		public static final String TypeName = "DBoardHumanData";
+		
+		private String token;
+		private String name;
+		/** 当前行动点 */
+		private int actionPoint;
+
+		public static class K {
+			public static final String token = "token";
+			public static final String name = "name";
+			public static final String actionPoint = "actionPoint";
+		}
+
+		public DBoardHumanData() {
+			init();
+		}
+
+		@Override
+		protected void init() {
+			token = "";
+			name = "";
+			actionPoint = 0;
+		}
+		
+		public String getToken() {
+			return token;
+		}
+		
+		public void setToken(String token) {
+			this.token = token;
+		}
+		
+		public String getName() {
+			return name;
+		}
+		
+		public void setName(String name) {
+			this.name = name;
+		}
+		
+		/** 当前行动点 */
+		public int getActionPoint() {
+			return actionPoint;
+		}
+		
+		/** 当前行动点 */
+		public void setActionPoint(int actionPoint) {
+			this.actionPoint = actionPoint;
+		}
+		
+
+		static DBoardHumanData parseJSONObject(JSONObject jsonObject) {
+			var _value = new DBoardHumanData();
+			if (!jsonObject.isEmpty()) {
+				_value.applyRecord(jsonObject);
+			}
+			return _value;
+		}
+		
+		static List<DBoardHumanData> parseJSONArray(JSONArray jsonArray) {
+			var list = new ArrayList<DBoardHumanData>();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				var _value = new DBoardHumanData();
+				var jsonObject = jsonArray.getJSONObject(i);
+				if (!jsonObject.isEmpty()) {
+					_value.applyRecord(jsonObject);
+				}
+				list.add(_value);
+			}
+			return list;
+		}
+
+		@Override
+		public void getRecord(JSONObject jsonObject) {
+			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.token, token);
+			jsonObject.put(K.name, name);
+			jsonObject.put(K.actionPoint, actionPoint);
+		}
+
+		@Override
+		public void applyRecord(JSONObject jsonObject) {
+			token = jsonObject.getString(K.token);
+			name = jsonObject.getString(K.name);
+			actionPoint = jsonObject.getIntValue(K.actionPoint);
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (!(obj instanceof DBoardHumanData)) {
+				return false;
+			}
+			var _value = (DBoardHumanData) obj;
+			if (!this.token.equals(_value.token)) {
+				return false;
+			}
+			if (!this.name.equals(_value.name)) {
+				return false;
+			}
+			if (this.actionPoint != _value.actionPoint) {
+				return false;
+			}
+			return true;
+		}
+		
+		public DBoardHumanData copy() {
+			var _value = new DBoardHumanData();
+			_value.token = this.token;
+			_value.name = this.name;
+			_value.actionPoint = this.actionPoint;
+			return _value;
+		}
+		
+		public DBoardHumanData deepCopy() {
+			var _value = new DBoardHumanData();
+			_value.token = this.token;
+			_value.name = this.name;
+			_value.actionPoint = this.actionPoint;
+			return _value;
+		}
+	}
+	
 	/**
 	 * 卡牌更新或移动
 	 */
@@ -2654,20 +2793,17 @@ public class GameMessageHandler extends DSyncBaseHandler {
 	public static class DBoardData extends DSyncBase {
 		public static final String TypeName = "DBoardData";
 		
-		private String opponentPlayerName;
-		/** 当前回合玩家名字 */
-		private String curTurnPlayerName;
-		/** 当前行动玩家名字 */
-		private String curActionPlayerName;
-		/** 当前行动点 */
-		private int actionPoint;
+		private List<DBoardHumanData> playerDatas;
+		/** 当前回合玩家 */
+		private String curTurnPlayer;
+		/** 当前行动玩家 */
+		private String curActionPlayer;
 		private List<DPileNumber> pileNumbers;
 
 		public static class K {
-			public static final String opponentPlayerName = "opponentPlayerName";
-			public static final String curTurnPlayerName = "curTurnPlayerName";
-			public static final String curActionPlayerName = "curActionPlayerName";
-			public static final String actionPoint = "actionPoint";
+			public static final String playerDatas = "playerDatas";
+			public static final String curTurnPlayer = "curTurnPlayer";
+			public static final String curActionPlayer = "curActionPlayer";
 			public static final String pileNumbers = "pileNumbers";
 		}
 
@@ -2677,49 +2813,55 @@ public class GameMessageHandler extends DSyncBaseHandler {
 
 		@Override
 		protected void init() {
-			opponentPlayerName = "";
-			curTurnPlayerName = "";
-			curActionPlayerName = "";
-			actionPoint = 0;
+			playerDatas = new ArrayList<>();
+			curTurnPlayer = "";
+			curActionPlayer = "";
 			pileNumbers = new ArrayList<>();
 		}
 		
-		public String getOpponentPlayerName() {
-			return opponentPlayerName;
+		public int getPlayerDatasCount() {
+			return this.playerDatas.size();
 		}
 		
-		public void setOpponentPlayerName(String opponentPlayerName) {
-			this.opponentPlayerName = opponentPlayerName;
+		public List<DBoardHumanData> getPlayerDatasList() {
+			return new ArrayList<>(playerDatas);
 		}
 		
-		/** 当前回合玩家名字 */
-		public String getCurTurnPlayerName() {
-			return curTurnPlayerName;
+		public void setPlayerDatasList(List<DBoardHumanData> _value) {
+			this.playerDatas.clear();
+			this.playerDatas.addAll(_value);
+		}
+
+		public void addPlayerDatas(DBoardHumanData _value) {
+			this.playerDatas.add(_value);
 		}
 		
-		/** 当前回合玩家名字 */
-		public void setCurTurnPlayerName(String curTurnPlayerName) {
-			this.curTurnPlayerName = curTurnPlayerName;
+		public void addAllPlayerDatas(List<DBoardHumanData> _value) {
+			this.playerDatas.addAll(_value);
 		}
 		
-		/** 当前行动玩家名字 */
-		public String getCurActionPlayerName() {
-			return curActionPlayerName;
+		public void clearPlayerDatas() {
+			this.playerDatas.clear();
 		}
 		
-		/** 当前行动玩家名字 */
-		public void setCurActionPlayerName(String curActionPlayerName) {
-			this.curActionPlayerName = curActionPlayerName;
+		/** 当前回合玩家 */
+		public String getCurTurnPlayer() {
+			return curTurnPlayer;
 		}
 		
-		/** 当前行动点 */
-		public int getActionPoint() {
-			return actionPoint;
+		/** 当前回合玩家 */
+		public void setCurTurnPlayer(String curTurnPlayer) {
+			this.curTurnPlayer = curTurnPlayer;
 		}
 		
-		/** 当前行动点 */
-		public void setActionPoint(int actionPoint) {
-			this.actionPoint = actionPoint;
+		/** 当前行动玩家 */
+		public String getCurActionPlayer() {
+			return curActionPlayer;
+		}
+		
+		/** 当前行动玩家 */
+		public void setCurActionPlayer(String curActionPlayer) {
+			this.curActionPlayer = curActionPlayer;
 		}
 		
 		public int getPileNumbersCount() {
@@ -2772,19 +2914,17 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		@Override
 		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
-			jsonObject.put(K.opponentPlayerName, opponentPlayerName);
-			jsonObject.put(K.curTurnPlayerName, curTurnPlayerName);
-			jsonObject.put(K.curActionPlayerName, curActionPlayerName);
-			jsonObject.put(K.actionPoint, actionPoint);
+			jsonObject.put(K.playerDatas, getJSONArray(playerDatas));
+			jsonObject.put(K.curTurnPlayer, curTurnPlayer);
+			jsonObject.put(K.curActionPlayer, curActionPlayer);
 			jsonObject.put(K.pileNumbers, getJSONArray(pileNumbers));
 		}
 
 		@Override
 		public void applyRecord(JSONObject jsonObject) {
-			opponentPlayerName = jsonObject.getString(K.opponentPlayerName);
-			curTurnPlayerName = jsonObject.getString(K.curTurnPlayerName);
-			curActionPlayerName = jsonObject.getString(K.curActionPlayerName);
-			actionPoint = jsonObject.getIntValue(K.actionPoint);
+			playerDatas = DBoardHumanData.parseJSONArray(jsonObject.getJSONArray(K.playerDatas));
+			curTurnPlayer = jsonObject.getString(K.curTurnPlayer);
+			curActionPlayer = jsonObject.getString(K.curActionPlayer);
 			pileNumbers = DPileNumber.parseJSONArray(jsonObject.getJSONArray(K.pileNumbers));
 		}
 		
@@ -2800,16 +2940,13 @@ public class GameMessageHandler extends DSyncBaseHandler {
 				return false;
 			}
 			var _value = (DBoardData) obj;
-			if (!this.opponentPlayerName.equals(_value.opponentPlayerName)) {
+			if (!this.playerDatas.equals(_value.playerDatas)) {
 				return false;
 			}
-			if (!this.curTurnPlayerName.equals(_value.curTurnPlayerName)) {
+			if (!this.curTurnPlayer.equals(_value.curTurnPlayer)) {
 				return false;
 			}
-			if (!this.curActionPlayerName.equals(_value.curActionPlayerName)) {
-				return false;
-			}
-			if (this.actionPoint != _value.actionPoint) {
+			if (!this.curActionPlayer.equals(_value.curActionPlayer)) {
 				return false;
 			}
 			if (!this.pileNumbers.equals(_value.pileNumbers)) {
@@ -2820,20 +2957,25 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		
 		public DBoardData copy() {
 			var _value = new DBoardData();
-			_value.opponentPlayerName = this.opponentPlayerName;
-			_value.curTurnPlayerName = this.curTurnPlayerName;
-			_value.curActionPlayerName = this.curActionPlayerName;
-			_value.actionPoint = this.actionPoint;
+			_value.playerDatas = new ArrayList<>(this.playerDatas);
+			_value.curTurnPlayer = this.curTurnPlayer;
+			_value.curActionPlayer = this.curActionPlayer;
 			_value.pileNumbers = new ArrayList<>(this.pileNumbers);
 			return _value;
 		}
 		
 		public DBoardData deepCopy() {
 			var _value = new DBoardData();
-			_value.opponentPlayerName = this.opponentPlayerName;
-			_value.curTurnPlayerName = this.curTurnPlayerName;
-			_value.curActionPlayerName = this.curActionPlayerName;
-			_value.actionPoint = this.actionPoint;
+			_value.playerDatas = new ArrayList<>();
+			for(var _f: this.playerDatas) {
+				if (_f != null) {
+					_value.playerDatas.add(_f.deepCopy());
+				} else {
+					_value.playerDatas.add(null);
+				}
+			}
+			_value.curTurnPlayer = this.curTurnPlayer;
+			_value.curActionPlayer = this.curActionPlayer;
 			_value.pileNumbers = new ArrayList<>();
 			for(var _f: this.pileNumbers) {
 				if (_f != null) {
@@ -3375,13 +3517,13 @@ public class GameMessageHandler extends DSyncBaseHandler {
 	public static class DPileNumber extends DSyncBase {
 		public static final String TypeName = "DPileNumber";
 		
+		private String playerToken;
 		private ECardPileType pileType;
-		private boolean opponent;
 		private int number;
 
 		public static class K {
+			public static final String playerToken = "playerToken";
 			public static final String pileType = "pileType";
-			public static final String opponent = "opponent";
 			public static final String number = "number";
 		}
 
@@ -3391,9 +3533,17 @@ public class GameMessageHandler extends DSyncBaseHandler {
 
 		@Override
 		protected void init() {
+			playerToken = "";
 			pileType = ECardPileType.None;
-			opponent = false;
 			number = 0;
+		}
+		
+		public String getPlayerToken() {
+			return playerToken;
+		}
+		
+		public void setPlayerToken(String playerToken) {
+			this.playerToken = playerToken;
 		}
 		
 		public ECardPileType getPileType() {
@@ -3402,14 +3552,6 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		
 		public void setPileType(ECardPileType pileType) {
 			this.pileType = pileType;
-		}
-		
-		public boolean getOpponent() {
-			return opponent;
-		}
-		
-		public void setOpponent(boolean opponent) {
-			this.opponent = opponent;
 		}
 		
 		public int getNumber() {
@@ -3445,15 +3587,15 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		@Override
 		public void getRecord(JSONObject jsonObject) {
 			jsonObject.put(DSyncBase.K.TypeName, TypeName);
+			jsonObject.put(K.playerToken, playerToken);
 			jsonObject.put(K.pileType, pileType.ordinal());
-			jsonObject.put(K.opponent, opponent);
 			jsonObject.put(K.number, number);
 		}
 
 		@Override
 		public void applyRecord(JSONObject jsonObject) {
+			playerToken = jsonObject.getString(K.playerToken);
 			pileType = ECardPileType.values()[(jsonObject.getIntValue(K.pileType))];
-			opponent = jsonObject.getBooleanValue(K.opponent);
 			number = jsonObject.getIntValue(K.number);
 		}
 		
@@ -3469,10 +3611,10 @@ public class GameMessageHandler extends DSyncBaseHandler {
 				return false;
 			}
 			var _value = (DPileNumber) obj;
-			if (!this.pileType.equals(_value.pileType)) {
+			if (!this.playerToken.equals(_value.playerToken)) {
 				return false;
 			}
-			if (this.opponent != _value.opponent) {
+			if (!this.pileType.equals(_value.pileType)) {
 				return false;
 			}
 			if (this.number != _value.number) {
@@ -3483,16 +3625,16 @@ public class GameMessageHandler extends DSyncBaseHandler {
 		
 		public DPileNumber copy() {
 			var _value = new DPileNumber();
+			_value.playerToken = this.playerToken;
 			_value.pileType = this.pileType;
-			_value.opponent = this.opponent;
 			_value.number = this.number;
 			return _value;
 		}
 		
 		public DPileNumber deepCopy() {
 			var _value = new DPileNumber();
+			_value.playerToken = this.playerToken;
 			_value.pileType = this.pileType;
-			_value.opponent = this.opponent;
 			_value.number = this.number;
 			return _value;
 		}

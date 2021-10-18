@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.backinfile.card.gen.GameMessageHandler.DBoardData;
+import com.backinfile.card.gen.GameMessageHandler.DBoardHumanData;
 import com.backinfile.card.gen.GameMessageHandler.DBoardInit;
 import com.backinfile.card.gen.GameMessageHandler.DBoardSetup;
 import com.backinfile.card.gen.GameMessageHandler.DCardInfo;
@@ -30,6 +31,7 @@ import com.backinfile.card.model.cards.MonsterCard.Bird;
 import com.backinfile.card.model.skills.ActAsStoreSkill;
 import com.backinfile.card.model.skills.WindSeekerSkill;
 import com.backinfile.card.server.humanOper.InTurnActiveSkillOper;
+import com.backinfile.card.server.humanOper.OutTurnActiveSkillOper;
 import com.backinfile.support.IAlive;
 import com.backinfile.support.Time2;
 import com.backinfile.support.Utils;
@@ -192,9 +194,14 @@ public class Board implements IAlive {
 			}
 		}
 
-		// 回合中结算完成后，需要玩家主动出牌
-		if (state == BoardState.InTurn && actionQueue.isEmpty()) {
-			if (humans.stream().allMatch(h -> h.humanOpers.isEmpty())) {
+		if (state == BoardState.InTurn && actionQueue.isEmpty()
+				&& humans.stream().allMatch(h -> h.humanOpers.isEmpty())) {
+			var opponent = curTurnHuman.getOpponent();
+			if (opponent.actionPoint > 0) {
+				// 回合外结算完成后，如果非当前回合玩家获取了额外行动，可立即执行动作
+				opponent.addHumanOper(new OutTurnActiveSkillOper());
+			} else {
+				// 回合中结算完成后，需要玩家主动出牌
 				curTurnHuman.addHumanOper(new InTurnActiveSkillOper());
 			}
 		}
@@ -474,24 +481,26 @@ public class Board implements IAlive {
 	public DBoardData getBoardData(String token) {
 		DBoardData boardData = new DBoardData();
 		{
-			var human = getHuman(token);
-			if (human != null) {
-				boardData.setOpponentPlayerName(human.getOpponent().playerName);
+			for (var human : humans) {
+				DBoardHumanData humanData = new DBoardHumanData();
+				humanData.setToken(human.token);
+				humanData.setActionPoint(human.actionPoint);
+				humanData.setName(human.playerName);
+				boardData.addPlayerDatas(humanData);
 			}
 		}
 		if (curTurnHuman != null) {
-			boardData.setCurTurnPlayerName(curTurnHuman.playerName);
-			boardData.setActionPoint(curTurnHuman.actionPoint);
+			boardData.setCurTurnPlayer(curTurnHuman.token);
 		}
 		if (actionQueue.curAction != null && actionQueue.curAction.human != null) {
-			boardData.setCurActionPlayerName(actionQueue.curAction.human.playerName);
+			boardData.setCurActionPlayer(actionQueue.curAction.human.token);
 		}
 		{
 			// 通知各个牌库中牌的数目
 			for (var human : humans) {
 				for (var cardPile : human.getNormalPiles()) {
 					DPileNumber pileNumber = new DPileNumber();
-					pileNumber.setOpponent(!human.token.equals(token));
+					pileNumber.setPlayerToken(human.token);
 					pileNumber.setPileType(cardPile.getPileType());
 					pileNumber.setNumber(cardPile.size());
 					boardData.addPileNumbers(pileNumber);

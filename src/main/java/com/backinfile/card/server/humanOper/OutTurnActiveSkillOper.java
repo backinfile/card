@@ -5,23 +5,24 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.backinfile.card.gen.GameMessageHandler.CSSelectSkillToActive;
+import com.backinfile.card.gen.GameMessageHandler.EGameLogType;
 import com.backinfile.card.gen.GameMessageHandler.SCSelectSkillToActive;
 import com.backinfile.card.manager.LocalData;
+import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.model.Skill;
-import com.backinfile.card.model.skills.OutTurnSkillCancelSkill;
 import com.backinfile.card.model.skills.StoreSelfSkill;
 import com.backinfile.card.model.skills.TurnEndSkill;
 import com.backinfile.support.Utils;
 
-// 回合进行中，出牌事件
-public class InTurnActiveSkillOper extends HumanOper {
+public class OutTurnActiveSkillOper extends HumanOper {
 	private List<Skill> activableSkills;
 
 	@Override
 	public void onHumanAttach() {
+		human.board.gameLog(human, EGameLogType.Turn, LocalString.getSkillString("OutTurnSkillCancelSkill").tips[0]);
 		human.sendMessage(human.board.getBoardSetup(human.token));
 		activableSkills = human.board.getActivableSkills(human.token);
-		activableSkills.removeIf(s -> s instanceof OutTurnSkillCancelSkill);
+		activableSkills.removeIf(s -> s instanceof TurnEndSkill);
 		var skillInfos = activableSkills.stream().map(s -> s.toMsg()).collect(Collectors.toList());
 		SCSelectSkillToActive msg = new SCSelectSkillToActive();
 		msg.addAllSkillInfos(skillInfos);
@@ -30,20 +31,9 @@ public class InTurnActiveSkillOper extends HumanOper {
 
 	@Override
 	public void onAIAttach() {
+		human.board.gameLog(human, EGameLogType.Turn, LocalString.getSkillString("OutTurnSkillCancelSkill").tips[0]);
 		activableSkills = human.board.getActivableSkills(human.token);
-		activableSkills.removeIf(s -> s instanceof OutTurnSkillCancelSkill);
-
-		if (activableSkills.size() == 1) { // 直接回合结束
-			var skill = activableSkills.get(0);
-			onSelectSkill(skill);
-			return;
-		}
-
-		if (LocalData.instance().AILevel == 0) { // 直接回合结束
-			var skill = human.getSkill(TurnEndSkill.class);
-			onSelectSkill(skill);
-			return;
-		}
+		activableSkills.removeIf(s -> s instanceof TurnEndSkill);
 
 		if (LocalData.instance().AILevel == 1) { // 一直进行储备
 			var findAny = activableSkills.stream().filter(s -> s instanceof StoreSelfSkill).findAny();
@@ -91,4 +81,5 @@ public class InTurnActiveSkillOper extends HumanOper {
 		human.board.applySkill(skill);
 		setDone();
 	}
+
 }

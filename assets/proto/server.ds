@@ -54,16 +54,21 @@ struct DBoardSetup {
 
 // 棋盘上卡牌以外的信息 sc
 struct DBoardData {
-	String opponentPlayerName;
-	String curTurnPlayerName; // 当前回合玩家名字
-	String curActionPlayerName; // 当前行动玩家名字
-	int actionPoint; // 当前行动点
+	DBoardHumanData[] playerDatas;
+	String curTurnPlayer; // 当前回合玩家
+	String curActionPlayer; // 当前行动玩家
 	DPileNumber[] pileNumbers;
 }
 
+struct DBoardHumanData {
+	String token;
+	String name;
+	int actionPoint; // 当前行动点
+}
+
 struct DPileNumber {
+	String playerToken;
 	ECardPileType pileType;
-	bool opponent;
 	int number;
 }
 

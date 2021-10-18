@@ -1,7 +1,5 @@
 package com.backinfile.card.view.group.boardView;
 
-import java.text.MessageFormat;
-
 import com.backinfile.card.manager.LocalString;
 import com.backinfile.card.manager.Res;
 import com.backinfile.card.manager.LocalString.LocalUIString;
@@ -16,7 +14,6 @@ public class BoardUIView extends BaseView {
 
 	private Label opponentNameLabel;
 	private Label selfNameLabel;
-	private Label actionPointLabel;
 	private Label tipLabel;
 	private LocalUIString uiString;
 
@@ -44,12 +41,6 @@ public class BoardUIView extends BaseView {
 			tipLabel.setPosition(width * 0.5f, height * 0.276f, Align.center);
 			addActor(tipLabel);
 		}
-		{
-			actionPointLabel = new Label(uiString.strs[3], labelStyle);
-			actionPointLabel.setAlignment(Align.left);
-			actionPointLabel.setPosition(width * 0.874f, height * 0.34f, Align.left);
-			addActor(actionPointLabel);
-		}
 	}
 
 	public void setData(String name, String opponentName) {
@@ -59,9 +50,5 @@ public class BoardUIView extends BaseView {
 
 	public void setTipText(String tip) {
 		tipLabel.setText(tip);
-	}
-
-	public void setActionPoint(int actionPoint) {
-		actionPointLabel.setText(MessageFormat.format(uiString.strs[3], actionPoint));
 	}
 }

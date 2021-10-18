@@ -33,6 +33,7 @@ import com.backinfile.card.model.cards.MonsterCard.Bird;
 import com.backinfile.card.model.cards.MonsterCard.Cat;
 import com.backinfile.card.model.skills.ActAsStoreSkill;
 import com.backinfile.card.model.skills.DrawCardSkill;
+import com.backinfile.card.model.skills.OutTurnSkillCancelSkill;
 import com.backinfile.card.model.skills.Pass2CardSkill;
 import com.backinfile.card.model.skills.PlanSkill;
 import com.backinfile.card.model.skills.ThreatenToAPSkill;
@@ -97,6 +98,7 @@ public class Human extends SkillCaster {
 		addSkill(new DrawCardSkill());
 		addSkill(new Pass2CardSkill());
 		addSkill(new TurnEndSkill());
+		addSkill(new OutTurnSkillCancelSkill());
 
 		if (board.modes.contains(BoardMode.Threaten)) {
 			addSkill(new ThreatenToAPSkill());
@@ -184,6 +186,8 @@ public class Human extends SkillCaster {
 		for (var card : getAllCards()) {
 			card.removeSkillIf(s -> s.duration == SkillDuration.OwnerEndTurn);
 		}
+
+		actionPoint = 0; // 行动点清空
 
 		// 将所有储备准备完成
 		for (var slot : cardSlotMap.values()) {

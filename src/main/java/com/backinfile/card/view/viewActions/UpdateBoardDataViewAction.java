@@ -13,8 +13,17 @@ public class UpdateBoardDataViewAction extends ViewAction {
 	@Override
 	public void begin() {
 		gameStage.boardView.mulPileView.setPileNumber(boardData.getPileNumbersList());
-		gameStage.boardView.boardUIView.setData(LocalData.instance().name, boardData.getOpponentPlayerName());
-		gameStage.boardView.boardUIView.setActionPoint(boardData.getActionPoint());
+
+		var selfName = "";
+		var opponentName = "";
+		for (var humanData : boardData.getPlayerDatasList()) {
+			if (LocalData.instance().token.equals(humanData.getToken())) {
+				selfName = "[" + humanData.getActionPoint() + "] " + LocalData.instance().name;
+			} else {
+				opponentName = "[" + humanData.getActionPoint() + "] " + humanData.getName();
+			}
+		}
+		gameStage.boardView.boardUIView.setData(selfName, opponentName);
 		setDone();
 	}
 }

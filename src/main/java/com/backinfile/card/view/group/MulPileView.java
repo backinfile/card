@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.backinfile.card.gen.GameMessageHandler.DPileNumber;
 import com.backinfile.card.gen.GameMessageHandler.ECardPileType;
+import com.backinfile.card.manager.LocalData;
 import com.backinfile.card.view.group.PileView.HumanPosition;
 import com.backinfile.card.view.stage.GameStage;
 
@@ -35,7 +36,9 @@ public class MulPileView extends BaseView {
 		for (var pileNumber : pileNumbers) {
 			for (var pileView : pileViews) {
 				if (pileNumber.getPileType() == pileView.pileType) {
-					HumanPosition pilePosition = pileNumber.getOpponent() ? HumanPosition.Opponent : HumanPosition.Self;
+					HumanPosition pilePosition = LocalData.instance().token.equals(pileNumber.getPlayerToken())
+							? HumanPosition.Self
+							: HumanPosition.Opponent;
 					if (pilePosition == pileView.pilePosition) {
 						pileView.setPileNumber(pileNumber.getNumber());
 					}

@@ -648,6 +648,11 @@
 			"sn":"CyanDragonAttackSkill",
 			"name":"青龙召唤",
 			"tip":"青龙召唤",
+	},{
+			"sn":"OutTurnSkillCancelSkill",
+			"name":"放弃行动",
+			"tip":"放弃行动",
+			"tips":["回合外获得行动，可立即插入执行行动"]
 	}],
 	targets:[],
 	ui:[{

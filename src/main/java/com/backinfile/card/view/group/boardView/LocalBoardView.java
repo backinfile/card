@@ -2,12 +2,10 @@ package com.backinfile.card.view.group.boardView;
 
 import com.backinfile.card.manager.GameUtils;
 import com.backinfile.card.server.local.LocalGameClient;
-import com.backinfile.card.view.actor.PositionLocator;
 import com.backinfile.card.view.group.BaseView;
 import com.backinfile.card.view.group.CardGroupView;
 import com.backinfile.card.view.group.MulPileView;
 import com.backinfile.card.view.stage.GameStage;
-import com.badlogic.gdx.utils.Align;
 
 // 本地BoardView
 public class LocalBoardView extends BaseView {
