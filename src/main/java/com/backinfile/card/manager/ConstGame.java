@@ -13,7 +13,7 @@ public class ConstGame {
 	public static final int HAND_PILE_MAX_SIZE = 8; // 默认的手牌上限
 
 	public static boolean THREATEN_OPEN = true;
-	public static int THREATHEN_WIN_NUMBER = 12;
+	public static int THREATHEN_WIN_NUMBER = 15;
 
 	public static boolean CARD_LIST_VIEW = false;
 }
